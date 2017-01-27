@@ -1,0 +1,83 @@
+maybe not vst but rather standalond program
+
+output song with song pattern choices based on input file
+	user parameters:
+		tempo?
+		key?
+		energy
+		random
+		authechre
+	build in algorithms:
+		match patterns to bank of song layouts
+		match melodys to bank of melodys
+outputs 2 folders? maybe just one, maybe optional to ouput these folders
+	midi loops
+		melodys
+	samples that are named
+		lead sounds
+		bass sounds
+		drum sound
+		perc sounds
+
+
+classes
+	sample
+
+functions for creating sound
+	granulator and repitcher for leads/basses
+		bank of algorithims to choose from
+			808s
+			low tones to be looped or pitched/shifted
+			high tones for melodies/pads
+			mid tones for vocalsynth sounds/pads?
+			rumble
+			growl
+			sakuraburst style sounds
+	pattern matcher for drums also fills
+		kick
+		tom
+		snare
+		clap
+		crash
+	pattern matcher for percs
+		hi hat
+		ripshot
+		plink
+		pop
+		random cool sounds
+
+all sounds can be used for leads using granulator
+granulator can make noise in background for ambiance
+
+effects i would want to have
+	repitch
+	repitch and delay
+	delay ping pong and spacializer
+	reverb
+	granulator and reverb
+	panning
+	volume
+	distortion?
+	eq
+	overdrive
+make kicks by:
+	finding suitable sample, shape it/cut it out
+	finding non suitable sample and repitch so it is in the 30hz range, eq, saturate, eq shape, compress, overdrive?, i think thats all
+
+
+
+algorrithms for making sounds
+	repeat certian pattern for size of sample/ time
+	exponential sizes
+	logarithmic sizes
+	fibonacci sequences
+	randomized length and time
+	growing bacteria
+	take algortihms from nature
+	
+
+
+
+
+
+
