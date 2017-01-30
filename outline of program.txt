@@ -17,7 +17,7 @@ classes
 
 functions for creating sound
 	granulator and repitcher for leads/basses
-		bank of algorithims to choose from and create:
+		bank of algorithms to choose from and create:
 			808s
 			low tones to be looped or pitched/shifted
 			high tones for melodies/pads
@@ -67,7 +67,7 @@ algorithms for making sounds
 	fibonacci sequences
 	randomized length and time
 	growing bacteria
-	take algortihms from nature
+	take algorithms from nature
 	phi
 	no algorithms that sound like trash, test them first
 	
