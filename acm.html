@@ -24,6 +24,7 @@
           <a class="nav-link active" href="index.html">Home</a>
           <a class="nav-link" href="images.html">Images</a>
           <a class="nav-link" href="#">Advanced Computer Music</a>
+          <a class="nav-link" href="nonlinear.html">Nonlinear</a>
           <a class="nav-link" href="me.html">About Me</a>
 
         </nav>
@@ -33,7 +34,7 @@
     <div class="blog-header">
       <div class="container">
         <h1 class="blog-title">Advanced Computer Music</h1>
-        <p class="lead blog-description">Ian Rios's Project (name to be decided) </p>
+        <p class="lead blog-description">(Project name yet to be decided/ leaning on songizizer) </p>
       </div>
     </div>
 
@@ -43,14 +44,39 @@
 
         <div class="col-sm-8 blog-main">
           <div class="blog-post">
+            <h2 class="blog-post-title">Creating Tests</h2>
+            <p class="blog-post-meta">February 4, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>I created some test raw audio files:
+              <ul>
+                <li>No sound (silence)</l1>
+                <li>Sine wave oscilating at 440 hz</li>
+                <li>White noise</li>
+                <li>Pink noise</li>
+                <li>Glacier cracking found sound</li>
+              </ul>
+              The one of just silence is a base case of what to do in the event that there is no audio, also a good case of what type of sample not to chop out of audio.
+              The Pink noise is what to specrum pattern to follow when creating samples. The white noise will be used to know what to avoid or look for when choosing specific samples. Glacier sound is a test file to see if samples are picked correctly.
+            </p>
+            
+            <p>I plan to store some wav's of specific samples and percs to pattern match to, in nicely ordered folders</p>
+
+            <p> in order to stereo-ize this project for use in at least an 8 channel speaker array, I plan to set my routing for the repitcher delays and reverb to be randomized to 8 outputs. Main sounds I would like to pan slowly depending on their frequency (larger panning for highs, less to none for lows) </p>
+
+
+            <p>I realized now that I can just set a defined length for sounds to chop out..</p>
+          </div><!-- /.blog-post -->
+
+
+          <div class="blog-post">
             <h2 class="blog-post-title">Going in depth</h2>
             <p class="blog-post-meta">January 30, 2017 by <a href="me.html">Ian</a></p>
 
-            <p>I <a href="https://raw.githubusercontent.com/ianrios/ianrios.github.io/master/outline%20of%20program.txt">outlined</a> features I want in my program</p>
+            <p>I <a href="https://raw.githubusercontent.com/ianrios/ianrios.github.io/master/outline%20of%20program.txt" target="_blank">outlined</a> features I want in my program</p>
             <p></p>
             <p>
               I decided it is going to be a standalone program to output songs instead of a VST. I want to program it in Max, not sure how to turn it into its own UI and such.
-              Using <a href="https://pdfs.semanticscholar.org/fe0d/8e06d1e09a3fc86098b984def4d406b8f336.pdf">algorithims in nature</a>, I will create a bank of algorithms that sound good(nothing that looks cool, <u>must</u> sound good) to run sound samples through to define how I want the songs to sound.
+              Using <a href="https://pdfs.semanticscholar.org/fe0d/8e06d1e09a3fc86098b984def4d406b8f336.pdf" target="_blank">algorithims in nature</a>, I will create a bank of algorithms that sound good(nothing that looks cool, <u>must</u> sound good) to run sound samples through to define how I want the songs to sound.
 
               <!--look up https://en.wikipedia.org/wiki/Granular_synthesis-->
 
@@ -58,11 +84,11 @@
             <p></p>
             
             <p>
-              I'm interested in ending up with songs like <a href="https://www.youtube.com/watch?v=acuwRHIWL_o">autechre</a>, so working with randomness and algorithms is key. I have already experimented with repitching and exponential sound in time with ableton as shown <a href="images/exponentialableton.png">here</a> and heard <a href="https://soundcloud.com/whythough/test/s-Lr1CH">here</a>.
+              I'm interested in ending up with songs like <a href="https://www.youtube.com/watch?v=acuwRHIWL_o" target="_blank">autechre</a>, so working with randomness and algorithms is key. I have already experimented with repitching and exponential sound in time with ableton as shown <img src="images/exponentialableton.png" class="img-fluid" alt="Responsive image">here</a> and heard <a href="https://soundcloud.com/whythough/test/s-Lr1CH" target="_blank">here</a>.
             </p>
 
             <p>I realized the hardest thing I might need to do so far is to figure out how to define what makes a sound good. I think I might implement a scale for overall loudness across spectrum, clarity of pitch, amount of artifacts, noise level, and more (I am open to more definitions).</p>
-          </div
+          </div><!-- /.blog-post -->
 
           <div class="blog-post">
             <h2 class="blog-post-title">First Post</h2>
@@ -71,68 +97,11 @@
 
             <p>I started looking into prospective technologies to narrow down ideas for my creative project.</p>
             <hr>
-            <p><a href="http://taps.cs.princeton.edu/">Tapestrea</a> looks like a promising starting point. It is a unified framework for interactively analyzing, transforming and synthesizing complex sounds. I also downloaded and played around with Abletons Max for Live plugin,<a href="https://www.ableton.com/en/packs/granulator-ii/"> Granulator II</a> for experimentation with granular synthesis. I am considering using this or a similar tool to make sounds from samples for my ending result. I will look into a samping device and how to output clips of sound or live output sound. Also might use midi in to define notes but I also think it should be randomized to a point so im not sure yet.</p>
-            <p>I also found this website for making<a href="http://www.martin-finke.de/blog/articles/audio-plugins-002-setting-up-wdl-ol/"> vst</a>'s. </p>
+            <p><a href="http://taps.cs.princeton.edu/" target="_blank">Tapestrea</a> looks like a promising starting point. It is a unified framework for interactively analyzing, transforming and synthesizing complex sounds. I also downloaded and played around with Abletons Max for Live plugin,<a href="https://www.ableton.com/en/packs/granulator-ii/" target="_blank"> Granulator II</a> for experimentation with granular synthesis. I am considering using this or a similar tool to make sounds from samples for my ending result. I will look into a samping device and how to output clips of sound or live output sound. Also might use midi in to define notes but I also think it should be randomized to a point so im not sure yet.</p>
+            <p>I also found this website for making<a href="http://www.martin-finke.de/blog/articles/audio-plugins-002-setting-up-wdl-ol/" target="_blank"> vst</a>'s. </p>
             
           </div><!-- /.blog-post -->
-          <!--
-            <blockquote>
-              <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            </blockquote>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <h2>Heading</h2>
-            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <h3>Sub-heading</h3>
-            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-            <pre><code>Example code block</code></pre>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-            <h3>Sub-heading</h3>
-            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <ul>
-              <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-              <li>Donec id elit non mi porta gravida at eget metus.</li>
-              <li>Nulla vitae elit libero, a pharetra augue.</li>
-            </ul>
-            <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-            <ol>
-              <li>Vestibulum id ligula porta felis euismod semper.</li>
-              <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-              <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-            </ol>
-            <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-          -->
-          <!--<div class="blog-post">
-            <h2 class="blog-post-title">Another blog post</h2>
-            <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
-
-            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-            <blockquote>
-              <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            </blockquote>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          </div><!-- /.blog-post -->
-          <!--
-          <div class="blog-post">
-            <h2 class="blog-post-title">New feature</h2>
-            <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <ul>
-              <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-              <li>Donec id elit non mi porta gravida at eget metus.</li>
-              <li>Nulla vitae elit libero, a pharetra augue.</li>
-            </ul>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-          </div><!-- /.blog-post -->
-<!--
-         
-          <nav class="blog-pagination">
-            <a class="btn btn-outline-primary" href="#">Older</a>
-            <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-          </nav>
--->
+          
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 offset-sm-1 blog-sidebar">
@@ -140,7 +109,7 @@
             <h4>About Music and Technology II</h4>
             <p>Taught by Professor Rob Hamilton, Music and Technology II assumes a knowledge and experience in using computer systems to create, manipulate and engage in research within the fields of sound design, electronic music, electroacoustic composition and performance.</p>
             <p>
-              Read more here: <a href="http://homepages.rpi.edu/~hamilr4/arts4160/">Site</a></p>
+              Read more here: <a href="http://homepages.rpi.edu/~hamilr4/arts4160/" target="_blank">Site</a></p>
           </div>
 <!--
           <div class="sidebar-module">
@@ -164,7 +133,7 @@
           <div class="sidebar-module">
             <h4>Elsewhere</h4>
             <ol class="list-unstyled">
-              <li><a href="https://github.com/ianrios/ianrios.github.io">GitHub</a></li>
+              <li><a href="https://github.com/ianrios/ianrios.github.io" target="_blank">GitHub</a></li>
               <li><a href="#">Twitter</a></li>
             
             </ol>
@@ -176,7 +145,7 @@
     </div><!-- /.container -->
 
     <footer class="blog-footer">
-      <p>Blog template built for <a href="https://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+      <p>Blog template built for <a href="https://getbootstrap.com" target="_blank">Bootstrap</a> by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.</p>
       <p>
         <a href="#">Back to top</a>
       </p>
