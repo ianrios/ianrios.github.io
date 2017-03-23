@@ -31,10 +31,119 @@
       </div>
     </div>
     <div class="container">
-
       <div class="row">
+        <div class="blog-post">
+          <h2 class="blog-post-title">Giant error on my part</h2>
+          <p class="blog-post-meta">March 23, 2017 by <a href="me.html">Ian</a></p>
+          <p>I Just realized now that i had been updating my website here but i kept just commiting the current version to git but not actually pushing it online.
+            Pretty much every time I went to see if my website was up and running, I was just seeing the one on my computer, not the one on git.
+            I found out because I went to the actual website today after who knows how long and I realized how dumb I am lol.
+            It should be fixed now, sorry about the lack of updates .</p>
+        </div><!-- /.blog-post -->
+        <div class="blog-post">
+          <h2 class="blog-post-title">Post Spring Break</h2>
+          <p class="blog-post-meta">March 21, 2017 by <a href="me.html">Ian</a></p>
+          <p> I didn't do anything...</p>
+          <p>BUT</p>
+          <p>I watched an <a href="https://www.youtube.com/watch?v=MOUkI5hH2HY" target="blank">interview of Steve Duda</a>, and he inspired me to work a lot harder on this project and a lot of other things as well.</p>
+          <p>I then downloaded <a href="https://www.juce.com/" target="blank">JUCE</a>, an audio plugin c++ toolkit library for creating VST's and standalong audio programs. I got a little sidetracked going through their tutorials and making a basic sine wave generator and white noise generator with volume control.
+            It is really cool and I think if I really wanted to, once I finish my max patch, I could try to reprogram in in c++/JUCE for vst format.
+            We will see if I have time as we near the end of the semester.<p>
 
-        <div class="col-sm-8 blog-main">
+        </div><!-- /.blog-post -->
+        <div class="blog-post">
+          <h2 class="blog-post-title">Class presentation</h2>
+          <p class="blog-post-meta">March 7, 2017 by <a href="me.html">Ian</a></p>
+          <p>
+            Presentation is done and you can watch it <a href="https://docs.google.com/presentation/d/1xXHQ6SdR56wO-4GlRj2XljwQZ4KcIILcumDc4uHugpM/edit?usp=sharing" target="_blank">here</a>
+          </p>
+          <p>In it, I talk a lot about what youve read here, sometimes a little more in depth, but if youve been following along the only thing that might interest you is the fun pictures(there are dancing cats).</p>
+
+          <p>Still working on finishiing up max patch and recording audio out. Still havent found out how to manipulate it for song creation. The plan is to work on most of these bugs over spring break.</p>
+
+        </div><!-- /.blog-post -->
+        <div class="col-sm-8 blog-main"><!-- add easy button gif -->
+          <div class="blog-post">
+            <h2 class="blog-post-title">Max patch update (happy version)</h2>
+            <p class="blog-post-meta">March 5, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>I got a lot of stuff done, including recieving audio input, sending it to a buffer, and manipulating it. Still trying to work out some kinks, and let me tell you, there are a lot of kinks.
+            Googling things is useful, but too many people who use it are way more advanced than I am so it becomes more of a challenge just trying to find a simple answer to things. It's getting there though; slowly but surely.</p>
+            <p>It works in a pretty simple automated and albeit a little random manor:
+              <ol>
+                <li>Record audio file</li>
+                <li>Analyze file to pattern match to pre existing sounds in frequency range and transient shape</li>
+                <li>Arrange new sound files in pre existing bank of midi clips</li>
+                <li>Applies effects</li>
+                <li>Export as new song</li>
+                <li>Play your randomly generated song</li>
+              </ol>
+            </p>
+            <p>My current max patch is a horrid mess and i dont think it looks good at all; I need to tidy it up a lot. I just only found out how to encapulate things again thursday so I'm going to make a lot of sub patches.</p>
+            <p>I have to create a presentation for class about my current work and where we are in terms of finishing soon. So that will get posted when it's done.</p>
+
+          </div><!-- /.blog-post -->
+          <div class="blog-post">
+            <h2 class="blog-post-title">Max patch update (sad version)</h2>
+            <p class="blog-post-meta">March 1, 2017 by <a href="me.html">Ian</a></p>
+            <p class="blog-post-meta">last edited March 5, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>Max patches are hard. There is a lot of documentation, but everything i think is upposed to work doesnt. It took me about 2 hours to get two numbers to add together. <u>two hours.</u> <b>ADD 2 NUMBERS.</b>
+            Whatever. I have gone through like 8 or 9 iterations of just trying to input audio. It's so annoying. Do I use <code>buffer~</code>? Do I use <code>sfrecord~</code>? <b>I DONT KNOW!!</b>
+          I guess the best bet is to just keep troubleshooting. The end result will be cool I just know it.</p>
+
+          </div><!-- /.blog-post -->
+          <div class="blog-post">
+            <h2 class="blog-post-title">Proof of Concept 2</h2>
+            <p class="blog-post-meta">February 23, 2017 by <a href="me.html">Ian</a></p>
+            <p class="blog-post-meta">last edited February 27, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>Once again we have a new song, also took about 4-5 hours in total over this week.</p>
+            <p>
+              You can listen to it <a href="https://soundcloud.com/whythough/logarithmic/s-QZhNj" target="_blank">here.</a>
+            </p>
+            <p>For this one, I went with some stock sounds and drum samples, jusst to allieviate the stress and time wasted from pulling the samples from scratch.
+              I did however use Robert Henke’s Granulator 2 from Ableton's Max for Live patches. Came in pretty handy and the sounds it generated were really nice.
+              I am going to try to implement it somehow in the end result of my program. I'm pretty sure i linked it earlier but here it is <a href="https://www.ableton.com/en/packs/granulator-ii/" target="_blank">again.</a>
+            </p>
+            <p>I'd say this song sounds good and works pretty well in application, so I think these tests have been a success.</p>
+            <p>I taked a little earlier about using tapestrea, and I tried it out but it doesn't work on my computer unfortunately. Based on the models I've seen on their website and videos, I can hopefully create something like it in Max. I guess it's time to start creating a max patch to do all of this in real time and save my time. ;)</p>
+
+          </div><!-- /.blog-post -->
+          <div class="blog-post">
+            <h2 class="blog-post-title">Proof of Concept 1</h2>
+            <p class="blog-post-meta">February 18, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>It took me long enough but I finally completed a song using just the samples chopped from the pipes.
+              It took about 4-5 hours in total over the last week.
+              It was kind of boring to do, simply because it took so long and I'm spoiled from pre made samples, but it was pretty cool and I learned a couple things about chopping up large samples and what to look for when sampling  .
+              The end result patch will make everything so much nicer and automated.</p>
+            <p>
+              You can listen to it <a href="https://soundcloud.com/whythough/extracting-sounds/s-3Gvgi" target="_blank">here</a> (the only added sound is the maraca).
+            </p>
+
+            <p>This was purely created by chopping and manipulating the main sound to create lots of percs and a white noise 808</p>
+            <p>I want to experiment with logarithmic placement of sounds and midi notes, along with effects such as the repitcher delay and saturation, so next week the plan is to create a new song that utilizes those techniques</p>
+
+          </div><!-- /.blog-post -->
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">Recording some found sounds</h2>
+            <p class="blog-post-meta">February 10, 2017 by <a href="me.html">Ian</a></p>
+
+            <p>I went around campus and recorded some sounds to test on my project:
+              <ul>
+                <li>pipes in west</l1>
+                <li>street traffic</li>
+                <li>union noise</li>
+                <li>in class professor and class sounds</li>
+
+              </ul>
+              I am going to record some more, but right now I think i have a good portion to sample from and check if my program and proof of concept works
+            </p>
+            <p>Over the next couple weeks I am going to try to construct a song using samples just from the raw audio, and then once I can make sure it is a viable option, start working on the main max patch.</p>
+          </div><!-- /.blog-post -->
+
           <div class="blog-post">
             <h2 class="blog-post-title">Creating Tests</h2>
             <p class="blog-post-meta">February 4, 2017 by <a href="me.html">Ian</a></p>
@@ -64,7 +173,7 @@
             <h2 class="blog-post-title">Going in depth</h2>
             <p class="blog-post-meta">January 30, 2017 by <a href="me.html">Ian</a></p>
 
-            <p>I <a href="https://raw.githubusercontent.com/ianrios/ianrios.github.io/master/outline%20of%20program.txt" target="_blank">outlined</a> features I want in my program</p>
+            <p>I <a href="https://raw.githubusercontent.com/ianrios/ianrios.github.io/master/outline%20of%20program.txt" target="_blank">outlined</a> features I want in my program.</p>
             <p></p>
             <p>
               I decided it is going to be a standalone program to output songs instead of a VST. I want to program it in Max, not sure how to turn it into its own UI and such.
