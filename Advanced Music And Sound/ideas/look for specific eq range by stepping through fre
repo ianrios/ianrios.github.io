@@ -1,10 +1,24 @@
-look for specific eq range by stepping through frequency regions that match to pre recorded sounds 
+look for specific eq range by stepping through frequency regions that match to pre recorded sounds
 
 read about fft
 
-how to use frequency "photoshop" in max
+for all drums, make transient with volume shaper
+limit and compress to get good sounds
 
-use link he sent
+kick drum filter out highs, make it knock,
 
-learn how to use granulator
+snare keep highs, make it slap,
 
+tom shelf lows a little and peak mids
+
+hi hat filter out lows
+
+lo hat, filter out lows, then pitch shift down
+
+for all leads take clean ish fft somehow
+
+low lead filter out mids and highs, to be used for bass
+
+mid lead filter out lows and shelf mids; to be used for chords
+
+hi lead filter out mids and lows; to be used for arp

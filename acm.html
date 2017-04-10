@@ -32,6 +32,33 @@
     </div>
     <div class="container">
       <div class="row">
+        </div><!-- /.blog-post -->
+          <h2 class="blog-post-title">Finished input section</h2>
+          <p class="blog-post-meta">April 9, 2017 by <a href="me.html">Ian</a></p>
+          <p>Today I got to a new milestone of taking in any input file and processing it to get the averages of different frequency bands. This is so that when I go to chop the samples, it can choose portions of audio that have loud frequencies for better sampling. Currently, the patch can randomly select a length for a sample within an audible range based on the average of that frequency band for the specific instrument it is trying to get. It can then chop those samples and It worked the first time i tried it, but it seems to no longer output sound, which is frustrating. I think the <code>record~</code> objects arent doing what I think they need to do. Either that or the <code>groove~</code>objects.</p>
+
+          <p>I am using the max <code>pfft~</code> objects to fine tune where I cut frequency bands.</p>
+
+
+          <p>In addition, I downloaded a pack of free use MIDI drum loops for part 2 of the project, which is to automate creation of music. I still need to find some lead and chord MIDI loops, but I think it will be pretty easy, or I can make them myself.</p>
+          <p>I plan to go to office hours to see why I cannot hear/store the sound files.</p>
+        </div><!-- /.blog-post -->
+
+        <div class="blog-post">
+          <h2 class="blog-post-title">RUP and Summer Research</h2>
+          <p class="blog-post-meta">April 7th, 2017 by <a href="me.html">Ian</a></p>
+          <p>I submited an abstract on this project to the undergraduate research symposium for review in hopes I can present it in two weeks. Fingers crossed!</p>
+
+          <p>Earlier in the week, during my performance at PULSE Live in EMPAC, I was given the oppourtunity to show off my patch to David Whalen, a researcher at RPI, and got a job for over the summer working on his Jamboxx product. you can read more here: <a href="http://ccc-rpi.org/isatma/" target = "blank">CCC @ RPI</a></p>
+          <p>As for progress in the patch, I just recently finished making the granulator, which is pretty cool, so I plan to process the three leads through it using randomized and ramped values. The drums will be shaped using line objects, EQ's and envelopes. The end result will store the processed samples in another buffer and then run them through midi loops (including the special log/exponent ones I made) using MAX effects and other fun tidbits.</p>
+        </div><!-- /.blog-post -->
+        <div class="blog-post">
+          <h2 class="blog-post-title">Getting sound</h2>
+          <p class="blog-post-meta">April 3th, 2017 by <a href="me.html">Ian</a></p>
+          <p>Most of the samples are too long, so I chopped them down to about a minute in length.</p>
+
+          <p>There are a variety of sub patches now, but everything seems to be automated correctly now, which is very nice. I am using line to get some perfect ramps like drawing in automation in ableton, but with code; super cool!</p>
+        </div><!-- /.blog-post -->
         <div class="blog-post">Field Recording</h2>
           <p class="blog-post-meta">April 2nd, 2017 by <a href="me.html">Ian</a></p>
           <p>I went around campus with my Rode Microphone and stand and recorded a lot of soundscapes to run through the patch, you can listen to them here.</p>
@@ -131,7 +158,7 @@
           <div class="blog-post">
             <h2 class="blog-post-title">Proof of Concept 2</h2>
             <p class="blog-post-meta">February 23, 2017 by <a href="me.html">Ian</a></p>
-            <p class="blog-post-meta">last edited February 27, 2017 by <a href="me.html">Ian</a></p>
+            <p class="blog-post-meta">last edited April 9, 2017 by <a href="me.html">Ian</a></p>
 
             <p>Once again we have a new song, also took about 4-5 hours in total over this week.</p>
             <p>
@@ -143,7 +170,7 @@
             </p>
             <p>I'd say this song sounds good and works pretty well in application, so I think these tests have been a success.</p>
             <p>I taked a little earlier about using tapestrea, and I tried it out but it doesn't work on my computer unfortunately. Based on the models I've seen on their website and videos, I can hopefully create something like it in Max. I guess it's time to start creating a max patch to do all of this in real time and save my time. ;)</p>
-
+            <p>I saved the midi loops I made for future use when the patch is done.</p>
           </div><!-- /.blog-post -->
           <div class="blog-post">
             <h2 class="blog-post-title">Proof of Concept 1</h2>
