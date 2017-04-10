@@ -27,13 +27,13 @@
     <div class="blog-header">
       <div class="container">
         <h1 class="blog-title">Advanced Computer Music</h1>
-        <p class="lead blog-description">(Project name yet to be decided/ leaning on songizizer, needs to be easier to roll off the toungue) </p>
+        <p class="lead blog-description">RAAPT: Rhythmic Automated Audio Processing Templater</p>
       </div>
     </div>
     <div class="container">
       <div class="row">
-        </div><!-- /.blog-post -->
-          <h2 class="blog-post-title">Finished input section</h2>
+        <div class="blog-post">
+          <h2 class="blog-post-title">Finished Input Section</h2>
           <p class="blog-post-meta">April 9, 2017 by <a href="me.html">Ian</a></p>
           <p>Today I got to a new milestone of taking in any input file and processing it to get the averages of different frequency bands. This is so that when I go to chop the samples, it can choose portions of audio that have loud frequencies for better sampling. Currently, the patch can randomly select a length for a sample within an audible range based on the average of that frequency band for the specific instrument it is trying to get. It can then chop those samples and It worked the first time i tried it, but it seems to no longer output sound, which is frustrating. I think the <code>record~</code> objects arent doing what I think they need to do. Either that or the <code>groove~</code>objects.</p>
 
@@ -50,10 +50,10 @@
           <p>I submited an abstract on this project to the undergraduate research symposium for review in hopes I can present it in two weeks. Fingers crossed!</p>
 
           <p>Earlier in the week, during my performance at PULSE Live in EMPAC, I was given the oppourtunity to show off my patch to David Whalen, a researcher at RPI, and got a job for over the summer working on his Jamboxx product. you can read more here: <a href="http://ccc-rpi.org/isatma/" target = "blank">CCC @ RPI</a></p>
-          <p>As for progress in the patch, I just recently finished making the granulator, which is pretty cool, so I plan to process the three leads through it using randomized and ramped values. The drums will be shaped using line objects, EQ's and envelopes. The end result will store the processed samples in another buffer and then run them through midi loops (including the special log/exponent ones I made) using MAX effects and other fun tidbits.</p>
+          <p>As for progress in the patch, I just recently finished making the <a href="nonlinear.html">granulator</a>, which is pretty cool, so I plan to process the three leads through it using randomized and ramped values. The drums will be shaped using line objects, EQ's and envelopes. The end result will store the processed samples in another buffer and then run them through midi loops (including the special log/exponent ones I made) using MAX effects and other fun tidbits.</p>
         </div><!-- /.blog-post -->
         <div class="blog-post">
-          <h2 class="blog-post-title">Getting sound</h2>
+          <h2 class="blog-post-title">Getting Sound</h2>
           <p class="blog-post-meta">April 3th, 2017 by <a href="me.html">Ian</a></p>
           <p>Most of the samples are too long, so I chopped them down to about a minute in length.</p>
 
