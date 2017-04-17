@@ -6,7 +6,7 @@ output song with song pattern choices based on input file
 		key?
 		energy
 		random
-		authechre style ya know
+		autechre style
 	build in algorithms:
 		match patterns to bank of song layouts for structure
 		create melodys and chords from list of song keys to choose from
@@ -70,4 +70,3 @@ algorithms for making sounds
 	take algorithms from nature
 	phi
 	no algorithms that sound like trash, test them first
-	

@@ -1,24 +1,20 @@
-look for specific eq range by stepping through frequency regions that match to pre recorded sounds
-
-read about fft
-
-for all drums, make transient with volume shaper
-limit and compress to get good sounds
+normalize audio?
 
 kick drum filter out highs, make it knock,
 
 snare keep highs, make it slap,
-
-tom shelf lows a little and peak mids
-
-hi hat filter out lows
-
-lo hat, filter out lows, then pitch shift down
-
-for all leads take clean ish fft somehow
 
 low lead filter out mids and highs, to be used for bass
 
 mid lead filter out lows and shelf mids; to be used for chords
 
 hi lead filter out mids and lows; to be used for arp
+
+Take midi input file and send it to sampler that plays drums
+in parallel,
+take another midi flie and send it to granulator that plays notes
+granulator also should take in line ramps and general fun data
+
+put current sample time in input window
+
+show where sample is in original file

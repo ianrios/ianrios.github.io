@@ -33,6 +33,17 @@
     <div class="container">
       <div class="row">
         <div class="blog-post">
+          <h2 class="blog-post-title">Added playback features</h2>
+          <p class="blog-post-meta">April 9, 2017 by <a href="me.html">Ian</a></p>
+          <p>My patch now stores and records 8 samples of audio that can be re recorded depending on what sound you prefer. I have added some functionality to play sound several diffrent ways and it works really well. There is a random generator that takes in a bang and outputs infinetely many bangs based on bang frequency, and a step sequencer, shown here:
+            <img src="images\step_sequencer.gif" class="img-thumbnail rounded"alt="Responsive image"/img>
+          </p>
+
+          <p>I have yet to add midi functionality, connect the grain synth, or store song projects in coll objects, but I will get there soon. </p>
+          <p>I am considering adding some random feature to the step sequencer to make things more interesting.</p>
+
+        </div><!-- /.blog-post -->
+        <div class="blog-post">
           <h2 class="blog-post-title">Finished Input Section</h2>
           <p class="blog-post-meta">April 9, 2017 by <a href="me.html">Ian</a></p>
           <p>Today I got to a new milestone of taking in any input file and processing it to get the averages of different frequency bands. This is so that when I go to chop the samples, it can choose portions of audio that have loud frequencies for better sampling. Currently, the patch can randomly select a length for a sample within an audible range based on the average of that frequency band for the specific instrument it is trying to get. It can then chop those samples and It worked the first time i tried it, but it seems to no longer output sound, which is frustrating. I think the <code>record~</code> objects arent doing what I think they need to do. Either that or the <code>groove~</code>objects.</p>
