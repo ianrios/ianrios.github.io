@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 42.0, 85.0, 1532.0, 749.0 ],
+		"rect" : [ 26.0, 85.0, 1532.0, 749.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -207,7 +207,7 @@
 					"outlettype" : [ "list", "float", "float", "float", "float", "list", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 686.0, 621.0, 360.0, 155.0 ],
-					"setfilter" : [ 0, 2, 1, 0, 0, 500.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+					"setfilter" : [ 0, 2, 1, 0, 0, 2500.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
 					"style" : "",
 					"varname" : "filtergraph~[1]"
 				}
@@ -301,7 +301,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 629.0, 466.0, 68.0, 22.0 ],
 					"style" : "",
-					"text" : "1, 10 136"
+					"text" : "1, 10 141"
 				}
 
 			}
@@ -366,7 +366,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 490.0, 470.0, 68.0, 22.0 ],
 					"style" : "",
-					"text" : "10, 5 136"
+					"text" : "10, 5 141"
 				}
 
 			}
@@ -480,7 +480,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 291.75, 346.333282, 83.0, 36.0 ],
 					"style" : "",
-					"text" : "500, 2500 136"
+					"text" : "2500, 20000 141"
 				}
 
 			}
@@ -651,7 +651,7 @@
 					"outlettype" : [ "list", "float", "float", "float", "float", "list", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 50.0, 583.333313, 360.0, 155.0 ],
-					"setfilter" : [ 0, 6, 1, 0, 0, 2500.0, 0.5, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+					"setfilter" : [ 0, 6, 1, 0, 0, 20000.0, 0.5, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
 					"style" : "",
 					"varname" : "filtergraph~"
 				}
@@ -759,7 +759,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
+					"outlettype" : [ "" ],
 					"patching_rect" : [ 355.75, 40.000046, 30.0, 30.0 ],
 					"style" : ""
 				}
