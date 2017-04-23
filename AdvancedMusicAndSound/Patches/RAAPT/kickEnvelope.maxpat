@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 42.0, 85.0, 1532.0, 749.0 ],
+		"rect" : [ 35.0, 87.0, 1528.0, 738.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -121,7 +121,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 222.0, 394.833282, 29.5, 22.0 ],
+					"patching_rect" : [ 201.0, 349.833282, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "2"
 				}
@@ -134,7 +134,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 111.0, 368.833282, 29.5, 22.0 ],
+					"patching_rect" : [ 604.0, 145.833282, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "1"
 				}
@@ -147,7 +147,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 211.319016, 100.0, 24.0, 24.0 ],
+					"patching_rect" : [ 201.0, 93.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -249,7 +249,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 291.75, 360.333282, 83.0, 22.0 ],
 					"style" : "",
-					"text" : "500, 100 130"
+					"text" : "500, 100 136"
 				}
 
 			}
@@ -515,7 +515,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 211.319031, 40.000046, 30.0, 30.0 ],
+					"patching_rect" : [ 201.0, 40.000046, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -704,7 +704,7 @@
 					"destination" : [ "obj-189", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"order" : 4,
+					"order" : 5,
 					"source" : [ "obj-269", 0 ]
 				}
 
@@ -714,7 +714,7 @@
 					"destination" : [ "obj-2", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"order" : 6,
+					"order" : 3,
 					"source" : [ "obj-269", 0 ]
 				}
 
@@ -724,7 +724,7 @@
 					"destination" : [ "obj-265", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"order" : 3,
+					"order" : 4,
 					"source" : [ "obj-269", 0 ]
 				}
 
@@ -734,7 +734,7 @@
 					"destination" : [ "obj-4", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"order" : 5,
+					"order" : 6,
 					"source" : [ "obj-269", 0 ]
 				}
 
