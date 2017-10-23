@@ -24,21 +24,25 @@
     </div>
     <div class="blog-header">
       <div class="container">
-        <h1 class="blog-title">Barely Enough Ingredients</h1>
-        <p class="lead blog-description">A recipe suggestion website that stores a database of the clients pantry and gives them ideas of what to cook using IMB's Bluemix</p>
+        <h1 class="blog-title">Score Reader</h1>
+        <p class="lead blog-description">Max for Live device that allows for real time performance of musical score via MIDI notes</p>
       </div>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-sm-8 blog-main">
           <div class="blog-post">
-            <h2 class="blog-post-title">Beta Release</h2>
-            <p class="blog-post-meta">September 16, 2017 by <a href="index.html">Ian</a></p>
-            <p>The current version of the score reader is the intelectual property of My Music Machines Inc.</p>
-            <p> Once it goes for sale on their website, I will redirect a link to it.</p>
-            <p><img src="images\score_reader.png" class="img-thumbnail rounded"alt="Responsive image"/img></p>
-            <p>While working on this project I worked alongside Medical professionals at Albany Medical Center to create accessibility software for people with spinal cord injuries who are interested in playing, creating, or learning music.</p>
-
+            <h2 class="blog-post-title">Version 1 for download now!</h2>
+            <p class="blog-post-meta">October 16, 2017 by <a href="index.html">Ian</a></p>
+            <p>In conjunction with Rensselaer Polytechnic Institute, I, along with Nathan K, Kathryn Lovell, and Rober Smock have been researching new methods of musical collaboration, specifically creating accessibility software for people with restrictive movement and mobility. Through this research position, we came up with two methods for sending midi information over a network via UDP. </p>
+            <p><img src="images\networkmain.png" class="img-thumbnail rounded"alt="Responsive image"/img></p>
+            <p>These pieces of software barely scratch the surface of the posibilities that can be done with network communications with music. The current versions of the MIDI and Transport Send and Recieve patches only work for Ableton Live using Max for Live. The MIDI send and recieve patches can be used to send note and velocity data from one machine to another, which allows for a master computer to only output sound while a client computer does all the work of performing without the latency of running many vsts and effects.</p>
+            <p><img src="images\midisend.png" class="img-thumbnail rounded"alt="Responsive image"/img> <img src="images\midireceive.png" class="img-thumbnail rounded"alt="Responsive image"/img></p>
+            <p>The Transport send and recieve patches are used for sending time signature, tempo, and start time to many computers, so that everyone playing in an ensemble can be in time. This device syncs to the Ableton API to pack and send accurate data from the track that the user places it on. </p>
+            <p><img src="images\transportsend.png" class="img-thumbnail rounded"alt="Responsive image"/img> <img src="images\transportreceive.png" class="img-thumbnail rounded"alt="Responsive image"/img></p>
+            <p>These patches are meant to be used with the <a href="score.html">Score Reader</a>.</p>
+            <p>Future plans are to create a world server to collaborate over multiple networks, and combine the patches for ease of use.</p>
+            <p>You can download the patches <a href="https://www.dropbox.com/sh/qn62we6s34ihk45/AAD0j6xgt7grv5ErsolL9GqDa?dl=0" target="_blank">here</a> or on the <a href="downloads.html">downloads</a> tab.</p>
           </div><!-- /.blog-post -->
         </div><!-- /.blog-main -->
         <div class="col-sm-3 offset-sm-1 blog-sidebar">
@@ -48,16 +52,16 @@
               <li><a href="RAAPT.html">RAAPT</a></li>
               <li><a href="Grandulator.html">Grandulator</a></li>
               <li><a href="Borilliant.html">Borilliant</a></li>
-              <li><a href="networking.html">MIDI Networking</a><li>
+              <li><a href="#.html">MIDI Networking</a><li>
             </ol>
             <hr>
             <h5>In Development</h5>
             <ol class="list-unstyled">
               <li><a href="fallingnote.html">FallingNote</a></li>
               <li><a href="score.html">ScoreReader</a></li>
-              <li><a href="#">Barely Enough Ingredients</a></li>
-              <li><a href="cogassist.html">Cognitive Career Assistant</a></li>
-              <li><a href="webaudio.html">WebAudio</a></li>
+              <li><a href="#.html">Barely Enough Ingredients</a></li>
+              <li><a href="#.html">Cognitive Career Assistant</a></li>
+              <li><a href="#.html">WebAudio</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
@@ -70,42 +74,14 @@
             </ol>
           </div>
         </div><!-- /.blog-sidebar -->
-
-        <div class="col-sm-3 offset-sm-1 blog-sidebar">
-
-<!--
-          <div class="sidebar-module">
-            <h4>Archives</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">March 2014</a></li>
-              <li><a href="#">February 2014</a></li>
-              <li><a href="#">January 2014</a></li>
-              <li><a href="#">December 2013</a></li>
-              <li><a href="#">November 2013</a></li>
-              <li><a href="#">October 2013</a></li>
-              <li><a href="#">September 2013</a></li>
-              <li><a href="#">August 2013</a></li>
-              <li><a href="#">July 2013</a></li>
-              <li><a href="#">June 2013</a></li>
-              <li><a href="#">May 2013</a></li>
-              <li><a href="#">April 2013</a></li>
-            </ol>
-          </div>
--->
-        </div><!-- /.blog-sidebar -->
-
       </div><!-- /.row -->
-
     </div><!-- /.container -->
-
     <footer class="blog-footer">
       <p>Blog template built for <a href="https://getbootstrap.com" target="_blank">Bootstrap</a> by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.</p>
       <p>
         <a href="#">Back to top</a>
       </p>
     </footer>
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
