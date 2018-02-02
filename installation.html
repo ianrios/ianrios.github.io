@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="images/favicon.ico">
-    <title>Falling Note</title>
+    <title>Web Audio</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Custom styles for this template -->
@@ -26,23 +26,30 @@
     </div>
     <div class="blog-header">
       <div class="container">
-        <h1 class="blog-title">Falling Notes</h1>
-        <p class="lead blog-description">Max for Live device that allows for real time performance of musical score via falling MIDI notes</p>
+        <h1 class="blog-title">Web Audio Platform</h1>
+        <p class="lead blog-description">Working with <a href="http://homepages.rpi.edu/~hamilr4/" target="_blank">Professor Rob Hamilton</a> on this project</p>
       </div>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-sm-8 blog-main">
           <div class="blog-post">
-            <h2 class="blog-post-title">Beta Release</h2>
-            <p class="blog-post-meta">September 16, 2017 by <a href="index.html">Ian</a></p>
-            <p>In conjunction with Albany Medical Center, I have been working on accessibility software for people with limited upper body movement. Through this rewarding job, I have been able to help make the disabled community a better place full of creative music and fun to use devices. </p>
-            <p>This piece of software is just one of my many creations for the company. The current version of FallingNote is the intellectual property of My Music Machines Inc., and unfortunately it is not available for sale at the moment. However, I can give a high level explanation on how it works. </p>
-            <p><img src="images\fallingnotes.png" class="img-thumbnail rounded"alt="Responsive image"/img></p>
-            <p>Fallingnote is a Max for Live Device that uses the Ableton API to read in MIDI data from the track that the user places it on. It then automatically translates that data using Processing for JavaScript to display notes onscreen that are auto quantized to be in the correct time signature and tempo to be played along with a backing track or band as they fall down the screen to the corresponding keys on a visual representation of a keyboard. Any VST can be placed on the same MIDI track so the user can be able to hear the notes that they are playing. </p>
-            <p>While working on this project I worked alongside Medical professionals at Albany Medical Center and highly experienced and knowledgeable RPI students to create other accessibility software for people with spinal cord injuries who are interested in playing, creating, or learning music. Kathryn Lovell worked on the machine code for the Jamboxx so that way it would interact with my program and Ableton, and Robert Smock contributed to the CAD design of the controller. You can read more about the <a href="score.html">Score Reader here</a></p>
-            <p>You can also read more about my role on the Jamboxx Project <a href ="https://kathrynlovell.tech/2017/09/21/the-jamboxx-a-jazz-enabled-midi-controller/" target="_blank">here on Kathryns' blog.</a></p>
-            <p>Once FalingNote goes for sale on their website, I will redirect a link to where it can be downloaded.</p>
+            <h2 class="blog-post-title">Interactive Sound Installation</h2>
+            <p class="blog-post-meta">February 1st, 2018 by <a href="index.html">Ian</a></p>
+
+            <p>I began work conceptualizing a semester long multichannel project. Currently the plan is to create ambisonic recordings and learn the basics of multichannel music and sound production. I plan to then incorporate this new material in some sort of interactive sound installation that lets users modify, learn, and play with the sounds and virtual space they hear in the room.</p>
+            <p>In order to complete this task, I will create a webapp for people to access the ambisonic array in the room they are currently in via a wireless connection to a server.
+              Whoever sets up the array will also set up the server and be able to specify the location of each speaker among other ambisonic requirements for room space and acoustics.
+              A user of the webapp will be able to access the page on their mobile device or tablet/laptop computer, as well as any other device that can connect to the internet and access the web page where the app is being hosted with the correct software implementations - i.e., Internet Explorer and Java or Google Chrome and Adobe Flash.
+            </p>
+            <p>Next, since I would like this program to be more of an educational tool than anything, I plan to let users be able to experiment with the sounds and waveforms without necessarily needing to be connected to the server, so I will have an option to output audio directly from their device.
+              It will be interesting to see in large groups of people, the methods used for sound grouping socially and the effects of sounds populated in large clusters and so forth. </p>
+            <p>Here are some conceptualization sketches I made today for the user interface. I plan to use bootstrap for dynamic webpages, and JavaScript for designing interfaces. As of right now, the idea for the sounds is night creatures, specifically bugs like crickets and katydids.</p>
+            <p><img src="images\wave_concept_1.jpg" class="img-thumbnail rounded"alt="Responsive image"/img><img src="images\wave_concept_3.jpg" class="img-thumbnail rounded"alt="Responsive image"/img><img src="images\wave_concept_2.jpg" class="img-thumbnail rounded"alt="Responsive image"/img></p>
+            <p>I am hoping to get the webapp finished for testing within a month. I plan to use Ruby on Rails as of right now, but that might change, as I am currently learning node.js. We will see.</p>
+            <p>You can follow along with my personal endeavor of creating a portable wave field synthesis array <a href="wavefield.html">here</a>, and see the conceptualization of my ambisonic improvisational music collection <a href="ambisonic.html">here!</a></p>
+
+
           </div><!-- /.blog-post -->
         </div><!-- /.blog-main -->
         <div class="col-sm-3 offset-sm-1 blog-sidebar">
@@ -59,7 +66,7 @@
             <hr>
             <h5>In Development</h5>
             <ol class="list-unstyled">
-              <li><a href="#">FallingNote</a></li>
+              <li><a href="fallingnote.html">FallingNote</a></li>
               <li><a href="score.html">ScoreReader</a></li>
             </ol>
             <hr>
@@ -69,7 +76,7 @@
               <li><a href="ambisonic.html">Ambisonics</a></li>
               <li><a href="webaudio.html">WebAudio</a></li>
               <li><a href="wavefield.html">Wave Field Synthesis</a></li>
-              <li><a href="installation.html">EMPAC Installation</a></li>
+              <li><a href="#">EMPAC Installation</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
