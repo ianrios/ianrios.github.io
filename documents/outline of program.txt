@@ -1,0 +1,72 @@
+standalone program
+
+output song with song pattern choices based on input file
+	user parameters:
+		tempo?
+		key?
+		energy
+		random
+		autechre style
+	build in algorithms:
+		match patterns to bank of song layouts for structure
+		create melodys and chords from list of song keys to choose from
+classes
+	sample banks
+	chord element
+	song sructure element?
+
+functions for creating sound
+	granulator and repitcher for leads/basses
+		bank of algorithms to choose from and create:
+			808s
+			low tones to be looped or pitched/shifted
+			high tones for melodies/pads
+			mid tones for vocalsynth sounds/pads?
+			rumble
+			growl
+			sakuraburst style sounds
+	pattern matcher for drums also fills to make:
+		kick
+		tom
+		snare
+		clap
+		crash
+	pattern matcher for percs to make:
+		hi hat
+		ripshot
+		plink
+		pop
+		random cool sounds
+
+all sounds can be used for leads using granulator
+granulator can make noise in background for ambiance
+
+effects i would want to have
+	repitch
+	repitch and delay
+	delay ping pong and spacializer
+	reverb
+	granulator and reverb
+	panning
+	volume
+	distortion?
+	eq
+	overdrive
+	saturator
+	compressor
+	limiter
+make kicks by:
+	finding suitable sample, shape it/cut it out
+	finding non suitable sample and repitch so it is in the 30hz range, eq, saturate, eq shape, compress, overdrive, limit?, i think thats all
+make leads by random parameters in granulator, repitcher, and by adding random effects that sound good
+
+algorithms for making sounds
+	repeat certian pattern for size of sample/ time
+	exponential sizes
+	logarithmic sizes
+	fibonacci sequences
+	randomized length and time
+	growing bacteria
+	take algorithms from nature
+	phi
+	no algorithms that sound like trash, test them first
