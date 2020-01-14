@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
+/* colors https://coolors.co/3c91e6-bf0603-e7e247-edf2f4-0a0908 */
+.main {
+	background-color: #0A0908;
+	min-height: 100vh;
+	max-height: 100vh;
+	font-size: calc(10px + 2vmin);
+	color: #edf2f4;
+	overflow-y: hidden;
+	overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.name {
+	/* -webkit-text-stroke: 15px #bf0603; */
+	/* color: #e7e247; */
+	font-weight: 700;
+	margin: 0px;
+	font-size: 25rem;
+	margin-left: -27px;
+	margin-top: -106px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #3c91e6;
+	text-decoration: none;
 }
