@@ -17,6 +17,15 @@
 	margin: -11px 0 0 -24px;
 }
 
+@media only screen and (max-width: 665px) {
+	.name {
+		font-size: 15rem;
+		line-height: .704;
+		font-weight: 700;
+		margin: -5px 0 0 -14px;
+	}
+}
+
 .open-link {
 	/* position:absolute; */
 	z-index: 1000;
