@@ -11,6 +11,7 @@
 }
 
 .name {
+	line-height: .704;
 	font-weight: 700;
 	margin: 0px;
 	font-size: 25rem;
