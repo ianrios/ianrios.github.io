@@ -82,8 +82,7 @@ hr.thin {
 	color: #333;
 	background-color: #333;
 	width: 80%;
-	margin: 0;
-	margin-top: 15px;
+	margin: 15px 0px 0px 0px;
 }
 
 #header {
