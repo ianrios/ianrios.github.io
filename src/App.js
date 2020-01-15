@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { findDOMNode } from "react-dom";
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 	Link
 } from "react-router-dom";
+
 import Modal from 'react-bootstrap/Modal'
 import './App.css';
+
+
 
 function App() {
 	const [view, setView] = useState(true);
@@ -38,22 +42,24 @@ function App() {
 								<h1>Ian Rios</h1>
 								<div id="expandButton"></div>
 							</div>
-							<hr class="thin"></hr>
+							<hr className="thin"></hr>
 
 							<a className="h2-size first-h2">
 								projects
 								</a>
 
-							<a className="h2-size ul-show" onClick={() => setUl(!ul)}>social</a>
-							{ul ?
-								<ul>
-									<li><a className="flat-link" target="_blank" href="https://github.com/ianrios/">github</a></li>
-									<li><a className="flat-link" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
-									<li><a className="flat-link" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
-									<li><a className="flat-link" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
-								</ul>
-								:
-								null}
+							<a onClick={() => setUl(!ul)} className="h2-size ul-show">
+								social
+							</a>
+
+							<ul style={{ display: ul ? "block" : "none" }}>
+								<li><a className="flat-link" target="_blank" href="https://github.com/ianrios/">github</a></li>
+								<li><a className="flat-link" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
+								<li><a className="flat-link" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
+								<li><a className="flat-link" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
+							</ul>
+
+
 
 							<a className="h2-size" onClick={() => setModalShow(true)}>contact</a>
 							<MyVerticallyCenteredModal
@@ -74,8 +80,9 @@ function App() {
 							blah
 						</div> */}
 					</div>
-				)}
-		</Router>
+				)
+			}
+		</Router >
 	);
 }
 
