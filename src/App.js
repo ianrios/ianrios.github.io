@@ -75,9 +75,9 @@ function App() {
 							</a>
 						</div>
 
-						{/* <div className="grid">
+						<div className="grid">
 							blah
-						</div> */}
+						</div>
 					</div>
 				)
 			}

@@ -146,7 +146,9 @@ li {
 
 .back-link {}
 
-.grid {}
+.grid {
+	margin-left:150px;
+}
 
 .iframe-google-form {
 	/* overflow-y: auto; */
