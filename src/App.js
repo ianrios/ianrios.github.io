@@ -42,7 +42,6 @@ function App() {
 								<h1>Ian Rios</h1>
 								<div id="expandButton"></div>
 							</div>
-							<hr className="thin"></hr>
 
 							<a className="h2-size first-h2">
 								projects

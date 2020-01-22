@@ -89,6 +89,7 @@ hr.thin {
 	display: flex;
 	/* height: var(--header-height); */
 	/* border-bottom: var(--border-style); */
+	margin-top:15px;
 	align-items: center;
 }
 
@@ -99,7 +100,7 @@ h1 {
 }
 
 .first-h2 {
-	/* margin-top: 16px !important; */
+	margin-top: 10px !important;
 	border-top: none;
 	padding-top: 0;
 }
