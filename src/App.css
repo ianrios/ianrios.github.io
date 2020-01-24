@@ -89,7 +89,7 @@ hr.thin {
 	display: flex;
 	/* height: var(--header-height); */
 	/* border-bottom: var(--border-style); */
-	margin-top:15px;
+	margin-top: 15px;
 	align-items: center;
 }
 
@@ -147,7 +147,20 @@ li {
 .back-link {}
 
 .grid {
-	margin-left:150px;
+	margin-left: 175px;
+	margin-top: 25px;
+}
+
+.img-wrap {
+	max-width: 200px !important;
+	max-height: 200px !important;
+	overflow: hidden;
+	padding: 0px !important;
+}
+
+.img-t {
+	max-width: initial;
+	max-height: initial;
 }
 
 .iframe-google-form {

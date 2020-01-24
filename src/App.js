@@ -74,7 +74,39 @@ function App() {
 						</div>
 
 						<div className="grid">
-							{/* blah */}
+							<div className="row">
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/bandreader.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/borilliant_fb.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/recorder.png" />
+								</div>
+							</div>
+							<div className="row">
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/fallingnotes.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/interface_JS_42218.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/midireceive.png" />
+								</div>
+							</div>
+							<div className="row">
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/momsearch.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/score_reader.png" />
+								</div>
+								<div className="col img-wrap">
+									<img className="img-fluid img-t" src="img/V1.png" />
+								</div>
+							</div>
 						</div>
 					</div>
 				)
