@@ -76,7 +76,7 @@ function App() {
 						</div>
 
 						<div className="grid">
-							blah
+							{/* blah */}
 						</div>
 					</div>
 				)
