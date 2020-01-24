@@ -65,8 +65,6 @@ function App() {
 								show={modalShow}
 								onHide={() => setModalShow(false)}
 							/>
-
-
 							<a
 								className="h2-size back-link"
 								onClick={() => setView(view - 1)}
