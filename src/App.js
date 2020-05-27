@@ -43,11 +43,11 @@ function App() {
 								<div id="expandButton"></div>
 							</div>
 
-							<a className="h2-size first-h2">
+							<a className="h2-size first-h2" href="https://github.com/ianrios">
 								projects
 								</a>
 
-							<a onClick={() => setUl(!ul)} className="h2-size ul-show">
+							<a onClick={() => setUl(!ul)} className="h2-size ul-show" href="#">
 								social
 							</a>
 
@@ -60,7 +60,7 @@ function App() {
 
 
 
-							<a className="h2-size" onClick={() => setModalShow(true)}>contact</a>
+							<a href="#" className="h2-size" onClick={() => setModalShow(true)}>contact</a>
 							<MyVerticallyCenteredModal
 								show={modalShow}
 								onHide={() => setModalShow(false)}
@@ -68,6 +68,7 @@ function App() {
 							<a
 								className="h2-size back-link"
 								onClick={() => setView(view - 1)}
+								href="#"
 							>
 								back
 							</a>
