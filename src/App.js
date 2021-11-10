@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react';
 // import { Switch, Route, Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal'
 import './App.css';
-import { data } from './data'
+import { projectData, hobbyData } from './data'
+import Masonry from 'react-masonry-css'
 
+const breakpointColumnsObj = {
+	default: 3,
+	992: 3,
+	991: 1,
+
+};
 
 
 function App() {
@@ -22,7 +29,7 @@ function App() {
 	const [ul, setUl] = useState(false);
 	const [modalShow, setModalShow] = useState(false);
 
-	const [projectView, setProjectView] = useState(false);
+	const [projectView, setProjectView] = useState(true);
 
 	return (
 		<>
@@ -45,9 +52,8 @@ function App() {
 							<div id="expandButton"></div>
 						</div>
 
-						<button className="h2-size first-h2" onClick={() => setProjectView(true)}>projects</button>
-
-						<button onClick={() => setUl(!ul)} className="h2-size ul-show" >social</button>
+						<button className="h2-size first-h2" onClick={() => setProjectView(!projectView)}>{projectView ? 'hobbies' : 'projects'}</button>
+						<button className="h2-size ul-show" onClick={() => setUl(!ul)}>social</button>
 						<ul style={{ display: ul ? "block" : "none" }}>
 							<li><a className="flat-link" target="_blank" href="https://github.com/ianrios/">github</a></li>
 							<li><a className="flat-link" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
@@ -61,11 +67,7 @@ function App() {
 							show={modalShow}
 							onHide={() => setModalShow(false)}
 						/>
-						<button
-							className="h2-size back-link"
-							onClick={() => setView('welcome')}
-
-						>back</button>
+						<button className="h2-size back-link" onClick={() => setView('welcome')}>back</button>
 					</div>
 					{/* <Switch>
 						<Route to>
@@ -73,37 +75,101 @@ function App() {
 						</Route>
 					</Switch> */}
 					<p className='text-center'>
-						<h3 className='pt-5'>Projects</h3>
+						<h3 className='pt-5'>{projectView ? 'Projects' : 'Hobbies'}</h3>
 					</p>
-					<div className='container'>
-						<div className='row'>
-							<div className='col-11 offset-1'>
-								{/* <div class="card-group"> */}
-								<div className="row row-cols-md-1 row-cols-lg-3"
+					{projectView ?
+						<div className='container'>
+							<div className='row'>
+								<div className='col-11 offset-1'>
+									{/* <div class="card-group"> */}
+									{/* <div className="row" //  row-cols-md-1 row-cols-lg-3
+										data-masonry='{"percentPosition": true }'
+									> */}
+									<Masonry
+										breakpointCols={breakpointColumnsObj}
+										className="my-masonry-grid"
+										columnClassName="my-masonry-grid_column">
+										{projectData.map((item, index) => {
+											return (
+												// <div className="col-12 col-sm-6 col-md-4 mb-4" key={index}>
+												<div key={index}
 
-								// data-masonry='{"percentPosition": true }'
-								>
-									{data.map((item, index) => {
-										return (
-											<div className='col' key={index}>
-												<div className="card m-2" >
+													className={
+														`card m-1 mb-4
+													${((index % 2 != 0 || index % 7 == 0) && index != 0) && 'bg-secondary text-white'} 
+													${(index % 5 == 0 && index != 0 && index < 10) && 'bg-info'}
+													`}
+												>
+													{/* <div className="card-header">
+													</div> */}
 													<div className="card-body">
-														<h5 className="card-title">{item.title}</h5>
-														<img className="card-img-top" src={item.img_src} alt="Card image cap" />
+														<h5 className="card-title fw-bolder">{item.title}</h5>
+														{item.img_src_arr.length > 0 && <img className="card-img-top" src={item.img_src_arr[0]} alt={item.title} />}
+														{item.img_src_arr.length > 1 && <img className="card-img-top" src={item.img_src_arr[1]} alt={item.body} />}
 														<p className="card-text">{item.body}</p>
-														{item.href.length > 0 && <a href={item.href} target="_blank" className="btn btn-secondary">Visit GitHub Repo</a>}
-														{item.live.length > 0 && <a href={item.live} target="_blank" className="btn btn-succcess">Visit Live Demo</a>}
+														{item.href.length > 0 && <a href={item.href} target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
+														{item.live.length > 0 && <a href={item.live} target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
 													</div>
+													{/* <div className="card-footer">
+													</div> */}
 												</div>
-											</div>
-										)
-									})}
+												// </div>
+											)
+										})}
+									</Masonry>
+									{/* </div> */}
 									{/* </div> */}
 								</div>
 							</div>
 						</div>
-					</div>
+						:
+						<div className='container'>
+							<div className='row'>
+								<div className='col-11 offset-1'>
+									{/* <div class="card-group"> */}
+									{/* <div className="row" //  row-cols-md-1 row-cols-lg-3
+										data-masonry='{"percentPosition": true }'
+									> */}
+									<Masonry
+										breakpointCols={breakpointColumnsObj}
+										className="my-masonry-grid"
+										columnClassName="my-masonry-grid_column">
+										{hobbyData.map((item, index) => {
+											return (
+												// <div className="col-12 col-sm-6 col-md-4 mb-4" key={index}>
+												<div key={index}
 
+													className={
+														`card m-2 
+													${((index % 2 != 0 || index % 7 == 0) && index != 0) && 'bg-secondary text-white'} 
+													${(index % 5 == 0 && index != 0 && index < 10) && 'bg-info'}
+													`}
+												>
+													{/* <div className="card-header">
+													</div> */}
+													<div className="card-body">
+														<h5 className="card-title fw-bolder">{item.title}</h5>
+														{item.img_src_arr.length > 0 && <img className="card-img-top" src={item.img_src_arr[0]} alt={item.title} />}
+														{item.img_src_arr.length > 1 && <img className="card-img-top" src={item.img_src_arr[1]} alt={item.body} />}
+														<p className="card-text">{item.body}</p>
+														{item.href.length > 0 && <a href={item.href} target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
+														{item.live.length > 0 && <a href={item.live} target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
+														{item.instagram.length > 0 && <a href={item.instagram} target="_blank" className="btn btn-success mx-2" style={{ backgroundColor: "purple" }}>Visit Instagram</a>}
+
+													</div>
+													{/* <div className="card-footer">
+													</div> */}
+												</div>
+
+												// </div>
+											)
+										})}
+									</Masonry>
+									{/* </div> */}
+									{/* </div> */}
+								</div>
+							</div>
+						</div>}
 				</div>
 			}
 		</>
