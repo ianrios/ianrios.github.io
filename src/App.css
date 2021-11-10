@@ -1,6 +1,5 @@
 /* colors https://coolors.co/3c91e6-bf0603-e7e247-edf2f4-0a0908 */
 
-
 .view-1 {
 	overflow-y: hidden;
 	overflow-x: hidden;
@@ -28,14 +27,15 @@
 }
 
 .open-link {
-	/* position:absolute; */
-	z-index: 1000;
+	all: unset;
 	margin-top: 50px;
+	/* position:absolute; */
+	/* z-index: 1000;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	text-align: center;
+	text-align: center; */
 	color: #3c91e6;
 	text-decoration: none;
 }
@@ -51,10 +51,9 @@
 }
 
 .view-2 {
-	overflow-y: hidden;
-	overflow-x: hidden;
-	min-height: 100vh;
-	max-height: 100vh;
+	/* overflow-y: hidden;
+	overflow-x: hidden; */
+	height: 100%;
 	font-size: calc(10px + 2vmin);
 	background-color: #edf2f4;
 	color: #0A0908;
@@ -101,12 +100,14 @@ h1 {
 }
 
 .first-h2 {
+	all: unset;
 	margin-top: 10px !important;
 	border-top: none;
 	padding-top: 0;
 }
 
 .h2-size {
+	all: unset;
 	font-size: 1.5rem;
 	margin-bottom: 2px;
 	padding-bottom: 0px;
