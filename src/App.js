@@ -4,6 +4,8 @@ import Modal from 'react-bootstrap/Modal'
 import './App.css';
 import { projectData, hobbyData } from './data'
 import Masonry from 'react-masonry-css'
+import { Routes, Route } from 'react-router-dom';
+import Threetutorial from './threetutorial';
 
 const breakpointColumnsObj = {
 	default: 3,
@@ -13,7 +15,7 @@ const breakpointColumnsObj = {
 };
 
 
-function App() {
+function Main() {
 
 	const [view, setView] = useState('welcome');
 	useEffect(() => {
@@ -55,10 +57,10 @@ function App() {
 						<button className="h2-size first-h2" onClick={() => setProjectView(!projectView)}>{projectView ? 'hobbies' : 'projects'}</button>
 						<button className="h2-size ul-show" onClick={() => setUl(!ul)}>social</button>
 						<ul style={{ display: ul ? "block" : "none" }}>
-							<li><a className="flat-link" target="_blank" href="https://github.com/ianrios/">github</a></li>
-							<li><a className="flat-link" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
-							<li><a className="flat-link" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
-							<li><a className="flat-link" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
+							<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://github.com/ianrios/">github</a></li>
+							<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
+							<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
+							<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
 						</ul>
 
 
@@ -96,8 +98,8 @@ function App() {
 
 													className={
 														`card m-1 mb-4
-													${((index % 2 != 0 || index % 7 == 0) && index != 0) && 'bg-secondary text-white'} 
-													${(index % 5 == 0 && index != 0 && index < 10) && 'bg-info'}
+													${((index % 2 !== 0 || index % 7 === 0) && index !== 0) && 'bg-secondary text-white'} 
+													${(index % 5 === 0 && index !== 0 && index < 10) && 'bg-info'}
 													`}
 												>
 													{/* <div className="card-header">
@@ -107,8 +109,8 @@ function App() {
 														{item.img_src_arr.length > 0 && <img className="card-img-top" src={item.img_src_arr[0]} alt={item.title} />}
 														{item.img_src_arr.length > 1 && <img className="card-img-top" src={item.img_src_arr[1]} alt={item.body} />}
 														<p className="card-text">{item.body}</p>
-														{item.href.length > 0 && <a href={item.href} target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
-														{item.live.length > 0 && <a href={item.live} target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
+														{item.href.length > 0 && <a href={item.href} rel="noreferrer" target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
+														{item.live.length > 0 && <a href={item.live} rel="noreferrer" target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
 													</div>
 													{/* <div className="card-footer">
 													</div> */}
@@ -141,8 +143,8 @@ function App() {
 
 													className={
 														`card m-2 
-													${((index % 2 != 0 || index % 7 == 0) && index != 0) && 'bg-secondary text-white'} 
-													${(index % 5 == 0 && index != 0 && index < 10) && 'bg-info'}
+													${((index % 2 !== 0 || index % 7 === 0) && index !== 0) && 'bg-secondary text-white'} 
+													${(index % 5 === 0 && index !== 0 && index < 10) && 'bg-info'}
 													`}
 												>
 													{/* <div className="card-header">
@@ -152,9 +154,9 @@ function App() {
 														{item.img_src_arr.length > 0 && <img className="card-img-top" src={item.img_src_arr[0]} alt={item.title} />}
 														{item.img_src_arr.length > 1 && <img className="card-img-top" src={item.img_src_arr[1]} alt={item.body} />}
 														<p className="card-text">{item.body}</p>
-														{item.href.length > 0 && <a href={item.href} target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
-														{item.live.length > 0 && <a href={item.live} target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
-														{item.instagram.length > 0 && <a href={item.instagram} target="_blank" className="btn btn-success mx-2" style={{ backgroundColor: "purple" }}>Visit Instagram</a>}
+														{item.href.length > 0 && <a href={item.href} rel="noreferrer" target="_blank" className="btn btn-outline-dark">Visit GitHub Repo</a>}
+														{item.live.length > 0 && <a href={item.live} rel="noreferrer" target="_blank" className="btn btn-success mx-2">Visit Live Demo</a>}
+														{item.instagram.length > 0 && <a href={item.instagram} rel="noreferrer" target="_blank" className="btn btn-success mx-2" style={{ backgroundColor: "purple" }}>Visit Instagram</a>}
 
 													</div>
 													{/* <div className="card-footer">
@@ -195,6 +197,7 @@ function MyVerticallyCenteredModal(props) {
 					frameBorder="0"
 					marginHeight="0"
 					marginWidth="0"
+					title='google-form'
 				>
 					Loading…
 				</iframe>
@@ -207,5 +210,13 @@ function MyVerticallyCenteredModal(props) {
 	);
 }
 
+function App() {
+	return (
+		<Routes>
+			<Route path='/' element={<Main />} />
+			<Route path='/three' element={<Threetutorial />} />
+		</Routes>
+	)
+}
 
 export default App;
