@@ -5,7 +5,8 @@ import './App.css';
 import { projectData, hobbyData } from './data'
 import Masonry from 'react-masonry-css'
 import { Routes, Route } from 'react-router-dom';
-import Threetutorial from './threetutorial';
+import MetaBalls from './MetaBalls';
+import { init, animate } from './three/webgl_marchingcubes'
 
 const breakpointColumnsObj = {
 	default: 3,
@@ -18,14 +19,27 @@ const breakpointColumnsObj = {
 function Main() {
 
 	const [view, setView] = useState('welcome');
+	// useEffect(() => {
+	// 	const lsView = window.localStorage.getItem('view')
+	// 	if (lsView) {
+	// 		setView(lsView)
+	// 	}
+	// }, [])
 	useEffect(() => {
-		const lsView = window.localStorage.getItem('view')
-		if (lsView) {
-			setView(lsView)
+		// window.localStorage.setItem('view', view)
+		const threeContainer = document.getElementById('three-container')
+
+		if (view === 'welcome') {
+			// init();
+			// animate();
 		}
-	}, [])
-	useEffect(() => {
-		window.localStorage.setItem('view', view)
+		else if (view === 'main') {
+			// threeContainer.display = 'none';
+			// remove all children
+			while (threeContainer.firstChild) {
+				threeContainer.removeChild(threeContainer.firstChild);
+			}
+		}
 	}, [view])
 
 	const [ul, setUl] = useState(false);
@@ -37,8 +51,9 @@ function Main() {
 		<>
 
 			{view === 'welcome' && <div className="view-1">
-				<p className="name">Ian Rios</p>
-				<p className='text-center'>
+				<MetaBalls />
+				<p className="name special-p">Ian Rios</p>
+				<p className='text-center special-b'>
 					<button
 						className="open-link"
 						onClick={() => setView('main')}
@@ -69,7 +84,7 @@ function Main() {
 							show={modalShow}
 							onHide={() => setModalShow(false)}
 						/>
-						<button className="h2-size back-link" onClick={() => setView('welcome')}>back</button>
+						{/* <button className="h2-size back-link" onClick={() => setView('welcome')}>back</button> */}
 					</div>
 					{/* <Switch>
 						<Route to>
@@ -214,7 +229,7 @@ function App() {
 	return (
 		<Routes>
 			<Route path='/' element={<Main />} />
-			<Route path='/three' element={<Threetutorial />} />
+			{/* <Route path='/three' element={} /> */}
 		</Routes>
 	)
 }
