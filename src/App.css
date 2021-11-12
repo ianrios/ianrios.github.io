@@ -47,6 +47,7 @@
 		top: 1000px;
 	}
 }
+
 @media only screen and (max-width: 510px) {
 	.name {
 		font-size: 11rem;

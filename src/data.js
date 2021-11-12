@@ -7,6 +7,13 @@ export const projectData = [
         live: "https://ianrios.me/three"
     },
     {
+        title: "React Educational Curriculum",
+        img_src_arr: ["./img/youtube.png",],
+        body: "YouTube curriculum built for Awesome Inc's Web Developer Bootcamp. Encompasses basics such as state and lifecycle, intermediate topics such as sass, and importing new packages, and advanced topics such as creating custom hooks, using context, and defining new reducers.",
+        href: "",
+        live: "https://www.youtube.com/playlist?list=PLueGNSATcrZtoNBo4qXcKlj1ykQos7e0I"
+    },
+    {
         title: "WHY? Record Company Website",
         img_src_arr: ["./img/wrc_site.png",],
         body: "WHY? Record Company Website - Artist Portal, Store, Informational site - built with React.",
