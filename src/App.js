@@ -88,6 +88,7 @@ function Main() {
 			}
 			{view === 'main' &&
 				<div className="view-2">
+					
 
 					<button class="btn btn-link text-decoration-none h1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
