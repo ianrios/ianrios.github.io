@@ -3,8 +3,8 @@ export const projectData = [
         title: "Meta Spheres",
         img_src_arr: ["./img/metaspheres.png",],
         body: "3D Metaballs built with Three.js + React. Learning project using React-Three-Paper, React-Three-Fiber, and React-Router V6.",
-        href: "https://github.com/ianrios/ianrios.github.io",
-        live: "https://ianrios.me"
+        href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/three",
+        live: "https://ianrios.me/three"
     },
     {
         title: "WHY? Record Company Website",
