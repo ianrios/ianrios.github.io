@@ -10,6 +10,13 @@
 	position: absolute;
 	left: calc(50vw - 23px);
 	top: 300px;
+
+}
+
+@media only screen and (max-width: 1423px) {
+	.special-b {
+		top: 550px;
+	}
 }
 
 .view-1 {
@@ -23,24 +30,21 @@
 }
 
 .name {
-	font-size: 25rem;
+	font-size: 22rem;
 	line-height: .704;
 	font-weight: 700;
-	margin: -11px 0 0 -24px;
+	margin: -4px 0 0 -34px;
 }
 
-@media only screen and (max-width: 1394px) {
-	.special-b {
-		top: 550px;
-	}
-}
-
-@media only screen and (max-width: 665px) {
+@media only screen and (max-width: 742px) {
 	.name {
 		font-size: 15rem;
 		line-height: .704;
 		font-weight: 700;
-		margin: -5px 0 0 -14px;
+		margin: -2px 0 0 -20px;
+	}
+	.special-b {
+		top: 1000px;
 	}
 }
 
@@ -207,6 +211,7 @@ li {
 	/* gutter size offset */
 	width: auto;
 }
+
 .my-masonry-grid_column {
 	padding-left: 30px;
 	/* gutter size */

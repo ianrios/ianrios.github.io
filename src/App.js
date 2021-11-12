@@ -89,58 +89,40 @@ function Main() {
 			{view === 'main' &&
 				<div className="view-2">
 
+					<button class="btn btn-link text-decoration-none h1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+							<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+						</svg>
+					</button>
 
-					<div className="sidebar">
-						<div id="header">
-							<button
-								className="btn btn-link"
-								style={{
-									color: 'black',
-									textDecoration: 'none'
-								}}
-								type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#collapseWidthExample"
-								aria-expanded="false"
-								aria-controls="collapseWidthExample"
-							>
-
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-									<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-								</svg>
-							</button>
-							<h2>Ian Rios</h2>
+					<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+						<div class="offcanvas-header">
+							<h1 class="offcanvas-title" id="offcanvasExampleLabel">Ian Rios</h1>
+							<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 						</div>
-						<div style={{ minHeight: "120px" }}>
-							<div class="collapse collapse-horizontal" id="collapseWidthExample">
-								<button className="h2-size first-h2" onClick={() => setProjectView(!projectView)}>{projectView ? 'hobbies' : 'projects'}</button>
-								<br />
-								<button className="h2-size ul-show" onClick={() => setUl(!ul)}>social</button>
-								<ul style={{ display: ul ? "block" : "none" }}>
-									<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://github.com/ianrios/">github</a></li>
-									<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
-									<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
-									<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
-								</ul>
+						<div class="offcanvas-body">
+							<h3>Portfolio</h3>
+							<button className="h2-size first-h2 text-decoration-underline" onClick={() => setProjectView(!projectView)}>{projectView ? 'hobbies' : 'projects'}</button>
+							<br />
+							<button className="h2-size ul-show text-decoration-underline" onClick={() => setUl(!ul)}>external</button>
 
-								<br />
-
-								<button className="h2-size" onClick={() => setModalShow(true)}>contact</button>
-								{/* <button className="h2-size back-link" onClick={() => setView('welcome')}>back</button> */}
-							</div>
+							<ul style={{ display: ul ? "block" : "none", fontSize: '1rem' }}>
+								<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://github.com/ianrios/">github</a></li>
+								<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.linkedin.com/in/ian-rios/">linkedin</a></li>
+								<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://twitter.com/ian_rios_">twitter</a></li>
+								<li><a className="flat-link" rel="noreferrer" target="_blank" href="https://www.codewars.com/users/ianrios">codewars</a></li>
+							</ul>
+							{!ul && <br />}
+							<button className="h2-size text-decoration-underline" onClick={() => setModalShow(true)}>contact</button>
 						</div>
 					</div>
 					<MyVerticallyCenteredModal
 						show={modalShow}
 						onHide={() => setModalShow(false)}
 					/>
-					{/* <Switch>
-						<Route to>
 
-						</Route>
-					</Switch> */}
 					<p className='text-center'>
-						<h1 className='pt-5'>{projectView ? 'Projects' : 'Hobbies'}</h1>
+						<h1 style={{ marginTop: '-26px' }}>{projectView ? 'Projects' : 'Hobbies'}</h1>
 					</p>
 
 					<div className='container'
@@ -154,7 +136,7 @@ function Main() {
 								overflowY: 'scroll'
 							}}
 						>
-							<div className='col-10 offset-2 col-sm-11 offset-sm-1'>
+							<div className='col-12'>
 								<Masonry
 									breakpointCols={breakpointColumnsObj}
 									className="my-masonry-grid"
