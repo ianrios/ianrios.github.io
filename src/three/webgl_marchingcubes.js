@@ -6,10 +6,7 @@ import * as THREE from './three.module.js';
 import { OrbitControls } from './OrbitControls.js';
 import { MarchingCubes } from './MarchingCubes.js';
 
-
-
-
-
+const IS_MOBILE =  /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
 let container;
 // , stats;
@@ -21,18 +18,16 @@ let materials, current_material;
 let light, pointLight, ambientLight;
 
 let effect
-let resolution = 120;
+let resolution = IS_MOBILE ? 60 : 100;
 
 let effectController = {
 
     material: 'matte',
 
     speed: 0.1,
-    numBlobs: 30,
-    resolution: 100,
-    isolation: 400,
-
-    // dummy: function () { }
+    numBlobs: IS_MOBILE ? 10 : 30,
+    resolution: IS_MOBILE ? 60 : 100,
+    isolation: IS_MOBILE ? 250 : 400
 
 };
 

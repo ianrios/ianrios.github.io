@@ -47,6 +47,17 @@
 		top: 1000px;
 	}
 }
+@media only screen and (max-width: 510px) {
+	.name {
+		font-size: 11rem;
+		/* line-height: .704; */
+		/* font-weight: 700; */
+		/* margin: -2px 0 0 -20px; */
+	}
+	.special-b {
+		top: 500px;
+	}
+}
 
 .open-link {
 	all: unset;
