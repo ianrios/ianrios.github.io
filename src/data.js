@@ -2,56 +2,56 @@ export const projectData = [
     {
         title: "Meta Spheres",
         img_src_arr: ["./img/metaspheres.png",],
-        body: "3D Metaballs built with Three.js + React. Learning project using React-Three-Paper, React-Three-Fiber, and React-Router V6.",
+        body: "3D Metaballs built with Three.js + React, using React-Three-Paper, React-Three-Fiber, and React-Router V6.",
         href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/three",
         live: "https://ianrios.me/three"
     },
     {
         title: "React Educational Curriculum",
         img_src_arr: ["./img/youtube.png",],
-        body: "YouTube curriculum built for Awesome Inc's Web Developer Bootcamp. Encompasses basics such as state and lifecycle, intermediate topics such as sass, and importing new packages, and advanced topics such as creating custom hooks, using context, and defining new reducers.",
+        body: "This curriculum guides new-to-React coders through basics like state and lifecycle, intermediate concepts like Sass and external packages, and advanced topics including custom hook creation, using the context API, and defining new reducers.",
         href: "",
         live: "https://www.youtube.com/playlist?list=PLueGNSATcrZtoNBo4qXcKlj1ykQos7e0I"
     },
     {
         title: "WHY? Record Company Website",
         img_src_arr: ["./img/wrc_site.png",],
-        body: "WHY? Record Company Website - Artist Portal, Store, Informational site - built with React.",
+        body: "React-built website, including an artist portal, store, and information visualization for musicians and listeners using D3 graphs.",
         href: "https://github.com/ianrios/WRC",
         live: "https://whyrecord.com/"
     },
     {
         title: "The Algorithm Knows Best",
         img_src_arr: ["./img/takb.png",],
-        body: "Streaming Platform for restricted listening formats. Accepted as Computer Music Installation in the University of Transylvania Studio 300 Music and Art Conference.",
+        body: "A self-contained, restricted algorithm for selective song streaming. Showcased as an installation at the Studio 300 Music and Art Conference.",
         href: "https://github.com/ianrios/the-algo-knows-best",
         live: "https://the-algorithm-knows-best.web.app"
     },
     {
         title: "Top-5",
         img_src_arr: ['./img/top-5.png'],
-        body: "A simple kanban based todo list that allows for recurring tasks (daily, weekly, etc.), drag and drop functionality, and priority tags. Good for procrastinators and people who forget about their tasks.",
+        body: "A simple kanban-based todo list that allows for recurring tasks (daily, weekly, and more), drag and drop functionality, and priority tags. Good for procrastinators.",
         href: "https://github.com/ianrios/top-5",
         live: ""
     },
     {
         title: "Budget App",
         img_src_arr: [],
-        body: "A financial forecaster for individuals and families. Built using React and Laravel",
+        body: "A financial forecaster for individuals and families. Built using React and Laravel.",
         href: "https://github.com/ianrios/budget-api",
         live: "https://github.com/ianrios/budget-app"
     },
     {
         title: "Twitterbot React Front End",
         img_src_arr: [],
-        body: "A react based front end for managing the Twitterbot API. Allows users to add multiple accounts to harvest likes and followers, view retention statistics, and make changes to algorithm metrics in real time.",
+        body: "A React-based front end for managing the Twitterbot API. Allows users to add multiple accounts to harvest likes and followers, view retention statistics, and make changes to algorithm metrics in real time.",
         href: "https://github.com/ianrios/twitterbot-react-ui",
         live: ""
     },
     {
         title: "Twitterbot API",
         img_src_arr: [],
-        body: "A python based twitterbot that scrapes for users to follow based on retention, interests, likes, and more. Auto-unfollows after certain date (based on specific metrics) to maintain ratio.",
+        body: "A Python-based twitterbot that scrapes for users to follow based on retention, interests, likes, and more. Includes parameters for following and unfollowing users across time to maintain following-to-follower ratios.",
         href: "https://github.com/ianrios/twitterbot",
         live: ""
     },
@@ -65,21 +65,21 @@ export const projectData = [
     {
         title: "Borilliant",
         img_src_arr: ["./img/borilliant_fb.png",],
-        body: "A student teacher rating system similar to rate my professor built using the MEAN stack.",
+        body: "A student-teacher rating system similar to Rate My Professor built using the MEAN stack.",
         href: "https://github.com/bobmayuze/Borilliant_Feedback",
         live: ""
     },
     {
         title: "neThing",
         img_src_arr: ["./img/interface_JS_42218.png",],
-        body: "An Educational Open-Source Web-based Graphical User Interface for Controlling Ambisonic and Wave Field Speaker Arrays",
+        body: "An Educational Open-Source Web-based Graphical User Interface for Controlling Ambisonic and Wave Field Speaker Arrays.",
         href: "https://github.com/ianrios/neThing",
         live: ""
     },
     {
         title: "Barely Enough Ingredients - Many Online Meals",
         img_src_arr: ["./img/momsearch.png",],
-        body: "The Many Online Meals (MOM) app is a ruby on rails web app that utilizes bootstrap for styling, the Spoonacular API for recipe and ingredient data, and heroku for hosting.",
+        body: "The Many Online Meals (MOM) app is a Ruby On Rails web app that utilizes Bootstrap for styling, the Spoonacular API for recipe and ingredient data, and Heroku for hosting.",
         href: "https://github.com/ianrios/BarelyEnoughIngredients/tree/master",
         live: "https://bei-mom.herokuapp.com/"
     },
