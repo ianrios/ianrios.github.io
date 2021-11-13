@@ -139,7 +139,7 @@ export const hobbyData = [
     {
         title: "WHY? Record Company",
         img_src_arr: ["./img/wrc_site.png"],
-        body: "WHY? Record Company is an independently owned and operated Record Label, featuring artists from around the globe.",
+        body: "An independently owned and operated record label, featuring artists from around the globe.",
         href: "",
         live: "",
         instagram: "https://www.instagram.com/whyrecordcompany/"
