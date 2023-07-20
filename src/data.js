@@ -1,156 +1,243 @@
-export const projectData = [
-    {
-        title: "Meta Spheres",
-        img_src_arr: ["./img/metaspheres.png",],
-        body: "3D Metaballs built with Three.js + React, using React-Three-Paper, React-Three-Fiber, and React-Router V6.",
-        href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/three",
-        live: "https://ianrios.me/three"
-    },
-    {
-        title: "React Educational Curriculum",
-        img_src_arr: ["./img/youtube.png",],
-        body: "This curriculum guides new-to-React coders through basics like state and lifecycle, intermediate concepts like Sass and external packages, and advanced topics including custom hook creation, using the context API, and defining new reducers.",
-        href: "",
-        live: "https://www.youtube.com/playlist?list=PLueGNSATcrZtoNBo4qXcKlj1ykQos7e0I"
-    },
-    {
-        title: "WHY? Record Company Website",
-        img_src_arr: ["./img/wrc_site.png",],
-        body: "React-built website, including an artist portal, store, and information visualization for musicians and listeners using D3 graphs.",
-        href: "https://github.com/ianrios/WRC",
-        live: "https://whyrecord.com/"
-    },
-    {
-        title: "The Algorithm Knows Best",
-        img_src_arr: ["./img/takb.png",],
-        body: "A self-contained, restricted algorithm for selective song streaming. Showcased as an installation at the Studio 300 Music and Art Conference.",
-        href: "https://github.com/ianrios/the-algo-knows-best",
-        live: "https://the-algorithm-knows-best.web.app"
-    },
-    {
-        title: "Top-5",
-        img_src_arr: ['./img/top-5.png'],
-        body: "A simple kanban-based todo list that allows for recurring tasks (daily, weekly, and more), drag and drop functionality, and priority tags. Good for procrastinators.",
-        href: "https://github.com/ianrios/top-5",
-        live: ""
-    },
-    {
-        title: "Budget App",
-        img_src_arr: [],
-        body: "A financial forecaster for individuals and families. Built using React and Laravel.",
-        href: "https://github.com/ianrios/budget-api",
-        live: "https://github.com/ianrios/budget-app"
-    },
-    {
-        title: "Twitterbot React Front End",
-        img_src_arr: [],
-        body: "A React-based front end for managing the Twitterbot API. Allows users to add multiple accounts to harvest likes and followers, view retention statistics, and make changes to algorithm metrics in real time.",
-        href: "https://github.com/ianrios/twitterbot-react-ui",
-        live: ""
-    },
-    {
-        title: "Twitterbot API",
-        img_src_arr: [],
-        body: "A Python-based twitterbot that scrapes for users to follow based on retention, interests, likes, and more. Includes parameters for following and unfollowing users across time to maintain following-to-follower ratios.",
-        href: "https://github.com/ianrios/twitterbot",
-        live: ""
-    },
-    // {
-    //     title: "PLant lOG",
-    //     img_src_arr: ["./",],
-    //     body: "",
-    //     href: "https://github.com/ianrios/plog",
-    //     live: ""
-    // },
-    {
-        title: "Borilliant",
-        img_src_arr: ["./img/borilliant_fb.png",],
-        body: "A student-teacher rating system similar to Rate My Professor built using the MEAN stack.",
-        href: "https://github.com/bobmayuze/Borilliant_Feedback",
-        live: ""
-    },
-    {
-        title: "neThing",
-        img_src_arr: ["./img/interface_JS_42218.png",],
-        body: "An Educational Open-Source Web-based Graphical User Interface for Controlling Ambisonic and Wave Field Speaker Arrays.",
-        href: "https://github.com/ianrios/neThing",
-        live: ""
-    },
-    {
-        title: "Barely Enough Ingredients - Many Online Meals",
-        img_src_arr: ["./img/momsearch.png",],
-        body: "The Many Online Meals (MOM) app is a Ruby On Rails web app that utilizes Bootstrap for styling, the Spoonacular API for recipe and ingredient data, and Heroku for hosting.",
-        href: "https://github.com/ianrios/BarelyEnoughIngredients/tree/master",
-        live: "https://bei-mom.herokuapp.com/"
-    },
-    {
-        title: "Grandulator",
-        img_src_arr: ["./img/grandulator.png", "./img/controls.png"],
-        body: "Ensemble performance instrument that allows for real time autotuning of live granular synthesis.",
-        href: "https://github.com/ianrios/Grandulator",
-        live: ""
-    },
-    {
-        title: "RAAPT V1",
-        img_src_arr: ["./img/V1.png",],
-        body: "The RAAPT project generates rhythmic musical structures by assigning pre-made templates to ecological soundscapes. By applying structural templates to audio clips, RAAPT creates an automated and generative music system capable of transforming any sonic material into rhythmic, musical instruments.",
-        href: "https://github.com/ianrios/RAAPT",
-        live: ""
-    },
-    {
-        title: "Score Reader",
-        img_src_arr: ["./img/score_reader.png",],
-        body: "Built for Jamboxx, the score reader Max for Live patch allows a user to play the Jamboxx in time with a metronome, and view the current note to play as a highlighted color based on current song location and placement in relation to the current MIDI transport.",
-        href: "",
-        live: ""
-    },
-    {
-        title: "Falling Notes",
-        img_src_arr: ["./img/fallingnotes.png",],
-        body: "Built for Jamboxx, the falling notes Max for Live patch path allows a user to play the Jamboxx in time with a metronome, and view the current note to play as a highlighted color based on current song location and placement in relation to the current MIDI transport.",
-        href: "",
-        live: ""
-    },
-    {
-        title: "MIDI Receive UDP",
-        img_src_arr: ["./img/midireceive.png",],
-        body: "Built for RPI CCCC, the MIDI Receive UDP Max for Live Patch allows users to sync their MIDI transports over a network connection, by introducing latency and connecting start and stop actions via Ableton Link.",
-        href: "",
-        live: ""
-    },
-    {
-        title: "MIDI Send UDP",
-        img_src_arr: ["./img/midisend.png",],
-        body: "Built for RPI CCCC, the MIDI Send UDP Max for Live Patch allows users to sync their MIDI transports over a network connection, by introducing latency and connecting start and stop actions via Ableton Link.",
-        href: "",
-        live: ""
-    },
-]
+export const independentProjectsData = [
+  {
+    title: "Meta Spheres",
+    img_src_arr: ["./img/metaspheres.png"],
+    body: "3D Metaballs built with Three.js + React, using React-Three-Paper, React-Three-Fiber, and React-Router V6.",
+    href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/three",
+    live: "https://ianrios.me/three",
+  },
+  {
+    title: "WHY? Record Company Website",
+    img_src_arr: ["./img/wrc_site.png"],
+    body: "React-built website, including an artist portal, store, and information visualization for musicians and listeners using D3 graphs.",
+    href: "https://github.com/ianrios/WRC",
+    live: "https://whyrecord.com/",
+  },
+  {
+    title: "The Algorithm Knows Best",
+    img_src_arr: ["./img/takb.png"],
+    body: "A self-contained, restricted algorithm for selective song streaming. Showcased as an installation at the Studio 300 Music and Art Conference.",
+    href: "https://github.com/ianrios/the-algo-knows-best",
+    live: "https://the-algorithm-knows-best.web.app",
+  },
+  {
+    title: "Top-5",
+    img_src_arr: ["./img/top-5.png"],
+    body: "A simple kanban-based todo list that allows for recurring tasks (daily, weekly, and more), drag and drop functionality, and priority tags. Good for procrastinators.",
+    href: "https://github.com/ianrios/top-5",
+    live: "",
+  },
+  {
+    title: "Budget App",
+    img_src_arr: [],
+    body: "A financial forecaster for individuals and families. Built using React and Laravel.",
+    href: "https://github.com/ianrios/budget-api",
+    live: "https://github.com/ianrios/budget-app",
+  },
+  {
+    title: "Twitterbot React Front End",
+    img_src_arr: [],
+    body: "A React-based front end for managing the Twitterbot API. Allows users to add multiple accounts to harvest likes and followers, view retention statistics, and make changes to algorithm metrics in real time.",
+    href: "https://github.com/ianrios/twitterbot-react-ui",
+    live: "",
+  },
+  {
+    title: "Twitterbot API",
+    img_src_arr: [],
+    body: "A Python-based twitterbot that scrapes for users to follow based on retention, interests, likes, and more. Includes parameters for following and unfollowing users across time to maintain following-to-follower ratios.",
+    href: "https://github.com/ianrios/twitterbot",
+    live: "",
+  },
+  // {
+  //     title: "PLant lOG",
+  //     img_src_arr: ["./",],
+  //     body: "",
+  //     href: "https://github.com/ianrios/plog",
+  //     live: ""
+  // },
+  {
+    title: "Borilliant",
+    img_src_arr: ["./img/borilliant_fb.png"],
+    body: "A student-teacher rating system similar to Rate My Professor built using the MEAN stack.",
+    href: "https://github.com/bobmayuze/Borilliant_Feedback",
+    live: "",
+  },
+  {
+    title: "neThing",
+    img_src_arr: ["./img/interface_JS_42218.png"],
+    body: "An Educational Open-Source Web-based Graphical User Interface for Controlling Ambisonic and Wave Field Speaker Arrays.",
+    href: "https://github.com/ianrios/neThing",
+    live: "",
+  },
+  {
+    title: "Barely Enough Ingredients - Many Online Meals",
+    img_src_arr: ["./img/momsearch.png"],
+    body: "The Many Online Meals (MOM) app is a Ruby On Rails web app that utilizes Bootstrap for styling, the Spoonacular API for recipe and ingredient data, and Heroku for hosting.",
+    href: "https://github.com/ianrios/BarelyEnoughIngredients/tree/master",
+    live: "https://bei-mom.herokuapp.com/",
+  },
+  {
+    title: "Grandulator",
+    img_src_arr: ["./img/grandulator.png", "./img/controls.png"],
+    body: "Ensemble performance instrument that allows for real time autotuning of live granular synthesis.",
+    href: "https://github.com/ianrios/Grandulator",
+    live: "",
+  },
+  {
+    title: "RAAPT V1",
+    img_src_arr: ["./img/V1.png"],
+    body: "The RAAPT project generates rhythmic musical structures by assigning pre-made templates to ecological soundscapes. By applying structural templates to audio clips, RAAPT creates an automated and generative music system capable of transforming any sonic material into rhythmic, musical instruments.",
+    href: "https://github.com/ianrios/RAAPT",
+    live: "",
+  },
+];
+
+export const workProjectsData = [
+  {
+    title: "BAFConX",
+    year: 2023,
+    company: "Big Ass Fans",
+    img_src_arr: ["./img/bafconx.png"],
+    body: "",
+    href: "",
+    live: "",
+  },
+  {
+    title: "Funnel",
+    year: 2023,
+    company: "Big Ass Fans",
+    img_src_arr: ["./img/funnel.png"],
+    body: "",
+    href: "",
+    live: "",
+  },
+  {
+    title: "Sales Toolbox",
+    year: 2023,
+    company: "Big Ass Fans",
+    img_src_arr: ["./img/sales-toolbox.png"],
+    body: "",
+    href: "",
+    live: "https://learn.bigassfans.com",
+  },
+  {
+    title: "",
+    year: 2022,
+    company: "Big Ass Fans",
+    img_src_arr: ["./img/speclab.png"],
+    body: "",
+    href: "",
+    live: "",
+  },
+  {
+    title: "SpecLab",
+    year: 2022,
+    company: "Big Ass Fans",
+    img_src_arr: ["./img/speclab.png"],
+    body: "Computational Fluid Dynamics (CFD) Analysis tool built with Three.js + React",
+    href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/three",
+    live: "https://bigassfans.com/speclab",
+  },
+  {
+    title: "React Educational Curriculum",
+    year: 2021,
+    company: "Awesome Inc",
+    img_src_arr: ["./img/youtube.png"],
+    body: "This curriculum guides new-to-React coders through basics like state and lifecycle, intermediate concepts like Sass and external packages, and advanced topics including custom hook creation, using the context API, and defining new reducers.",
+    href: "",
+    live: "https://www.youtube.com/playlist?list=PLueGNSATcrZtoNBo4qXcKlj1ykQos7e0I",
+  },
+  {
+    title: "Product Layout",
+    year: 2020,
+    company: "Luxury Garage Sale",
+    img_src_arr: ["./img/lgs.png"],
+    body: "",
+    href: "",
+    live: "https://luxurygaragesale.com",
+  },
+  {
+    title: "Forecastr",
+    year: 2019,
+    company: "Apax Software",
+    img_src_arr: ["./img/forecastr.png"],
+    body: "",
+    href: "",
+    live: "https://www.forecastr.co",
+  },
+  {
+    title: "",
+    year: 2018,
+    company: "Conversant",
+    img_src_arr: ["./img/.png"],
+    body: "",
+    href: "",
+    live: "",
+  },
+  {
+    title: "Score Reader",
+    year: 2017,
+    company: "Jamboxx",
+    img_src_arr: ["./img/score_reader.png"],
+    body: "Built for Jamboxx, the score reader Max for Live patch allows a user to play the Jamboxx in time with a metronome, and view the current note to play as a highlighted color based on current song location and placement in relation to the current MIDI transport.",
+    href: "",
+    live: "",
+  },
+  {
+    title: "Falling Notes",
+    year: 2017,
+    company: "Jamboxx",
+    img_src_arr: ["./img/fallingnotes.png"],
+    body: "Built for Jamboxx, the falling notes Max for Live patch path allows a user to play the Jamboxx in time with a metronome, and view the current note to play as a highlighted color based on current song location and placement in relation to the current MIDI transport.",
+    href: "",
+    live: "",
+  },
+  {
+    title: "MIDI Receive UDP",
+    year: 2017,
+    company: "RPI CCCC",
+    img_src_arr: ["./img/midireceive.png"],
+    body: "Built for RPI CCCC, the MIDI Receive UDP Max for Live Patch allows users to sync their MIDI transports over a network connection, by introducing latency and connecting start and stop actions via Ableton Link.",
+    href: "",
+    live: "",
+  },
+  {
+    title: "MIDI Send UDP",
+    year: 2017,
+    company: "RPI CCCC",
+    img_src_arr: ["./img/midisend.png"],
+    body: "Built for RPI CCCC, the MIDI Send UDP Max for Live Patch allows users to sync their MIDI transports over a network connection, by introducing latency and connecting start and stop actions via Ableton Link.",
+    href: "",
+    live: "",
+  },
+];
 
 export const hobbyData = [
-    {
-        title: "We're Eating Good Tonight",
-        img_src_arr: [ './img/wegt2.png'],
-        body: "Soups, Breads, and Hot Sauce, with a Peruvian Twist.",
-        href: "",
-        live: "",
-        instagram: "https://www.instagram.com/wereeatinggoodtonight/"
-    },
-    {
-        title: "WHY? Record Company",
-        img_src_arr: ["./img/wrc_site.png"],
-        body: "An independently owned and operated record label, featuring artists from around the globe.",
-        href: "",
-        live: "",
-        instagram: "https://www.instagram.com/whyrecordcompany/"
-    },
-    {
-        title: "whythough?",
-        img_src_arr: ["./img/profile.JPG"],
-        body: "whythough? is an artist persona developed by Ian Rios. Focusing on electronic music, he frequently dives into the experimental world. He enjoys producing house and techno music, as well as DJing.",
-        href: "",
-        live: "",
-        instagram: "https://www.instagram.com/whyrecordcompany/"
-    },
-
-]
+  {
+    title: "We're Eating Good Tonight",
+    img_src_arr: ["./img/wegt2.png"],
+    body: "My favorite hobby that I get to do every day - cooking delicious food and giving others joy in tasting it",
+    url: "",
+    href: "",
+    live: "",
+    instagram: "https://www.instagram.com/wereeatinggoodtonight/",
+  },
+  {
+    title: "WHY? Record Company",
+    img_src_arr: ["./img/wrc_site.png"],
+    body: "My most complex hobby - my independently owned and operated record label, featuring some of my favorite artists and friends from around the globe.",
+    url: "",
+    href: "",
+    live: "",
+    instagram: "https://www.instagram.com/whyrecordcompany/",
+  },
+  {
+    title: "whythough?",
+    img_src_arr: ["./img/profile.JPG"],
+    body: 'If you\'ve gotten this far, you already know that I love creating pretty much everything. "whythough?" and "Wash And Fold Laundry Service" are just a few of the many artist personas I have developed based on a focused genre or sound. Although this persona is focused on experimental electronic music, I enjoy producing most genres of electronic music, as well as DJing all sorts of music',
+    url: "https://whyrecord.com/artist/wash-and-fold-laundry-service/",
+    href: "",
+    live: "",
+    instagram: "https://www.instagram.com/whythough000",
+  },
+];
