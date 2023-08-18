@@ -403,7 +403,7 @@ export const workProjectsData = [
       "Lodash",
       "AWS DynamoDB",
       "Salesforce",
-      "react-virtualized",
+      "React-Virtualized",
     ],
     activelyMaintained: false,
     company: "Luxury Garage Sale",
@@ -585,5 +585,7 @@ export const tools = {
   Django: "https://www.djangoproject.com/",
   Auth0: "https://auth0.com/",
   Blender: "https://www.blender.org/",
+  "Max MSP": "https://cycling74.com/products/max",
   "React-Three-Paper": "https://github.com/FarazzShaikh/react-three-paper",
+  "Processing.js": "https://happycoding.io/tutorials/processing/processing-js",
 };
