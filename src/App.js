@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 // import { Switch, Route, Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import "./App.css";
-import { independentProjectsData, hobbyData, workProjectsData } from "./data";
+import {
+  independentProjectsData,
+  hobbyData,
+  workProjectsData,
+  tools,
+} from "./data";
 import Masonry from "react-masonry-css";
 import { Routes, Route } from "react-router-dom";
 import MetaBalls from "./MetaBalls";
+import MasonryCard from "./components/masonry-card";
 // import { init, animate } from "./three/webgl_marchingcubes";
 
 const breakpointColumnsObj = {
@@ -60,9 +66,9 @@ function Main() {
 
   const workVisible = true; // get state from url
 
-  useEffect(() => {
-    if (workVisible) setPage("work");
-  }, [workVisible]);
+  //   useEffect(() => {
+  //     if (workVisible) setPage("work");
+  //   }, [workVisible]);
 
   // useEffect(() => {
   // 	const lsView = window.localStorage.getItem('view')
@@ -88,7 +94,6 @@ function Main() {
 
   const [onMobile, setOnMobile] = useState(false);
   useEffect(() => {
-    console.log(windowSize.width);
     setOnMobile(windowSize.width < 992);
   }, [windowSize.width]);
 
@@ -111,180 +116,280 @@ function Main() {
     }
   };
 
-  const sidebarBlock = (
-    <>
-      <h3>Portfolio</h3>
-      {workVisible && (
-        <>
-          <button
-            className={`h2-size ${workVisible && "first-h2"}`}
-            onClick={() => setPage("work")}
-          >
-            {page === "work" ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-circle-fill"
-                viewBox="0 0 16 16"
-              >
-                <circle cx="8" cy="8" r="8" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-circle"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-              </svg>
-            )}{" "}
-            experience
-          </button>
-          <br />
-        </>
-      )}
-      <button
-        className={`h2-size ${!workVisible && "first-h2"} `}
-        onClick={() => setPage("projects")}
-      >
-        {page === "projects" ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-circle-fill"
-            viewBox="0 0 16 16"
-          >
-            <circle cx="8" cy="8" r="8" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-circle"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-          </svg>
-        )}{" "}
-        projects
-      </button>
-      <br />
-      <button className="h2-size" onClick={() => setPage("hobbies")}>
-        {page === "hobbies" ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-circle-fill"
-            viewBox="0 0 16 16"
-          >
-            <circle cx="8" cy="8" r="8" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-circle"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-          </svg>
-        )}{" "}
-        hobbies
-      </button>
-      <br />
-      <button className="h2-size ul-show" onClick={() => setUl(!ul)}>
-        external{" "}
-        {ul ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-chevron-down"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-            />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-chevron-up"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
-            />
-          </svg>
-        )}
-      </button>
-      <ul style={{ display: ul ? "block" : "none", fontSize: "1rem" }}>
-        <li>
-          <a
-            className="flat-link"
-            rel="noreferrer"
-            target="_blank"
-            href="https://github.com/ianrios/"
-          >
-            github
-          </a>
-        </li>
-        <li>
-          <a
-            className="flat-link"
-            rel="noreferrer"
-            target="_blank"
-            href="https://www.linkedin.com/in/ian-rios/"
-          >
-            linkedin
-          </a>
-        </li>
-        <li>
-          <a
-            className="flat-link"
-            rel="noreferrer"
-            target="_blank"
-            href="https://www.codewars.com/users/ianrios"
-          >
-            codewars
-          </a>
-        </li>
-      </ul>
-      {!ul && <br />}
-      <button className="h2-size" onClick={() => setModalShow(true)}>
-        contact{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-send"
-          viewBox="0 0 16 16"
-        >
-          <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
-        </svg>
-      </button>
-    </>
+  const skills = Object.entries(
+    [...workProjectsData, ...independentProjectsData].reduce((a, c) => {
+      c.tools.forEach((t) => {
+        if (a[t]) a[t]++;
+        else a[t] = 1;
+      });
+      return a;
+    }, {})
   );
+
+  const [showTools, setShowTools] = useState(false);
+
+  const sidebarBlock = (orientation) => {
+    return (
+      <>
+        <h3 style={{ cursor: "default" }}>Portfolio</h3>
+        {workVisible && (
+          <>
+            <button
+              data-bs-toggle={orientation === "mobile" ? "offcanvas" : false}
+              data-bs-target={
+                orientation === "mobile" ? "#offcanvasExample" : false
+              }
+              className={`h2-size ${workVisible && "first-h2"}`}
+              onClick={() => setPage("work")}
+            >
+              {page === "work" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-circle-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <circle cx="8" cy="8" r="8" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                </svg>
+              )}{" "}
+              experience
+            </button>
+            <br />
+          </>
+        )}
+        <button
+          data-bs-toggle={orientation === "mobile" ? "offcanvas" : false}
+          data-bs-target={
+            orientation === "mobile" ? "#offcanvasExample" : false
+          }
+          className={`h2-size ${!workVisible && "first-h2"} `}
+          onClick={() => setPage("projects")}
+        >
+          {page === "projects" ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            </svg>
+          )}{" "}
+          projects
+        </button>
+        <br />
+        <button
+          data-bs-toggle={orientation === "mobile" ? "offcanvas" : false}
+          data-bs-target={
+            orientation === "mobile" ? "#offcanvasExample" : false
+          }
+          className="h2-size"
+          onClick={() => setPage("hobbies")}
+        >
+          {page === "hobbies" ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            </svg>
+          )}{" "}
+          hobbies
+        </button>
+        <br />
+        <button className="h2-size" onClick={() => setShowTools(!showTools)}>
+          skills{" "}
+          {showTools ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chevron-down"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chevron-up"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+              />
+            </svg>
+          )}
+        </button>
+        {showTools && (
+          <>
+            {/* use number of times tool used to make font larger but make it look cool */}
+            <p style={{ fontSize: "8px", overflow: "scroll" }}>
+              {skills
+                .sort((a, b) => a[1] < b[1])
+                .map((o, i) => (
+                  <React.Fragment key={i}>
+                    {tools[o[0]] ? (
+                      <a
+                        className="flat-link"
+                        href={tools[o[0]]}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {o[0]}
+                      </a>
+                    ) : (
+                      o[0]
+                    )}
+
+                    {/* ({o[1]}) */}
+                    {i < skills.length - 1 && ", "}
+                  </React.Fragment>
+                ))}
+            </p>
+          </>
+        )}
+        {!showTools && <br />}
+        <button className="h2-size ul-show" onClick={() => setUl(!ul)}>
+          external{" "}
+          {ul ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chevron-down"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chevron-up"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+              />
+            </svg>
+          )}
+        </button>
+        <ul style={{ display: ul ? "block" : "none", fontSize: "1rem" }}>
+          <li>
+            <a
+              className="flat-link"
+              rel="noreferrer"
+              target="_blank"
+              href="https://github.com/ianrios/"
+            >
+              personal github
+            </a>
+          </li>
+          <li>
+            <a
+              className="flat-link"
+              rel="noreferrer"
+              target="_blank"
+              href="https://github.com/ianriosbaf/"
+            >
+              work github
+            </a>
+          </li>
+          <li>
+            <a
+              className="flat-link"
+              rel="noreferrer"
+              target="_blank"
+              href="https://www.linkedin.com/in/ian-rios/"
+            >
+              linkedin
+            </a>
+          </li>
+          <li>
+            <a
+              className="flat-link"
+              rel="noreferrer"
+              target="_blank"
+              href="https://www.codewars.com/users/ianrios"
+            >
+              codewars
+            </a>
+          </li>
+        </ul>
+        {!ul && <br />}
+        <button className="h2-size" onClick={() => setModalShow(true)}>
+          contact{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-send"
+            viewBox="0 0 16 16"
+          >
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+          </svg>
+        </button>
+      </>
+    );
+  };
 
   return (
     <>
@@ -316,7 +421,11 @@ function Main() {
             {onMobile ? (
               <>
                 <button
-                  style={{ height: "60px", width: "60px" }}
+                  style={{
+                    height: "60px",
+                    width: "60px",
+                    position: "absolute",
+                  }}
                   className="btn btn-link text-decoration-none h1"
                   type="button"
                   data-bs-toggle="offcanvas"
@@ -332,14 +441,14 @@ function Main() {
                     viewBox="0 0 16 16"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                     />
                   </svg>
                 </button>
                 <div
                   className="offcanvas offcanvas-start"
-                  tabindex="-1"
+                  tabIndex="-1"
                   id="offcanvasExample"
                   aria-labelledby="offcanvasExampleLabel"
                   data-bs-scroll="true"
@@ -349,6 +458,7 @@ function Main() {
                     <h1
                       className="offcanvas-title montserrat"
                       id="offcanvasExampleLabel"
+                      style={{ cursor: "default" }}
                     >
                       Ian Rios
                     </h1>
@@ -360,27 +470,34 @@ function Main() {
                     />
                   </div>
                   <div className="offcanvas-body montserrat">
-                    {sidebarBlock}
+                    {sidebarBlock("mobile")}
                   </div>
                 </div>
               </>
             ) : (
               <div className="col-2" style={{ marginTop: "20px" }}>
-                <h1 style={{ marginBottom: "40px" }}>Ian Rios</h1>
-                {sidebarBlock}
+                <h1 style={{ marginBottom: "40px", cursor: "default" }}>
+                  Ian Rios
+                </h1>
+                {sidebarBlock("desktop")}
               </div>
             )}
             <div
               className={`main-view-container ${onMobile ? "col" : "col-10"}`}
             >
-              <p className="text-center">
-                <h1 style={{ marginTop: "20px" }}>{titleSelector()}</h1>
-              </p>
+              <div className="text-center">
+                <div
+                  style={{ marginTop: "20px", cursor: "default" }}
+                  className="h1"
+                >
+                  {titleSelector()}
+                </div>
+              </div>
 
               <div
                 className="container"
                 style={{
-                  height: "calc(100vh - 101px)",
+                  height: "calc(100vh - 80px)",
                   overflowY: "auto",
                 }}
               >
@@ -398,286 +515,17 @@ function Main() {
                       columnClassName="my-masonry-grid_column"
                     >
                       {page === "work" &&
-                        workProjectsData.map((item, index) => {
-                          return (
-                            // <div className="col-12 col-sm-6 col-md-4 mb-4" key={index}>
-                            <div
-                              key={index}
-                              className={`card m-2 mb-4
-													${
-                            (index % 2 !== 0 || index % 7 === 0) &&
-                            index !== 0 &&
-                            "bg-secondary text-white"
-                          } 
-													${index % 5 === 0 && index !== 0 && index < 10 && "bg-info"}
-													`}
-                            >
-                              {/* <div className="card-header">
-													</div> */}
-                              <div className="card-body">
-                                <h4 className="card-title fw-bolder">
-                                  {item.title}
-                                </h4>
-                                {item.img_src_arr.length > 0 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[0]}
-                                    alt={item.title}
-                                  />
-                                )}
-                                {item.img_src_arr.length > 1 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[1]}
-                                    alt={item.body}
-                                  />
-                                )}
-                                <p className="card-text mt-3">{item.body}</p>
-                                {item.href.length > 0 && (
-                                  <a
-                                    href={item.href}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-outline-dark"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-github"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                                    </svg>
-                                  </a>
-                                )}
-                                {item.live.length > 0 && (
-                                  <a
-                                    href={item.live}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-success mx-2"
-                                  >
-                                    Visit Live Demo
-                                  </a>
-                                )}
-                                {item.title === "Meta Spheres" && (
-                                  <a
-                                    href="https://en.wikipedia.org/wiki/Metaballs"
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-outline-secondary"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-info-circle"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                                    </svg>
-                                  </a>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                        workProjectsData.map((item, index) => (
+                          <MasonryCard key={index} item={item} index={index} />
+                        ))}
                       {page === "projects" &&
-                        independentProjectsData.map((item, index) => {
-                          return (
-                            // <div className="col-12 col-sm-6 col-md-4 mb-4" key={index}>
-                            <div
-                              key={index}
-                              className={`card m-2 mb-4
-													${
-                            (index % 2 !== 0 || index % 7 === 0) &&
-                            index !== 0 &&
-                            "bg-secondary text-white"
-                          } 
-													${index % 5 === 0 && index !== 0 && index < 10 && "bg-info"}
-													`}
-                            >
-                              {/* <div className="card-header">
-													</div> */}
-                              <div className="card-body">
-                                <h4 className="card-title fw-bolder">
-                                  {item.title}
-                                </h4>
-                                {item.img_src_arr.length > 0 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[0]}
-                                    alt={item.title}
-                                  />
-                                )}
-                                {item.img_src_arr.length > 1 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[1]}
-                                    alt={item.body}
-                                  />
-                                )}
-                                <p className="card-text mt-3">{item.body}</p>
-                                {item.href.length > 0 && (
-                                  <a
-                                    href={item.href}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-outline-dark"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-github"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                                    </svg>
-                                  </a>
-                                )}
-                                {item.live.length > 0 && (
-                                  <a
-                                    href={item.live}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-success mx-2"
-                                  >
-                                    Visit Live Demo
-                                  </a>
-                                )}
-                                {item.title === "Meta Spheres" && (
-                                  <a
-                                    href="https://en.wikipedia.org/wiki/Metaballs"
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-outline-secondary"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-info-circle"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                                    </svg>
-                                  </a>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                        independentProjectsData.map((item, index) => (
+                          <MasonryCard key={index} item={item} index={index} />
+                        ))}
                       {page === "hobbies" &&
-                        hobbyData.map((item, index) => {
-                          return (
-                            <div
-                              key={index}
-                              className={`card m-2 mb-4
-													${
-                            (index % 2 !== 0 || index % 7 === 0) &&
-                            index !== 0 &&
-                            "bg-secondary text-white"
-                          } 
-													${index % 5 === 0 && index !== 0 && index < 10 && "bg-info"}
-													`}
-                            >
-                              <div className="card-body">
-                                <h4 className="card-title fw-bolder">
-                                  {item.title}
-                                </h4>
-                                {item.img_src_arr.length > 0 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[0]}
-                                    alt={item.title}
-                                  />
-                                )}
-                                {item.img_src_arr.length > 1 && (
-                                  <img
-                                    className="card-img-top"
-                                    src={item.img_src_arr[1]}
-                                    alt={item.body}
-                                  />
-                                )}
-                                <p className="card-text mt-3">{item.body}</p>
-                                {item.href.length > 0 && (
-                                  <a
-                                    href={item.href}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-outline-dark"
-                                  >
-                                    Visit GitHub Repo
-                                  </a>
-                                )}
-                                {item.live.length > 0 && (
-                                  <a
-                                    href={item.live}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-success mx-2"
-                                  >
-                                    Visit Live Demo
-                                  </a>
-                                )}
-                                {item.instagram.length > 0 && (
-                                  <a
-                                    href={item.instagram}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-info mx-2"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-instagram"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
-                                    </svg>
-                                  </a>
-                                )}
-                                {item.url.length > 0 && (
-                                  <a
-                                    href={item.url}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    className="btn btn-warning mx-2"
-                                    // style={{ backgroundColor: "purple" }}
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-box-arrow-up-right"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path
-                                        fill-rule="evenodd"
-                                        d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"
-                                      />
-                                      <path
-                                        fill-rule="evenodd"
-                                        d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"
-                                      />
-                                    </svg>
-                                  </a>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                        hobbyData.map((item, index) => (
+                          <MasonryCard key={index} item={item} index={index} />
+                        ))}
                     </Masonry>
                   </div>
                 </div>
