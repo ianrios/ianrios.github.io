@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { tools } from "../data";
 
 const MasonryCard = ({ index, item }) => {
   const [panelOpened, setPanelOpened] = useState(false);
@@ -93,10 +94,30 @@ const MasonryCard = ({ index, item }) => {
             </h6>
             {panelOpened && (
               <p style={{ fontSize: "16px" }}>
-                {item.tools.map(
-                  (tool, i) =>
-                    `${i < item.tools.length - 1 ? `${tool}, ` : `& ${tool}.`}`
-                )}
+                {item.tools.map((t, i) => {
+                  const toolLink = (
+                    <a
+                      className="flat-link"
+                      href={tools[t]}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {t}
+                    </a>
+                  );
+
+                  return i < item.tools.length - 1 ? (
+                    <>
+                      {toolLink}
+                      {", "}
+                    </>
+                  ) : (
+                    <>
+                      {"& "}
+                      {toolLink}
+                    </>
+                  );
+                })}
               </p>
             )}
           </>
