@@ -66,9 +66,9 @@ function Main() {
 
   const workVisible = true; // get state from url
 
-  //   useEffect(() => {
-  //     if (workVisible) setPage("work");
-  //   }, [workVisible]);
+  useEffect(() => {
+    if (workVisible) setPage("work");
+  }, [workVisible]);
 
   // useEffect(() => {
   // 	const lsView = window.localStorage.getItem('view')
