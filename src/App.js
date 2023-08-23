@@ -372,6 +372,16 @@ function Main() {
               codewars
             </a>
           </li>
+          <li>
+            <a
+              className="flat-link"
+              rel="noreferrer"
+              target="_blank"
+              href="https://www.instagram.com/ian___rios"
+            >
+              instagram
+            </a>
+          </li>
         </ul>
         {!ul && <br />}
         <button className="h2-size" onClick={() => setModalShow(true)}>
