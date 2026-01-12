@@ -273,7 +273,10 @@ function Main() {
         {showTools && (
           <>
             {/* use number of times tool used to make font larger but make it look cool */}
-            <p style={{ fontSize: "8px", overflow: "scroll" }}>
+            <p
+              style={{ fontSize: "8px", overflow: "scroll" }}
+              className="hide-scrollbars"
+            >
               {skills
                 .sort((a, b) => a[1] < b[1])
                 .map((o, i) => (
@@ -505,14 +508,14 @@ function Main() {
               </div>
 
               <div
-                className="container"
+                className="container hide-scrollbars"
                 style={{
                   height: "calc(100vh - 80px)",
                   overflowY: "auto",
                 }}
               >
                 <div
-                  className="row"
+                  className="row hide-scrollbars"
                   style={{
                     overflowY: "scroll",
                   }}
