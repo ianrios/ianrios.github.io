@@ -12,6 +12,7 @@ import Masonry from "react-masonry-css";
 import { Routes, Route } from "react-router-dom";
 import MetaBalls from "./MetaBalls";
 import MasonryCard from "./components/masonry-card";
+import Admin from "./pages/Admin";
 // import { init, animate } from "./three/webgl_marchingcubes";
 
 const breakpointColumnsObj = {
@@ -60,7 +61,7 @@ function Main() {
 
   const [view, setView] = useState("welcome");
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const [page, setPage] = useState("projects");
 
@@ -410,9 +411,8 @@ function Main() {
         <div className="view-1">
           <MetaBalls />
           <p
-            className={`name montserrat special-p color-${
-              colors[(colors.length * Math.random()) | 0]
-            }`}
+            className={`name montserrat special-p color-${colors[(colors.length * Math.random()) | 0]
+              }`}
             style={{ cursor: "pointer" }}
             onClick={() => setView("main")}
           >
@@ -429,124 +429,126 @@ function Main() {
         </div>
       )}
       {view === "main" && (
-        <div className="container-fluid">
-          <div className="row view-2 ">
-            {onMobile ? (
-              <>
-                <button
-                  style={{
-                    height: "60px",
-                    width: "60px",
-                    position: "absolute",
-                  }}
-                  className="btn btn-link text-decoration-none h1"
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasExample"
-                  aria-controls="offcanvasExample"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    className="bi bi-list"
-                    viewBox="0 0 16 16"
+        <>
+          <div className="container-fluid">
+            <div className="row view-2 ">
+              {onMobile ? (
+                <>
+                  <button
+                    style={{
+                      height: "60px",
+                      width: "60px",
+                      position: "absolute",
+                    }}
+                    className="btn btn-link text-decoration-none h1"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasExample"
+                    aria-controls="offcanvasExample"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className="offcanvas offcanvas-start"
-                  tabIndex="-1"
-                  id="offcanvasExample"
-                  aria-labelledby="offcanvasExampleLabel"
-                  data-bs-scroll="true"
-                  data-bs-backdrop="false"
-                >
-                  <div className="offcanvas-header">
-                    <h1
-                      className="offcanvas-title montserrat"
-                      id="offcanvasExampleLabel"
-                      style={{ cursor: "default" }}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="currentColor"
+                      className="bi bi-list"
+                      viewBox="0 0 16 16"
                     >
-                      Ian Rios
-                    </h1>
-                    <button
-                      type="button"
-                      className="btn-close text-reset"
-                      data-bs-dismiss="offcanvas"
-                      aria-label="Close"
-                    />
+                      <path
+                        fillRule="evenodd"
+                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    className="offcanvas offcanvas-start"
+                    tabIndex="-1"
+                    id="offcanvasExample"
+                    aria-labelledby="offcanvasExampleLabel"
+                    data-bs-scroll="true"
+                    data-bs-backdrop="false"
+                  >
+                    <div className="offcanvas-header">
+                      <h1
+                        className="offcanvas-title montserrat"
+                        id="offcanvasExampleLabel"
+                        style={{ cursor: "default" }}
+                      >
+                        Ian Rios
+                      </h1>
+                      <button
+                        type="button"
+                        className="btn-close text-reset"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"
+                      />
+                    </div>
+                    <div className="offcanvas-body montserrat">
+                      {sidebarBlock("mobile")}
+                    </div>
                   </div>
-                  <div className="offcanvas-body montserrat">
-                    {sidebarBlock("mobile")}
-                  </div>
+                </>
+              ) : (
+                <div className="col-2" style={{ marginTop: "20px" }}>
+                  <h1 style={{ marginBottom: "40px", cursor: "default" }}>
+                    Ian Rios
+                  </h1>
+                  {sidebarBlock("desktop")}
                 </div>
-              </>
-            ) : (
-              <div className="col-2" style={{ marginTop: "20px" }}>
-                <h1 style={{ marginBottom: "40px", cursor: "default" }}>
-                  Ian Rios
-                </h1>
-                {sidebarBlock("desktop")}
-              </div>
-            )}
-            <div
-              className={`main-view-container ${onMobile ? "col" : "col-10"}`}
-            >
-              <div className="text-center">
-                <div
-                  style={{ marginTop: "20px", cursor: "default" }}
-                  className="h1"
-                >
-                  {titleSelector()}
-                </div>
-              </div>
-
+              )}
               <div
-                className="container hide-scrollbars"
-                style={{
-                  height: "calc(100vh - 80px)",
-                  overflowY: "auto",
-                }}
+                className={`main-view-container ${onMobile ? "col" : "col-10"}`}
               >
+                <div className="text-center">
+                  <div
+                    style={{ marginTop: "20px", cursor: "default" }}
+                    className="h1"
+                  >
+                    {titleSelector()}
+                  </div>
+                </div>
+
                 <div
-                  className="row hide-scrollbars"
+                  className="container hide-scrollbars"
                   style={{
-                    overflowY: "scroll",
+                    height: "calc(100vh - 80px)",
+                    overflowY: "auto",
                   }}
                 >
-                  <div className="col-12">
-                    <Masonry
-                      breakpointCols={breakpointColumnsObj}
-                      className="my-masonry-grid"
-                      id="masonrygrid"
-                      columnClassName="my-masonry-grid_column"
-                    >
-                      {page === "work" &&
-                        workProjectsData.map((item, index) => (
-                          <MasonryCard key={index} item={item} index={index} />
-                        ))}
-                      {page === "projects" &&
-                        independentProjectsData.map((item, index) => (
-                          <MasonryCard key={index} item={item} index={index} />
-                        ))}
-                      {page === "hobbies" &&
-                        hobbyData.map((item, index) => (
-                          <MasonryCard key={index} item={item} index={index} />
-                        ))}
-                    </Masonry>
+                  <div
+                    className="row hide-scrollbars"
+                    style={{
+                      overflowY: "scroll",
+                    }}
+                  >
+                    <div className="col-12">
+                      <Masonry
+                        breakpointCols={breakpointColumnsObj}
+                        className="my-masonry-grid"
+                        id="masonrygrid"
+                        columnClassName="my-masonry-grid_column"
+                      >
+                        {page === "work" &&
+                          workProjectsData.map((item, index) => (
+                            <MasonryCard key={index} item={item} index={index} />
+                          ))}
+                        {page === "projects" &&
+                          independentProjectsData.map((item, index) => (
+                            <MasonryCard key={index} item={item} index={index} />
+                          ))}
+                        {page === "hobbies" &&
+                          hobbyData.map((item, index) => (
+                            <MasonryCard key={index} item={item} index={index} />
+                          ))}
+                      </Masonry>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <ContactModal show={modalShow} onHide={() => setModalShow(false)} />
           </div>
-          <ContactModal show={modalShow} onHide={() => setModalShow(false)} />
-        </div>
+        </>
       )}
     </>
   );
@@ -563,13 +565,9 @@ function ContactModal(props) {
       <Modal.Body className="modal-body">
         <iframe
           src="https://docs.google.com/forms/d/e/1FAIpQLSdZuZHU8gkftr7wgn5DF2nYYG8Ds4HCDp-Vh-_OfYIE-YoBwQ/viewform?embedded=true"
-          scrolling="no"
           className="iframe-google-form"
           width="640"
           height="979"
-          frameBorder="0"
-          marginHeight="0"
-          marginWidth="0"
           title="google-form"
         >
           Loading…
@@ -588,6 +586,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
+      <Route path="/admin" element={<Admin />} />
       {/* <Route path='/three' element={} /> */}
     </Routes>
   );

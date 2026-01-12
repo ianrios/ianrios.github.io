@@ -35,8 +35,13 @@ let time = 0;
 
 const clock = new THREE.Clock();
 
-init();
-animate();
+// Only auto-start the Three.js animation when not on the admin path.
+// This prevents the WebGL canvas from blocking the /admin dashboard when the app
+// is loaded directly at /admin (SPA server-side navigation).
+if (typeof window !== 'undefined' && window.location && !window.location.pathname.startsWith('/admin')) {
+    init();
+    animate();
+}
 
 export function init() {
 

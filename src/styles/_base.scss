@@ -1,0 +1,90 @@
+// Base styles (depends on tokens being imported first)
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #{$color-bg};
+  --color-surface: #{$color-surface};
+  --color-accent: #{$color-accent};
+  --color-muted: #{$color-muted};
+  --color-text: #{$color-text};
+
+  --space-xxs: #{$space-xxs};
+  --space-xs: #{$space-xs};
+  --space-sm: #{$space-sm};
+  --space-md: #{$space-md};
+  --space-lg: #{$space-lg};
+  --space-xl: #{$space-xl};
+
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+
+  --shadow-ambient: #{$shadow-ambient};
+  --shadow-low: #{$shadow-low};
+  --shadow-med: #{$shadow-med};
+  --shadow-high: #{$shadow-high};
+
+  --pop-shadow-light: #{$pop-shadow-light};
+  --pop-shadow-dark: #{$pop-shadow-dark};
+
+  --inset-shadow-light: #{$inset-shadow-light};
+  --inset-shadow-highlight: #{$inset-shadow-highlight};
+  --focus-ring-color: #{$focus-ring-color};
+
+  --btn-padding-y: #{$btn-padding-y};
+  --btn-padding-x: #{$btn-padding-x};
+  --btn-gradient-start: #{$btn-gradient-start};
+  --btn-gradient-end: #{$btn-gradient-end};
+  --btn-text-color: #{$btn-text-color};
+  --btn-radius: #{$btn-radius};
+  --btn-radius-lg: #{$btn-radius-lg};
+  --btn-elevation: #{$btn-elevation};
+  --btn-surface-shadow: #{$btn-surface-shadow};
+  --btn-overlay-opacity: #{$btn-overlay-opacity};
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--color-bg, #{$color-bg});
+  color: var(--color-text, #{$color-text});
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+}
+
+a { color: $color-accent; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-md;
+  padding-right: $space-md;
+}
+
+.container-fluid { width: 100%; padding-left: $space-md; padding-right: $space-md; }
+
+.hide-scrollbars {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar { display: none; }
+}
+
+// Focus styles
+:focus {
+  outline: none;
+}
+:focus-visible {
+  @include focus-ring;
+}
+
+// Responsive helpers (simple)
+@media (max-width: 600px) {
+  .container { padding-left: $space-sm; padding-right: $space-sm; }
+}

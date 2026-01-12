@@ -2,9 +2,13 @@
   box-sizing: border-box;
 }
 
-html, body, #root, .container-fluid {
-  height: 100vh;
-  overflow: hidden;
+html, body, #root {
+  min-height: 100vh;
+}
+
+/* Allow scrolling on most pages; elements that need full-viewport visuals (like the three.js canvas) can still use 100vh directly. */
+.container-fluid {
+  width: 100%;
 }
 
 .montserrat{

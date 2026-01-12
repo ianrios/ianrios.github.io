@@ -1,0 +1,160 @@
+// Component styles using skeuomorphic tokens and mixins
+
+.skeu-card {
+  @include skeuomorphic-surface("low");
+  padding: var(--space-md, #{$space-md});
+  border-radius: var(--radius-md, #{$radius-md});
+  background: var(--color-surface, #{$color-surface});
+  /* rely on pop shadows for depth instead of a hard border */
+  border: none;
+  position: relative;
+}
+
+.skeu-btn {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--btn-text-color, #{$btn-text-color});
+  background: linear-gradient(
+    180deg,
+    var(--btn-gradient-start, #{$btn-gradient-start}),
+    var(--btn-gradient-end, #{$btn-gradient-end})
+  );
+  padding: var(--btn-padding-y, #{$btn-padding-y})
+    var(--btn-padding-x, #{$btn-padding-x});
+  border-radius: var(--btn-radius, #{$btn-radius});
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-ambient, #{$shadow-ambient}),
+    var(--btn-elevation, #{$btn-elevation});
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+
+  /* soft rounded top highlight implemented as an overlay to match border-radius */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.75),
+      rgba(255, 255, 255, 0) 18%
+    );
+    pointer-events: none;
+    mix-blend-mode: normal;
+    opacity: 0.95;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  /* Hover: slight compression (button sinks a little to indicate press affordance) */
+  &:hover {
+    transform: translateY(1px) scale(0.997);
+    box-shadow: var(--pop-shadow-light, #{$pop-shadow-light}),
+      var(--pop-shadow-dark, #{$pop-shadow-dark});
+    filter: brightness(0.997);
+  }
+
+  /* Active: deeper press while mouse is held */
+  &:active {
+    transform: translateY(4px) scale(0.995);
+    @include skeuomorphic-inset;
+    box-shadow: inset var(--inset-shadow-light, #{$inset-shadow-light}),
+      inset var(--inset-shadow-highlight, #{$inset-shadow-highlight});
+    &::before {
+      opacity: 0.5;
+      transform: translateY(3px);
+    }
+    transition: transform 0.06s ease, box-shadow 0.06s ease;
+  }
+}
+
+/* Outline/secondary variant that matches skeuomorphic language */
+.skeu-btn--outline {
+  background: linear-gradient(
+    180deg,
+    lighten($color-surface, 1.2%),
+    $color-surface
+  );
+  color: var(--color-text);
+  border: none; /* remove hard border so it reads as a mini-card */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    var(--pop-shadow-light, #{$pop-shadow-light}),
+    var(--pop-shadow-dark, #{$pop-shadow-dark}),
+    var(--shadow-ambient, #{$shadow-ambient}),
+    var(--btn-surface-shadow, #{$btn-surface-shadow});
+  border-radius: var(--btn-radius, #{$btn-radius});
+  &::before {
+    opacity: calc(var(--btn-overlay-opacity, #{$btn-overlay-opacity}) * 0.98);
+  }
+  &:hover {
+    transform: translateY(1px) scale(0.998);
+    box-shadow: var(--pop-shadow-light, #{$pop-shadow-light}),
+      var(--pop-shadow-dark, #{$pop-shadow-dark}),
+      var(--shadow-ambient, #{$shadow-ambient}),
+      var(--shadow-med, #{$shadow-med});
+    filter: brightness(0.997);
+  }
+  &:active {
+    transform: translateY(4px) scale(0.995);
+    @include skeuomorphic-inset;
+    box-shadow: inset var(--inset-shadow-light, #{$inset-shadow-light}),
+      inset var(--inset-shadow-highlight, #{$inset-shadow-highlight});
+    &::before {
+      opacity: 0.5;
+      transform: translateY(3px);
+    }
+  }
+}
+
+// Basic form controls
+.skeu-input {
+  padding: var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--color-surface, #{$color-surface});
+  &:focus {
+    @include focus-ring;
+  }
+}
+
+// Small site nav used in preview
+.skeu-nav {
+  @include skeuomorphic-surface("low");
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-md, #{$radius-md});
+  margin-bottom: 12px;
+}
+
+.skeu-card-grid {
+  display: grid;
+  gap: var(--space-md, #{$space-md});
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+/* Anchor link style that reads like a secondary/button */
+.skeu-link {
+  @extend .skeu-btn--outline;
+  text-decoration: none;
+  display: inline-block;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.skeu-link:hover,
+.skeu-link:focus {
+  text-decoration: none;
+}
+
+/* Primary semantic (bold text only) — uses the same visual styling as outline */
+.skeu-btn--primary {
+  @extend .skeu-btn--outline;
+  font-weight: 700;
+}
