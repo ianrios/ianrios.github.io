@@ -1,5 +1,19 @@
 export const independentProjectsData = [
   {
+    title: "Live Design System",
+    year: 2024,
+    activelyMaintained: true,
+    body: "Skeuomorphic design system built entirely in the browser. Token-driven: colors, shadows, spacing, motion, and radii are all configurable live with no reloads. Includes presets, auto pop-shadows from surface color, elevation levels, and a full component library (atoms → molecules → organisms).",
+    live: "/admin",
+    href: "https://github.com/ianrios/ianrios.github.io/tree/main/src/pages/admin",
+    tools: [
+      "React",
+      "SCSS",
+      "CSS Custom Properties",
+      "JavaScript",
+    ],
+  },
+  {
     title: "Meta Spheres",
     year: 2021,
     activelyMaintained: false,

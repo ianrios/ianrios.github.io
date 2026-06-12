@@ -1,0 +1,3 @@
+1. when loading the metaballs page from the projects view, i want to reuse the design panel sidebar component to create a metaballs controls panel
+2. this panel can load on desktop and mobile for users who sit on the opening screen of my web app for longer than 10 seconds OR, have interacted with the metaballs system to move or zoom in or out the 3d space after 3 seconds.
+3. specific controls include variables that would be visually intersting to play around with in the metaballs variables. this also means it needs to live in the react app in a correct dynamic route instead of the weird frankenstein system its currently set up as

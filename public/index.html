@@ -17,6 +17,16 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 	<title>Ian Rios</title>
+	<script>
+		// Apply stored design tokens before first paint to prevent flash
+		try {
+			var _sv = JSON.parse(localStorage.getItem('skeuomorph:vars') || 'null');
+			if (_sv) {
+				var _s = document.documentElement.style;
+				for (var _k in _sv) { if (Object.prototype.hasOwnProperty.call(_sv, _k)) _s.setProperty(_k, _sv[_k]); }
+			}
+		} catch(e) {}
+	</script>
 	<!-- Google Font -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:100,400,700,900&display=swap" rel="stylesheet"> -->
 	<!-- <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"

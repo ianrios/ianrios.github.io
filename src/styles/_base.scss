@@ -1,90 +1,251 @@
-// Base styles (depends on tokens being imported first)
+// Base styles — depends on _tokens.scss being imported first
 
+// ─── Box model ───────────────────────────────────────────────────────────────
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
+// ─── CSS custom properties (all token values exposed here) ───────────────────
 :root {
-  --color-bg: #{$color-bg};
+  // Colors
+  --color-bg:      #{$color-bg};
   --color-surface: #{$color-surface};
-  --color-accent: #{$color-accent};
-  --color-muted: #{$color-muted};
-  --color-text: #{$color-text};
+  --color-accent:  #{$color-accent};
+  --color-muted:   #{$color-muted};
+  --color-text:    #{$color-text};
 
+  // Spacing
   --space-xxs: #{$space-xxs};
-  --space-xs: #{$space-xs};
-  --space-sm: #{$space-sm};
-  --space-md: #{$space-md};
-  --space-lg: #{$space-lg};
-  --space-xl: #{$space-xl};
+  --space-xs:  #{$space-xs};
+  --space-sm:  #{$space-sm};
+  --space-md:  #{$space-md};
+  --space-lg:  #{$space-lg};
+  --space-xl:  #{$space-xl};
 
+  // Radii
   --radius-sm: #{$radius-sm};
   --radius-md: #{$radius-md};
   --radius-lg: #{$radius-lg};
 
+  // Typography scale
+  --font-xxs:  #{$font-xxs};
+  --font-xs:   #{$font-xs};
+  --font-sm:   #{$font-sm};
+  --font-base: #{$font-base};
+  --font-lg:   #{$font-lg};
+
+  // Shadows
   --shadow-ambient: #{$shadow-ambient};
-  --shadow-low: #{$shadow-low};
-  --shadow-med: #{$shadow-med};
-  --shadow-high: #{$shadow-high};
+  --shadow-low:     #{$shadow-low};
+  --shadow-med:     #{$shadow-med};
+  --shadow-high:    #{$shadow-high};
 
-  --pop-shadow-light: #{$pop-shadow-light};
-  --pop-shadow-dark: #{$pop-shadow-dark};
+  --pop-shadow-light:      #{$pop-shadow-light};
+  --pop-shadow-dark:       #{$pop-shadow-dark};
+  --inset-shadow-light:    #{$inset-shadow-light};
+  --inset-shadow-highlight:#{$inset-shadow-highlight};
 
-  --inset-shadow-light: #{$inset-shadow-light};
-  --inset-shadow-highlight: #{$inset-shadow-highlight};
-  --focus-ring-color: #{$focus-ring-color};
+  // Overlays / chrome
+  --overlay-bg:   #{$overlay-bg};
+  --border-color: #{$border-color};
 
-  --btn-padding-y: #{$btn-padding-y};
-  --btn-padding-x: #{$btn-padding-x};
+  // Layout
+  --sidebar-width:   #{$sidebar-width};
+  --drawer-width:    #{$drawer-width};
+  --modal-max-width: #{$modal-max-width};
+
+  // Buttons
+  --btn-padding-y:      #{$btn-padding-y};
+  --btn-padding-x:      #{$btn-padding-x};
   --btn-gradient-start: #{$btn-gradient-start};
-  --btn-gradient-end: #{$btn-gradient-end};
-  --btn-text-color: #{$btn-text-color};
-  --btn-radius: #{$btn-radius};
-  --btn-radius-lg: #{$btn-radius-lg};
-  --btn-elevation: #{$btn-elevation};
+  --btn-gradient-end:   #{$btn-gradient-end};
+  --btn-text-color:     #{$btn-text-color};
+  --btn-radius:         #{$btn-radius};
+  --btn-radius-lg:      #{$btn-radius-lg};
+  --btn-elevation:      #{$btn-elevation};
   --btn-surface-shadow: #{$btn-surface-shadow};
-  --btn-overlay-opacity: #{$btn-overlay-opacity};
+  --btn-overlay-opacity:#{$btn-overlay-opacity};
+  --btn-top-highlight:  none;
+
+  // Focus
+  --focus-ring-color: #{$focus-ring-color};
+  --focus-ring-width: #{$focus-ring-width};
+
+  // Links — three-state color system
+  --link-color:  #{$link-color};
+  --link-hover:  #{$link-hover};
+  --link-active: #{$link-active};
+
+  // Animation
+  --anim-speed:      0.12s;
+  --anim-speed-fast: 0.06s;
+
+  // Misc
+  --shadow-angle: 315;
 }
 
+// ─── Browser reset / normalization ───────────────────────────────────────────
 html, body {
   height: 100%;
   margin: 0;
-  background: var(--color-bg, #{$color-bg});
-  color: var(--color-text, #{$color-text});
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.4;
 }
 
-a { color: $color-accent; text-decoration: none; }
-a:hover { text-decoration: underline; }
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+}
 
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-xs);
+}
+
+ul, ol {
+  margin: 0;
+  padding-left: var(--space-sm);
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li { margin: 0; }
+
+// Button / input — inherit font so they don't render in browser default
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button { cursor: pointer; }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+// Links use the three-state color system; all transitions run at anim-speed
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-color: var(--color-muted);
+  transition: color var(--anim-speed, 0.12s) ease, text-decoration-color var(--anim-speed, 0.12s) ease;
+}
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-hover);
+}
+a:active {
+  color: var(--link-active);
+  text-decoration-color: var(--link-active);
+}
+
+// ─── Utility classes ─────────────────────────────────────────────────────────
 .container {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: $space-md;
-  padding-right: $space-md;
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
 }
 
-.container-fluid { width: 100%; padding-left: $space-md; padding-right: $space-md; }
+.container-fluid {
+  width: 100%;
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+}
 
 .hide-scrollbars {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
 
-// Focus styles
-:focus {
-  outline: none;
-}
+// Focus ring: keyboard only — suppressed on mouse/touch
 :focus-visible {
+  outline: none;
   @include focus-ring;
 }
-
-// Responsive helpers (simple)
-@media (max-width: 600px) {
-  .container { padding-left: $space-sm; padding-right: $space-sm; }
+:focus:not(:focus-visible) {
+  outline: none;
 }
+
+@media (max-width: 600px) {
+  .container { padding-left: var(--space-xs); padding-right: var(--space-xs); }
+}
+
+// ─── Root / font helpers ──────────────────────────────────────────────────────
+#root { min-height: 100vh; }
+
+.montserrat { font-family: 'Montserrat', sans-serif; }
+
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+
+// ─── Splash screen layout ─────────────────────────────────────────────────────
+.view-1 {
+  overflow: hidden;
+  font-size: calc(10px + 2vmin);
+  color: #edf2f4;
+  canvas { height: 100vh; }
+}
+
+.view-2 {
+  height: 100%;
+  font-size: calc(10px + 2vmin);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+// Oversized name text + absolutely-positioned splash elements — base rules first,
+// then responsive overrides from largest breakpoint to smallest so each can cascade.
+.name {
+  font-size: 22rem;
+  line-height: .704;
+  font-weight: 700;
+  margin: -4px 0 0 -34px;
+}
+
+.special-p { position: absolute; left: 0; top: 0; }
+.special-b { position: absolute; left: calc(50vw - 23px); top: 300px; }
+
+@media only screen and (max-width: 1423px) {
+  .special-b { top: 550px; }
+}
+
+@media only screen and (max-width: 742px) {
+  .name      { font-size: 15rem; margin: -2px 0 0 -20px; }
+  .special-b { top: 1000px; }
+}
+
+@media only screen and (max-width: 510px) {
+  .name      { font-size: 11rem; }
+  .special-b { top: 500px; }
+}
+
+// ─── Splash name color utilities — one is picked randomly each load ───────────
+.color-74A57F { color: #74A57F; }
+.color-D30C7B { color: #D30C7B; }
+.color-57E2E5 { color: #57E2E5; }
+.color-A50104 { color: #A50104; }
+.color-EBF8B8 { color: #EBF8B8; }
+.color-7FB069 { color: #7FB069; }
+.color-EFCA08 { color: #EFCA08; }
+.color-A14DA0 { color: #A14DA0; }
+.color-D11149 { color: #D11149; }
+.color-A9FFF7 { color: #A9FFF7; }
+.color-97CC04 { color: #97CC04; }
+.color-31E981 { color: #31E981; }
+.color-F0C808 { color: #F0C808; }
+.color-2EC4B6 { color: #2EC4B6; }
+.color-6320EE { color: #6320EE; }
+.color-00D9C0 { color: #00D9C0; }
