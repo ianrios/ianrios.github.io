@@ -68,14 +68,17 @@ When an agent picks up the next unfinished phase of an epic:
    approach, risks, verification) and links back to the epic file by name —
    it does not restate epic content.
 3. Peer-review the sub-plan via a zero-context subagent (see below).
-4. Once the phase is implemented and verified, fold only the essential
-   outcome (what changed, what was decided, any gotchas) back into the epic
-   file as a short status note, and mark the sub-plan file itself complete
-   (a one-line status header is enough). Do not delete sub-plan files —
-   they are the persisted record of what was done and why, kept in git
-   alongside the code they describe. The epic stays small by only ever
-   holding a short pointer/summary per phase; the sub-plan in `.ai/plans/`
-   holds the full reasoning permanently.
+4. Once the phase is implemented and verified, **replace the entire phase
+   section in the epic with a single pointer line** — remove all spec
+   content, tsconfig blocks, doc-update instructions, everything — and
+   replace with one line like:
+   `## Phase N — Name ✅ DONE — see .ai/plans/<sub-plan-file>.md`
+   This is what "fold a one-line status note" means. The original spec
+   content is gone because the work is done; the sub-plan holds the
+   reasoning. Do not leave original content below the header. Do not write
+   a multi-line block and call it a "one-line status note."
+   Mark the sub-plan itself complete with a one-line status header too.
+   Do not delete sub-plan files — they are the permanent record in git.
 
 This convention applies to any future epic, not just the TypeScript
 migration — document new epics the same way.
@@ -116,17 +119,61 @@ After peer review and after any open questions are answered:
 
 ## Doc updates after a plan closes
 
+Do not mark anything ✅ DONE until every item below is complete. The ✅ on
+the sub-plan header goes last — it signals that ALL of this is done, not
+just the implementation.
+
 Once Ian confirms a task is done:
-1. Mark the sub-plan complete (or delete it per the epic/sub-plan rule above
-   after folding its outcome into the epic).
-2. Update `.ai/WORK.md` — move completed items, add anything newly in
-   flight.
-3. Update `CLAUDE.md` or extract a new file under `.ai/` for any finding
-   that future agents need and isn't already documented.
-4. If Ian corrects your process mid-session (steering), update the relevant
+1. Fold the one-line status note into the epic (see "Epics and sub-plans"
+   step 4 — the whole phase section is replaced by one line).
+2. Mark the sub-plan complete with a one-line status header at the top.
+3. Update `.ai/WORK.md` **active priorities list** — not just the "Current
+   phase" header. Add the completed phase as ✅, mark the next phase as
+   active. The priorities list is what agents read; the header is context.
+4. Update `CLAUDE.md` for any structural change (new tooling version, new
+   Node requirement, new constraint) — verify each CLAUDE.md claim against
+   reality, not against the sub-plan's pre-implementation assumptions.
+5. If Ian corrects your process mid-session (steering), update the relevant
    `.ai/` files immediately, in that same turn — before continuing the
    original task. The goal is that no future agent, in this session or a
    later one, re-derives a correction Ian already gave once.
+
+## Anti-patterns (learned from past sessions)
+
+These failures have each required multiple steering prompts to correct.
+Do not repeat them.
+
+- **"One-line status note" does not mean adding one line above existing
+  content.** It means the entire phase section is replaced by one line.
+  If you write a ✅ DONE header and leave the old spec content below it,
+  you have not folded a one-line status note — you have added a header to
+  unchanged content. Read the epic section after editing and confirm there
+  is exactly one line for that phase.
+
+- **Updating WORK.md's "Current phase" header is not the same as updating
+  the active priorities list.** The priorities list is what agents act on.
+  Always update it: mark completed phases ✅, add the next phase as active.
+  Do not stop at the header.
+
+- **Do not declare a phase done after verification passes.** Passing
+  `npm run typecheck` / `npm run build` / `npm test` is necessary but not
+  the finish line. Doc updates (epic one-liner, sub-plan status header,
+  WORK.md priorities list, CLAUDE.md if anything changed) must all be
+  complete before anything is ✅ DONE.
+
+- **Do not skip CLI tool steps specified in the plan and write files
+  directly.** If the plan says `npx tsc --init`, run it. If the plan says
+  `npm install --save-dev X`, run it. Do not use Write tool to bypass a
+  CLI step the plan explicitly named.
+
+- **Do not explain Ian's instructions back to him when corrected.** "One-
+  line means one line" is a condescending non-answer. When corrected: fix
+  the problem, say what you fixed, move on. Do not defend or explain.
+
+- **Verify CLAUDE.md claims against reality during implementation, not
+  before.** If implementation changes something (e.g. a package upgrade
+  changes the Node requirement), CLAUDE.md must be updated to match the
+  new reality — not the pre-implementation assumption.
 
 ## Design system invariant
 

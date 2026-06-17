@@ -6,9 +6,9 @@
 2. Read any specs in `.ai/specs/` that are relevant to the request
 3. Scan the components in `src/components/` and `src/styles/` to understand current system state
 4. Synthesize: current phase, active focus, open issues
-5. Propose a plan → spawn a peer-review subagent with zero context to pressure-test it → fold in findings
-6. Interview Ian if assumptions remain after steps 1-5; otherwise state your plan and begin
-7. Update `.ai/WORK.md` at end of session with what changed and what's next
+5. For any non-trivial work: create a sub-plan in `.ai/plans/`, peer-review it with a zero-context subagent, fold in findings, present a skimmable summary to Ian, and wait for his **explicit approval** before writing a single line of code. See `.ai/WORKFLOW.md` for the full epic/sub-plan/peer-review/approval lifecycle.
+6. Interview Ian only if genuine ambiguity remains after steps 1-5. One question max.
+7. After Ian confirms the work is done, complete ALL doc updates (sub-plan, epic, WORK.md priorities list, CLAUDE.md) before ending the session.
 
 See `.ai/WORKFLOW.md` for the full operating model and planning convention.
 
