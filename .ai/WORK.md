@@ -2,21 +2,24 @@
 
 ## Current phase
 
-TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–3
-complete. Phase 4 next (ESLint + Prettier + enforcement scripts). The repo is live on ianrios.me and publicly inspectable. Code quality and architectural clarity are required at all times.
+TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–5
+complete. Phase 6 next (post-migration cleanup: knip.json, vite.config.ts react() simplification, CLAUDE.md final update). `src/three/` rewrite (Group 14) deferred to its own work item.
 
 ## Active priorities (in order)
 
 ### TypeScript migration (epic: `.ai/specs/typescript-migration.md`)
+
 1. ✅ **Phase 1 — Dead code audit (knip)** — old-three/, setupTests.js, CardGrid.js, reportWebVitals.js deleted; 13 packages uninstalled.
 2. ✅ **Phase 2 — CRA → Vite + React 18 + test infrastructure** — Vite 8, React 18, Vitest, all .js renamed to .jsx.
 3. ✅ **Phase 3 — TypeScript config** — `typescript` installed, `tsconfig.json` added with full strict config. `vitest` upgraded 3→4 (peer dep fix). One known typecheck error until Phase 5 (`main.tsx`→`App.jsx`).
-4. **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/check-no-eslint-disable.js`. See epic spec.
-5. **Phase 5 — File conversion (bottom-up)** — all `.jsx`→`.tsx`/`.ts`. See epic spec for order.
-6. **Phase 6 — Post-migration cleanup** — verify no `.jsx`/`.js` remain, simplify `vite.config.ts`.
+4. ✅ **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/`, `npm run check` canonical. DSPreview/TokenSidebar/V2Preview/Home.jsx refactored to pass line limits. One known typecheck gap (`main.tsx→App.jsx`) — fixed by Phase 5.
+5. ✅ **Phase 5 — File conversion (bottom-up)** — all `.jsx`→`.tsx`/`.ts`; `npm run check` green. `src/three/` vendored files deferred (Group 14).
+6. **Phase 6 — Post-migration cleanup** — `knip.json` entry update, `vite.config.ts` react() simplification, CLAUDE.md final update.
 7. **Phase 7 — Verification gate** — all checks green, deploy confirmed.
+8. **Group 14 — `src/three/` rewrite** — delete vendored JS, create `ThreeScene.tsx`, wire `/three` route.
 
 ### Pending (lower priority, unblocked by migration)
+
 8. **Portfolio content** — Add latest work experience and projects to `src/data.jsx` (requires Ian to supply content/details).
 9. **V2 design exploration** — Read `.ai/specs/portfolio-overhaul.md`; implement items 6 (new job experience view), 7 (/resume path), 11/12 (animations, minimal/esoteric design).
 10. **ImageBox** — Not started. See `.ai/specs/imagebox-epic.md`.

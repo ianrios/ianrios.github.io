@@ -4,7 +4,7 @@ import {
   Color,
   DynamicDrawUsage,
   Mesh,
-} from "./three.module.js";
+} from './three.module.js';
 
 /**
  * Port of http://webglsamples.org/blob/blob.html
@@ -16,7 +16,7 @@ class MarchingCubes extends Mesh {
     material,
     enableUvs = false,
     enableColors = false,
-    maxPolyCount = 10000
+    maxPolyCount = 10000,
   ) {
     const geometry = new BufferGeometry();
 
@@ -70,25 +70,25 @@ class MarchingCubes extends Mesh {
       this.positionArray = new Float32Array(maxVertexCount * 3);
       const positionAttribute = new BufferAttribute(this.positionArray, 3);
       positionAttribute.setUsage(DynamicDrawUsage);
-      geometry.setAttribute("position", positionAttribute);
+      geometry.setAttribute('position', positionAttribute);
 
       this.normalArray = new Float32Array(maxVertexCount * 3);
       const normalAttribute = new BufferAttribute(this.normalArray, 3);
       normalAttribute.setUsage(DynamicDrawUsage);
-      geometry.setAttribute("normal", normalAttribute);
+      geometry.setAttribute('normal', normalAttribute);
 
       if (this.enableUvs) {
         this.uvArray = new Float32Array(maxVertexCount * 2);
         const uvAttribute = new BufferAttribute(this.uvArray, 2);
         uvAttribute.setUsage(DynamicDrawUsage);
-        geometry.setAttribute("uv", uvAttribute);
+        geometry.setAttribute('uv', uvAttribute);
       }
 
       if (this.enableColors) {
         this.colorArray = new Float32Array(maxVertexCount * 3);
         const colorAttribute = new BufferAttribute(this.colorArray, 3);
         colorAttribute.setUsage(DynamicDrawUsage);
-        geometry.setAttribute("color", colorAttribute);
+        geometry.setAttribute('color', colorAttribute);
       }
     };
 
@@ -110,7 +110,7 @@ class MarchingCubes extends Mesh {
       valp1,
       valp2,
       c_offset1,
-      c_offset2
+      c_offset2,
     ) {
       const mu = (isol - valp1) / (valp2 - valp1),
         nc = scope.normal_cache;
@@ -126,17 +126,17 @@ class MarchingCubes extends Mesh {
       clist[offset + 0] = lerp(
         scope.palette[c_offset1 * 3 + 0],
         scope.palette[c_offset2 * 3 + 0],
-        mu
+        mu,
       );
       clist[offset + 1] = lerp(
         scope.palette[c_offset1 * 3 + 1],
         scope.palette[c_offset2 * 3 + 1],
-        mu
+        mu,
       );
       clist[offset + 2] = lerp(
         scope.palette[c_offset1 * 3 + 2],
         scope.palette[c_offset2 * 3 + 2],
-        mu
+        mu,
       );
     }
 
@@ -150,7 +150,7 @@ class MarchingCubes extends Mesh {
       valp1,
       valp2,
       c_offset1,
-      c_offset2
+      c_offset2,
     ) {
       const mu = (isol - valp1) / (valp2 - valp1),
         nc = scope.normal_cache;
@@ -168,17 +168,17 @@ class MarchingCubes extends Mesh {
       clist[offset + 0] = lerp(
         scope.palette[c_offset1 * 3 + 0],
         scope.palette[c_offset2 * 3 + 0],
-        mu
+        mu,
       );
       clist[offset + 1] = lerp(
         scope.palette[c_offset1 * 3 + 1],
         scope.palette[c_offset2 * 3 + 1],
-        mu
+        mu,
       );
       clist[offset + 2] = lerp(
         scope.palette[c_offset1 * 3 + 2],
         scope.palette[c_offset2 * 3 + 2],
-        mu
+        mu,
       );
     }
 
@@ -192,7 +192,7 @@ class MarchingCubes extends Mesh {
       valp1,
       valp2,
       c_offset1,
-      c_offset2
+      c_offset2,
     ) {
       const mu = (isol - valp1) / (valp2 - valp1),
         nc = scope.normal_cache;
@@ -210,17 +210,17 @@ class MarchingCubes extends Mesh {
       clist[offset + 0] = lerp(
         scope.palette[c_offset1 * 3 + 0],
         scope.palette[c_offset2 * 3 + 0],
-        mu
+        mu,
       );
       clist[offset + 1] = lerp(
         scope.palette[c_offset1 * 3 + 1],
         scope.palette[c_offset2 * 3 + 1],
-        mu
+        mu,
       );
       clist[offset + 2] = lerp(
         scope.palette[c_offset1 * 3 + 2],
         scope.palette[c_offset2 * 3 + 2],
-        mu
+        mu,
       );
     }
 
@@ -376,7 +376,7 @@ class MarchingCubes extends Mesh {
           clist,
           3 * triTable[o1],
           3 * triTable[o2],
-          3 * triTable[o3]
+          3 * triTable[o3],
         );
 
         i += 3;
@@ -488,12 +488,12 @@ class MarchingCubes extends Mesh {
             colors instanceof Color
               ? colors
               : Array.isArray(colors)
-              ? new Color(
-                  Math.min(Math.abs(colors[0]), 1),
-                  Math.min(Math.abs(colors[1]), 1),
-                  Math.min(Math.abs(colors[2]), 1)
-                )
-              : new Color(colors);
+                ? new Color(
+                    Math.min(Math.abs(colors[0]), 1),
+                    Math.min(Math.abs(colors[1]), 1),
+                    Math.min(Math.abs(colors[2]), 1),
+                  )
+                : new Color(colors);
         } catch (err) {
           ballColor = new Color(ballx, bally, ballz);
         }
@@ -551,7 +551,7 @@ class MarchingCubes extends Mesh {
                 Math.sqrt(
                   (x - xs) * (x - xs) +
                     (y - ys) * (y - ys) +
-                    (z - zs) * (z - zs)
+                    (z - zs) * (z - zs),
                 ) / radius;
               const contrib =
                 1 - ratio * ratio * ratio * (ratio * (ratio * 6 - 15) + 10);
@@ -769,17 +769,17 @@ class MarchingCubes extends Mesh {
 
       // update geometry data
 
-      geometry.getAttribute("position").needsUpdate = true;
-      geometry.getAttribute("normal").needsUpdate = true;
+      geometry.getAttribute('position').needsUpdate = true;
+      geometry.getAttribute('normal').needsUpdate = true;
 
-      if (this.enableUvs) geometry.getAttribute("uv").needsUpdate = true;
-      if (this.enableColors) geometry.getAttribute("color").needsUpdate = true;
+      if (this.enableUvs) geometry.getAttribute('uv').needsUpdate = true;
+      if (this.enableColors) geometry.getAttribute('color').needsUpdate = true;
 
       // safety check
 
       if (this.count / 3 > maxPolyCount)
         console.warn(
-          "THREE.MarchingCubes: Geometry buffers too small for rendering. Please create an instance with a higher poly count."
+          'THREE.MarchingCubes: Geometry buffers too small for rendering. Please create an instance with a higher poly count.',
         );
     };
 

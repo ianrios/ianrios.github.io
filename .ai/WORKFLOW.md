@@ -1,187 +1,64 @@
 # Agent Workflow
 
-## Operating model
-
-**Ian owns:** Product direction, architecture, visual taste, scope, code review, deployment  
-**Agents own:** Implementation, scaffolding, refactors, docs, research, testing
-
-## Session startup protocol
-
-Do this in order before writing a single line of code:
-
-1. Read `CLAUDE.md` → `.ai/CONTEXT.md` → `.ai/WORK.md` → `.ai/RULES.md`
-2. Read any relevant specs in `.ai/specs/`
-3. Scan `src/components/` and `src/styles/` for current system state
-4. Synthesize what you found: phase, active focus, open issues, tech debt visible in code
-5. Propose a plan — scope, which files change, why, verification approach
-6. Spawn a peer-review subagent (no prior context) with the plan, relevant source files, and specs. Instruct it to report only real gaps — missing wiring, ambiguity that would stall execution, risks. Patch findings into the plan.
-7. Present the synthesized plan to Ian. Ask one clarifying question if something is genuinely ambiguous after all the above. Not multiple. Not none if something is actually unclear.
-8. After Ian approves: execute, verify (`npm run build` + `npm test -- --watchAll=false`), report what changed
-
-## End of session
-
-1. Update `.ai/WORK.md` — move completed items, add new items in flight, note open questions
-2. Update `CLAUDE.md` if any structural facts changed (new components, new routes, new constraints)
-3. Update the relevant spec in `.ai/specs/` if spec goals were met or decisions were made
-
 ## Progressive disclosure
 
-- Never duplicate information across files. Each fact lives in one place.
-- Don't restate what's in `package.json`, `data.js`, or any other source of truth — infer it.
-- Don't add comments that explain what code does — code should be self-documenting.
-- Don't write docs that an agent can derive by reading the code in under 60 seconds.
-- Do write docs for: non-obvious decisions, constraints with external causes, things that burned time before.
+One fact in one file. Never duplicate across docs. Don't restate what's
+in source files or config — infer it. Write docs only for: non-obvious
+constraints, external causes, things that burned time before.
 
 ## Planning convention
 
-Before implementing any task of more than 2-3 file changes:
-1. State the problem (not just the symptom)
-2. List every file to be changed and why
-3. Describe the approach and architectural reasoning
-4. Note any risks or tradeoffs
-5. Define the verification checklist
-6. Peer-review via subagent (see startup protocol step 6)
+Required for any task with more than 2–3 file changes:
 
-Plans describe what and why. Implementation steps should name the specific
-CLI commands that will be run (e.g. `npm install --save-dev typescript`,
-`npx tsc --init`) — this is the right level of precision. What plans must
-not contain is source code or config file contents; reference the target
-file or folder path instead so there is no copy to drift.
+1. Problem statement
+2. Files to change and why
+3. Approach and architectural reasoning
+4. Risks / tradeoffs
+5. Verification checklist
 
-For all package management and tooling setup, agents must use CLI tools,
-not manually edit files like `package.json` or lock files directly.
-
-Planning agents do not write code. A plan is a document, never a patch.
+Plans name CLI commands. Plans do not contain source code or config file
+contents. Planning agents do not write code.
 
 ## Epics and sub-plans
 
-A spec in `.ai/specs/` can be an **epic**: a multi-phase body of work
-completed across many sessions by many different agents (e.g.
-`typescript-migration.md`). Epics describe the phases, their order, and the
-target end-state. They do not carry full task-by-task planning detail for
-every phase — that would bloat the file and rot as phases complete.
+Sub-plans live in `.ai/plans/<epic-slug>-phase-<n>-<short-name>.md`.
 
-When an agent picks up the next unfinished phase of an epic:
-1. Create a **sub-plan** file for that phase's actual task plan. Sub-plans
-   live in `.ai/plans/`, named `<epic-slug>-phase-<n>-<short-name>.md`.
-2. The sub-plan follows the planning convention above (problem, files,
-   approach, risks, verification) and links back to the epic file by name —
-   it does not restate epic content.
-3. Peer-review the sub-plan via a zero-context subagent (see below).
-4. Once the phase is implemented and verified, **replace the entire phase
-   section in the epic with a single pointer line** — remove all spec
-   content, tsconfig blocks, doc-update instructions, everything — and
-   replace with one line like:
-   `## Phase N — Name ✅ DONE — see .ai/plans/<sub-plan-file>.md`
-   This is what "fold a one-line status note" means. The original spec
-   content is gone because the work is done; the sub-plan holds the
-   reasoning. Do not leave original content below the header. Do not write
-   a multi-line block and call it a "one-line status note."
-   Mark the sub-plan itself complete with a one-line status header too.
-   Do not delete sub-plan files — they are the permanent record in git.
+When a phase is done, replace the **entire** phase section in the epic
+with one line: `## Phase N — Name ✅ DONE — see .ai/plans/<file>.md`
+Mark the sub-plan complete with a one-line status header at the top.
+Do not delete sub-plan files — they are the permanent record.
 
-This convention applies to any future epic, not just the TypeScript
-migration — document new epics the same way.
+## Peer review (mandatory)
 
-## Peer review (mandatory for every plan file)
-
-Every plan or sub-plan file, with no exceptions, must be peer-reviewed by a
-subagent spawned with **zero prior context** before it is presented to Ian.
-Hand the subagent only the plan file plus whatever source files/specs it
-needs to evaluate it — not the conversation history. Instruct it to report:
-- gaps or missing wiring
-- assumptions that only Ian can resolve
-- inconsistencies between the plan and the current repo state (e.g. a plan
-  built on a stale assumption about what's already done)
-
-Fold real findings back into the plan before showing it to Ian.
+Every plan: spawn a zero-context subagent with only the plan + relevant
+source files. Ask it to report gaps, missing wiring, stale assumptions,
+and ambiguities only Ian can resolve. Fold real findings into the plan.
 
 ## Human approval gate
 
-After peer review and after any open questions are answered:
-1. Present Ian a skimmable chat summary (a few sentences to a short list) —
-   not the full plan file dump — so he can decide whether to read the rest.
-2. Wait for explicit approval. Do not start implementing on an assumed yes.
-3. Only after approval may any agent begin writing code for that plan.
+After peer review: present Ian a skimmable chat summary. Wait for explicit
+approval. Do not start implementing without an unambiguous go-ahead.
+See `.ai/ANTI-PATTERNS.md` for what does NOT count as approval.
 
-## Verification after implementation
+## Verification
 
-- Run whatever the repo's tooling can check automatically: `npm run
-  typecheck`, `npm run lint`, `npm run build`, `npm test`. Do this for every
-  change where it applies — it's free signal.
-- Passing these checks is not the same as the task being done. Never report
-  a task complete on the strength of automated checks alone.
-- Anything that requires visual or behavioral confirmation in a real browser
-  must be verified by Ian directly. Do not use Playwright or similar
-  browser-automation tools as a substitute for his review — they are too
-  low-fidelity to stand in for human QA on this project.
-- Wait for Ian's explicit confirmation before considering the task closed.
+Run `npm run check`, `npm run build`, `npm test`. Passing automated checks
+is not the same as done. Visual / behavioral confirmation requires Ian's
+review directly.
 
-## Doc updates after a plan closes
+## Doc updates (after Ian confirms done)
 
-Do not mark anything ✅ DONE until every item below is complete. The ✅ on
-the sub-plan header goes last — it signals that ALL of this is done, not
-just the implementation.
-
-Once Ian confirms a task is done:
-1. Fold the one-line status note into the epic (see "Epics and sub-plans"
-   step 4 — the whole phase section is replaced by one line).
-2. Mark the sub-plan complete with a one-line status header at the top.
-3. Update `.ai/WORK.md` **active priorities list** — not just the "Current
-   phase" header. Add the completed phase as ✅, mark the next phase as
-   active. The priorities list is what agents read; the header is context.
-4. Update `CLAUDE.md` for any structural change (new tooling version, new
-   Node requirement, new constraint) — verify each CLAUDE.md claim against
-   reality, not against the sub-plan's pre-implementation assumptions.
-5. If Ian corrects your process mid-session (steering), update the relevant
-   `.ai/` files immediately, in that same turn — before continuing the
-   original task. The goal is that no future agent, in this session or a
-   later one, re-derives a correction Ian already gave once.
-
-## Anti-patterns (learned from past sessions)
-
-These failures have each required multiple steering prompts to correct.
-Do not repeat them.
-
-- **"One-line status note" does not mean adding one line above existing
-  content.** It means the entire phase section is replaced by one line.
-  If you write a ✅ DONE header and leave the old spec content below it,
-  you have not folded a one-line status note — you have added a header to
-  unchanged content. Read the epic section after editing and confirm there
-  is exactly one line for that phase.
-
-- **Updating WORK.md's "Current phase" header is not the same as updating
-  the active priorities list.** The priorities list is what agents act on.
-  Always update it: mark completed phases ✅, add the next phase as active.
-  Do not stop at the header.
-
-- **Do not declare a phase done after verification passes.** Passing
-  `npm run typecheck` / `npm run build` / `npm test` is necessary but not
-  the finish line. Doc updates (epic one-liner, sub-plan status header,
-  WORK.md priorities list, CLAUDE.md if anything changed) must all be
-  complete before anything is ✅ DONE.
-
-- **Do not skip CLI tool steps specified in the plan and write files
-  directly.** If the plan says `npx tsc --init`, run it. If the plan says
-  `npm install --save-dev X`, run it. Do not use Write tool to bypass a
-  CLI step the plan explicitly named.
-
-- **Do not explain Ian's instructions back to him when corrected.** "One-
-  line means one line" is a condescending non-answer. When corrected: fix
-  the problem, say what you fixed, move on. Do not defend or explain.
-
-- **Verify CLAUDE.md claims against reality during implementation, not
-  before.** If implementation changes something (e.g. a package upgrade
-  changes the Node requirement), CLAUDE.md must be updated to match the
-  new reality — not the pre-implementation assumption.
+1. Fold epic phase to one line (entire section replaced — no old content)
+2. Mark sub-plan complete with one-line status header
+3. Update `.ai/WORK.md` active priorities list — mark ✅, add next phase
+4. Update `CLAUDE.md` if any structural facts changed
 
 ## Design system invariant
 
-Every piece of new code must:
-- Use CSS custom properties from `_base.scss` for colors, spacing, radii, shadows
-- Use atoms from `src/components/atoms/` before inventing new markup patterns
-- Use `skeu-*` class names from `_components.scss` for component styling
-- Never hardcode colors, spacing, or shadows
-- Never introduce new Bootstrap classes
+All new code: CSS custom properties for colors / spacing / radii / shadows.
+Atoms from `src/components/atoms/`. `skeu-*` class names from
+`_components.scss`. No hardcoded values. No Bootstrap classes.
 
-If a design token or atom doesn't exist for what you need, add it to the system first — don't work around it.
+## Anti-patterns
+
+See `.ai/ANTI-PATTERNS.md` — failures requiring multiple steering corrections.

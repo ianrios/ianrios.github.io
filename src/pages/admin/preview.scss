@@ -1,0 +1,45 @@
+.preview-icon-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.preview-icon-label {
+  font-size: 9px;
+  color: var(--color-muted);
+}
+
+.preview-flex {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.preview-flex--end {
+  align-items: flex-end;
+}
+
+.preview-note {
+  font-size: 11px;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.preview-page-frame {
+  background: var(--color-bg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  margin-bottom: var(--space-md);
+}
+
+.preview-page-frame--dashed {
+  background: var(--color-bg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 2px dashed rgba(128, 128, 128, 0.18);
+  margin-bottom: var(--space-md);
+  position: relative;
+}

@@ -34,4 +34,3 @@ This file contains the initial token draft created by GitHub Copilot.
 2. Wire tokens into an importable `src/styles/main.scss` and replace site `index.css` where needed
 3. Add `sass` to project deps if not present
 4. Build `/admin` route with UI to tweak tokens (localStorage + copy CSS)
-

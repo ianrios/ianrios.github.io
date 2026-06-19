@@ -1,7 +1,7 @@
 // Component styles using skeuomorphic tokens and mixins
 
 .skeu-card {
-  @include skeuomorphic-surface("low");
+  @include skeuomorphic-surface('low');
   padding: var(--space-md, #{$space-md});
   border-radius: var(--radius-md, #{$radius-md});
   background: var(--color-surface, #{$color-surface});
@@ -27,13 +27,17 @@
   border-radius: var(--btn-radius, #{$btn-radius});
   border: none;
   cursor: pointer;
-  box-shadow: var(--shadow-ambient, #{$shadow-ambient}),
+  box-shadow:
+    var(--shadow-ambient, #{$shadow-ambient}),
     var(--btn-elevation, #{$btn-elevation});
-  transition: transform var(--anim-speed, 0.12s) ease, box-shadow var(--anim-speed, 0.12s) ease, filter var(--anim-speed, 0.12s) ease;
+  transition:
+    transform var(--anim-speed, 0.12s) ease,
+    box-shadow var(--anim-speed, 0.12s) ease,
+    filter var(--anim-speed, 0.12s) ease;
 
   /* soft rounded top highlight implemented as an overlay to match border-radius */
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
@@ -45,7 +49,9 @@
     pointer-events: none;
     mix-blend-mode: normal;
     opacity: var(--btn-overlay-opacity, #{$btn-overlay-opacity});
-    transition: opacity var(--anim-speed, 0.12s) ease, transform var(--anim-speed, 0.12s) ease;
+    transition:
+      opacity var(--anim-speed, 0.12s) ease,
+      transform var(--anim-speed, 0.12s) ease;
   }
 
   &:focus-visible {
@@ -55,7 +61,8 @@
   /* Hover: slight compression (button sinks a little to indicate press affordance) */
   &:hover {
     transform: translateY(1px) scale(0.997);
-    box-shadow: var(--pop-shadow-light, #{$pop-shadow-light}),
+    box-shadow:
+      var(--pop-shadow-light, #{$pop-shadow-light}),
       var(--pop-shadow-dark, #{$pop-shadow-dark}),
       var(--btn-elevation, #{$btn-elevation});
     filter: brightness(0.997);
@@ -65,13 +72,16 @@
   &:active {
     transform: translateY(4px) scale(0.995);
     @include skeuomorphic-inset;
-    box-shadow: inset var(--inset-shadow-light, #{$inset-shadow-light}),
+    box-shadow:
+      inset var(--inset-shadow-light, #{$inset-shadow-light}),
       inset var(--inset-shadow-highlight, #{$inset-shadow-highlight});
     &::before {
       opacity: calc(var(--btn-overlay-opacity, #{$btn-overlay-opacity}) * 0.55);
       transform: translateY(3px);
     }
-    transition: transform var(--anim-speed-fast, 0.06s) ease, box-shadow var(--anim-speed-fast, 0.06s) ease;
+    transition:
+      transform var(--anim-speed-fast, 0.06s) ease,
+      box-shadow var(--anim-speed-fast, 0.06s) ease;
   }
 }
 
@@ -80,7 +90,8 @@
   background: var(--color-surface, #{$color-surface});
   color: var(--color-text);
   border: none; /* remove hard border so it reads as a mini-card */
-  box-shadow: var(--btn-top-highlight, inset 0 1px 0 rgba(255, 255, 255, 0.65)),
+  box-shadow:
+    var(--btn-top-highlight, inset 0 1px 0 rgba(255, 255, 255, 0.65)),
     var(--pop-shadow-light, #{$pop-shadow-light}),
     var(--pop-shadow-dark, #{$pop-shadow-dark}),
     var(--shadow-ambient, #{$shadow-ambient}),
@@ -91,7 +102,8 @@
   }
   &:hover {
     transform: translateY(1px) scale(0.998);
-    box-shadow: var(--pop-shadow-light, #{$pop-shadow-light}),
+    box-shadow:
+      var(--pop-shadow-light, #{$pop-shadow-light}),
       var(--pop-shadow-dark, #{$pop-shadow-dark}),
       var(--shadow-ambient, #{$shadow-ambient}),
       var(--btn-elevation, #{$btn-elevation});
@@ -101,7 +113,8 @@
   &:active {
     transform: translateY(4px) scale(0.995);
     @include skeuomorphic-inset;
-    box-shadow: inset var(--inset-shadow-light, #{$inset-shadow-light}),
+    box-shadow:
+      inset var(--inset-shadow-light, #{$inset-shadow-light}),
       inset var(--inset-shadow-highlight, #{$inset-shadow-highlight});
     color: var(--link-active, #{$link-active});
     &::before {
@@ -127,7 +140,6 @@
     @include focus-ring;
   }
 }
-
 
 /* Custom range slider — replaces stock <input type="range">.
    Set --slider-pct inline (e.g. style={{ "--slider-pct": "42%" }}) for the colored fill. */
@@ -176,9 +188,11 @@
     border-radius: 50%;
     background: var(--color-surface, #{$color-surface});
     border: 2px solid var(--color-accent, #{$color-accent});
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     cursor: pointer;
-    transition: transform var(--anim-speed, 0.12s) ease, border-color var(--anim-speed, 0.12s) ease;
+    transition:
+      transform var(--anim-speed, 0.12s) ease,
+      border-color var(--anim-speed, 0.12s) ease;
   }
 
   &::-moz-range-thumb {
@@ -187,7 +201,7 @@
     border-radius: 50%;
     background: var(--color-surface, #{$color-surface});
     border: 2px solid var(--color-accent, #{$color-accent});
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     border-style: solid;
   }
@@ -214,14 +228,15 @@
   @extend .skeu-input;
   padding: 3px var(--space-xs, #{$space-xs});
   font-size: var(--font-xs, #{$font-xs});
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   min-width: 0;
   flex: 1;
 }
 
 // Small site nav used in preview
 .skeu-nav {
-  @include skeuomorphic-surface("low");
+  @include skeuomorphic-surface('low');
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -232,16 +247,24 @@
 
 /* Card variant modifiers — background only. Surface buttons/links inside a variant card
    automatically match the card bg via the cascade rules below.                          */
-.skeu-card--accent { background: var(--color-accent, #{$color-accent}); }
-.skeu-card--muted  { background: var(--color-muted,  #{$color-muted});  }
+.skeu-card--accent {
+  background: var(--color-accent, #{$color-accent});
+}
+.skeu-card--muted {
+  background: var(--color-muted, #{$color-muted});
+}
 
 /* Cascade: surface buttons and links inside a card variant inherit the card's bg color
    so they sit flush with the card surface, not floating above a mismatched color.       */
 .skeu-card--accent .skeu-btn--outline,
-.skeu-card--accent .skeu-link { background: var(--color-accent, #{$color-accent}); }
+.skeu-card--accent .skeu-link {
+  background: var(--color-accent, #{$color-accent});
+}
 
 .skeu-card--muted .skeu-btn--outline,
-.skeu-card--muted .skeu-link  { background: var(--color-muted,  #{$color-muted}); }
+.skeu-card--muted .skeu-link {
+  background: var(--color-muted, #{$color-muted});
+}
 
 .skeu-card-grid {
   display: grid;
@@ -254,9 +277,13 @@
   @extend .skeu-btn--outline;
   text-decoration: none;
   display: inline-block;
-  padding: var(--btn-padding-y, #{$btn-padding-y}) var(--btn-padding-x, #{$btn-padding-x});
+  padding: var(--btn-padding-y, #{$btn-padding-y})
+    var(--btn-padding-x, #{$btn-padding-x});
   cursor: pointer;
-  transition: transform var(--anim-speed, 0.12s) ease, box-shadow var(--anim-speed, 0.12s) ease, filter var(--anim-speed, 0.12s) ease;
+  transition:
+    transform var(--anim-speed, 0.12s) ease,
+    box-shadow var(--anim-speed, 0.12s) ease,
+    filter var(--anim-speed, 0.12s) ease;
 }
 .skeu-link:hover,
 .skeu-link:focus-visible {
@@ -301,8 +328,14 @@
   text-decoration: underline;
   text-decoration-color: var(--color-muted, #{$color-muted});
   font-weight: inherit;
-  &:hover  { transform: none; text-decoration: underline; text-decoration-color: var(--link-hover, #{$link-hover}); }
-  &:active { transform: none; }
+  &:hover {
+    transform: none;
+    text-decoration: underline;
+    text-decoration-color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    transform: none;
+  }
 }
 
 /* Ghost variant — no surface, no underline; just color + hover */
@@ -315,21 +348,34 @@
   display: inline;
   text-decoration: none;
   font-weight: inherit;
-  &:hover  { transform: none; text-decoration: none; }
-  &:active { transform: none; }
+  &:hover {
+    transform: none;
+    text-decoration: none;
+  }
+  &:active {
+    transform: none;
+  }
 }
 
 /* Color modifiers — override the three-state color tokens */
 .skeu-link--muted {
   color: var(--color-muted, #{$color-muted});
-  &:hover  { color: var(--color-text, #{$color-text}); }
-  &:active { color: var(--link-active, #{$link-active}); }
+  &:hover {
+    color: var(--color-text, #{$color-text});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
 }
 
 .skeu-link--accent {
   color: var(--color-accent, #{$color-accent});
-  &:hover  { color: var(--link-hover, #{$link-hover}); }
-  &:active { color: var(--link-active, #{$link-active}); }
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
 }
 
 /* Primary — gradient surface for surface variant; gradient text for text/ghost variants */
@@ -341,8 +387,14 @@
   );
   color: var(--btn-text-color, #{$btn-text-color});
   font-weight: 700;
-  &:hover  { color: var(--btn-text-color, #{$btn-text-color}); filter: brightness(1.15); }
-  &:active { color: var(--btn-text-color, #{$btn-text-color}); filter: brightness(0.9); }
+  &:hover {
+    color: var(--btn-text-color, #{$btn-text-color});
+    filter: brightness(1.15);
+  }
+  &:active {
+    color: var(--btn-text-color, #{$btn-text-color});
+    filter: brightness(0.9);
+  }
 }
 
 .skeu-link.skeu-link--text.skeu-link--primary,
@@ -352,14 +404,18 @@
   -webkit-background-clip: text !important;
   color: var(--btn-gradient-start, #{$btn-gradient-start});
   font-weight: 700;
-  &:hover  { filter: brightness(1.2); }
+  &:hover {
+    filter: brightness(1.2);
+  }
 }
 
 /* Decoration override — forces underline on any style */
 .skeu-link--underline {
   text-decoration: underline !important;
   text-decoration-color: currentColor !important;
-  &:hover { text-decoration: underline !important; }
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
 
 /* Primary — gradient fill variant, uses btn-text-color for contrast against gradient */
@@ -373,8 +429,12 @@
   );
   color: var(--btn-text-color, #{$btn-text-color});
   /* Override link-color hover/active from outline so gradient buttons keep btn-text-color */
-  &:hover  { color: var(--btn-text-color, #{$btn-text-color}); }
-  &:active { color: var(--btn-text-color, #{$btn-text-color}); }
+  &:hover {
+    color: var(--btn-text-color, #{$btn-text-color});
+  }
+  &:active {
+    color: var(--btn-text-color, #{$btn-text-color});
+  }
 }
 
 /* Button size modifiers — orthogonal to style (variant). Apply any size with any variant. */
@@ -385,23 +445,28 @@
 
 .skeu-btn--sm {
   font-size: 13px;
-  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 0.55) calc(var(--btn-padding-x, #{$btn-padding-x}) * 0.65);
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 0.55)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 0.65);
 }
 
 /* default (no class) = medium */
 
 .skeu-btn--lg {
   font-size: 17px;
-  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.25) calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.15);
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.25)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.15);
 }
 
 .skeu-btn--xl {
   font-size: 20px;
-  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.6) calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.4);
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.6)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.4);
 }
 
 /* Legacy alias — kept so existing uses don't break */
-.skeu-btn--large { @extend .skeu-btn--xl; }
+.skeu-btn--large {
+  @extend .skeu-btn--xl;
+}
 
 /* Tag/chip — uses radius-sm + accent color, making both tokens visible in the UI */
 .skeu-badge {
@@ -432,8 +497,12 @@
   font-family: inherit;
   text-align: left;
   transition: color var(--anim-speed, 0.12s) ease;
-  &:hover  { color: var(--link-hover, #{$link-hover}); }
-  &:active { color: var(--link-active, #{$link-active}); }
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
 }
 
 /* Flat link-variant nav buttons — no elevation, accent bg + link colors on hover/active */
@@ -449,10 +518,22 @@
   border-radius: var(--radius-sm, #{$radius-sm});
   width: 100%;
   display: block;
-  transition: background var(--anim-speed, 0.12s) ease, color var(--anim-speed, 0.12s) ease;
-  &:hover  { background: var(--color-accent, #{$color-accent}); color: var(--link-hover, #{$link-hover}); }
-  &:active { background: var(--color-accent, #{$color-accent}); color: var(--link-active, #{$link-active}); }
-  &.active { background: var(--color-accent, #{$color-accent}); color: var(--color-text, #{$color-text}); font-weight: 700; }
+  transition:
+    background var(--anim-speed, 0.12s) ease,
+    color var(--anim-speed, 0.12s) ease;
+  &:hover {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-active, #{$link-active});
+  }
+  &.active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--color-text, #{$color-text});
+    font-weight: 700;
+  }
 }
 
 /* Splash screen "enter" CTA — transparent, uses link three-state color system */
@@ -463,8 +544,12 @@
   text-decoration: none;
   cursor: pointer;
   transition: color var(--anim-speed, 0.12s) ease;
-  &:hover  { color: var(--link-hover, #{$link-hover}); }
-  &:active { color: var(--link-active, #{$link-active}); }
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
 }
 
 /* Masonry grid — react-masonry-css; gutter is driven by --space-md token */
@@ -477,7 +562,9 @@
 .my-masonry-grid_column {
   padding-left: var(--space-md, #{$space-md});
   background-clip: padding-box;
-  > div { margin-bottom: var(--space-md, #{$space-md}); }
+  > div {
+    margin-bottom: var(--space-md, #{$space-md});
+  }
 }
 
 /* PushPanel trigger tab — stacked per-character vertical label, no writing-mode rotation */
@@ -490,9 +577,17 @@
   cursor: pointer;
   color: var(--color-text, #{$color-text});
   padding: var(--space-md, #{$space-md}) 0 var(--space-sm, #{$space-sm});
-  transition: background var(--anim-speed, 0.12s) ease, color var(--anim-speed, 0.12s) ease;
-  &:hover  { background: var(--color-accent, #{$color-accent}); color: var(--link-hover, #{$link-hover}); }
-  &:active { background: var(--color-accent, #{$color-accent}); color: var(--link-active, #{$link-active}); }
+  transition:
+    background var(--anim-speed, 0.12s) ease,
+    color var(--anim-speed, 0.12s) ease;
+  &:hover {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-active, #{$link-active});
+  }
 
   .skeu-push-tab__letters {
     display: flex;
@@ -517,8 +612,14 @@ a.skeu-badge {
   text-decoration: none;
   color: var(--color-text, #{$color-text});
   transition: filter var(--anim-speed, 0.12s) ease;
-  &:hover  { filter: brightness(1.2); text-decoration: none; color: var(--color-text, #{$color-text}); }
-  &:active { filter: brightness(0.9); }
+  &:hover {
+    filter: brightness(1.2);
+    text-decoration: none;
+    color: var(--color-text, #{$color-text});
+  }
+  &:active {
+    filter: brightness(0.9);
+  }
 }
 
 /* ColorPicker atom — styled <input type="color"> using only design tokens.
@@ -537,11 +638,25 @@ a.skeu-badge {
   flex-shrink: 0;
   transition: border-color var(--anim-speed, 0.12s) ease;
 
-  &::-webkit-color-swatch-wrapper { padding: 0; }
-  &::-webkit-color-swatch         { border: none; border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px); }
-  &::-moz-color-swatch            { border: none; border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px); }
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px);
+  }
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px);
+  }
 
-  &:hover        { border-color: var(--link-hover, #{$link-hover}); }
-  &:active       { border-color: var(--link-active, #{$link-active}); }
-  &:focus-visible { @include focus-ring; }
+  &:hover {
+    border-color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    border-color: var(--link-active, #{$link-active});
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
 }

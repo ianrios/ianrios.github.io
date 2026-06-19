@@ -1,4 +1,4 @@
 {
-  "entry": ["src/index.js"],
-  "project": ["src/**/*.{js,jsx}"]
+  "entry": ["src/main.tsx"],
+  "project": ["src/**/*.{js,jsx,ts,tsx}"]
 }
