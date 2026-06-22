@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Main } from './pages/Home';
 import Admin from './pages/Admin';
+import ThreeScene from './three/ThreeScene';
 import { DesignSystemDrawer } from './components/organisms/DesignSystemDrawer';
 
 // Flex container: drawer occupies left-edge space and pushes Main to the right.
@@ -22,6 +23,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomeWithDrawer />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/three" element={<ThreeScene />} />
     </Routes>
   );
 }

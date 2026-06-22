@@ -8,7 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const ignorePatterns = ['node_modules', '.git', 'build'];
+const ignorePatterns = ['node_modules', '.git', 'build', 'coverage'];
 
 function isIgnored(filePath) {
   // Exclude this script itself from the check

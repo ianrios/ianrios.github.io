@@ -20,13 +20,7 @@ const stylisticTypeCheckedConfigs = tseslint.configs.stylisticTypeChecked.map(
 
 export default tseslint.config(
   {
-    ignores: [
-      'build/**',
-      'coverage/**',
-      'node_modules/**',
-      // TODO: remove this \/ after group 14 migrates to TypeScript
-      'src/three/*.js',
-    ],
+    ignores: ['build/**', 'coverage/**', 'node_modules/**'],
   },
   js.configs.recommended,
   {

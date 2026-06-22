@@ -1,70 +1,23 @@
-import { Button } from '../../components/atoms/Button';
 import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { CSSTokenMap, ElevationLevel, Preset } from '../../types/admin';
+import { Button } from '../../components/atoms/Button';
 import { Slider } from '../../components/atoms/Slider';
-import { ValueInput } from '../../components/atoms/ValueInput';
 import {
   SidebarSection,
   ColorControl,
   RangeControl,
   ShadowControl,
-  PresetSelect,
 } from './TokenControls';
-
-const COLOR_CONTROLS = [
-  { label: 'Background', varName: '--color-bg' },
-  { label: 'Surface', varName: '--color-surface' },
-  { label: 'Accent', varName: '--color-accent' },
-  { label: 'Muted', varName: '--color-muted' },
-  { label: 'Text', varName: '--color-text' },
-];
-
-const SPACING_CONTROLS = [
-  { label: 'XXS — badge, tiny', varName: '--space-xxs', min: 1, max: 12 },
-  { label: 'XS — gaps, icons', varName: '--space-xs', min: 2, max: 20 },
-  { label: 'SM — input, nav', varName: '--space-sm', min: 4, max: 48 },
-  { label: 'MD — card pad, gap', varName: '--space-md', min: 4, max: 64 },
-  { label: 'LG — page, btn-lg', varName: '--space-lg', min: 8, max: 80 },
-];
-
-const RADII_CONTROLS = [
-  { label: 'Radius SM', varName: '--radius-sm', min: 0, max: 24 },
-  { label: 'Radius MD', varName: '--radius-md', min: 0, max: 40 },
-  { label: 'Radius LG', varName: '--radius-lg', min: 0, max: 48 },
-];
-
-const BTN_COLOR_CONTROLS = [
-  { label: 'Fill text', varName: '--btn-text-color' },
-  { label: 'Gradient start', varName: '--btn-gradient-start' },
-  { label: 'Gradient end', varName: '--btn-gradient-end' },
-];
-
-const BTN_SHAPE_CONTROLS = [
-  { label: 'Radius', varName: '--btn-radius', min: 0, max: 50 },
-  { label: 'Padding Y', varName: '--btn-padding-y', min: 0, max: 24 },
-  { label: 'Padding X', varName: '--btn-padding-x', min: 0, max: 64 },
-];
-
-const LINK_COLOR_CONTROLS = [
-  { label: 'Default (anchors)', varName: '--link-color' },
-  { label: 'Hover', varName: '--link-hover' },
-  { label: 'Active', varName: '--link-active' },
-];
-
-const SHADOW_CONTROLS = [
-  { label: 'Pop highlight', varName: '--pop-shadow-light' },
-  { label: 'Pop shadow', varName: '--pop-shadow-dark' },
-  { label: 'Active highlight', varName: '--inset-shadow-highlight' },
-];
-
-const SUB_LABEL = {
-  fontSize: 11,
-  color: 'var(--color-muted)',
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: 0.8,
-};
+import { PresetSelect } from './TokenPresets';
+import { ButtonSidebarSection } from './ButtonSidebarSection';
+import {
+  COLOR_CONTROLS,
+  SPACING_CONTROLS,
+  RADII_CONTROLS,
+  LINK_COLOR_CONTROLS,
+  SHADOW_CONTROLS,
+} from './token-sidebar-data';
 
 export function TokenSidebar({
   vars,
@@ -176,90 +129,15 @@ export function TokenSidebar({
       </SidebarSection>
 
       <SidebarSection title="Button" badge="atom">
-        <div style={{ ...SUB_LABEL, marginBottom: 8 }}>Color</div>
-        {BTN_COLOR_CONTROLS.map((c) => (
-          <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
-        <div style={{ ...SUB_LABEL, marginTop: 14, marginBottom: 8 }}>
-          Shape
-        </div>
-        {BTN_SHAPE_CONTROLS.map((c) => (
-          <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
-        <div style={{ ...SUB_LABEL, marginTop: 14, marginBottom: 8 }}>
-          Elevation
-        </div>
-        <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
-          {(['low', 'med', 'high', 'custom'] as const).map((level) => (
-            <Button
-              key={level}
-              variant={elevationLevel === level ? 'primary' : 'outline'}
-              size="xs"
-              onClick={() => {
-                applyElevation(level);
-              }}
-            >
-              {level}
-            </Button>
-          ))}
-        </div>
-        {elevationLevel === 'custom' && (
-          <ValueInput
-            value={customElevation}
-            onChange={(e) => {
-              setCustomElevation(e.target.value);
-              setVar('--btn-elevation', e.target.value);
-            }}
-            placeholder="e.g. 0 12px 24px rgba(0,0,0,0.15)"
-            spellCheck={false}
-            style={{ width: '100%', marginBottom: 6 }}
-          />
-        )}
-        <div
-          style={{
-            fontSize: 10,
-            fontFamily: 'monospace',
-            marginBottom: 8,
-            wordBreak: 'break-all',
-            color: 'var(--color-muted)',
-          }}
-        >
-          {vars['--btn-elevation']}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            gap: 'var(--space-sm)',
-            padding: 'var(--space-sm) var(--space-xs) var(--space-lg)',
-            background: 'var(--color-bg)',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid rgba(128,128,128,0.10)',
-          }}
-        >
-          {Object.entries(elevationPresets).map(([lvl, shadow]) => (
-            <div
-              key={lvl}
-              style={{
-                flex: 1,
-                padding: 'var(--space-sm)',
-                background: 'var(--color-surface)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: shadow,
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                }}
-              >
-                {lvl}
-              </div>
-            </div>
-          ))}
-        </div>
+        <ButtonSidebarSection
+          vars={vars}
+          setVar={setVar}
+          elevationLevel={elevationLevel}
+          applyElevation={applyElevation}
+          customElevation={customElevation}
+          setCustomElevation={setCustomElevation}
+          elevationPresets={elevationPresets}
+        />
       </SidebarSection>
 
       <SidebarSection title="Focus" badge="atom" defaultOpen={false}>

@@ -2,8 +2,7 @@
 
 ## Current phase
 
-TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–5
-complete. Phase 6 next (post-migration cleanup: knip.json, vite.config.ts react() simplification, CLAUDE.md final update). `src/three/` rewrite (Group 14) deferred to its own work item.
+TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–5 and Group 14 complete. Phase 6 and Group 14 items folded into Phase 5 commit. Phase 7 (verification gate: deploy confirm) is next.
 
 ## Active priorities (in order)
 
@@ -11,12 +10,10 @@ complete. Phase 6 next (post-migration cleanup: knip.json, vite.config.ts react(
 
 1. ✅ **Phase 1 — Dead code audit (knip)** — old-three/, setupTests.js, CardGrid.js, reportWebVitals.js deleted; 13 packages uninstalled.
 2. ✅ **Phase 2 — CRA → Vite + React 18 + test infrastructure** — Vite 8, React 18, Vitest, all .js renamed to .jsx.
-3. ✅ **Phase 3 — TypeScript config** — `typescript` installed, `tsconfig.json` added with full strict config. `vitest` upgraded 3→4 (peer dep fix). One known typecheck error until Phase 5 (`main.tsx`→`App.jsx`).
-4. ✅ **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/`, `npm run check` canonical. DSPreview/TokenSidebar/V2Preview/Home.jsx refactored to pass line limits. One known typecheck gap (`main.tsx→App.jsx`) — fixed by Phase 5.
-5. ✅ **Phase 5 — File conversion (bottom-up)** — all `.jsx`→`.tsx`/`.ts`; `npm run check` green. `src/three/` vendored files deferred (Group 14).
-6. **Phase 6 — Post-migration cleanup** — `knip.json` entry update, `vite.config.ts` react() simplification, CLAUDE.md final update.
-7. **Phase 7 — Verification gate** — all checks green, deploy confirmed.
-8. **Group 14 — `src/three/` rewrite** — delete vendored JS, create `ThreeScene.tsx`, wire `/three` route.
+3. ✅ **Phase 3 — TypeScript config** — `typescript` installed, `tsconfig.json` added with full strict config.
+4. ✅ **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/`, `npm run check` canonical.
+5. ✅ **Phase 5 — File conversion + Group 14 + cleanup** — all `.jsx`→`.tsx`/`.ts`; `src/three/` vendored files deleted, `ThreeScene.tsx` written using npm `three`; knip.json / vite.config.ts / eslint config cleaned up; `npm run check` green.
+6. **Phase 7 — Verification gate** — deploy to Firebase, confirm site live at ianrios.me.
 
 ### Pending (lower priority, unblocked by migration)
 

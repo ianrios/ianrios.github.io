@@ -1,4 +1,5 @@
 import type React from 'react';
+import { ICON_MAP } from './icon-map';
 
 interface SvgPath {
   d: string;
@@ -9,22 +10,6 @@ interface SvgIcon {
   viewBox: string;
   paths: SvgPath[];
 }
-
-// Unicode stand-ins for inline/decorative use
-export const ICON_MAP: Record<string, string> = {
-  arrow: '→',
-  plus: '+',
-  check: '✓',
-  close: '×',
-  menu: '☰',
-  chevron: '›',
-  edit: '✏',
-  star: '★',
-  folder: '◉',
-  'circle-fill': '●',
-  circle: '○',
-  link: '⌁',
-};
 
 // Actual Bootstrap Icons SVG paths already used in the repo
 // (masonry-card, sidebar)

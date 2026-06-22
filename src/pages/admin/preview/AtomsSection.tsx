@@ -1,37 +1,15 @@
 import { useState } from 'react';
-import { Icon, ICON_MAP } from '../../../components/atoms/Icon';
-import { IconButton } from '../../../components/atoms/IconButton';
-import { IconLink } from '../../../components/atoms/IconLink';
 import { Badge } from '../../../components/atoms/Badge';
 import { Input } from '../../../components/atoms/Input';
 import { Slider } from '../../../components/atoms/Slider';
 import { ValueInput } from '../../../components/atoms/ValueInput';
 import { ColorPicker } from '../../../components/atoms/ColorPicker';
 import { SectionLabel, TierLabel } from '../AdminUI';
-import { ButtonStateRow, LINK_STYLES, LINK_COLORS } from './ButtonHelpers';
-import { BUTTON_VARIANTS, BUTTON_SIZES, BADGE_SAMPLES } from '../adminData';
+import { LINK_STYLES, LINK_COLORS } from './button-helpers-data';
+import { BADGE_SAMPLES } from '../adminData';
+import { ButtonAtoms } from './ButtonAtoms';
+import { IconAtoms } from './IconAtoms';
 import '../preview.scss';
-
-const SVG_ICONS = [
-  'github',
-  'instagram',
-  'info',
-  'external',
-  'send',
-  'chevron-down',
-  'chevron-up',
-  'menu',
-  'close',
-];
-
-function IconEntry({ name, size = 18 }: { name: string; size?: number }) {
-  return (
-    <div className="preview-icon-entry">
-      <Icon name={name} size={size} />
-      <span className="preview-icon-label">{name}</span>
-    </div>
-  );
-}
 
 export function AtomsSection() {
   const [sliderVal, setSliderVal] = useState(40);
@@ -41,74 +19,7 @@ export function AtomsSection() {
     <>
       <TierLabel>Atoms</TierLabel>
 
-      <SectionLabel>Button — style (gradient / primary / outline)</SectionLabel>
-      <div
-        className="preview-flex preview-flex--end"
-        style={{ marginBottom: 'var(--space-md)' }}
-      >
-        {BUTTON_VARIANTS.map(({ label, cls, desc }) => (
-          <div
-            key={label}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 'var(--space-xxs)',
-            }}
-          >
-            <button className={`skeu-btn ${cls}`}>{label}</button>
-            <span
-              style={{
-                fontSize: 10,
-                color: 'var(--color-muted)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {desc}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <SectionLabel>
-        Button — size (xs / sm / md / lg / xl) — orthogonal to style
-      </SectionLabel>
-      {BUTTON_VARIANTS.map(({ label: varLabel, cls: varCls }) => (
-        <div key={varLabel} style={{ marginBottom: 'var(--space-sm)' }}>
-          <div
-            style={{
-              fontSize: 11,
-              color: 'var(--color-muted)',
-              marginBottom: 'var(--space-xs)',
-            }}
-          >
-            {varLabel || 'gradient'}
-          </div>
-          <div className="preview-flex preview-flex--end">
-            {BUTTON_SIZES.map(({ label: sizeLabel, cls: sizeCls }) => (
-              <div key={sizeLabel} style={{ textAlign: 'center' }}>
-                <button className={`skeu-btn ${varCls} ${sizeCls}`.trim()}>
-                  {sizeLabel}
-                </button>
-                <div
-                  style={{
-                    fontSize: 10,
-                    color: 'var(--color-muted)',
-                    marginTop: 2,
-                  }}
-                >
-                  {sizeLabel}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-
-      <SectionLabel>Button — states (default / hover / active)</SectionLabel>
-      {BUTTON_VARIANTS.map(({ label, cls }) => (
-        <ButtonStateRow key={label} label={label} cls={cls} />
-      ))}
+      <ButtonAtoms />
 
       <SectionLabel>Badge</SectionLabel>
       <div className="preview-flex" style={{ marginBottom: 'var(--space-md)' }}>
@@ -118,54 +29,7 @@ export function AtomsSection() {
         <Badge href="https://github.com/ianrios">linked badge</Badge>
       </div>
 
-      <SectionLabel>Icon — Unicode (inline / decorative)</SectionLabel>
-      <div
-        className="preview-flex preview-flex--end"
-        style={{ marginBottom: 'var(--space-sm)' }}
-      >
-        {Object.entries(ICON_MAP).map(([name]) => (
-          <IconEntry key={name} name={name} />
-        ))}
-      </div>
-
-      <SectionLabel>Icon — SVG repo icons</SectionLabel>
-      <div
-        className="preview-flex preview-flex--end"
-        style={{ marginBottom: 'var(--space-md)' }}
-      >
-        {SVG_ICONS.map((name) => (
-          <IconEntry key={name} name={name} />
-        ))}
-      </div>
-
-      <SectionLabel>IconButton — square icon-only button</SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-md)' }}>
-        <IconButton name="close" aria-label="Close" />
-        <IconButton name="edit" aria-label="Edit" />
-        <IconButton name="plus" variant="primary" aria-label="Add" />
-        <IconButton name="send" aria-label="Send" />
-        <IconButton name="menu" aria-label="Menu" />
-      </div>
-
-      <SectionLabel>IconLink — square icon-only anchor</SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-md)' }}>
-        <IconLink
-          name="github"
-          href="https://github.com/ianrios"
-          aria-label="GitHub"
-        />
-        <IconLink
-          name="instagram"
-          href="https://www.instagram.com/ian___rios"
-          aria-label="Instagram"
-        />
-        <IconLink
-          name="external"
-          href="https://ianrios.me"
-          aria-label="Open site"
-        />
-        <IconLink name="info" href="#demo" aria-label="Info" />
-      </div>
+      <IconAtoms />
 
       <SectionLabel>Link — all combinations (style × color)</SectionLabel>
       <div style={{ marginBottom: 'var(--space-md)' }}>

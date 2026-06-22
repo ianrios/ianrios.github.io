@@ -31,8 +31,6 @@ export interface HobbyData {
   instagram: string;
 }
 
-export type CardData = ProjectData | WorkExperience | HobbyData;
-
 export type SkillTuple = [string, number];
 
 export type ToolsMap = Record<string, string>;

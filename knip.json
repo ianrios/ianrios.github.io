@@ -1,4 +1,9 @@
 {
   "entry": ["src/main.tsx"],
-  "project": ["src/**/*.{js,jsx,ts,tsx}"]
+  "project": ["src/**/*.{ts,tsx}"],
+  "ignoreDependencies": [
+    "@testing-library/react",
+    "@testing-library/user-event"
+  ],
+  "ignoreBinaries": ["firebase"]
 }

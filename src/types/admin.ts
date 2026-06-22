@@ -30,7 +30,7 @@ export interface AccordionItem {
   body: string;
 }
 
-export interface NavSectionItem {
+interface NavSectionItem {
   id: string;
   label: string;
 }
