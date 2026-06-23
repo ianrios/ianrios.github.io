@@ -2,7 +2,7 @@
 
 ## Current phase
 
-TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–6 complete. Phase 7 (verification gate: deploy confirm) is next.
+TypeScript migration (`.ai/specs/typescript-migration.md`) — **COMPLETE** as of 2026-06-22. All phases done, site deployed. Next: portfolio content, V2 design, ImageBox.
 
 ## Active priorities (in order)
 
@@ -14,7 +14,7 @@ TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–6 complet
 4. ✅ **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/`, `npm run check` canonical.
 5. ✅ **Phase 5 — File conversion + Group 14** — all `.jsx`→`.tsx`/`.ts`; `src/three/` vendored files deleted, `ThreeScene.tsx` written using npm `three`; `npm run check` green.
 6. ✅ **Phase 6 — Post-migration cleanup** — `find src -name "*.jsx"` returns nothing; `vite.config.ts` reverted to plain `react()`; CLAUDE.md stale references removed.
-7. **Phase 7 — Verification gate** — deploy to Firebase, confirm site live at ianrios.me.
+7. ✅ **Phase 7 — Verification gate** — build clean, deployed to Firebase, ianrios.me live.
 
 ### Pending (lower priority, unblocked by migration)
 

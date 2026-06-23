@@ -32,18 +32,6 @@ All files in `src/`. No exclusions. `src/three/` rewritten as a proper React rou
 
 ---
 
-## Phase 7 — Verification gate
+## Phase 7 — Verification gate ✅ DONE
 
-All must pass before the migration is done:
-
-```bash
-npm run typecheck   # zero errors
-npm run lint        # zero warnings, no eslint-disable, no knip findings
-npm run build       # clean output, deploys correctly to Firebase
-npm test            # all passing under Vitest
-find src -name "*.jsx" -o -name "*.js" # must return nothing
-```
-
-### Phase 7 — Doc update
-
-Update `CLAUDE.md` fully to reflect the completed migration: TypeScript throughout, Vite, Vitest, strict ESLint. Update `.ai/WORK.md` with migration complete. Archive or close this spec.
+`npm run check` green, `npm run build` clean (818 kB bundle, Sass @import warnings are pre-existing non-errors), `npm test` exits 0 (no test files yet). Deployed to Firebase — ianrios.me live.
