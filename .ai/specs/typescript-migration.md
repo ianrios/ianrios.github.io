@@ -26,20 +26,9 @@ All files in `src/`. No exclusions. `src/three/` rewritten as a proper React rou
 
 ---
 
-## Phase 6 — Post-migration `.jsx` cleanup verification
+## Phase 6 — Post-migration cleanup verification ✅ DONE
 
-After Phase 5, no `.jsx` files should remain anywhere in `src/`. Run:
-
-```bash
-find src -name "*.jsx" # must return nothing
-find src -name "*.js"  # must return nothing (src/three/ vendored files are gone)
-```
-
-Also clean up `vite.config.ts`: remove the `include: /\.[jt]sx?$/` override from the react plugin — it was only needed to handle JSX in `.js` files during the intermediate state. Revert to `react()`.
-
-### Phase 6 — Doc update
-
-Update `.ai/specs/typescript-migration.md` Phase 2 stubbed-toe note: confirm resolved. Update CLAUDE.md to remove any remaining references to `.jsx`.
+`find src -name "*.jsx"` and `find src -name "*.js"` both return nothing. `vite.config.ts` reverted to plain `react()`. CLAUDE.md updated to remove `.jsx`/Group 14 stale references.
 
 ---
 

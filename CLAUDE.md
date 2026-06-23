@@ -17,7 +17,7 @@ Ian directs, reviews, and deploys. Agents own implementation, refactors, scaffol
 ## Toolchain
 
 - **Bundler:** Vite 8 (replaced CRA). Config: `vite.config.ts`.
-- **Language:** TypeScript. All source files are `.tsx`/`.ts`. Do not create `.js` or `.jsx` files. (`src/three/` still has vendored `.js` — deferred rewrite, see WORK.md Group 14.)
+- **Language:** TypeScript. All source files are `.tsx`/`.ts`. Do not create `.js` or `.jsx` files.
 - **Tests:** Vitest 4 + `@testing-library/react` 14. Run with `npm test`.
 - **Node:** `.nvmrc` pins 18.19.0 but Vitest 4 requires Node 20, 22, or ≥24. Use Node 20+ in practice.
 - **Package manager:** npm.
@@ -48,7 +48,7 @@ React routes (`src/App.tsx`):
 
 - `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → sidebar nav + masonry card grid
 - `/admin` — **Admin** (`src/pages/Admin.tsx`) — live design-system playground, token editor
-- `/three` — **ThreeScene** — planned React route (vendored files in `src/three/` pending rewrite, Group 14)
+- `/three` — **ThreeScene** (`src/three/ThreeScene.tsx`) — MarchingCubes metaballs, live route
 - `/imagebox` — **ImageBox** — planned but not yet built (see `.ai/specs/imagebox-epic.md`)
 
 ## Data

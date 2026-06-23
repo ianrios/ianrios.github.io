@@ -2,7 +2,7 @@
 
 ## Current phase
 
-TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–5 and Group 14 complete. Phase 6 and Group 14 items folded into Phase 5 commit. Phase 7 (verification gate: deploy confirm) is next.
+TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–6 complete. Phase 7 (verification gate: deploy confirm) is next.
 
 ## Active priorities (in order)
 
@@ -12,12 +12,13 @@ TypeScript migration (`.ai/specs/typescript-migration.md`). Phases 1–5 and Gro
 2. ✅ **Phase 2 — CRA → Vite + React 18 + test infrastructure** — Vite 8, React 18, Vitest, all .js renamed to .jsx.
 3. ✅ **Phase 3 — TypeScript config** — `typescript` installed, `tsconfig.json` added with full strict config.
 4. ✅ **Phase 4 — ESLint + Prettier + enforcement scripts** — `eslint.config.js`, `.prettierrc.json`, `scripts/`, `npm run check` canonical.
-5. ✅ **Phase 5 — File conversion + Group 14 + cleanup** — all `.jsx`→`.tsx`/`.ts`; `src/three/` vendored files deleted, `ThreeScene.tsx` written using npm `three`; knip.json / vite.config.ts / eslint config cleaned up; `npm run check` green.
-6. **Phase 7 — Verification gate** — deploy to Firebase, confirm site live at ianrios.me.
+5. ✅ **Phase 5 — File conversion + Group 14** — all `.jsx`→`.tsx`/`.ts`; `src/three/` vendored files deleted, `ThreeScene.tsx` written using npm `three`; `npm run check` green.
+6. ✅ **Phase 6 — Post-migration cleanup** — `find src -name "*.jsx"` returns nothing; `vite.config.ts` reverted to plain `react()`; CLAUDE.md stale references removed.
+7. **Phase 7 — Verification gate** — deploy to Firebase, confirm site live at ianrios.me.
 
 ### Pending (lower priority, unblocked by migration)
 
-8. **Portfolio content** — Add latest work experience and projects to `src/data.jsx` (requires Ian to supply content/details).
+8. **Portfolio content** — Add latest work experience and projects to `src/data.ts` (requires Ian to supply content/details).
 9. **V2 design exploration** — Read `.ai/specs/portfolio-overhaul.md`; implement items 6 (new job experience view), 7 (/resume path), 11/12 (animations, minimal/esoteric design).
 10. **ImageBox** — Not started. See `.ai/specs/imagebox-epic.md`.
 
