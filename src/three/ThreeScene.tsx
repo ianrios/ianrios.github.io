@@ -91,6 +91,7 @@ export default function ThreeScene() {
           0.5;
         effect.addBall(ballx, bally, ballz, strength, subtract);
       }
+      effect.update();
     }
 
     function animate() {
@@ -113,10 +114,5 @@ export default function ThreeScene() {
     };
   }, []);
 
-  return (
-    <div
-      ref={containerRef}
-      style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}
-    />
-  );
+  return <div ref={containerRef} style={{ position: 'fixed', inset: 0 }} />;
 }
