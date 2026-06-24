@@ -22,7 +22,7 @@ export const independentProjectsData: ProjectData[] = [
     img_src_arr: ['./img/metaspheres.png'],
     body: 'Built for my portfolio to display my passion for math, design, and 3D sites.',
     href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
-    live: 'https://ianrios.me/three',
+    live: '/three',
     tools: [
       'Three.js',
       'React',
@@ -285,7 +285,7 @@ export const workProjectsData: WorkExperience[] = [
     company: 'Big Ass Fans',
     img_src_arr: ['./gif/speclab.gif'],
     body: 'Computational Fluid Dynamics (CFD) Analysis & Simulation tool',
-    href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
+    href: '',
     live: 'https://bigassfans.com/speclab',
   },
   {
@@ -351,7 +351,7 @@ export const workProjectsData: WorkExperience[] = [
     company: 'Big Ass Fans',
 
     body: 'Admin dashboard to manage running CFD sims, user permissions, export metrics, and view database entities',
-    href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
+    href: '',
     live: 'https://bigassfans.com/speclab',
   },
   {
@@ -385,7 +385,7 @@ export const workProjectsData: WorkExperience[] = [
     company: 'Big Ass Fans',
 
     body: 'Salesforce Abstraction Layer tool to assist with attaching an opportunity to a SpecLab drawing.',
-    href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
+    href: '',
     live: 'https://bigassfans.com/speclab',
   },
   {

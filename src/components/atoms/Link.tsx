@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const LINK_SIZE_CLASS: Record<'xs' | 'sm' | 'lg' | 'xl', string> = {
   xs: 'skeu-btn--xs',
@@ -40,6 +41,14 @@ export function Link({
   if (size) cls.push(LINK_SIZE_CLASS[size]);
 
   if (className) cls.push(className);
+
+  if (!external && href?.startsWith('/')) {
+    return (
+      <RouterLink to={href} className={cls.join(' ')} {...props}>
+        {children}
+      </RouterLink>
+    );
+  }
 
   return (
     <a

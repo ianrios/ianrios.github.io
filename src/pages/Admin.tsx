@@ -11,6 +11,7 @@ import {
 } from './admin/adminData';
 import { PageLayout } from '../components/organisms/PageLayout';
 import { PushPanel } from '../components/organisms/PushPanel';
+import { Link } from '../components/atoms/Link';
 import { useDesignVars } from '../hooks/useDesignVars';
 
 const TABS = [
@@ -105,6 +106,14 @@ function Admin() {
           padding: '24px 24px 48px',
         }}
       >
+        <Link
+          href="/"
+          size="xs"
+          color="muted"
+          style={{ display: 'inline-block', marginBottom: 'var(--space-sm)' }}
+        >
+          ← Portfolio
+        </Link>
         <h2>/admin — Design tokens</h2>
         <p style={{ opacity: 0.6, fontSize: 14 }}>
           Changes persist to localStorage and apply to the whole page

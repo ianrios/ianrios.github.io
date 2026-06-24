@@ -3,6 +3,7 @@ import { tools } from '../data';
 import { IconLink } from './atoms/IconLink';
 import { Icon } from './atoms/Icon';
 import { Badge } from './atoms/Badge';
+import { Link } from './atoms/Link';
 
 interface MasonryCardItem {
   title?: string;
@@ -152,14 +153,13 @@ const MasonryCard = ({
           />
         )}
         {!!item.live && (
-          <a
+          <Link
             href={item.live}
-            rel="noreferrer"
-            target="_blank"
-            className="skeu-link skeu-btn--xs"
+            external={!item.live.startsWith('/')}
+            size="xs"
           >
             Visit Live Demo
-          </a>
+          </Link>
         )}
         {!!item.instagram && (
           <IconLink
