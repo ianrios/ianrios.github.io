@@ -1,121 +1,103 @@
 import { useState } from 'react';
 import { Badge } from '../../../components/atoms/Badge';
+import { Icon } from '../../../components/atoms/Icon';
 import { Input } from '../../../components/atoms/Input';
 import { Slider } from '../../../components/atoms/Slider';
 import { ValueInput } from '../../../components/atoms/ValueInput';
 import { ColorPicker } from '../../../components/atoms/ColorPicker';
+import { Switch } from '../../../components/atoms/Switch';
+import { Button } from '../../../components/atoms/Button';
 import { SectionLabel, TierLabel } from '../AdminUI';
-import { LINK_STYLES, LINK_COLORS } from './button-helpers-data';
 import { BADGE_SAMPLES } from '../adminData';
-import { ButtonAtoms } from './ButtonAtoms';
-import { IconAtoms } from './IconAtoms';
-import '../preview.scss';
+
+const BUTTON_VARIANTS = [
+  'solid',
+  'outline',
+  'surface',
+  'chisel',
+  'ghost',
+] as const;
+const BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
+const BUTTON_COLORS = ['default', 'muted', 'accent', 'primary'] as const;
+const ICON_SAMPLES = ['send', 'github', 'info', 'external', 'plus', 'close'];
 
 export function AtomsSection() {
   const [sliderVal, setSliderVal] = useState(40);
   const [inputVal, setInputVal] = useState('#39ff14');
+  const [switchOn, setSwitchOn] = useState(true);
 
   return (
     <>
       <TierLabel>Atoms</TierLabel>
 
-      <ButtonAtoms />
+      <SectionLabel>
+        Button — variant × size · button / link / icon-only
+      </SectionLabel>
+      <div className="skeu-preview-section">
+        {BUTTON_VARIANTS.map((variant) => (
+          <div key={variant} className="skeu-btn-size-group">
+            <div className="skeu-btn-size-sublabel">{variant}</div>
+            <div className="skeu-preview-flex skeu-preview-flex--end">
+              {BUTTON_SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} text={size} />
+              ))}
+              <Button
+                variant={variant}
+                icon="send"
+                aria-label={`${variant} icon-only`}
+              />
+              <Button variant={variant} as="link" href="/admin" text="link" />
+            </div>
+          </div>
+        ))}
+        <div className="skeu-preview-note">
+          solid fill · outline bevel · surface smooth→border · chisel
+          smooth→hard-bevel · ghost bare · <code>underline</code> optional.
+        </div>
+      </div>
+
+      <SectionLabel>Button — color axis (outline) · disabled</SectionLabel>
+      <div className="skeu-preview-section">
+        <div className="skeu-preview-flex">
+          {BUTTON_COLORS.map((color) => (
+            <Button key={color} variant="outline" color={color} text={color} />
+          ))}
+        </div>
+        <div className="skeu-preview-flex skeu-preview-flex--end skeu-mt-md">
+          <Button variant="ghost" underline text="underline" />
+          <Button as="link" href="/admin" underline text="link underline" />
+          <Button variant="outline" disabled text="disabled" />
+          <Button as="link" href="/admin" disabled text="disabled link" />
+        </div>
+      </div>
+
+      <SectionLabel>Icon — SVG + Unicode glyph atom</SectionLabel>
+      <div className="skeu-preview-flex skeu-preview-section">
+        {ICON_SAMPLES.map((name) => (
+          <span key={name} className="skeu-preview-icon-cell" title={name}>
+            <Icon name={name} size={20} />
+          </span>
+        ))}
+        <span className="skeu-preview-note">
+          named SVGs render inline; others fall back to a Unicode glyph.
+        </span>
+      </div>
 
       <SectionLabel>Badge</SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-md)' }}>
+      <div className="skeu-preview-flex skeu-preview-section">
         {BADGE_SAMPLES.map((b) => (
           <Badge key={b}>{b}</Badge>
         ))}
         <Badge href="https://github.com/ianrios">linked badge</Badge>
       </div>
 
-      <IconAtoms />
-
-      <SectionLabel>Link — all combinations (style × color)</SectionLabel>
-      <div style={{ marginBottom: 'var(--space-md)' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '110px repeat(4, 1fr)',
-            gap: 'var(--space-xs)',
-            marginBottom: 'var(--space-xs)',
-          }}
-        >
-          <div style={{ fontSize: 10, color: 'var(--color-muted)' }} />
-          {LINK_COLORS.map(({ label }) => (
-            <div
-              key={label}
-              style={{
-                fontSize: 10,
-                color: 'var(--color-muted)',
-                textAlign: 'center',
-                fontWeight: 600,
-              }}
-            >
-              {label}
-            </div>
-          ))}
-        </div>
-        {LINK_STYLES.map(({ label, variantClass }) => (
-          <div
-            key={label}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '110px repeat(4, 1fr)',
-              gap: 'var(--space-xs)',
-              alignItems: 'center',
-              marginBottom: 'var(--space-xs)',
-            }}
-          >
-            <div style={{ fontSize: 10, color: 'var(--color-muted)' }}>
-              {label}
-            </div>
-            {LINK_COLORS.map(({ label: colorLabel, colorClass }) => {
-              const cls = ['skeu-link', variantClass, colorClass]
-                .filter(Boolean)
-                .join(' ');
-              return (
-                <div
-                  key={colorLabel}
-                  style={{ display: 'flex', justifyContent: 'center' }}
-                >
-                  <a href="#demo" className={cls} style={{ fontSize: 12 }}>
-                    link
-                  </a>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-        <div className="preview-note" style={{ marginTop: 'var(--space-xs)' }}>
-          Style: surface = button-look · text = plain underline · ghost = color
-          only
-          <br />
-          Color: default = <code>--link-color</code> · muted · accent · primary
-          <br />
-          Hover/active on all variants = <code>--link-hover</code> /{' '}
-          <code>--link-active</code>
-        </div>
-      </div>
-
       <SectionLabel>Input</SectionLabel>
-      <div style={{ marginBottom: 'var(--space-md)' }}>
-        <Input
-          placeholder="Text input (tab to see focus ring)"
-          style={{ width: 300 }}
-        />
+      <div className="skeu-preview-input-wrap">
+        <Input placeholder="Text input (tab to see focus ring)" fullWidth />
       </div>
 
       <SectionLabel>ValueInput — compact token editor input</SectionLabel>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-xs)',
-          marginBottom: 'var(--space-md)',
-          maxWidth: 340,
-        }}
-      >
+      <div className="skeu-preview-col-group">
         <ValueInput
           label="Hex color"
           value={inputVal}
@@ -137,15 +119,7 @@ export function AtomsSection() {
       </div>
 
       <SectionLabel>Slider — custom range input atom</SectionLabel>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-sm)',
-          marginBottom: 'var(--space-md)',
-          maxWidth: 340,
-        }}
-      >
+      <div className="skeu-preview-col-group">
         <Slider
           label="Opacity"
           min={0}
@@ -175,8 +149,23 @@ export function AtomsSection() {
         />
       </div>
 
+      <SectionLabel>Switch — neumorphic toggle atom</SectionLabel>
+      <div className="skeu-preview-flex skeu-preview-section">
+        <Switch
+          checked={switchOn}
+          onChange={setSwitchOn}
+          label={switchOn ? 'On' : 'Off'}
+        />
+        <Switch checked onChange={() => undefined} label="Always on" />
+        <Switch checked={false} onChange={() => undefined} label="Always off" />
+        <Switch checked onChange={() => undefined} disabled label="Disabled" />
+        <span className="skeu-preview-note">
+          track = inset groove · thumb = convex pop · on = --color-accent
+        </span>
+      </div>
+
       <SectionLabel>ColorPicker — styled color input atom</SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-md)' }}>
+      <div className="skeu-preview-flex skeu-preview-section">
         <ColorPicker value="#39ff14" onChange={() => undefined} title="Green" />
         <ColorPicker value="#4da6ff" onChange={() => undefined} title="Blue" />
         <ColorPicker value="#ff4444" onChange={() => undefined} title="Red" />
@@ -185,7 +174,7 @@ export function AtomsSection() {
           onChange={() => undefined}
           title="Yellow"
         />
-        <span className="preview-note">
+        <span className="skeu-preview-note">
           border = --border-color · radius = --radius-sm · hover/active = link
           tokens
         </span>

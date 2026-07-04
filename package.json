@@ -14,11 +14,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . && node scripts/check-no-eslint-disable.js && node scripts/validate-doc-lines.js && knip --no-config-hints",
+    "lint": "eslint . && tsx scripts/validate.ts && knip --no-config-hints",
     "format": "prettier . --write",
     "check": "npm run format && npm run typecheck && npm run lint",
     "test": "vitest run",
     "deploy": "npm run build && firebase deploy"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
   },
   "browserslist": {
     "production": [
@@ -37,6 +41,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^26.0.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@types/three": "^0.184.1",
@@ -52,6 +57,7 @@
     "knip": "^6.16.1",
     "prettier": "^3.8.4",
     "sass": "^1.97.2",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1",
     "vite": "^8.0.16",

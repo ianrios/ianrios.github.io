@@ -2,19 +2,25 @@ import { TierLabel } from '../AdminUI';
 import { BasicCombinations } from './BasicCombinations';
 import { LayoutCombinations } from './LayoutCombinations';
 import { OrgCombinations } from './OrgCombinations';
-import '../preview.scss';
-
 export function CombinationsSection() {
   return (
     <>
-      <TierLabel>Combinations</TierLabel>
-      <div className="preview-note" style={{ marginBottom: 'var(--space-md)' }}>
+      <TierLabel>Patterns</TierLabel>
+      <div className="skeu-preview-note skeu-preview-section">
         Real compositions — Page wraps content with color-bg + space-lg. Cards
-        are surfaces inside it.
+        are surfaces inside it. Groups are separated by a space-xl section gap.
       </div>
-      <BasicCombinations />
-      <LayoutCombinations />
-      <OrgCombinations />
+      <div className="skeu-combo-tiers">
+        <div>
+          <BasicCombinations />
+        </div>
+        <div>
+          <LayoutCombinations />
+        </div>
+        <div>
+          <OrgCombinations />
+        </div>
+      </div>
     </>
   );
 }

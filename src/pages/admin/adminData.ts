@@ -1,9 +1,6 @@
 import type {
   CSSTokenMap,
-  ElevationLevel,
   Preset,
-  ButtonVariant,
-  ButtonSize,
   CardGridItem,
   AccordionItem,
   NavSection,
@@ -11,388 +8,449 @@ import type {
   TimelineEvent,
   V2Project,
 } from '../../types/admin';
+import { REGISTRY_DEFAULTS } from '../../styles/token-registry';
 
-export const ELEVATION_PRESETS: Record<'low' | 'med' | 'high', string> = {
-  low: '0 2px 6px rgba(0,0,0,0.06)',
-  med: '0 8px 20px rgba(0,0,0,0.14)',
-  high: '0 20px 48px rgba(0,0,0,0.26)',
-};
+// ── Complete theme presets ────────────────────────────────────────────────
+// One click sets EVERY editable category at once: colors, chrome, links,
+// button colors + geometry, spacing, radii, typography, motion, layout, and
+// the parametric depth geometry (distance/blur/intensity/contrast — this is how
+// themes span hard Classic-Windows bevel ↔ soft neumorphism). Themes never
+// write the eight derived `--bevel-*` tone colors: applyTheme recomputes those
+// from the theme's bg/surface + depth-contrast. `theme()` requires every field,
+// so a theme cannot silently omit a token (mirrored by the [preset-token] drift
+// check and the themes unit test). Bevel needs bg/surface lightness separation
+// to read, so each palette keeps a visible step between the two.
 
-export const detectElevationLevel = (
-  val: string | undefined,
-): ElevationLevel => {
-  const trimmed = (val ?? '').trim();
-  if (trimmed === ELEVATION_PRESETS.low) return 'low';
-  if (trimmed === ELEVATION_PRESETS.med) return 'med';
-  if (trimmed === ELEVATION_PRESETS.high) return 'high';
-  return trimmed ? 'custom' : 'low';
-};
+type Triple = readonly [string, string, string];
+type SpaceScale = readonly [string, string, string, string, string, string];
+type FontScale = readonly [string, string, string, string, string];
 
-// Chrome: the only per-preset values NOT auto-derived from surface color.
-// Pop-shadow positions are auto-computed in useDesignVars.applyColorPreset.
-const LIGHT_CHROME = {
-  '--btn-top-highlight': 'inset 0 1px 0 rgba(255,255,255,0.65)',
-  '--btn-overlay-opacity': '0.92',
-};
-const DARK_CHROME = {
-  '--btn-top-highlight': 'none',
-  '--btn-overlay-opacity': '0.04',
-};
+interface ThemeSpec {
+  name: string;
+  // colors + chrome
+  bg: string;
+  surface: string;
+  accent: string;
+  muted: string;
+  text: string;
+  border: string;
+  overlay: string;
+  // links
+  link: string;
+  linkHover: string;
+  linkActive: string;
+  linkPrimary: string;
+  // button colors
+  btnPrimaryBg: string;
+  btnPrimaryText: string;
+  // spacing (xxs..xl) + radii (sm/md/lg)
+  space: SpaceScale;
+  radius: Triple;
+  // button geometry
+  btnPadY: string;
+  btnPadX: string;
+  btnRadius: string;
+  // typography (xxs..lg) + line heights
+  font: FontScale;
+  lineBase: string;
+  lineLoose: string;
+  // motion
+  anim: string;
+  animSlow: string;
+  // layout
+  sidebar: string;
+  drawer: string;
+  modal: string;
+  // depth geometry
+  depthDistance: string;
+  depthBlur: string;
+  depthIntensity: string;
+  depthContrast: string;
+  // focus
+  focusRing: string;
+  focusWidth: string;
+}
 
-const mkLinks = (
-  color: string,
-  hover: string,
-  active: string,
-): CSSTokenMap => ({
-  '--link-color': color,
-  '--link-hover': hover,
-  '--link-active': active,
+const theme = (s: ThemeSpec): Preset => ({
+  name: s.name,
+  vars: {
+    '--color-bg': s.bg,
+    '--color-surface': s.surface,
+    '--color-accent': s.accent,
+    '--color-muted': s.muted,
+    '--color-text': s.text,
+    '--border-color': s.border,
+    '--overlay-bg': s.overlay,
+    '--link-color': s.link,
+    '--link-hover': s.linkHover,
+    '--link-active': s.linkActive,
+    '--link-primary-color': s.linkPrimary,
+    '--btn-primary-bg': s.btnPrimaryBg,
+    '--btn-primary-text': s.btnPrimaryText,
+    '--space-xxs': s.space[0],
+    '--space-xs': s.space[1],
+    '--space-sm': s.space[2],
+    '--space-md': s.space[3],
+    '--space-lg': s.space[4],
+    '--space-xl': s.space[5],
+    '--radius-sm': s.radius[0],
+    '--radius-md': s.radius[1],
+    '--radius-lg': s.radius[2],
+    '--btn-padding-y': s.btnPadY,
+    '--btn-padding-x': s.btnPadX,
+    '--btn-radius': s.btnRadius,
+    '--font-xxs': s.font[0],
+    '--font-xs': s.font[1],
+    '--font-sm': s.font[2],
+    '--font-base': s.font[3],
+    '--font-lg': s.font[4],
+    '--line-height-base': s.lineBase,
+    '--line-height-loose': s.lineLoose,
+    '--anim-speed': s.anim,
+    '--anim-speed-slow': s.animSlow,
+    '--sidebar-width': s.sidebar,
+    '--drawer-width': s.drawer,
+    '--modal-max-width': s.modal,
+    '--depth-distance': s.depthDistance,
+    '--depth-blur': s.depthBlur,
+    '--depth-intensity': s.depthIntensity,
+    '--depth-contrast': s.depthContrast,
+    '--focus-ring-color': s.focusRing,
+    '--focus-ring-width': s.focusWidth,
+  },
 });
 
-export const COLOR_PRESETS: Preset[] = [
-  {
-    name: 'Classic White',
-    vars: {
-      '--color-bg': '#f8f9fa',
-      '--color-surface': '#ffffff',
-      '--color-accent': '#e9ecef',
-      '--color-muted': '#adb5bd',
-      '--color-text': '#212529',
-      '--btn-text-color': '#212529',
-      '--btn-gradient-start': '#f8f9fa',
-      '--btn-gradient-end': '#e9ecef',
-      '--focus-ring-color': 'rgba(0,0,0,0.08)',
-      ...LIGHT_CHROME,
-      ...mkLinks('#0066cc', '#cc6600', '#cc0000'),
-    },
-  },
-  {
-    name: 'Plastic',
-    vars: {
-      '--color-bg': '#f5f6f7',
-      '--color-surface': '#ffffff',
-      '--color-accent': '#eaf0f4',
-      '--color-muted': '#9aa3ab',
-      '--color-text': '#1f2933',
-      '--btn-text-color': '#1f2933',
-      '--btn-gradient-start': '#f2f6f9',
-      '--btn-gradient-end': '#dbe5ea',
-      '--focus-ring-color': 'rgba(60,120,180,0.10)',
-      ...LIGHT_CHROME,
-      ...mkLinks('#0077ff', '#ff8800', '#cc0000'),
-    },
-  },
-  {
-    name: 'Warm Cream',
-    vars: {
-      '--color-bg': '#fdf6ec',
-      '--color-surface': '#fffdf7',
-      '--color-accent': '#f5e6c8',
-      '--color-muted': '#b8a48a',
-      '--color-text': '#3d2b1f',
-      '--btn-text-color': '#3d2b1f',
-      '--btn-gradient-start': '#fdf0dc',
-      '--btn-gradient-end': '#f0ddb8',
-      '--focus-ring-color': 'rgba(180,120,60,0.12)',
-      ...LIGHT_CHROME,
-      ...mkLinks('#8b4513', '#c8860a', '#8b0000'),
-    },
-  },
-  {
-    name: 'Paper',
-    vars: {
-      '--color-bg': '#f4f0e8',
-      '--color-surface': '#faf7f2',
-      '--color-accent': '#e8dcc8',
-      '--color-muted': '#9e9080',
-      '--color-text': '#2a2018',
-      '--btn-text-color': '#2a2018',
-      '--btn-gradient-start': '#f0ebe0',
-      '--btn-gradient-end': '#e0d8c8',
-      '--focus-ring-color': 'rgba(80,60,20,0.10)',
-      ...LIGHT_CHROME,
-      ...mkLinks('#6b3a2a', '#9b5a10', '#8b0000'),
-    },
-  },
-  {
-    name: 'Dark',
-    vars: {
-      '--color-bg': '#0d1117',
-      '--color-surface': '#161b22',
-      '--color-accent': '#21262d',
-      '--color-muted': '#8b949e',
-      '--color-text': '#c9d1d9',
-      '--btn-text-color': '#c9d1d9',
-      '--btn-gradient-start': '#21262d',
-      '--btn-gradient-end': '#161b22',
-      '--focus-ring-color': 'rgba(88,166,255,0.15)',
-      ...DARK_CHROME,
-      ...mkLinks('#4da6ff', '#ffdd00', '#ff4444'),
-    },
-  },
-  {
-    name: 'Slate',
-    vars: {
-      '--color-bg': '#1e2a3a',
-      '--color-surface': '#243044',
-      '--color-accent': '#2e3f55',
-      '--color-muted': '#6b7f95',
-      '--color-text': '#d4dde8',
-      '--btn-text-color': '#d4dde8',
-      '--btn-gradient-start': '#2e3f55',
-      '--btn-gradient-end': '#243044',
-      '--focus-ring-color': 'rgba(120,180,255,0.18)',
-      ...DARK_CHROME,
-      ...mkLinks('#66aaff', '#ffcc44', '#ff5555'),
-    },
-  },
-  {
+export const THEMES: Preset[] = [
+  // DEFAULT — bevel-leaning with slight softness. Its vars equal the registry
+  // defaults, so a fresh load (and resetAll) detects "Terminal" as active.
+  theme({
     name: 'Terminal',
-    vars: {
-      '--color-bg': '#0a0e0a',
-      '--color-surface': '#0f1a0f',
-      '--color-accent': '#1a3a1a',
-      '--color-muted': '#4a7c4a',
-      '--color-text': '#39ff14',
-      '--btn-text-color': '#060e06',
-      '--btn-gradient-start': '#39ff14',
-      '--btn-gradient-end': '#1e8a00',
-      '--focus-ring-color': 'rgba(57,255,20,0.15)',
-      ...DARK_CHROME,
-      ...mkLinks('#00ffaa', '#fff800', '#ff3300'),
-    },
-  },
-  {
-    name: 'Candy',
-    vars: {
-      '--color-bg': '#fff0f8',
-      '--color-surface': '#ffffff',
-      '--color-accent': '#ffb3de',
-      '--color-muted': '#cc88b4',
-      '--color-text': '#4a0a3a',
-      '--btn-text-color': '#4a0a3a',
-      '--btn-gradient-start': '#ffe0f4',
-      '--btn-gradient-end': '#ffb3de',
-      '--focus-ring-color': 'rgba(255,100,200,0.20)',
-      ...LIGHT_CHROME,
-      ...mkLinks('#cc0088', '#ff66cc', '#aa0055'),
-    },
-  },
-  {
-    name: 'Neon',
-    vars: {
-      '--color-bg': '#08080f',
-      '--color-surface': '#10101c',
-      '--color-accent': '#1a0a3a',
-      '--color-muted': '#6060aa',
-      '--color-text': '#e8e0ff',
-      '--btn-text-color': '#e8e0ff',
-      '--btn-gradient-start': '#1a0a3a',
-      '--btn-gradient-end': '#10101c',
-      '--focus-ring-color': 'rgba(180,100,255,0.25)',
-      ...DARK_CHROME,
-      ...mkLinks('#aa66ff', '#ff66aa', '#ff3366'),
-    },
-  },
-  // Nuclear Fallout — carries shadow-angle, anim-speed, focus-ring-width
-  // as part of the theme identity
-  {
-    name: 'Nuclear Fallout',
-    vars: {
-      '--color-bg': '#0a0e0a',
-      '--color-surface': '#1c2a0c',
-      '--color-accent': '#4b4e1e',
-      '--color-muted': '#a8a800',
-      '--color-text': '#fff800',
-      '--btn-text-color': '#fff800',
-      '--btn-gradient-start': '#363911',
-      '--btn-gradient-end': '#1f2000',
-      '--focus-ring-color': '#acb201',
-      '--focus-ring-width': '2px',
-      '--shadow-angle': '293',
-      '--anim-speed': '0.72s',
-      ...DARK_CHROME,
-      ...mkLinks('#acb201', '#fff800', '#ff4400'),
-    },
-  },
-];
-
-export const SHAPE_PRESETS: Preset[] = [
-  {
-    name: 'Plastic',
-    vars: {
-      '--space-sm': '12px',
-      '--space-md': '16px',
-      '--space-lg': '24px',
-      '--radius-sm': '4px',
-      '--radius-md': '8px',
-      '--radius-lg': '12px',
-      '--btn-padding-y': '6px',
-      '--btn-padding-x': '12px',
-      '--btn-radius': '6px',
-      '--btn-elevation': ELEVATION_PRESETS.low,
-    },
-  },
-  {
-    name: 'Flat',
-    vars: {
-      '--space-sm': '8px',
-      '--space-md': '12px',
-      '--space-lg': '16px',
-      '--radius-sm': '0px',
-      '--radius-md': '0px',
-      '--radius-lg': '0px',
-      '--btn-padding-y': '6px',
-      '--btn-padding-x': '12px',
-      '--btn-radius': '0px',
-      '--btn-elevation': 'none',
-    },
-  },
-  {
-    name: 'Compact',
-    vars: {
-      '--space-sm': '4px',
-      '--space-md': '8px',
-      '--space-lg': '12px',
-      '--radius-sm': '2px',
-      '--radius-md': '4px',
-      '--radius-lg': '6px',
-      '--btn-padding-y': '3px',
-      '--btn-padding-x': '8px',
-      '--btn-radius': '3px',
-      '--btn-elevation': ELEVATION_PRESETS.low,
-    },
-  },
-  {
-    name: 'Airy',
-    vars: {
-      '--space-sm': '16px',
-      '--space-md': '24px',
-      '--space-lg': '40px',
-      '--radius-sm': '6px',
-      '--radius-md': '12px',
-      '--radius-lg': '20px',
-      '--btn-padding-y': '10px',
-      '--btn-padding-x': '20px',
-      '--btn-radius': '10px',
-      '--btn-elevation': ELEVATION_PRESETS.low,
-    },
-  },
-  {
-    name: 'Pill',
-    vars: {
-      '--space-sm': '12px',
-      '--space-md': '20px',
-      '--space-lg': '32px',
-      '--radius-sm': '20px',
-      '--radius-md': '24px',
-      '--radius-lg': '32px',
-      '--btn-padding-y': '10px',
-      '--btn-padding-x': '24px',
-      '--btn-radius': '50px',
-      '--btn-elevation': ELEVATION_PRESETS.med,
-    },
-  },
-  {
-    name: 'Bubble',
-    vars: {
-      '--space-sm': '16px',
-      '--space-md': '24px',
-      '--space-lg': '48px',
-      '--radius-sm': '16px',
-      '--radius-md': '24px',
-      '--radius-lg': '40px',
-      '--btn-padding-y': '14px',
-      '--btn-padding-x': '32px',
-      '--btn-radius': '40px',
-      '--btn-elevation': ELEVATION_PRESETS.high,
-    },
-  },
-  {
-    name: 'Chunky',
-    vars: {
-      '--space-sm': '20px',
-      '--space-md': '32px',
-      '--space-lg': '56px',
-      '--radius-sm': '8px',
-      '--radius-md': '16px',
-      '--radius-lg': '24px',
-      '--btn-padding-y': '16px',
-      '--btn-padding-x': '40px',
-      '--btn-radius': '12px',
-      '--btn-elevation': ELEVATION_PRESETS.high,
-    },
-  },
-  {
+    bg: '#0a0e0a',
+    surface: '#0f1a0f',
+    accent: '#1a3a1a',
+    muted: '#4a7c4a',
+    text: '#39ff14',
+    border: 'rgba(128, 128, 128, 0.12)',
+    overlay: 'rgba(0, 0, 0, 0.55)',
+    link: '#00ffaa',
+    linkHover: '#fff800',
+    linkActive: '#ff3300',
+    linkPrimary: '#39ff14',
+    btnPrimaryBg: '#39ff14',
+    btnPrimaryText: '#060e06',
+    space: ['4px', '8px', '20px', '32px', '56px', '64px'],
+    radius: ['8px', '16px', '24px'],
+    btnPadY: '16px',
+    btnPadX: '40px',
+    btnRadius: '12px',
+    font: ['10px', '12px', '14px', '16px', '18px'],
+    lineBase: '1.5',
+    lineLoose: '1.6',
+    anim: '0.12s',
+    animSlow: '0.5s',
+    sidebar: '220px',
+    drawer: '280px',
+    modal: '700px',
+    depthDistance: '2px',
+    depthBlur: '3px',
+    depthIntensity: '0.6',
+    depthContrast: '1',
+    focusRing: 'rgba(57,255,20,0.15)',
+    focusWidth: '4px',
+  }),
+  // Crisp Windows 95 — hard bevel (blur 0), squared corners, neutral silver.
+  theme({
+    name: 'Classic Bevel',
+    bg: '#c3c7cb',
+    surface: '#dadde1',
+    accent: '#b0b4b8',
+    muted: '#6d7177',
+    text: '#1a1d20',
+    border: 'rgba(0,0,0,0.35)',
+    overlay: 'rgba(0,0,0,0.45)',
+    link: '#0a3a8c',
+    linkHover: '#5a2d91',
+    linkActive: '#8c1a1a',
+    linkPrimary: '#e8ebee',
+    btnPrimaryBg: '#b0b4b8',
+    btnPrimaryText: '#1a1d20',
+    space: ['2px', '6px', '10px', '16px', '24px', '32px'],
+    radius: ['0px', '2px', '2px'],
+    btnPadY: '4px',
+    btnPadX: '12px',
+    btnRadius: '0px',
+    font: ['10px', '11px', '12px', '13px', '15px'],
+    lineBase: '1.3',
+    lineLoose: '1.4',
+    anim: '0.06s',
+    animSlow: '0.2s',
+    sidebar: '180px',
+    drawer: '240px',
+    modal: '560px',
+    depthDistance: '1px',
+    depthBlur: '0px',
+    depthIntensity: '1',
+    depthContrast: '1',
+    focusRing: 'rgba(0,0,0,0.45)',
+    focusWidth: '2px',
+  }),
+  // Soft neumorphism — high blur/distance, low-contrast monochrome, rounded.
+  theme({
+    name: 'Soft Neu',
+    bg: '#e0e5ec',
+    surface: '#eaeef5',
+    accent: '#d1d9e6',
+    muted: '#9aa5b5',
+    text: '#4a5568',
+    border: 'rgba(120,130,150,0.18)',
+    overlay: 'rgba(40,50,70,0.4)',
+    link: '#5b7cba',
+    linkHover: '#7a6bcc',
+    linkActive: '#c0607a',
+    linkPrimary: '#eef2f8',
+    btnPrimaryBg: '#cdd9ec',
+    btnPrimaryText: '#4a5568',
+    space: ['6px', '12px', '20px', '32px', '48px', '64px'],
+    radius: ['14px', '24px', '36px'],
+    btnPadY: '12px',
+    btnPadX: '28px',
+    btnRadius: '16px',
+    font: ['11px', '13px', '15px', '17px', '20px'],
+    lineBase: '1.6',
+    lineLoose: '1.7',
+    anim: '0.3s',
+    animSlow: '0.8s',
+    sidebar: '240px',
+    drawer: '300px',
+    modal: '760px',
+    depthDistance: '6px',
+    depthBlur: '16px',
+    depthIntensity: '0.5',
+    depthContrast: '1.3',
+    focusRing: 'rgba(91,124,186,0.3)',
+    focusWidth: '4px',
+  }),
+  // Brutalist — zero radii, chunky spacing, hard offset shadow, raw links.
+  theme({
     name: 'Brutalist',
-    vars: {
-      '--space-sm': '4px',
-      '--space-md': '16px',
-      '--space-lg': '48px',
-      '--radius-sm': '0px',
-      '--radius-md': '0px',
-      '--radius-lg': '0px',
-      '--btn-padding-y': '8px',
-      '--btn-padding-x': '16px',
-      '--btn-radius': '0px',
-      '--btn-elevation': '4px 4px 0 rgba(0,0,0,0.85)',
-    },
-  },
-  // Nuclear shape — tight, dense; pairs with Nuclear Fallout color preset
-  {
-    name: 'Nuclear',
-    vars: {
-      '--space-xxs': '5px',
-      '--space-xs': '5px',
-      '--space-sm': '11px',
-      '--space-md': '12px',
-      '--space-lg': '17px',
-      '--radius-sm': '7px',
-      '--radius-md': '14px',
-      '--radius-lg': '16px',
-      '--btn-padding-y': '7px',
-      '--btn-padding-x': '19px',
-      '--btn-radius': '10px',
-      '--btn-elevation': ELEVATION_PRESETS.low,
-    },
-  },
+    bg: '#fafafa',
+    surface: '#ffffff',
+    accent: '#ff5500',
+    muted: '#444444',
+    text: '#0a0a0a',
+    border: 'rgba(0,0,0,0.9)',
+    overlay: 'rgba(0,0,0,0.7)',
+    link: '#0000ee',
+    linkHover: '#ee0000',
+    linkActive: '#aa00aa',
+    linkPrimary: '#000000',
+    btnPrimaryBg: '#1a1a1a',
+    btnPrimaryText: '#fafafa',
+    space: ['4px', '8px', '16px', '40px', '64px', '96px'],
+    radius: ['0px', '0px', '0px'],
+    btnPadY: '10px',
+    btnPadX: '20px',
+    btnRadius: '0px',
+    font: ['12px', '14px', '18px', '22px', '30px'],
+    lineBase: '1.2',
+    lineLoose: '1.3',
+    anim: '0s',
+    animSlow: '0s',
+    sidebar: '200px',
+    drawer: '260px',
+    modal: '800px',
+    depthDistance: '4px',
+    depthBlur: '0px',
+    depthIntensity: '1',
+    depthContrast: '1.8',
+    focusRing: '#ff5500',
+    focusWidth: '4px',
+  }),
+  // High Contrast — accessibility-leaning: black field, high-vis yellow CTA.
+  theme({
+    name: 'High Contrast',
+    bg: '#000000',
+    surface: '#101010',
+    accent: '#1f1f1f',
+    muted: '#c0c0c0',
+    text: '#ffffff',
+    border: 'rgba(255,255,255,0.6)',
+    overlay: 'rgba(0,0,0,0.85)',
+    link: '#4da6ff',
+    linkHover: '#ffff00',
+    linkActive: '#ff6666',
+    linkPrimary: '#ffe000',
+    btnPrimaryBg: '#ffe000',
+    btnPrimaryText: '#000000',
+    space: ['4px', '8px', '16px', '24px', '40px', '56px'],
+    radius: ['0px', '0px', '0px'],
+    btnPadY: '10px',
+    btnPadX: '24px',
+    btnRadius: '0px',
+    font: ['12px', '14px', '16px', '18px', '22px'],
+    lineBase: '1.5',
+    lineLoose: '1.6',
+    anim: '0.1s',
+    animSlow: '0.3s',
+    sidebar: '220px',
+    drawer: '280px',
+    modal: '700px',
+    depthDistance: '2px',
+    depthBlur: '0px',
+    depthIntensity: '1',
+    depthContrast: '2',
+    focusRing: '#ffff00',
+    focusWidth: '4px',
+  }),
+  // Paper — light, warm, refined: subtle radii, gentle low-intensity depth.
+  theme({
+    name: 'Paper',
+    bg: '#f4f0e8',
+    surface: '#faf7f2',
+    accent: '#e8dcc8',
+    muted: '#9e9080',
+    text: '#2a2018',
+    border: 'rgba(120,90,40,0.18)',
+    overlay: 'rgba(60,45,20,0.4)',
+    link: '#6b3a2a',
+    linkHover: '#9b5a10',
+    linkActive: '#8b0000',
+    linkPrimary: '#f0ebe0',
+    btnPrimaryBg: '#e8dcc8',
+    btnPrimaryText: '#2a2018',
+    space: ['3px', '6px', '12px', '20px', '32px', '44px'],
+    radius: ['4px', '8px', '12px'],
+    btnPadY: '8px',
+    btnPadX: '18px',
+    btnRadius: '6px',
+    font: ['11px', '13px', '15px', '17px', '20px'],
+    lineBase: '1.6',
+    lineLoose: '1.8',
+    anim: '0.2s',
+    animSlow: '0.6s',
+    sidebar: '200px',
+    drawer: '260px',
+    modal: '640px',
+    depthDistance: '1px',
+    depthBlur: '2px',
+    depthIntensity: '0.3',
+    depthContrast: '0.8',
+    focusRing: 'rgba(150,100,40,0.3)',
+    focusWidth: '3px',
+  }),
+  // Glow — funky neon on near-black, distance 0 + big blur for a halo.
+  theme({
+    name: 'Glow',
+    bg: '#0a0014',
+    surface: '#16092c',
+    accent: '#2a0a4a',
+    muted: '#8a6abf',
+    text: '#f0e0ff',
+    border: 'rgba(180,100,255,0.3)',
+    overlay: 'rgba(10,0,30,0.7)',
+    link: '#00ffee',
+    linkHover: '#ff44cc',
+    linkActive: '#ffee00',
+    linkPrimary: '#ff00cc',
+    btnPrimaryBg: '#ff00cc',
+    btnPrimaryText: '#14001f',
+    space: ['5px', '10px', '22px', '36px', '56px', '80px'],
+    radius: ['10px', '18px', '28px'],
+    btnPadY: '12px',
+    btnPadX: '28px',
+    btnRadius: '24px',
+    font: ['11px', '13px', '15px', '18px', '24px'],
+    lineBase: '1.5',
+    lineLoose: '1.6',
+    anim: '0.4s',
+    animSlow: '1s',
+    sidebar: '240px',
+    drawer: '320px',
+    modal: '820px',
+    depthDistance: '0px',
+    depthBlur: '20px',
+    depthIntensity: '0.8',
+    depthContrast: '1.5',
+    focusRing: 'rgba(255,0,204,0.5)',
+    focusWidth: '4px',
+  }),
+  // Pillow — funky extreme soft-neu: pastel, max radii, the softest depth.
+  theme({
+    name: 'Pillow',
+    bg: '#f3eefa',
+    surface: '#fbf6ff',
+    accent: '#e8d8f5',
+    muted: '#b0a0c8',
+    text: '#5a4a6e',
+    border: 'rgba(150,130,180,0.2)',
+    overlay: 'rgba(60,40,80,0.4)',
+    link: '#9a7fd0',
+    linkHover: '#d07fb0',
+    linkActive: '#d09a7f',
+    linkPrimary: '#f8eeff',
+    btnPrimaryBg: '#e8d8f5',
+    btnPrimaryText: '#5a4a6e',
+    space: ['8px', '14px', '28px', '44px', '72px', '104px'],
+    radius: ['24px', '40px', '48px'],
+    btnPadY: '16px',
+    btnPadX: '40px',
+    btnRadius: '50px',
+    font: ['12px', '14px', '16px', '19px', '24px'],
+    lineBase: '1.6',
+    lineLoose: '1.7',
+    anim: '0.5s',
+    animSlow: '1.2s',
+    sidebar: '260px',
+    drawer: '340px',
+    modal: '880px',
+    depthDistance: '8px',
+    depthBlur: '24px',
+    depthIntensity: '0.5',
+    depthContrast: '1.2',
+    focusRing: 'rgba(154,127,208,0.4)',
+    focusWidth: '6px',
+  }),
+  // Maximal — funky and loud: clashing color, ceiling spacing, dramatic depth.
+  theme({
+    name: 'Maximal',
+    bg: '#1a0033',
+    surface: '#2a0a4a',
+    accent: '#ff0099',
+    muted: '#b060ff',
+    text: '#ffee00',
+    border: 'rgba(255,0,153,0.4)',
+    overlay: 'rgba(20,0,50,0.7)',
+    link: '#00eeff',
+    linkHover: '#ff0099',
+    linkActive: '#ffee00',
+    linkPrimary: '#ff0099',
+    btnPrimaryBg: '#ff0099',
+    btnPrimaryText: '#1a0033',
+    space: ['6px', '12px', '24px', '48px', '80px', '128px'],
+    radius: ['16px', '32px', '48px'],
+    btnPadY: '18px',
+    btnPadX: '48px',
+    btnRadius: '20px',
+    font: ['13px', '16px', '20px', '26px', '36px'],
+    lineBase: '1.4',
+    lineLoose: '1.5',
+    anim: '0.3s',
+    animSlow: '0.9s',
+    sidebar: '300px',
+    drawer: '400px',
+    modal: '1100px',
+    depthDistance: '5px',
+    depthBlur: '8px',
+    depthIntensity: '0.9',
+    depthContrast: '1.6',
+    focusRing: '#ff0099',
+    focusWidth: '6px',
+  }),
 ];
 
-export const DEFAULTS: CSSTokenMap = {
-  '--color-bg': '#0a0e0a',
-  '--color-surface': '#0f1a0f',
-  '--color-accent': '#1a3a1a',
-  '--color-muted': '#4a7c4a',
-  '--color-text': '#39ff14',
-  '--space-xxs': '4px',
-  '--space-xs': '8px',
-  '--space-sm': '20px',
-  '--space-md': '32px',
-  '--space-lg': '56px',
-  '--radius-sm': '8px',
-  '--radius-md': '16px',
-  '--radius-lg': '24px',
-  '--btn-padding-y': '16px',
-  '--btn-padding-x': '40px',
-  '--btn-gradient-start': '#39ff14',
-  '--btn-gradient-end': '#1e8a00',
-  '--btn-text-color': '#060e06',
-  '--btn-radius': '12px',
-  '--btn-elevation': ELEVATION_PRESETS.high,
-  '--focus-ring-color': 'rgba(57,255,20,0.15)',
-  '--focus-ring-width': '4px',
-  '--pop-shadow-light': '-5px -5px 12px rgba(0,60,0,0.18)',
-  '--pop-shadow-dark': '5px 7px 16px rgba(0,0,0,0.55)',
-  '--btn-top-highlight': 'none',
-  '--btn-overlay-opacity': '0.04',
-  '--inset-shadow-highlight': '-4px -4px 8px rgba(255,255,255,0.04)',
-  '--shadow-angle': '315',
-  '--anim-speed': '0.12s',
-  // Link three-state colors — Terminal defaults
-  '--link-color': '#00ffaa',
-  '--link-hover': '#fff800',
-  '--link-active': '#ff3300',
-};
+// Derived from the canonical token registry so every :root var (not just the
+// hand-listed subset) is reset/exported. Enforced by [defaults-sync].
+export const DEFAULTS: CSSTokenMap = REGISTRY_DEFAULTS;
 
 export const loadStored = (): CSSTokenMap | null => {
   try {
@@ -422,24 +480,6 @@ export const detectMatchingPreset = (
   }
   return null;
 };
-
-export const BUTTON_VARIANTS: ButtonVariant[] = [
-  { label: 'Gradient', cls: '', desc: 'base gradient — btn-fill-text' },
-  {
-    label: 'Primary',
-    cls: 'skeu-btn--primary',
-    desc: 'bold gradient — btn-fill-text',
-  },
-  { label: 'Outline', cls: 'skeu-btn--outline', desc: 'surface — color-text' },
-];
-
-export const BUTTON_SIZES: ButtonSize[] = [
-  { label: 'xs', cls: 'skeu-btn--xs' },
-  { label: 'sm', cls: 'skeu-btn--sm' },
-  { label: 'md', cls: '' },
-  { label: 'lg', cls: 'skeu-btn--lg' },
-  { label: 'xl', cls: 'skeu-btn--xl' },
-];
 
 export const BADGE_SAMPLES: string[] = [
   'React',
@@ -515,8 +555,8 @@ export const VERTICAL_NAV_SECTIONS: NavSection[] = [
 
 export const CARD_COLOR_VARIANTS: CardColorVariant[] = [
   { label: 'default', variant: null, text: 'var(--color-text)' },
-  { label: 'accent', variant: 'skeu-card--accent', text: 'var(--color-text)' },
-  { label: 'muted', variant: 'skeu-card--muted', text: 'var(--color-text)' },
+  { label: 'accent', variant: 'accent', text: 'var(--color-text)' },
+  { label: 'muted', variant: 'muted', text: 'var(--color-text)' },
 ];
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [

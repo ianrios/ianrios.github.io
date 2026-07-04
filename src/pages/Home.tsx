@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type React from 'react';
+import { useLocation } from 'react-router-dom';
 import { independentProjectsData, hobbyData, workProjectsData } from '../data';
 import Masonry from 'react-masonry-css';
 import MasonryCard from '../components/masonry-card';
@@ -8,16 +8,10 @@ import { ContactModal } from '../components/organisms/ContactModal';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Icon } from '../components/atoms/Icon';
 import { TokenSidebar } from './admin/TokenSidebar';
-import { useDesignVars } from '../hooks/useDesignVars';
+import { useHomeDesignPanel } from '../hooks/useHomeDesignPanel';
 import { WelcomeView } from './WelcomeView';
 import { MobileNavDrawer } from './MobileNavDrawer';
-import {
-  COLOR_PRESETS,
-  SHAPE_PRESETS,
-  ELEVATION_PRESETS,
-} from './admin/adminData';
 
-const breakpointColumnsObj = { default: 3, 992: 3, 991: 1 };
 const MOBILE_BREAKPOINT = 992;
 
 const allProjects = [...workProjectsData, ...independentProjectsData];
@@ -30,20 +24,12 @@ const skills = Object.entries(
   }, {}),
 );
 
-const DESIGN_SIDEBAR_STYLE: React.CSSProperties = {
-  width: '100%',
-  maxHeight: '100vh',
-  overflow: 'auto',
-  paddingRight: 0,
-  boxSizing: 'border-box',
-  flexShrink: 1,
-  minWidth: 0,
-  padding: 'var(--space-sm)',
-};
-
 export function Main({ initialView = 'welcome' }: { initialView?: string }) {
+  const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [view, setView] = useState(initialView);
+  const [view, setView] = useState(
+    (location.state as { view?: string } | null)?.view ?? initialView,
+  );
   const [page, setPage] = useState('work');
   const onMobile = windowWidth < MOBILE_BREAKPOINT;
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -51,27 +37,11 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
   const [modalShow, setModalShow] = useState(false);
   const [showTools, setShowTools] = useState(false);
 
-  const workVisible = true;
-
-  // Apply stored design tokens + live-editing controls
-  const {
-    vars,
-    setVar,
-    elevationLevel,
-    customElevation,
-    setCustomElevation,
-    activeColorPreset,
-    applyColorPreset,
-    activeShapePreset,
-    applyShapePreset,
-    applyElevation,
-    warmFound,
-    warmKeys,
-    dismissWarmTones,
-    autoFixWarmTones,
-    recomputeDepthShadows,
-    autoPopShadows,
-  } = useDesignVars();
+  const designPanelProps = useHomeDesignPanel();
+  const [panelOpen, setPanelOpen] = useState(false);
+  const breakpointColumnsObj = panelOpen
+    ? { default: 2, 992: 2, 991: 1 }
+    : { default: 3, 992: 3, 991: 1 };
 
   useEffect(() => {
     const handleResize = () => {
@@ -85,8 +55,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
 
   useEffect(() => {
     if (view === 'main') {
-      const el = document.getElementById('three-container');
-      if (el) while (el.firstChild) el.removeChild(el.firstChild);
+      document.getElementById('three-container')?.replaceChildren();
     }
   }, [view]);
 
@@ -109,30 +78,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
     setUl,
     setModalShow,
     skills,
-    workVisible,
-  };
-
-  const designPanelProps = {
-    vars,
-    setVar,
-    colorPresets: COLOR_PRESETS,
-    shapePresets: SHAPE_PRESETS,
-    elevationPresets: ELEVATION_PRESETS,
-    activeColorPreset,
-    applyColorPreset,
-    activeShapePreset,
-    applyShapePreset,
-    elevationLevel,
-    applyElevation,
-    customElevation,
-    setCustomElevation,
-    recomputeDepthShadows,
-    autoPopShadows,
-    warmFound,
-    warmKeys,
-    autoFixWarmTones,
-    dismissWarmTones,
-    sidebarStyle: DESIGN_SIDEBAR_STYLE,
+    workVisible: true,
   };
 
   return (
@@ -140,13 +86,13 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
       {view === 'welcome' && <WelcomeView setView={setView} />}
 
       {view === 'main' && (
-        <div className="view-2" style={{ display: 'flex', minHeight: '100vh' }}>
-          {/* Design system panel — slides in after 3 s */}
+        <div className="view-2 home-layout">
           <PushPanel
             label="design"
-            width={360}
+            width="clamp(320px, 22vw, 440px)"
             revealDelay={3000}
-            panelStyle={{ padding: 0, overflowY: 'auto' }}
+            tabVariant="rotated"
+            onOpenChange={setPanelOpen}
           >
             <TokenSidebar {...designPanelProps} />
           </PushPanel>
@@ -154,20 +100,9 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
           {onMobile ? (
             <>
               <button
+                className="skeu-hamburger"
                 onClick={() => {
                   setMobileNavOpen(true);
-                }}
-                style={{
-                  position: 'fixed',
-                  top: 'var(--space-xs)',
-                  left: 'var(--space-xs)',
-                  zIndex: 50,
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--color-text)',
-                  padding: 'var(--space-xxs)',
-                  lineHeight: 1,
                 }}
                 aria-label="Open navigation"
               >
@@ -180,39 +115,21 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
               />
             </>
           ) : (
-            <div
-              style={{
-                width: 'var(--sidebar-width)',
-                flexShrink: 0,
-                padding: 'var(--space-md)',
-                overflowY: 'auto',
-                maxHeight: '100vh',
-                position: 'sticky',
-                top: 0,
-              }}
-            >
-              <h1 style={{ marginBottom: 'var(--space-md)' }}>Ian Rios</h1>
+            <div className="home-sidebar">
+              <h1>Ian Rios</h1>
               <PortfolioSidebar {...sidebarProps} />
             </div>
           )}
 
           <div
-            style={{
-              flex: 1,
-              overflow: 'hidden',
-              minWidth: 0,
-              paddingTop: onMobile ? '60px' : 0,
-            }}
+            className={['home-content', onMobile ? 'home-content--mobile' : '']
+              .filter(Boolean)
+              .join(' ')}
           >
-            <div style={{ textAlign: 'center', padding: 'var(--space-sm) 0' }}>
-              <h2 style={{ cursor: 'default', margin: 0 }}>
-                {titleSelector()}
-              </h2>
+            <div className="home-content__header">
+              <h2 className="home-content__title">{titleSelector()}</h2>
             </div>
-            <div
-              className="hide-scrollbars"
-              style={{ height: 'calc(100vh - 80px)', overflowY: 'auto' }}
-            >
+            <div className="hide-scrollbars home-content__scroll">
               <Masonry
                 breakpointCols={breakpointColumnsObj}
                 className="my-masonry-grid"

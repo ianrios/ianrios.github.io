@@ -1,24 +1,14 @@
-import type React from 'react';
 import { tools } from '../../data';
 import type { SkillTuple } from '../../types/data';
 import { Icon } from '../atoms/Icon';
 import { Badge } from '../atoms/Badge';
+import { Button } from '../atoms/Button';
 
 const NAV_ITEMS = [
   { id: 'work', label: 'experience', requiresWork: true },
   { id: 'projects', label: 'projects' },
   { id: 'hobbies', label: 'hobbies' },
 ];
-
-const navBtnStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 'var(--space-xs)',
-  width: '100%',
-  textAlign: 'left',
-  marginBottom: 'var(--space-xs)',
-  padding: 'var(--space-xs) var(--space-sm)',
-};
 
 export function PortfolioSidebar({
   page,
@@ -45,13 +35,13 @@ export function PortfolioSidebar({
 }) {
   return (
     <>
-      <h3 style={{ marginBottom: 'var(--space-sm)' }}>Portfolio</h3>
+      <h3 className="skeu-sidebar__heading">Portfolio</h3>
 
       {NAV_ITEMS.filter((n) => !n.requiresWork || workVisible).map((nav) => (
-        <button
+        <Button
           key={nav.id}
-          className="skeu-btn skeu-btn--outline"
-          style={navBtnStyle}
+          variant="outline"
+          fullWidth
           onClick={() => {
             setPage(nav.id);
             onClose?.();
@@ -59,55 +49,49 @@ export function PortfolioSidebar({
         >
           <Icon name={page === nav.id ? 'circle-fill' : 'circle'} size={14} />
           {nav.label}
-        </button>
+        </Button>
       ))}
 
-      <button
-        className="skeu-btn skeu-btn--outline"
-        style={navBtnStyle}
+      <Button
+        variant="outline"
+        fullWidth
         onClick={() => {
           setShowTools(!showTools);
         }}
       >
         skills{' '}
         <Icon name={showTools ? 'chevron-down' : 'chevron-up'} size={13} />
-      </button>
+      </Button>
       {showTools && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 'var(--space-xxs)',
-            flexWrap: 'wrap',
-            marginBottom: 'var(--space-xs)',
-          }}
-        >
+        <div className="skeu-sidebar-skills">
           {skills
             .sort((a, b) => a[1] - b[1])
-            .map((o, i) => (
-              <Badge key={i} href={tools[o[0]]}>
-                {o[0]}
-              </Badge>
-            ))}
+            .map((o, i) => {
+              const href = tools[o[0]];
+              return href ? (
+                <Badge key={i} href={href}>
+                  {o[0]}
+                </Badge>
+              ) : (
+                <Badge key={i}>{o[0]}</Badge>
+              );
+            })}
         </div>
       )}
 
-      <button
-        className="skeu-btn skeu-btn--outline"
-        style={navBtnStyle}
+      <Button
+        variant="outline"
+        fullWidth
         onClick={() => {
           setUl(!ul);
         }}
       >
         external <Icon name={ul ? 'chevron-down' : 'chevron-up'} size={13} />
-      </button>
+      </Button>
       <ul
-        style={{
-          display: ul ? 'flex' : 'none',
-          flexDirection: 'column',
-          gap: 'var(--space-xxs)',
-          fontSize: 'var(--font-sm)',
-          marginBottom: 'var(--space-xs)',
-        }}
+        className={['skeu-sidebar-links', ul ? 'is-open' : '']
+          .filter(Boolean)
+          .join(' ')}
       >
         <li>
           <a
@@ -156,15 +140,15 @@ export function PortfolioSidebar({
         </li>
       </ul>
 
-      <button
-        className="skeu-btn skeu-btn--outline"
-        style={navBtnStyle}
+      <Button
+        variant="outline"
+        fullWidth
         onClick={() => {
           setModalShow(true);
         }}
       >
         contact <Icon name="send" size={13} />
-      </button>
+      </Button>
     </>
   );
 }

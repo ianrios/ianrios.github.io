@@ -1,145 +1,106 @@
-import type React from 'react';
-import type { Dispatch, SetStateAction } from 'react';
-import type { CSSTokenMap, ElevationLevel, Preset } from '../../types/admin';
+import type { CSSTokenMap, Preset } from '../../types/admin';
 import { Button } from '../../components/atoms/Button';
-import { Slider } from '../../components/atoms/Slider';
-import {
-  SidebarSection,
-  ColorControl,
-  RangeControl,
-  ShadowControl,
-} from './TokenControls';
+import { SidebarSection, ColorControl, RangeControl } from './TokenControls';
 import { PresetSelect } from './TokenPresets';
 import { ButtonSidebarSection } from './ButtonSidebarSection';
 import {
   COLOR_CONTROLS,
+  CHROME_CONTROLS,
   SPACING_CONTROLS,
   RADII_CONTROLS,
   LINK_COLOR_CONTROLS,
-  SHADOW_CONTROLS,
 } from './token-sidebar-data';
+import {
+  MotionSection,
+  TypographySection,
+  LayoutSection,
+  DepthSection,
+} from './TokenSidebarExtra';
+
+function WarmTonesWarning({
+  warmKeys,
+  autoFixWarmTones,
+  dismissWarmTones,
+}: {
+  warmKeys: string[];
+  autoFixWarmTones: () => void;
+  dismissWarmTones: () => void;
+}) {
+  return (
+    <div className="skeu-warm-tones">
+      <strong>Warm tones detected</strong>
+      <div className="skeu-warm-tones__keys">{warmKeys.join(', ')}</div>
+      <div className="skeu-warm-tones__actions">
+        <Button variant="solid" size="sm" onClick={autoFixWarmTones}>
+          Auto-fix
+        </Button>
+        <Button variant="outline" size="sm" onClick={dismissWarmTones}>
+          Ignore
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 export function TokenSidebar({
   vars,
   setVar,
-  colorPresets,
-  shapePresets,
-  elevationPresets,
-  activeColorPreset,
-  applyColorPreset,
-  activeShapePreset,
-  applyShapePreset,
-  elevationLevel,
-  applyElevation,
-  customElevation,
-  setCustomElevation,
-  recomputeDepthShadows,
-  autoPopShadows,
+  themes,
+  activeTheme,
+  applyTheme,
+  autoBevelTones,
   warmFound,
   warmKeys,
   autoFixWarmTones,
   dismissWarmTones,
-  sidebarStyle,
 }: {
   vars: CSSTokenMap;
   setVar: (name: string, value: string) => void;
-  colorPresets: Preset[];
-  shapePresets: Preset[];
-  elevationPresets: Record<'low' | 'med' | 'high', string>;
-  activeColorPreset: string | null;
-  applyColorPreset: (name: string | null) => void;
-  activeShapePreset: string | null;
-  applyShapePreset: (name: string | null) => void;
-  elevationLevel: ElevationLevel;
-  applyElevation: (level: ElevationLevel) => void;
-  customElevation: string;
-  setCustomElevation: Dispatch<SetStateAction<string>>;
-  recomputeDepthShadows: (angleDeg: number) => void;
-  autoPopShadows: () => void;
+  themes: Preset[];
+  activeTheme: string | null;
+  applyTheme: (name: string | null) => void;
+  autoBevelTones: () => void;
   warmFound: boolean;
   warmKeys: string[];
   autoFixWarmTones: () => void;
   dismissWarmTones: () => void;
-  sidebarStyle?: React.CSSProperties;
 }) {
   return (
-    <aside
-      style={{
-        width: 360,
-        flexShrink: 0,
-        overflow: 'auto',
-        maxHeight: 'calc(100vh - 180px)',
-        paddingRight: 6,
-        ...sidebarStyle,
-      }}
-    >
-      <SidebarSection title="Presets" badge="preset">
+    <aside className="skeu-admin-sidebar">
+      <SidebarSection title="Themes" badge="preset">
         <PresetSelect
-          label="Color preset"
-          presets={colorPresets}
-          active={activeColorPreset}
+          label="Theme"
+          presets={themes}
+          active={activeTheme}
           vars={vars}
-          onSelect={applyColorPreset}
-        />
-        <PresetSelect
-          label="Shape preset"
-          presets={shapePresets}
-          active={activeShapePreset}
-          vars={vars}
-          onSelect={applyShapePreset}
+          onSelect={applyTheme}
         />
       </SidebarSection>
-
       <SidebarSection title="Colors" badge="global">
         {COLOR_CONTROLS.map((c) => (
           <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
         ))}
+        <div className="skeu-control-sublabel">Chrome</div>
+        {CHROME_CONTROLS.map((c) => (
+          <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
+        ))}
       </SidebarSection>
-
       <SidebarSection title="Spacing" badge="global" defaultOpen={false}>
         {SPACING_CONTROLS.map((c) => (
           <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
         ))}
       </SidebarSection>
-
       <SidebarSection title="Radii" badge="global" defaultOpen={false}>
         {RADII_CONTROLS.map((c) => (
           <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
         ))}
       </SidebarSection>
-
-      <SidebarSection title="Motion" badge="global">
-        <Slider
-          label="Anim speed"
-          min={0}
-          max={800}
-          step={25}
-          value={Math.round(
-            (parseFloat(vars['--anim-speed'] ?? '0.12') || 0.12) * 1000,
-          )}
-          onChange={(e) => {
-            setVar(
-              '--anim-speed',
-              `${(parseInt(e.target.value) / 1000).toFixed(2)}s`,
-            );
-          }}
-          unit="ms"
-          style={{ marginBottom: 8 }}
-        />
-      </SidebarSection>
-
+      <MotionSection vars={vars} setVar={setVar} />
+      <TypographySection vars={vars} setVar={setVar} />
+      <LayoutSection vars={vars} setVar={setVar} />
       <SidebarSection title="Button" badge="atom">
-        <ButtonSidebarSection
-          vars={vars}
-          setVar={setVar}
-          elevationLevel={elevationLevel}
-          applyElevation={applyElevation}
-          customElevation={customElevation}
-          setCustomElevation={setCustomElevation}
-          elevationPresets={elevationPresets}
-        />
+        <ButtonSidebarSection vars={vars} setVar={setVar} />
       </SidebarSection>
-
       <SidebarSection title="Focus" badge="atom" defaultOpen={false}>
         <ColorControl
           label="Focus ring"
@@ -156,83 +117,35 @@ export function TokenSidebar({
           max={12}
         />
       </SidebarSection>
-
-      <SidebarSection
-        title="Depth & Shadows"
-        badge="global"
-        defaultOpen={false}
-      >
-        <div className="preview-note" style={{ marginBottom: 8 }}>
-          Color picker changes rgba() color only; offsets come from the angle.
-          &#34;Auto&#34; derives both from the surface token.
+      <SidebarSection title="Bevel" badge="global" defaultOpen={false}>
+        <div className="skeu-preview-note skeu-control-row">
+          Classic Windows 3D bevels. The four tone colors are derived from{' '}
+          <strong>Background</strong> (page-level) and <strong>Surface</strong>{' '}
+          (in-card) by lightness, so every control&#39;s edges blend into
+          whatever it sits on. They re-derive automatically when you edit those
+          colors; use the button below to force a re-derive.
         </div>
-        <Slider
-          label="Light angle"
-          min={0}
-          max={359}
-          value={parseInt(vars['--shadow-angle'] ?? '315')}
-          onChange={(e) => {
-            recomputeDepthShadows(parseInt(e.target.value));
-          }}
-          unit="°"
-          style={{ marginBottom: 8 }}
-        />
-        {SHADOW_CONTROLS.map((c) => (
-          <ShadowControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
-        <Button
-          variant="outline"
-          size="sm"
-          style={{ marginTop: 4 }}
-          onClick={autoPopShadows}
-        >
-          Auto from surface
+        <Button variant="outline" size="sm" onClick={autoBevelTones}>
+          Auto from backdrop
         </Button>
       </SidebarSection>
-
+      <DepthSection vars={vars} setVar={setVar} />
       <SidebarSection title="Links" badge="atom">
-        <div className="preview-note" style={{ marginBottom: 8 }}>
-          <strong style={{ color: 'var(--color-text)' }}>Default</strong> —
-          plain {'<a>'} tag text color only.
+        <div className="skeu-preview-note skeu-control-row">
+          <strong>Default</strong> — plain {'<a>'} tag text color only.
           <br />
-          <strong style={{ color: 'var(--color-text)' }}>
-            Hover / Active
-          </strong>{' '}
-          — all interactive elements.
+          <strong>Hover / Active</strong> — all interactive elements.
         </div>
         {LINK_COLOR_CONTROLS.map((c) => (
           <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
         ))}
       </SidebarSection>
-
       {warmFound && (
-        <div
-          style={{
-            padding: 12,
-            background: 'var(--color-surface)',
-            border: '2px solid #e07b2a',
-            borderRadius: 'var(--radius-md)',
-            marginTop: 12,
-            marginBottom: 12,
-          }}
-        >
-          <strong style={{ color: 'var(--color-text)' }}>
-            Warm tones detected
-          </strong>
-          <div
-            style={{ fontSize: 12, marginTop: 4, color: 'var(--color-muted)' }}
-          >
-            {warmKeys.join(', ')}
-          </div>
-          <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
-            <Button variant="primary" size="sm" onClick={autoFixWarmTones}>
-              Auto-fix
-            </Button>
-            <Button variant="outline" size="sm" onClick={dismissWarmTones}>
-              Ignore
-            </Button>
-          </div>
-        </div>
+        <WarmTonesWarning
+          warmKeys={warmKeys}
+          autoFixWarmTones={autoFixWarmTones}
+          dismissWarmTones={dismissWarmTones}
+        />
       )}
     </aside>
   );

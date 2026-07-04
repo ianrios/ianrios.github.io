@@ -1,18 +1,20 @@
 import type React from 'react';
 
 type BadgeProps = {
-  href?: string | undefined;
+  href?: string;
+  size?: 'xs';
   children?: React.ReactNode;
-  style?: React.CSSProperties;
-} & React.HTMLAttributes<HTMLElement>;
+} & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>;
 
-export function Badge({ children, style, href, ...props }: BadgeProps) {
+export function Badge({ children, size, href, ...props }: BadgeProps) {
+  const cls = ['skeu-badge', size === 'xs' ? 'skeu-badge--xs' : '']
+    .filter(Boolean)
+    .join(' ');
   if (href) {
     return (
       <a
         href={href}
-        className="skeu-badge"
-        style={style}
+        className={cls}
         target="_blank"
         rel="noreferrer"
         {...props}
@@ -22,7 +24,7 @@ export function Badge({ children, style, href, ...props }: BadgeProps) {
     );
   }
   return (
-    <span className="skeu-badge" style={style} {...props}>
+    <span className={cls} {...props}>
       {children}
     </span>
   );

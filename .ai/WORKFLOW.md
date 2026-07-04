@@ -19,6 +19,14 @@ Required for any task with more than 2–3 file changes:
 Plans name CLI commands. Plans do not contain source code or config file
 contents. Planning agents do not write code.
 
+## Orchestration model
+
+The agent Ian talks to acts as an **orchestrator**, not a solo implementer:
+plan → delegate → peer-review → gate on Ian's approval. Spawn subagents for
+fan-out reads and parallel implementation of independent phases; do the
+synthesis, plan, and final review yourself. Work inline for small single-surface
+edits. Subagents start cold — give each the plan plus only the files it needs.
+
 ## Epics and sub-plans
 
 Sub-plans live in `.ai/plans/<epic-slug>-phase-<n>-<short-name>.md`.
@@ -55,9 +63,17 @@ review directly.
 
 ## Design system invariant
 
-All new code: CSS custom properties for colors / spacing / radii / shadows.
-Atoms from `src/components/atoms/`. `skeu-*` class names from
-`_components.scss`. No hardcoded values. No Bootstrap classes.
+All new code: CSS custom properties for colors / spacing / radii / shadows,
+atoms from `src/components/atoms/`, `skeu-*` class names from `_components.scss`.
+No hardcoded values. No Bootstrap classes.
+
+Tokens have one source of truth: `src/styles/token-registry.ts` — add/change
+tokens there, never in a parallel array. Every editable token needs a control, a
+real CSS effect, and a live preview example (control↔effect↔example; nine drift
+checks in `scripts/drift-checks.ts` gate `npm run check`, listed in `CLAUDE.md`).
+
+Every component in `src/components/` needs an accurate demo in the grouped preview
+nav under `src/pages/admin/preview/` (`demo-missing` check) — stale demos are bugs.
 
 ## Anti-patterns
 

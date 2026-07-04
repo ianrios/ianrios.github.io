@@ -1,6 +1,6 @@
 {
-  "entry": ["src/main.tsx"],
-  "project": ["src/**/*.{ts,tsx}"],
+  "entry": ["src/main.tsx", "scripts/validate.ts"],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts"],
   "ignoreDependencies": [
     "@testing-library/react",
     "@testing-library/user-event"

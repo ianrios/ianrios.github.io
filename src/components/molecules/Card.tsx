@@ -1,19 +1,37 @@
 import type React from 'react';
 
+const PADDING_CLASS: Record<'none' | 'xxs' | 'xs' | 'sm' | 'md', string> = {
+  none: 'skeu-card--padding-none',
+  xxs: 'skeu-card--padding-xxs',
+  xs: 'skeu-card--padding-xs',
+  sm: 'skeu-card--padding-sm',
+  md: '',
+};
+
+interface CardProps {
+  children?: React.ReactNode;
+  variant?: 'accent' | 'muted';
+  padding?: 'none' | 'xxs' | 'xs' | 'sm' | 'md';
+  maxWidth?: number;
+}
+
 export function Card({
   children,
-  className,
-  style,
-}: {
-  children?: React.ReactNode;
-  className?: string | undefined;
-  style?: React.CSSProperties;
-}) {
+  variant,
+  padding = 'md',
+  maxWidth,
+}: CardProps) {
+  const cls = ['skeu-card'];
+  if (variant === 'accent') cls.push('skeu-card--accent');
+  else if (variant === 'muted') cls.push('skeu-card--muted');
+  const paddingCls = PADDING_CLASS[padding];
+  if (paddingCls) cls.push(paddingCls);
+  const inlineStyle =
+    maxWidth !== undefined
+      ? { '--card-max-width': `${maxWidth}px` }
+      : undefined;
   return (
-    <div
-      className={['skeu-card', className].filter(Boolean).join(' ')}
-      style={style}
-    >
+    <div className={cls.join(' ')} style={inlineStyle}>
       {children}
     </div>
   );

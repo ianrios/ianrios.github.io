@@ -35,17 +35,26 @@
   --font-sm: #{$font-sm};
   --font-base: #{$font-base};
   --font-lg: #{$font-lg};
+  --line-height-base: #{$line-height-base};
+  --line-height-loose: #{$line-height-loose};
 
-  // Shadows
-  --shadow-ambient: #{$shadow-ambient};
-  --shadow-low: #{$shadow-low};
-  --shadow-med: #{$shadow-med};
-  --shadow-high: #{$shadow-high};
+  // Bevel tones — bg-derived (page-level controls)
+  --bevel-highlight: #{$bevel-highlight};
+  --bevel-light: #{$bevel-light};
+  --bevel-shadow: #{$bevel-shadow};
+  --bevel-dark-shadow: #{$bevel-dark-shadow};
 
-  --pop-shadow-light: #{$pop-shadow-light};
-  --pop-shadow-dark: #{$pop-shadow-dark};
-  --inset-shadow-light: #{$inset-shadow-light};
-  --inset-shadow-highlight: #{$inset-shadow-highlight};
+  // Bevel tones — surface-derived (aliased onto --bevel-* by surface containers)
+  --bevel-surface-highlight: #{bevel-tone($color-surface, 0.22)};
+  --bevel-surface-light: #{bevel-tone($color-surface, 0.1)};
+  --bevel-surface-shadow: #{bevel-tone($color-surface, -0.1)};
+  --bevel-surface-dark-shadow: #{bevel-tone($color-surface, -0.2)};
+
+  // Parametric depth geometry (tunable hard bevel ↔ soft neu via sidebar)
+  --depth-distance: #{$depth-distance};
+  --depth-blur: #{$depth-blur};
+  --depth-intensity: #{$depth-intensity};
+  --depth-contrast: #{$depth-contrast};
 
   // Overlays / chrome
   --overlay-bg: #{$overlay-bg};
@@ -59,15 +68,10 @@
   // Buttons
   --btn-padding-y: #{$btn-padding-y};
   --btn-padding-x: #{$btn-padding-x};
-  --btn-gradient-start: #{$btn-gradient-start};
-  --btn-gradient-end: #{$btn-gradient-end};
-  --btn-text-color: #{$btn-text-color};
+  --btn-primary-bg: #{$btn-primary-bg};
+  --btn-primary-text: #{$btn-primary-text};
   --btn-radius: #{$btn-radius};
-  --btn-radius-lg: #{$btn-radius-lg};
-  --btn-elevation: #{$btn-elevation};
-  --btn-surface-shadow: #{$btn-surface-shadow};
-  --btn-overlay-opacity: #{$btn-overlay-opacity};
-  --btn-top-highlight: none;
+  --clickable-border-width: #{$clickable-border-width};
 
   // Focus
   --focus-ring-color: #{$focus-ring-color};
@@ -77,13 +81,12 @@
   --link-color: #{$link-color};
   --link-hover: #{$link-hover};
   --link-active: #{$link-active};
+  --link-primary-color: #{$link-primary-color};
 
   // Animation
   --anim-speed: 0.12s;
   --anim-speed-fast: 0.06s;
-
-  // Misc
-  --shadow-angle: 315;
+  --anim-speed-slow: #{$anim-speed-slow};
 }
 
 // ─── Browser reset / normalization ───────────────────────────────────────────
@@ -98,7 +101,8 @@ body {
     Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.4;
+  font-size: var(--font-base, #{$font-base});
+  line-height: var(--line-height-base, #{$line-height-base});
 }
 
 h1,
@@ -285,52 +289,60 @@ code {
   }
 }
 
-// ─── Splash name color utilities — one is picked randomly each load ───────────
-.color-74A57F {
-  color: #74a57f;
+// ─── special-b text alignment ────────────────────────────────────────────────
+.special-b {
+  text-align: center;
 }
-.color-D30C7B {
-  color: #d30c7b;
+
+// ─── Home page layout ─────────────────────────────────────────────────────────
+.home-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
-.color-57E2E5 {
-  color: #57e2e5;
+.home-sidebar {
+  width: var(--sidebar-width, #{$sidebar-width});
+  flex-shrink: 0;
+  padding: var(--space-md, #{$space-md});
+  overflow-y: auto;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
 }
-.color-A50104 {
-  color: #a50104;
+.home-sidebar > h1 {
+  margin-bottom: var(--space-md, #{$space-md});
 }
-.color-EBF8B8 {
-  color: #ebf8b8;
+.home-content {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
 }
-.color-7FB069 {
-  color: #7fb069;
+.home-content--mobile {
+  padding-top: 60px;
 }
-.color-EFCA08 {
-  color: #efca08;
+.home-content__header {
+  text-align: center;
+  padding: var(--space-sm, #{$space-sm}) 0;
 }
-.color-A14DA0 {
-  color: #a14da0;
+.home-content__title {
+  cursor: default;
+  margin: 0;
 }
-.color-D11149 {
-  color: #d11149;
+.home-content__scroll {
+  height: calc(100vh - 80px);
+  overflow-y: auto;
 }
-.color-A9FFF7 {
-  color: #a9fff7;
-}
-.color-97CC04 {
-  color: #97cc04;
-}
-.color-31E981 {
-  color: #31e981;
-}
-.color-F0C808 {
-  color: #f0c808;
-}
-.color-2EC4B6 {
-  color: #2ec4b6;
-}
-.color-6320EE {
-  color: #6320ee;
-}
-.color-00D9C0 {
-  color: #00d9c0;
+
+// ─── Mobile hamburger button ──────────────────────────────────────────────────
+.skeu-hamburger {
+  position: fixed;
+  top: var(--space-xs, #{$space-xs});
+  left: var(--space-xs, #{$space-xs});
+  z-index: 50;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text, #{$color-text});
+  padding: var(--space-xxs, #{$space-xxs});
+  line-height: 1;
 }

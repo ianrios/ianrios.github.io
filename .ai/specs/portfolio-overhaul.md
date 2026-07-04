@@ -21,3 +21,4 @@
 21. update /admin to design system once satisfied
 22. for every page we load (main, imagebox, resume, design system, etc) slide to it left right up or down, as if all the pages all live side by side each other on a table and we are moving the camera from one to another in real time (i havent decided if i want additional buttons like arrows pointing each direction on the home page and back on the edges of the screen or gestures or both or something different yet)
 23. make a variant of the vertical navigation where it can be clicked and dragged by its top bar and moved anywhere on the screen (each page should have its own nav depending on the content and should stay fixed to its page if moved and a user comes back to that page, on mobile it should be a small menu hamburger and live on the bottom right floating but not movable)
+24. i want to remove the buttons for [Design System], [Portfolio v2 Preview], & [Home (live)] once we are fully done with the overhaul.

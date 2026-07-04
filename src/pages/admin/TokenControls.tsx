@@ -5,7 +5,8 @@ import { Icon } from '../../components/atoms/Icon';
 import { Slider } from '../../components/atoms/Slider';
 import { ValueInput } from '../../components/atoms/ValueInput';
 import { ColorPicker } from '../../components/atoms/ColorPicker';
-import { isHexColor, hexToRgb } from './colorUtils';
+import { isHexColor } from './colorUtils';
+import { numVal } from './sliderValue';
 import type { CSSTokenMap } from '../../types/admin';
 
 export function SidebarSection({
@@ -21,38 +22,22 @@ export function SidebarSection({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div
-      style={{
-        marginBottom: 6,
-        borderRadius: 'var(--radius-sm)',
-        border: '1px solid rgba(128,128,128,0.14)',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="skeu-sidebar-section">
       <button
         onClick={() => {
           setOpen((o) => !o);
         }}
         className="skeu-accordion-btn"
       >
-        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <Badge style={{ flexShrink: 0, fontSize: 9, padding: '1px 6px' }}>
-            {badge}
-          </Badge>
-          <span style={{ fontWeight: 600 }}>{title}</span>
+        <span className="skeu-sidebar-section__trigger-inner">
+          <span className="skeu-sidebar-section__badge">
+            <Badge size="xs">{badge}</Badge>
+          </span>
+          <span className="skeu-sidebar-section__title">{title}</span>
         </span>
         <Icon name={open ? 'chevron-down' : 'chevron-up'} size={11} />
       </button>
-      {open && (
-        <div
-          style={{
-            padding: '10px 12px 14px',
-            borderTop: '1px solid rgba(128,128,128,0.10)',
-          }}
-        >
-          {children}
-        </div>
-      )}
+      {open && <div className="skeu-sidebar-section__body">{children}</div>}
     </div>
   );
 }
@@ -71,19 +56,8 @@ export function ColorControl({
   const raw = vars[varName] ?? '';
   const isHex = isHexColor(raw.trim());
   return (
-    <div
-      style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}
-    >
-      <span
-        style={{
-          width: 120,
-          flexShrink: 0,
-          fontSize: 12,
-          color: 'var(--color-text)',
-        }}
-      >
-        {label}
-      </span>
+    <div className="skeu-control-row skeu-control-row--flex">
+      <span className="skeu-control-label">{label}</span>
       <ColorPicker
         value={isHex ? raw.trim() : '#000000'}
         onChange={(e) => {
@@ -91,14 +65,15 @@ export function ColorControl({
         }}
         title={varName}
       />
-      <ValueInput
-        value={raw}
-        onChange={(e) => {
-          setVar(varName, e.target.value);
-        }}
-        spellCheck={false}
-        style={{ flex: 1 }}
-      />
+      <div className="skeu-control-value">
+        <ValueInput
+          value={raw}
+          onChange={(e) => {
+            setVar(varName, e.target.value);
+          }}
+          spellCheck={false}
+        />
+      </div>
     </div>
   );
 }
@@ -118,101 +93,18 @@ export function RangeControl({
   min?: number;
   max: number;
 }) {
-  const val = parseInt(vars[varName] ?? '0') || 0;
+  const val = numVal(vars[varName], min);
   return (
-    <Slider
-      label={label}
-      min={min}
-      max={max}
-      value={val}
-      onChange={(e) => {
-        setVar(varName, `${e.target.value}px`);
-      }}
-      unit="px"
-      style={{ marginBottom: 8 }}
-    />
-  );
-}
-
-export function ShadowControl({
-  label,
-  varName,
-  vars,
-  setVar,
-}: {
-  label: string;
-  varName: string;
-  vars: CSSTokenMap;
-  setVar: (name: string, value: string) => void;
-}) {
-  const val = vars[varName] ?? '';
-  const rgbMatch = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i.exec(val);
-  const hexColor = rgbMatch
-    ? `#${parseInt(rgbMatch[1] ?? '0')
-        .toString(16)
-        .padStart(2, '0')}${parseInt(rgbMatch[2] ?? '0')
-        .toString(16)
-        .padStart(2, '0')}${parseInt(rgbMatch[3] ?? '0')
-        .toString(16)
-        .padStart(2, '0')}`
-    : '#888888';
-  const handleColorPick = (newHex: string) => {
-    const rgb = hexToRgb(newHex);
-    if (!rgb) return;
-    const updated = val.replace(
-      /rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+/i,
-      `rgba(${rgb.join(',')}`,
-    );
-    setVar(varName, updated || val);
-  };
-  return (
-    <div style={{ marginBottom: 8 }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          marginBottom: 4,
-        }}
-      >
-        <span
-          style={{
-            width: 120,
-            flexShrink: 0,
-            fontSize: 12,
-            color: 'var(--color-text)',
-          }}
-        >
-          {label}
-        </span>
-        <ColorPicker
-          value={hexColor}
-          onChange={(e) => {
-            handleColorPick(e.target.value);
-          }}
-          title="Pick color (preserves alpha & offsets)"
-        />
-        <span
-          style={{
-            fontSize: 10,
-            fontFamily: 'monospace',
-            color: 'var(--color-muted)',
-            flex: 1,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {hexColor}
-        </span>
-      </div>
-      <ValueInput
+    <div className="skeu-control-row">
+      <Slider
+        label={label}
+        min={min}
+        max={max}
         value={val}
         onChange={(e) => {
-          setVar(varName, e.target.value);
+          setVar(varName, `${e.target.value}px`);
         }}
-        spellCheck={false}
-        style={{ width: '100%' }}
+        unit="px"
       />
     </div>
   );

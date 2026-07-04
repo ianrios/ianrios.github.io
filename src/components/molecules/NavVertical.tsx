@@ -29,28 +29,9 @@ export function NavVertical({
   const isLinks = variant === 'links';
 
   return (
-    <div
-      className="skeu-card"
-      style={{ width: 160, padding: 'var(--space-sm)' }}
-    >
-      <div
-        style={{
-          fontWeight: 700,
-          fontSize: 13,
-          color: 'var(--color-text)',
-          padding: 'var(--space-xxs) var(--space-xs)',
-          marginBottom: 'var(--space-xs)',
-        }}
-      >
-        {siteName}
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-xxs)',
-        }}
-      >
+    <div className="skeu-nav-vertical">
+      <div className="skeu-nav-vertical__title">{siteName}</div>
+      <div className="skeu-nav-vertical__links">
         {pages.map((page) =>
           isLinks ? (
             <button
@@ -59,7 +40,6 @@ export function NavVertical({
               onClick={() => {
                 handleClick(page);
               }}
-              style={{ textTransform: 'capitalize' }}
             >
               {active === page ? '› ' : ''}
               {page}
@@ -67,44 +47,23 @@ export function NavVertical({
           ) : (
             <Button
               key={page}
-              variant={active === page ? 'primary' : 'outline'}
+              variant={active === page ? 'solid' : 'outline'}
+              fullWidth
               onClick={() => {
                 handleClick(page);
               }}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'left',
-                textTransform: 'capitalize',
-                fontSize: 13,
-              }}
             >
-              {page}
+              {page[0]?.toUpperCase()}
+              {page.slice(1)}
             </Button>
           ),
         )}
         {ctaLabel && (
-          <div
-            style={{
-              borderTop: '1px solid var(--border-color)',
-              marginTop: 'var(--space-xxs)',
-              paddingTop: 'var(--space-xxs)',
-            }}
-          >
+          <div className="skeu-nav-vertical__cta">
             {isLinks ? (
-              <button className="skeu-nav-link-btn" style={{ fontSize: 13 }}>
-                {ctaLabel}
-              </button>
+              <button className="skeu-nav-link-btn">{ctaLabel}</button>
             ) : (
-              <Button
-                variant="outline"
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  fontSize: 13,
-                }}
-              >
+              <Button variant="outline" fullWidth>
                 {ctaLabel}
               </Button>
             )}

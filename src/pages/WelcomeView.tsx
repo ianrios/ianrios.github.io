@@ -2,36 +2,59 @@ import { useState } from 'react';
 import MetaBalls from '../MetaBalls';
 
 const colors = [
-  '74A57F',
-  'D30C7B',
-  '57E2E5',
-  'A50104',
-  'EBF8B8',
-  '7FB069',
-  'EFCA08',
-  'A14DA0',
-  'D11149',
-  'A9FFF7',
-  '97CC04',
-  '31E981',
-  'F0C808',
-  '2EC4B6',
-  '6320EE',
-  '00D9C0',
+  'FF6B35', // coral orange
+  'D30C7B', // magenta
+  '57E2E5', // cyan
+  'FF1744', // bright red
+  'C6FF00', // electric lime
+  'FF9100', // amber
+  'EFCA08', // yellow
+  'E040FB', // bright violet
+  'D11149', // crimson
+  'FF4081', // hot pink
+  '97CC04', // lime green
+  '31E981', // green
+  '00B0FF', // sky blue
+  '2EC4B6', // teal
+  '6320EE', // deep violet
+  '00D9C0', // aqua
 ];
 
+function pickColor(): string {
+  let recent: string[] = [];
+  try {
+    const raw = localStorage.getItem('splash_recent');
+    if (raw) recent = JSON.parse(raw) as string[];
+    if (!Array.isArray(recent)) recent = [];
+  } catch {
+    recent = [];
+  }
+
+  if (recent.length >= 3) recent.pop();
+
+  const available = colors.filter((c) => !recent.includes(c));
+  const pool = available.length > 0 ? available : colors;
+  const picked =
+    pool[Math.floor(Math.random() * pool.length)] ?? colors[0] ?? '';
+
+  recent.unshift(picked);
+  try {
+    localStorage.setItem('splash_recent', JSON.stringify(recent));
+  } catch {
+    // localStorage unavailable (private mode, etc.) — silently continue
+  }
+
+  return picked;
+}
+
 export function WelcomeView({ setView }: { setView: (v: string) => void }) {
-  const [color] = useState(
-    () => colors[(colors.length * Math.random()) | 0] ?? colors[0] ?? '',
-  );
+  const [color] = useState(pickColor);
   return (
     <div className="view-1">
       <MetaBalls />
-      <span
-        className={`name montserrat special-p color-${color}`}
-        style={{ cursor: 'pointer', display: 'block' }}
-        role="button"
-        tabIndex={0}
+      <button
+        className="name montserrat special-p"
+        style={{ '--splash-color': `#${color}` }}
         onClick={() => {
           setView('main');
         }}
@@ -40,10 +63,10 @@ export function WelcomeView({ setView }: { setView: (v: string) => void }) {
         }}
       >
         Ian Rios
-      </span>
-      <p className="special-b" style={{ textAlign: 'center' }}>
+      </button>
+      <p className="special-b">
         <button
-          className="open-link montserrat"
+          className="splash-enter"
           onClick={() => {
             setView('main');
           }}

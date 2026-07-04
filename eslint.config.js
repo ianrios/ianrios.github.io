@@ -32,6 +32,17 @@ export default tseslint.config(
       },
     },
   },
+  {
+    files: ['scripts/*.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
   ...typeCheckedConfigs,
   ...stylisticTypeCheckedConfigs,
   {

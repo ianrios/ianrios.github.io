@@ -1,72 +1,43 @@
 import { useState, useMemo, useLayoutEffect } from 'react';
-import type { CSSTokenMap, ElevationLevel } from '../types/admin';
+import type { CSSTokenMap } from '../types/admin';
 import type { DesignVarsReturn } from '../types/design-vars';
 import {
-  COLOR_PRESETS,
-  SHAPE_PRESETS,
-  ELEVATION_PRESETS,
+  THEMES,
   DEFAULTS,
   loadStored,
-  detectElevationLevel,
   detectMatchingPreset,
 } from '../pages/admin/adminData';
 import {
-  hexToRgb,
-  rgbToHsl,
-  hslToHex,
   isHexColor,
   isWarmHex,
   desaturateHex,
 } from '../pages/admin/colorUtils';
+import { computeBevelTones } from '../pages/admin/bevelTones';
 
-function computePopShadows(
-  surfaceHex: string,
-  angleDeg: number,
-): CSSTokenMap | null {
-  const rgb = hexToRgb(surfaceHex);
-  if (!rgb) return null;
-  const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-  const rad = (angleDeg * Math.PI) / 180;
-  const lx = Math.round(Math.sin(rad) * 8);
-  const ly = Math.round(-Math.cos(rad) * 8);
-  const dx = Math.round(-Math.sin(rad) * 10);
-  const dy = Math.round(Math.cos(rad) * 10);
-  // Highlight: lighter hue-matched tint on light themes, barely-lighter on dark
-  const lightL = Math.min(l + 0.35, 1);
-  const lightRgb = hexToRgb(hslToHex(h, s * 0.2, lightL)) ?? rgb;
-  const lightA = l > 0.5 ? 0.8 : 0.22;
-  // Depth shadow: darker hue-matched tint; more opaque on dark themes
-  const darkL = Math.max(l - 0.18, 0);
-  const darkRgb = hexToRgb(hslToHex(h, Math.min(s * 1.3, 1), darkL)) ?? rgb;
-  const darkA = l > 0.5 ? 0.1 : 0.48;
-  const lc = `rgba(${lightRgb.join(',')},${lightA})`;
-  const dc = `rgba(${darkRgb.join(',')},${darkA})`;
-  return {
-    '--pop-shadow-light': `${lx}px ${ly}px 18px ${lc}`,
-    '--pop-shadow-dark': `${dx}px ${dy}px 22px ${dc}`,
-    '--inset-shadow-highlight': `-4px -4px 8px ${lc}`,
-  };
-}
+// Re-derive the eight bevel tone vars from the current --color-bg +
+// --color-surface and merge them over `next`. Precedence: any bg/surface change
+// overwrites the derived tone vars (they are derived, never hand-authored).
+// Cheap — only runs on color edits, preset apply and reset.
+const withBevelTones = (next: CSSTokenMap): CSSTokenMap => {
+  const bgHex = (next['--color-bg'] ?? '#0a0e0a').trim();
+  const surfaceHex = (next['--color-surface'] ?? '#0f1a0f').trim();
+  const contrast = parseFloat(next['--depth-contrast'] ?? '1') || 1;
+  const tones = computeBevelTones(bgHex, surfaceHex, contrast);
+  return tones ? { ...next, ...tones } : next;
+};
 
 export function useDesignVars(): DesignVarsReturn {
   const initialVars = (() => {
     const s = loadStored();
-    return s ? { ...DEFAULTS, ...s } : { ...DEFAULTS };
+    const base = s ? { ...DEFAULTS, ...s } : { ...DEFAULTS };
+    // Always re-derive bevel tones from the resolved bg/surface so they match
+    // the loaded theme (tones are derived; stored values are safely replaced).
+    return withBevelTones(base);
   })();
 
   const [vars, setVars] = useState(initialVars);
-  const [elevationLevel, setElevationLevel] = useState(() =>
-    detectElevationLevel(initialVars['--btn-elevation']),
-  );
-  const [customElevation, setCustomElevation] = useState(() => {
-    const lv = detectElevationLevel(initialVars['--btn-elevation']);
-    return lv === 'custom' ? (initialVars['--btn-elevation'] ?? '') : '';
-  });
-  const [activeColorPreset, setActiveColorPreset] = useState(() =>
-    detectMatchingPreset(COLOR_PRESETS, initialVars),
-  );
-  const [activeShapePreset, setActiveShapePreset] = useState(() =>
-    detectMatchingPreset(SHAPE_PRESETS, initialVars),
+  const [activeTheme, setActiveTheme] = useState(() =>
+    detectMatchingPreset(THEMES, initialVars),
   );
   const [copySuccess, setCopySuccess] = useState(false);
   const [warmDismissed, setWarmDismissed] = useState(false);
@@ -95,49 +66,32 @@ export function useDesignVars(): DesignVarsReturn {
   const warmFound = warmKeys.length > 0 && !warmDismissed;
 
   const setVar = (name: string, value: string) => {
-    setVars((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const applyColorPreset = (name: string | null) => {
-    setActiveColorPreset(name);
-    if (!name) return;
-    const preset = COLOR_PRESETS.find((p) => p.name === name);
-    if (!preset) return;
     setVars((prev) => {
-      const next = { ...prev, ...preset.vars };
-      const angleDeg = parseInt(next['--shadow-angle'] ?? '315');
-      const surfaceHex = (next['--color-surface'] ?? '#ffffff').trim();
-      const shadows = computePopShadows(surfaceHex, angleDeg);
-      return shadows ? { ...next, ...shadows } : next;
+      const next = { ...prev, [name]: value };
+      // A background, surface, or depth-contrast edit re-blends every derived
+      // bevel tone live (contrast scales the tone lightness delta).
+      return name === '--color-bg' ||
+        name === '--color-surface' ||
+        name === '--depth-contrast'
+        ? withBevelTones(next)
+        : next;
     });
   };
 
-  const applyShapePreset = (name: string | null) => {
-    setActiveShapePreset(name);
+  // One click applies an entire theme: every category's vars at once, then the
+  // bevel tones are re-derived from the theme's bg/surface + depth-contrast.
+  const applyTheme = (name: string | null) => {
+    setActiveTheme(name);
     if (!name) return;
-    const preset = SHAPE_PRESETS.find((p) => p.name === name);
+    const preset = THEMES.find((p) => p.name === name);
     if (!preset) return;
-    setVars((prev) => ({ ...prev, ...preset.vars }));
-    if (preset.vars['--btn-elevation'] !== undefined) {
-      const level = detectElevationLevel(preset.vars['--btn-elevation']);
-      setElevationLevel(level);
-      if (level === 'custom')
-        setCustomElevation(preset.vars['--btn-elevation']);
-    }
-  };
-
-  const applyElevation = (level: ElevationLevel) => {
-    setElevationLevel(level);
-    if (level !== 'custom') setVar('--btn-elevation', ELEVATION_PRESETS[level]);
+    setVars((prev) => withBevelTones({ ...prev, ...preset.vars }));
   };
 
   const resetAll = () => {
     window.localStorage.removeItem('skeuomorph:vars');
-    setVars({ ...DEFAULTS });
-    setElevationLevel(detectElevationLevel(DEFAULTS['--btn-elevation']));
-    setCustomElevation('');
-    setActiveColorPreset(detectMatchingPreset(COLOR_PRESETS, DEFAULTS));
-    setActiveShapePreset(detectMatchingPreset(SHAPE_PRESETS, DEFAULTS));
+    setVars(withBevelTones({ ...DEFAULTS }));
+    setActiveTheme(detectMatchingPreset(THEMES, DEFAULTS));
   };
 
   const autoFixWarmTones = () => {
@@ -149,32 +103,10 @@ export function useDesignVars(): DesignVarsReturn {
     setVars(next);
   };
 
-  const recomputeDepthShadows = (angleDeg: number) => {
-    const extractRgba = (s: string | undefined): string | null => {
-      const m = /rgba?\([^)]+\)/i.exec(s ?? '');
-      return m ? m[0] : null;
-    };
-    const rad = (angleDeg * Math.PI) / 180;
-    const lx = Math.round(Math.sin(rad) * 8);
-    const ly = Math.round(-Math.cos(rad) * 8);
-    const dx = Math.round(-Math.sin(rad) * 10);
-    const dy = Math.round(Math.cos(rad) * 10);
-    const lc =
-      extractRgba(vars['--pop-shadow-light']) ?? 'rgba(255,255,255,0.9)';
-    const dc = extractRgba(vars['--pop-shadow-dark']) ?? 'rgba(0,0,0,0.08)';
-    setVars((prev) => ({
-      ...prev,
-      '--shadow-angle': String(angleDeg),
-      '--pop-shadow-light': `${lx}px ${ly}px 18px ${lc}`,
-      '--pop-shadow-dark': `${dx}px ${dy}px 22px ${dc}`,
-    }));
-  };
-
-  const autoPopShadows = () => {
-    const surfaceHex = (vars['--color-surface'] ?? '#ffffff').trim();
-    const angleDeg = parseInt(vars['--shadow-angle'] ?? '315');
-    const shadows = computePopShadows(surfaceHex, angleDeg);
-    if (shadows) setVars((prev) => ({ ...prev, ...shadows }));
+  // Re-derive the bevel tones from the current bg/surface (the "Auto from
+  // backdrop" button) — useful after manual color edits land out of order.
+  const autoBevelTones = () => {
+    setVars((prev) => withBevelTones({ ...prev }));
   };
 
   const exportCSS = () => {
@@ -198,15 +130,8 @@ export function useDesignVars(): DesignVarsReturn {
     vars,
     setVar,
     setVars,
-    elevationLevel,
-    setElevationLevel,
-    customElevation,
-    setCustomElevation,
-    activeColorPreset,
-    applyColorPreset,
-    activeShapePreset,
-    applyShapePreset,
-    applyElevation,
+    activeTheme,
+    applyTheme,
     resetAll,
     warmFound,
     warmKeys,
@@ -214,8 +139,7 @@ export function useDesignVars(): DesignVarsReturn {
       setWarmDismissed(true);
     },
     autoFixWarmTones,
-    recomputeDepthShadows,
-    autoPopShadows,
+    autoBevelTones,
     copySuccess,
     exportCSS,
     exportText,

@@ -12,31 +12,9 @@ export function FormField({
 }) {
   return (
     <div>
-      {label && (
-        <label
-          style={{
-            display: 'block',
-            fontSize: 13,
-            fontWeight: 600,
-            color: 'var(--color-text)',
-            marginBottom: 'var(--space-xxs)',
-          }}
-        >
-          {label}
-        </label>
-      )}
-      <Input style={{ width: '100%' }} {...inputProps} />
-      {hint && (
-        <div
-          style={{
-            fontSize: 11,
-            color: 'var(--color-muted)',
-            marginTop: 'var(--space-xxs)',
-          }}
-        >
-          {hint}
-        </div>
-      )}
+      {label && <label className="skeu-form-field__label">{label}</label>}
+      <Input fullWidth {...inputProps} />
+      {hint && <div className="skeu-form-field__hint">{hint}</div>}
     </div>
   );
 }

@@ -80,17 +80,35 @@ const SVG_ICONS: Record<string, SvgIcon> = {
       },
     ],
   },
+  'chevron-right': {
+    viewBox: '0 0 16 16',
+    paths: [
+      {
+        d: 'M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z',
+        fillRule: 'evenodd',
+      },
+    ],
+  },
+  'chevron-left': {
+    viewBox: '0 0 16 16',
+    paths: [
+      {
+        d: 'M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z',
+        fillRule: 'evenodd',
+      },
+    ],
+  },
+  'grip-vertical': {
+    viewBox: '0 0 16 16',
+    paths: [
+      {
+        d: 'M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0',
+      },
+    ],
+  },
 };
 
-export function Icon({
-  name,
-  size = 14,
-  iconStyle,
-}: {
-  name: string;
-  size?: number;
-  iconStyle?: React.CSSProperties;
-}) {
+export function Icon({ name, size = 14 }: { name: string; size?: number }) {
   const svg = SVG_ICONS[name];
   if (svg) {
     return (
@@ -101,12 +119,7 @@ export function Icon({
         height={size}
         fill="currentColor"
         viewBox={svg.viewBox}
-        style={{
-          display: 'inline-block',
-          flexShrink: 0,
-          verticalAlign: 'middle',
-          ...iconStyle,
-        }}
+        className="skeu-icon"
       >
         {svg.paths.map((p, i) => (
           <path key={i} d={p.d} fillRule={p.fillRule} />
@@ -115,15 +128,7 @@ export function Icon({
     );
   }
   return (
-    <span
-      aria-hidden="true"
-      style={{
-        fontSize: size,
-        lineHeight: 1,
-        display: 'inline-block',
-        ...iconStyle,
-      }}
-    >
+    <span aria-hidden="true" className="skeu-icon" style={{ fontSize: size }}>
       {ICON_MAP[name] ?? '·'}
     </span>
   );

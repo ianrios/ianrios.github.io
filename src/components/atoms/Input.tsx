@@ -1,13 +1,12 @@
 import type React from 'react';
 
-export function Input({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'input'>) {
-  return (
-    <input
-      className={['skeu-input', className].filter(Boolean).join(' ')}
-      {...props}
-    />
-  );
+type InputProps = {
+  fullWidth?: boolean;
+} & Omit<React.ComponentPropsWithoutRef<'input'>, 'className' | 'style'>;
+
+export function Input({ fullWidth, ...props }: InputProps) {
+  const cls = ['skeu-input', fullWidth ? 'skeu-input--full' : '']
+    .filter(Boolean)
+    .join(' ');
+  return <input className={cls} {...props} />;
 }

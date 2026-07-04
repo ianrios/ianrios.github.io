@@ -6,112 +6,34 @@ import { MixedProjectGrid } from './MixedProjectGrid';
 function TimelineDot({ isLast }: { isLast: boolean }) {
   return (
     <div
-      style={{
-        width: 12,
-        height: 12,
-        borderRadius: '50%',
-        background: isLast ? 'var(--color-accent)' : 'var(--color-surface)',
-        border: '2px solid var(--color-muted)',
-        boxShadow: 'var(--pop-shadow-dark)',
-        zIndex: 1,
-      }}
+      className={[
+        'skeu-timeline-dot',
+        isLast ? 'skeu-timeline-dot--active' : 'skeu-timeline-dot--inactive',
+      ].join(' ')}
     />
   );
 }
 
 export function V2Preview() {
   return (
-    <div
-      style={{
-        background: 'var(--color-bg)',
-        color: 'var(--color-text)',
-        padding: 'var(--space-lg)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid rgba(128,128,128,0.10)',
-        maxWidth: 860,
-        margin: '0 auto',
-      }}
-    >
-      <h3 style={{ color: 'var(--color-text)', marginTop: 0 }}>
+    <div className="skeu-preview-page-frame skeu-v2-preview">
+      <h3 className="skeu-admin-section-heading">
         Portfolio v2 — Layout Exploration
       </h3>
-      <p
-        style={{
-          fontSize: 12,
-          color: 'var(--color-muted)',
-          marginBottom: 'var(--space-lg)',
-        }}
-      >
+      <p className="skeu-v2-desc">
         Click role cards to expand. Patterns from portfolio-overhaul.md.
       </p>
 
       <SectionLabel>Career timeline (organism)</SectionLabel>
-      <div
-        style={{
-          background: 'var(--color-bg)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-sm) var(--space-lg)',
-          marginBottom: 'var(--space-lg)',
-          position: 'relative',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: 32,
-            left: 'calc(var(--space-lg) + 6px)',
-            right: 'calc(var(--space-lg) + 6px)',
-            height: 2,
-            background: 'rgba(128,128,128,0.18)',
-          }}
-        />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            position: 'relative',
-          }}
-        >
+      <div className="skeu-timeline">
+        <div className="skeu-timeline__rail" />
+        <div className="skeu-timeline__dots">
           {TIMELINE_EVENTS.map((e, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 'var(--space-xxs)',
-                minWidth: 60,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: 'var(--color-muted)',
-                }}
-              >
-                {e.year}
-              </div>
+            <div key={i} className="skeu-timeline__entry">
+              <div className="skeu-timeline__year">{e.year}</div>
               <TimelineDot isLast={i === TIMELINE_EVENTS.length - 1} />
-              <div
-                style={{
-                  fontSize: 10,
-                  color: 'var(--color-text)',
-                  fontWeight: 600,
-                  textAlign: 'center',
-                }}
-              >
-                {e.role}
-              </div>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: 'var(--color-muted)',
-                  textAlign: 'center',
-                }}
-              >
-                {e.company}
-              </div>
+              <div className="skeu-timeline__role">{e.role}</div>
+              <div className="skeu-timeline__company">{e.company}</div>
             </div>
           ))}
         </div>

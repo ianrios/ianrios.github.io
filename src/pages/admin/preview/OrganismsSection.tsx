@@ -5,65 +5,34 @@ import { Card } from '../../../components/molecules/Card';
 import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
 import { NavVerticalSections } from '../../../components/molecules/NavVerticalSections';
+import { PageLayout } from '../../../components/organisms/PageLayout';
 import { SectionLabel, TierLabel } from '../AdminUI';
 import { CARD_GRID_DATA, VERTICAL_NAV_SECTIONS } from '../adminData';
-import '../preview.scss';
-
+import { PushPanelVariants } from './PushPanelVariants';
 export function OrganismsSection() {
   return (
     <>
       <TierLabel>Organisms</TierLabel>
 
+      <PushPanelVariants />
+
       <SectionLabel>Page / Layout</SectionLabel>
-      <div className="preview-page-frame--dashed">
-        <div
-          style={{
-            position: 'absolute',
-            top: 8,
-            left: 14,
-            fontSize: 9,
-            textTransform: 'uppercase',
-            letterSpacing: 1.2,
-            color: 'var(--color-muted)',
-          }}
-        >
-          Page
-        </div>
-        <div
-          style={{ fontSize: 12, color: 'var(--color-muted)', paddingTop: 4 }}
-        >
+      <PageLayout>
+        <div className="skeu-preview-note">
           background = color-bg · padding = space-lg · border-radius = radius-lg
         </div>
-      </div>
+      </PageLayout>
 
       <SectionLabel>Page with nav and card</SectionLabel>
-      <div
-        className="preview-page-frame"
-        style={{ marginBottom: 'var(--space-lg)' }}
-      >
+      <div className="skeu-preview-page-frame skeu-preview-section--lg">
         <NavBar />
-        <div style={{ marginTop: 'var(--space-md)' }}>
-          <Card style={{ maxWidth: 320 }}>
-            <h4 style={{ margin: 0, color: 'var(--color-text)' }}>
-              Page content
-            </h4>
-            <p
-              style={{
-                fontSize: 14,
-                color: 'var(--color-muted)',
-                margin: 'var(--space-xs) 0',
-              }}
-            >
+        <div className="skeu-mt-md">
+          <Card maxWidth={320}>
+            <h4 className="skeu-card-demo-heading">Page content</h4>
+            <p className="skeu-preview-body-text">
               A surface card lives inside the page bg layer.
             </p>
-            <Button
-              variant="primary"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--space-xxs)',
-              }}
-            >
+            <Button variant="solid">
               <Icon name="arrow" /> Get started
             </Button>
           </Card>
@@ -71,29 +40,12 @@ export function OrganismsSection() {
       </div>
 
       <SectionLabel>Card grid</SectionLabel>
-      <div
-        className="skeu-card-grid"
-        style={{ marginBottom: 'var(--space-lg)' }}
-      >
+      <div className="skeu-card-grid">
         {CARD_GRID_DATA.map(({ title, desc, tools }) => (
-          <Card key={title} style={{ padding: 'var(--space-sm)' }}>
-            <strong style={{ color: 'var(--color-text)' }}>{title}</strong>
-            <p
-              style={{
-                margin: 'var(--space-xxs) 0 var(--space-xs)',
-                fontSize: 12,
-                color: 'var(--color-muted)',
-              }}
-            >
-              {desc}
-            </p>
-            <div
-              style={{
-                display: 'flex',
-                gap: 'var(--space-xxs)',
-                flexWrap: 'wrap',
-              }}
-            >
+          <Card key={title} padding="sm">
+            <strong className="skeu-preview-strong">{title}</strong>
+            <p className="skeu-card-grid__desc">{desc}</p>
+            <div className="skeu-card-grid__tags">
               {tools.map((t) => (
                 <Badge key={t}>{t}</Badge>
               ))}
@@ -105,16 +57,9 @@ export function OrganismsSection() {
       <SectionLabel>
         Vertical nav with section accordion — button variant
       </SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-sm)' }}>
+      <div className="skeu-preview-flex skeu-preview-section--sm">
         <NavVerticalSections sections={VERTICAL_NAV_SECTIONS} />
-        <div
-          style={{
-            flex: 1,
-            fontSize: 12,
-            color: 'var(--color-muted)',
-            paddingTop: 'var(--space-sm)',
-          }}
-        >
+        <div className="skeu-preview-sidebar-desc">
           Raised outline buttons · click headers to expand/collapse
         </div>
       </div>
@@ -122,59 +67,29 @@ export function OrganismsSection() {
       <SectionLabel>
         Vertical nav with section accordion — link variant
       </SectionLabel>
-      <div className="preview-flex" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="skeu-preview-flex skeu-preview-section--lg">
         <NavVerticalSections sections={VERTICAL_NAV_SECTIONS} variant="links" />
-        <div
-          style={{
-            flex: 1,
-            fontSize: 12,
-            color: 'var(--color-muted)',
-            paddingTop: 'var(--space-sm)',
-          }}
-        >
+        <div className="skeu-preview-sidebar-desc">
           Flat link buttons — no elevation, accent bg on hover/active
         </div>
       </div>
 
       <SectionLabel>Sidebar layout — NavVertical (button variant)</SectionLabel>
-      <div className="preview-page-frame">
-        <div
-          style={{
-            fontSize: 9,
-            textTransform: 'uppercase',
-            letterSpacing: 1.2,
-            color: 'var(--color-muted)',
-            marginBottom: 'var(--space-sm)',
-          }}
-        >
-          Page
-        </div>
-        <div className="preview-flex">
+      <div className="skeu-preview-page-frame">
+        <div className="skeu-combo-page-label">Page</div>
+        <div className="skeu-preview-flex">
           <NavVertical
             siteName="Ian Rios"
             pages={['experience', 'projects', 'hobbies']}
             ctaLabel="Contact"
           />
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-sm)',
-            }}
-          >
-            <Card style={{ padding: 'var(--space-sm)' }}>
+          <div className="skeu-org-sidebar-content">
+            <Card padding="sm">
               <Badge>Work</Badge>
-              <div
-                style={{
-                  fontWeight: 700,
-                  color: 'var(--color-text)',
-                  marginTop: 'var(--space-xxs)',
-                }}
-              >
+              <div className="skeu-org-sidebar-card__company">
                 Built Technologies
               </div>
-              <div style={{ fontSize: 12, color: 'var(--color-muted)' }}>
+              <div className="skeu-org-sidebar-card__role">
                 Sr. Frontend Eng · 2022–now
               </div>
             </Card>

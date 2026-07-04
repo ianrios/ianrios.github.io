@@ -39,3 +39,26 @@ Never Read → Write to recreate a file that already exists elsewhere.
 **Verify CLAUDE.md claims against reality during implementation.**
 If implementation changes something, CLAUDE.md must reflect the new reality —
 not the pre-implementation assumption.
+
+**Creating or modifying a component without updating its admin demo is
+incomplete work.** Every component in `src/components/` must have an accurate
+demo in the matching `src/pages/admin/preview/` section (atoms → AtomsSection,
+molecules → MoleculesSection, organisms → OrganismsSection). The admin panel
+is the live design-system reference — stale demos are bugs.
+
+**Add tokens to the registry, not a parallel array.** `token-registry.ts` is
+the single source of truth; hand-maintaining a second DEFAULTS/control list
+makes the `npm run check` drift checks fail.
+
+**Every token a theme writes needs a control.** A `THEMES` entry that sets a
+token with no editable sidebar control fails the `theme-control` drift check.
+
+**Don't add a token without a real `var()` consumer AND a live preview
+example.** An editable token needs a control, a real CSS effect, and a visible
+example — a control that changes nothing (or has no example) fails
+`token-unused` / `token-example`.
+
+**Don't simulate a component's states on a wrapper element — style the real
+element.** Painting a bevel/hover/press on a surrounding `div` instead of the
+button itself produces the wrong shape and drifts from reality. Style the
+actual element (the button-state-rectangle bug).

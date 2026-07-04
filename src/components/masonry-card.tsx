@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { tools } from '../data';
-import { IconLink } from './atoms/IconLink';
+import { Button } from './atoms/Button';
 import { Icon } from './atoms/Icon';
 import { Badge } from './atoms/Badge';
-import { Link } from './atoms/Link';
+import { Card } from './molecules/Card';
 
 interface MasonryCardItem {
   title?: string;
@@ -29,51 +29,35 @@ const MasonryCard = ({
 
   const isAccent = (index % 2 !== 0 || index % 7 === 0) && index !== 0;
   const isInfo = index % 5 === 0 && index !== 0 && index < 10;
-  const variantClass = isInfo
-    ? 'skeu-card--muted'
+  const variant: 'muted' | 'accent' | undefined = isInfo
+    ? 'muted'
     : isAccent
-      ? 'skeu-card--accent'
-      : '';
+      ? 'accent'
+      : undefined;
 
   return (
-    <div className={['skeu-card', variantClass].filter(Boolean).join(' ')}>
-      {item.title && (
-        <h4 style={{ marginBottom: 'var(--space-xs)', fontWeight: 700 }}>
-          {item.title}
-        </h4>
-      )}
+    <Card {...(variant !== undefined ? { variant } : {})}>
+      {item.title && <h4 className="skeu-masonry-card__title">{item.title}</h4>}
       {item.img_src_arr && (
         <>
           {item.img_src_arr.length > 0 && (
             <img
               src={item.img_src_arr[0]}
               alt={item.title}
-              style={{
-                borderRadius: 'var(--radius-sm)',
-                marginBottom: 'var(--space-xs)',
-              }}
+              className="skeu-masonry-card__img"
             />
           )}
           {item.img_src_arr.length > 1 && (
             <img
               src={item.img_src_arr[1]}
               alt={item.body}
-              style={{
-                borderRadius: 'var(--radius-sm)',
-                marginBottom: 'var(--space-xs)',
-              }}
+              className="skeu-masonry-card__img"
             />
           )}
         </>
       )}
       {item.year && (
-        <p
-          style={{
-            fontSize: 'var(--font-sm)',
-            color: 'var(--color-muted)',
-            margin: 'var(--space-xxs) 0',
-          }}
-        >
+        <p className="skeu-masonry-card__meta">
           <em>
             {item.activelyMaintained
               ? `started in ${item.year} - active`
@@ -81,33 +65,15 @@ const MasonryCard = ({
           </em>
         </p>
       )}
-      {item.body && <p style={{ marginTop: 'var(--space-xs)' }}>{item.body}</p>}
+      {item.body && <p className="skeu-masonry-card__body">{item.body}</p>}
       {item.tools && (
         <>
-          <hr
-            style={{
-              borderColor: 'var(--border-color)',
-              borderStyle: 'solid',
-              borderWidth: '1px 0 0 0',
-              margin: 'var(--space-xs) 0',
-            }}
-          />
+          <hr className="skeu-masonry-card__divider" />
           <button
             onClick={() => {
               setPanelOpened(!panelOpened);
             }}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-xxs)',
-              color: 'var(--color-text)',
-              fontWeight: 600,
-              fontSize: 'var(--font-sm)',
-              padding: 0,
-            }}
+            className="skeu-masonry-card__tool-toggle"
           >
             tools used{' '}
             <Icon
@@ -116,63 +82,71 @@ const MasonryCard = ({
             />
           </button>
           {panelOpened && (
-            <div
-              style={{
-                display: 'flex',
-                gap: 'var(--space-xxs)',
-                flexWrap: 'wrap',
-                marginTop: 'var(--space-xxs)',
-              }}
-            >
-              {item.tools.map((t, i) => (
-                <Badge key={i} href={tools[t]}>
-                  {t}
-                </Badge>
-              ))}
+            <div className="skeu-masonry-card__tools">
+              {item.tools.map((t, i) => {
+                const toolHref = tools[t];
+                return toolHref ? (
+                  <Badge key={i} href={toolHref}>
+                    {t}
+                  </Badge>
+                ) : (
+                  <Badge key={i}>{t}</Badge>
+                );
+              })}
             </div>
           )}
         </>
       )}
-      <div
-        style={{
-          display: 'flex',
-          gap: 'var(--space-xs)',
-          marginTop: 'var(--space-sm)',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-        }}
-      >
+      <div className="skeu-masonry-card__links">
         {!!item.href && (
-          <IconLink name="github" href={item.href} aria-label="GitHub" />
+          <Button
+            as="link"
+            icon="github"
+            href={item.href}
+            aria-label="GitHub"
+            variant="ghost"
+          />
         )}
         {item.title === 'Meta Spheres' && (
-          <IconLink
-            name="info"
+          <Button
+            as="link"
+            icon="info"
             href="https://en.wikipedia.org/wiki/Metaballs"
             aria-label="Info"
+            variant="ghost"
           />
         )}
         {!!item.live && (
-          <Link
+          <Button
+            as="link"
             href={item.live}
             external={!item.live.startsWith('/')}
             size="xs"
+            variant="surface"
           >
             Visit Live Demo
-          </Link>
+          </Button>
         )}
         {!!item.instagram && (
-          <IconLink
-            name="instagram"
+          <Button
+            as="link"
+            icon="instagram"
             href={item.instagram}
             aria-label="Instagram"
+            variant="ghost"
           />
         )}
         {!!item.url && (
-          <IconLink name="external" href={item.url} aria-label="Open" />
+          <Button
+            as="link"
+            icon="external"
+            href={item.url}
+            aria-label="Open"
+            variant="ghost"
+          />
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

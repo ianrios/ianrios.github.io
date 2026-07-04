@@ -3,7 +3,7 @@ import type React from 'react';
 type ValueInputProps = {
   label?: string;
   suffix?: string;
-} & React.ComponentPropsWithoutRef<'input'>;
+} & Omit<React.ComponentPropsWithoutRef<'input'>, 'style' | 'className'>;
 
 export function ValueInput({
   label,
@@ -11,15 +11,10 @@ export function ValueInput({
   onChange,
   type = 'text',
   suffix,
-  style,
-  className,
   ...props
 }: ValueInputProps) {
   return (
-    <div
-      className={['skeu-value-input-wrap', className].filter(Boolean).join(' ')}
-      style={style}
-    >
+    <div className="skeu-value-input-wrap">
       {label && <span className="skeu-slider-label">{label}</span>}
       <input
         type={type}

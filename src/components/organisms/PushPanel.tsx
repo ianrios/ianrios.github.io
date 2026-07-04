@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
 import type React from 'react';
+import { Icon } from '../atoms/Icon';
 
-const TAB_W = 28;
+export type PushPanelTabVariant = 'stacked' | 'rotated' | 'grip' | 'pill';
 
-function TabLabel({ label, open }: { label: string; open: boolean }) {
+const TAB_W: Record<PushPanelTabVariant, number> = {
+  stacked: 28,
+  rotated: 28,
+  grip: 28,
+  pill: 40,
+};
+
+function StackedLabel({ label, open }: { label: string; open: boolean }) {
   const word = open ? 'close' : label;
   return (
     <span className="skeu-push-tab__letters">
@@ -15,29 +23,65 @@ function TabLabel({ label, open }: { label: string; open: boolean }) {
   );
 }
 
+function RotatedLabel({ label, open }: { label: string; open: boolean }) {
+  return (
+    <span className="skeu-push-tab__rotated">
+      <Icon name={open ? 'chevron-left' : 'chevron-right'} size={10} />
+      <span>{open ? 'close' : label}</span>
+    </span>
+  );
+}
+
+function GripLabel({ open }: { open: boolean }) {
+  return (
+    <span className="skeu-push-tab__grip">
+      <Icon name="grip-vertical" size={14} />
+      <Icon name={open ? 'chevron-left' : 'chevron-right'} size={8} />
+    </span>
+  );
+}
+
+function PillLabel({ open }: { open: boolean }) {
+  return <Icon name={open ? 'chevron-left' : 'chevron-right'} size={14} />;
+}
+
 /**
  * PushPanel — collapsible side panel that pushes content.
  *
  * revealDelay (ms): tab hidden until this many ms after mount.
  * Default 0 = always visible. e.g. 3000 reveals after 3 s.
+ *
+ * tabVariant: controls the tab affordance design.
+ *   'stacked' (default) — per-character vertical label + < / > caret
+ *   'rotated'           — CSS writing-mode vertical text + chevron icon
+ *   'grip'              — drag-handle dots + small directional chevron
+ *   'pill'              — wide rounded tab, chevron only
  */
 export function PushPanel({
   children,
   label = 'panel',
   defaultOpen = false,
   width = 400,
-  panelStyle,
+  header,
   revealDelay = 0,
+  tabVariant = 'stacked',
+  onOpenChange,
 }: {
   children?: React.ReactNode;
   label?: string;
   defaultOpen?: boolean;
-  width?: number;
-  panelStyle?: React.CSSProperties;
+  /** Pixel number or any CSS length e.g. '25vw', 'clamp(320px, 22vw, 440px)' */
+  width?: number | string;
+  /** Non-scrolling zone above the body. Use for back links or panel titles. */
+  header?: React.ReactNode;
   revealDelay?: number;
+  tabVariant?: PushPanelTabVariant;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const [tabShown, setTabShown] = useState(revealDelay === 0);
+  const tabW = TAB_W[tabVariant];
+  const openWidth = typeof width === 'number' ? `${width}px` : width;
 
   useEffect(() => {
     if (revealDelay === 0) return;
@@ -49,54 +93,43 @@ export function PushPanel({
     };
   }, [revealDelay]);
 
+  const variantClass =
+    tabVariant !== 'stacked' ? `skeu-push-tab--${tabVariant}` : '';
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexShrink: 0,
-        height: '100%',
-        alignSelf: 'stretch',
-      }}
-    >
+    <div className="skeu-push-panel">
       {/* Trigger tab */}
       <button
         onClick={() => {
-          setOpen((o) => !o);
+          setOpen((o) => {
+            const next = !o;
+            onOpenChange?.(next);
+            return next;
+          });
         }}
-        className="skeu-push-tab"
-        style={{
-          width: TAB_W,
-          transform: tabShown ? 'translateX(0)' : 'translateX(-100%)',
-          opacity: tabShown ? 1 : 0,
-          transition: 'transform 0.5s ease, opacity 0.5s ease',
-          pointerEvents: tabShown ? 'auto' : 'none',
-        }}
+        className={['skeu-push-tab', variantClass, tabShown ? '' : 'is-hidden']
+          .filter(Boolean)
+          .join(' ')}
+        style={{ width: tabW }}
         aria-label={open ? `Close ${label} panel` : `Open ${label} panel`}
         title={open ? `Close ${label} panel` : `Open ${label} panel`}
       >
-        <TabLabel label={label} open={open} />
+        {tabVariant === 'stacked' && <StackedLabel label={label} open={open} />}
+        {tabVariant === 'rotated' && <RotatedLabel label={label} open={open} />}
+        {tabVariant === 'grip' && <GripLabel open={open} />}
+        {tabVariant === 'pill' && <PillLabel open={open} />}
       </button>
 
       {/* Collapsible panel */}
       <div
+        className="skeu-push-panel__clip"
         style={{
-          width: open ? width : 0,
-          transition: 'width var(--anim-speed, 0.12s) ease',
-          overflow: 'hidden',
-          flexShrink: 0,
-          height: '100%',
+          '--panel-width': open ? openWidth : '0px',
         }}
       >
-        <div
-          style={{
-            width,
-            height: '100%',
-            overflowY: 'auto',
-            borderRight: '1px solid var(--border-color)',
-            ...panelStyle,
-          }}
-        >
-          {children}
+        <div className="skeu-push-panel__inner">
+          {header && <div className="skeu-push-panel__header">{header}</div>}
+          <div className="skeu-push-panel__body">{children}</div>
         </div>
       </div>
     </div>

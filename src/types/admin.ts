@@ -1,21 +1,8 @@
 export type CSSTokenMap = Record<string, string>;
 
-export type ElevationLevel = 'low' | 'med' | 'high' | 'custom';
-
 export interface Preset {
   name: string;
   vars: CSSTokenMap;
-}
-
-export interface ButtonVariant {
-  label: string;
-  cls: string;
-  desc?: string;
-}
-
-export interface ButtonSize {
-  label: string;
-  cls: string;
 }
 
 export interface CardGridItem {
@@ -43,7 +30,7 @@ export interface NavSection {
 
 export interface CardColorVariant {
   label: string;
-  variant: string | null;
+  variant: 'accent' | 'muted' | null;
   text: string;
 }
 

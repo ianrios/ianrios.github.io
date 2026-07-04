@@ -1,5 +1,5 @@
 import { PortfolioSidebar } from '../components/organisms/PortfolioSidebar';
-import { IconButton } from '../components/atoms/IconButton';
+import { Button } from '../components/atoms/Button';
 import type { SkillTuple } from '../types/data';
 
 interface SidebarProps {
@@ -25,43 +25,19 @@ export function MobileNavDrawer({
 }) {
   if (!mobileNavOpen) return null;
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200 }}>
+    <div className="skeu-mobile-drawer">
       <div
         role="presentation"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'var(--overlay-bg)',
-        }}
+        className="skeu-mobile-drawer__overlay"
         onClick={() => {
           setMobileNavOpen(false);
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: 'var(--drawer-width)',
-          background: 'var(--color-surface)',
-          padding: 'var(--space-md)',
-          overflowY: 'auto',
-          zIndex: 201,
-          boxShadow: 'var(--pop-shadow-dark)',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 'var(--space-sm)',
-          }}
-        >
-          <h1 style={{ margin: 0 }}>Ian Rios</h1>
-          <IconButton
-            name="close"
+      <div className="skeu-mobile-drawer__panel">
+        <div className="skeu-mobile-drawer__header">
+          <h1 className="skeu-mobile-drawer__heading">Ian Rios</h1>
+          <Button
+            icon="close"
             aria-label="Close navigation"
             onClick={() => {
               setMobileNavOpen(false);

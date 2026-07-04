@@ -1,32 +1,24 @@
 import { isHexColor } from './colorUtils';
+import { categoryVars } from '../../styles/token-registry';
 import type { CSSTokenMap, Preset } from '../../types/admin';
 
-function ColorSwatches({
-  presetName,
-  presets,
-}: {
-  presetName: string | null;
-  presets: Preset[];
-}) {
-  const preset = presets.find((p) => p.name === presetName);
-  if (!preset) return null;
-  const hexColors = Object.values(preset.vars).filter((v) =>
-    isHexColor((v || '').trim()),
+// The core palette tokens, in registry order. Swatches read these from the live
+// `vars` map so edits preview immediately, with or without an active preset.
+const SWATCH_KEYS = categoryVars('color');
+
+function ColorSwatches({ vars }: { vars: CSSTokenMap }) {
+  const colors = SWATCH_KEYS.map((k) => (vars[k] ?? '').trim()).filter(
+    isHexColor,
   );
+  if (colors.length === 0) return null;
   return (
-    <div style={{ display: 'flex', gap: 3, marginTop: 4, marginBottom: 4 }}>
-      {hexColors.map((c, i) => (
+    <div className="skeu-preset-swatches">
+      {colors.map((c, i) => (
         <div
           key={i}
           title={c}
-          style={{
-            width: 14,
-            height: 14,
-            borderRadius: 3,
-            background: c,
-            border: '1px solid rgba(0,0,0,0.15)',
-            flexShrink: 0,
-          }}
+          className="skeu-preset-swatch"
+          style={{ background: c }}
         />
       ))}
     </div>
@@ -51,49 +43,18 @@ export function PresetSelect({
     preset != null &&
     Object.entries(preset.vars).some(([k, v]) => vars[k] !== v);
   return (
-    <div style={{ marginBottom: 12 }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          marginBottom: 4,
-        }}
-      >
-        <span
-          style={{
-            width: 120,
-            flexShrink: 0,
-            fontSize: 12,
-            color: 'var(--color-text)',
-          }}
-        >
+    <div className="skeu-preset-row">
+      <div className="skeu-preset-header">
+        <span className="skeu-preset-label">
           {label}
           {isDirty && (
-            <span
-              title="Modified"
-              style={{
-                marginLeft: 5,
-                color: '#e07b2a',
-                fontWeight: 700,
-                fontSize: 14,
-              }}
-            >
+            <span title="Modified" className="skeu-preset-dirty">
               *
             </span>
           )}
         </span>
         <select
-          style={{
-            flex: 1,
-            fontSize: 13,
-            padding: '4px 6px',
-            background: 'var(--color-surface)',
-            color: 'var(--color-text)',
-            border: '1px solid rgba(128,128,128,0.25)',
-            borderRadius: 'var(--radius-sm)',
-            cursor: 'pointer',
-          }}
+          className="skeu-preset-select"
           value={active ?? ''}
           onChange={(e) => {
             onSelect(e.target.value || null);
@@ -107,7 +68,7 @@ export function PresetSelect({
           ))}
         </select>
       </div>
-      <ColorSwatches presetName={active} presets={presets} />
+      <ColorSwatches vars={vars} />
     </div>
   );
 }

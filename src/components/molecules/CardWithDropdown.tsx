@@ -30,84 +30,45 @@ export function CardWithDropdown({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card style={{ maxWidth: 280 }}>
-      <h4 style={{ margin: 0 }}>{title}</h4>
-      <p
-        style={{
-          fontSize: 'var(--font-sm)',
-          color: 'var(--color-muted)',
-          margin: 'var(--space-xxs) 0 var(--space-sm)',
-        }}
+    <Card maxWidth={280}>
+      <h4 className="skeu-card-dropdown__title">{title}</h4>
+      <p className="skeu-card-dropdown__subtitle">{subtitle}</p>
+      <div
+        className={['skeu-card-dropdown__trigger', isOpen ? 'is-open' : '']
+          .filter(Boolean)
+          .join(' ')}
       >
-        {subtitle}
-      </p>
-      <div style={{ position: 'relative', marginBottom: 'var(--space-sm)' }}>
         <Button
           variant="outline"
+          fullWidth
+          justify="between"
           onClick={() => {
             setIsOpen((o) => !o);
           }}
-          style={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
         >
           <span>{opts.find((o) => o.value === selected)?.label}</span>
-          <Icon
-            name="chevron"
-            iconStyle={{
-              transform: isOpen ? 'rotate(90deg)' : 'none',
-              transition: 'transform var(--anim-speed) ease',
-            }}
-          />
+          <Icon name="chevron-down" size={14} />
         </Button>
-        <div
-          style={{
-            overflow: 'hidden',
-            maxHeight: isOpen ? 200 : 0,
-            transition: 'max-height var(--anim-speed) ease',
-            position: 'absolute',
-            top: 'calc(100% + var(--space-xxs))',
-            left: 0,
-            right: 0,
-            zIndex: 20,
-          }}
-        >
-          <Card style={{ padding: 'var(--space-xxs)' }}>
+        <div className="skeu-card-dropdown__list">
+          <Card padding="xxs">
             {opts.map((opt) => (
-              <Button
-                key={opt.value}
-                variant={selected === opt.value ? 'primary' : 'outline'}
-                onClick={() => {
-                  setSelected(opt.value);
-                  setIsOpen(false);
-                }}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  marginBottom: 'var(--space-xxs)',
-                  fontSize: 'var(--font-sm)',
-                }}
-              >
-                {opt.label}
-              </Button>
+              <div key={opt.value} className="skeu-card-dropdown__opt">
+                <Button
+                  variant={selected === opt.value ? 'solid' : 'outline'}
+                  fullWidth
+                  onClick={() => {
+                    setSelected(opt.value);
+                    setIsOpen(false);
+                  }}
+                >
+                  {opt.label}
+                </Button>
+              </div>
             ))}
           </Card>
         </div>
       </div>
-      <Button
-        variant="primary"
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'var(--space-xxs)',
-        }}
-      >
+      <Button variant="solid" fullWidth justify="center">
         <Icon name="check" /> {cta}
       </Button>
     </Card>

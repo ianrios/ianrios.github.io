@@ -4,18 +4,18 @@ export function ColorPicker({
   value,
   onChange,
   title,
-  style,
-  className,
   ...props
-}: React.ComponentPropsWithoutRef<'input'>) {
+}: Omit<
+  React.ComponentPropsWithoutRef<'input'>,
+  'className' | 'style' | 'type'
+>) {
   return (
     <input
       type="color"
       value={value}
       onChange={onChange}
       title={title}
-      className={['skeu-color-picker', className].filter(Boolean).join(' ')}
-      style={style}
+      className="skeu-color-picker"
       {...props}
     />
   );

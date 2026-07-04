@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
-import { IconButton } from '../components/atoms/IconButton';
+import { Button } from '../components/atoms/Button';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MarchingCubes } from 'three/examples/jsm/objects/MarchingCubes.js';
 
@@ -17,7 +17,8 @@ const SPEED = 0.1;
 
 export default function ThreeScene() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const location = useLocation();
+  const showBackLink = location.key !== 'default';
 
   useEffect(() => {
     const container = containerRef.current;
@@ -119,20 +120,20 @@ export default function ThreeScene() {
 
   return (
     <>
-      <div ref={containerRef} style={{ position: 'fixed', inset: 0 }} />
-      <IconButton
-        name="close"
-        aria-label="Back to portfolio"
-        onClick={() => {
-          navigate(-1);
-        }}
-        style={{
-          position: 'fixed',
-          top: 'var(--space-sm)',
-          left: 'var(--space-sm)',
-          zIndex: 10,
-        }}
-      />
+      <div ref={containerRef} className="skeu-scene-container" />
+      {showBackLink && (
+        <span className="skeu-scene-back">
+          <Button
+            as="link"
+            href="/"
+            routerState={{ view: 'main' }}
+            size="xs"
+            variant="surface"
+          >
+            ← Portfolio
+          </Button>
+        </span>
+      )}
     </>
   );
 }

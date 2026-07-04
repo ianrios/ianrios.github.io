@@ -28,36 +28,23 @@ export function NavBar({
 
   return (
     <div className="skeu-nav">
-      <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>
-        {siteName}
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          gap: 'var(--space-xs)',
-          alignItems: 'center',
-        }}
-      >
+      <div className="skeu-nav__title">{siteName}</div>
+      <div className="skeu-nav__links">
         {pages.map((page) =>
           variant === 'links' ? (
-            <a
-              key={page}
-              href="#demo"
-              className="skeu-link"
-              style={{ textTransform: 'capitalize' }}
-            >
+            <a key={page} href="#demo" className="skeu-link">
               {page}
             </a>
           ) : (
             <Button
               key={page}
-              variant={active === page ? 'primary' : 'outline'}
+              variant={active === page ? 'solid' : 'outline'}
               onClick={() => {
                 handleClick(page);
               }}
-              style={{ textTransform: 'capitalize' }}
             >
-              {page}
+              {page[0]?.toUpperCase()}
+              {page.slice(1)}
             </Button>
           ),
         )}
