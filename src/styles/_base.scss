@@ -29,6 +29,10 @@
   --radius-md: #{$radius-md};
   --radius-lg: #{$radius-lg};
 
+  // Font families
+  --font-family-base: #{$font-family-base};
+  --font-family-display: #{$font-family-display};
+
   // Typography scale
   --font-xxs: #{$font-xxs};
   --font-xs: #{$font-xs};
@@ -103,9 +107,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
+  font-family: var(--font-family-base, #{$font-family-base});
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--font-base, #{$font-base});
@@ -226,7 +228,7 @@ a:active {
 }
 
 .montserrat {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family-display, #{$font-family-display});
 }
 
 code {

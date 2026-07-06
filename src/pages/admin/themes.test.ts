@@ -5,19 +5,16 @@ import { detectMatchingPreset } from './designStorage';
 
 const registryVars = new Set(TOKEN_REGISTRY.map((t) => t.cssVar));
 
-// Themes write every editable token EXCEPT: the derived bevel tones (recomputed
-// from bg/surface by applyTheme), --anim-speed-fast (derived from --anim-speed
-// in useDesignVars), and --clickable-border-width (a global control that
-// persists across theme switches — editable but intentionally theme-
-// independent). This is the set applyTheme must fully cover.
+// Themes write every EDITABLE token (registry entries with a control) except
+// --clickable-border-width, a global control that persists across theme
+// switches. Uncontrolled tokens (derived bevel tones, --anim-speed-fast,
+// fixed font families) are never theme-written. This is the set applyTheme
+// must fully cover.
 const GLOBAL_CONTROLS = new Set(['--clickable-border-width']);
 const WRITABLE = new Set(
-  TOKEN_REGISTRY.filter(
-    (t) =>
-      t.category !== 'bevel' &&
-      t.cssVar !== '--anim-speed-fast' &&
-      !GLOBAL_CONTROLS.has(t.cssVar),
-  ).map((t) => t.cssVar),
+  TOKEN_REGISTRY.filter((t) => t.control && !GLOBAL_CONTROLS.has(t.cssVar)).map(
+    (t) => t.cssVar,
+  ),
 );
 
 describe('THEMES — complete theme presets', () => {

@@ -1,4 +1,12 @@
 // Component styles using the Classic Windows 3D bevel tokens and mixins
+//
+// Hardcoded-value policy: content-bearing text and every color / spacing /
+// radius / shadow use tokens. Intentionally FIXED literals are limited to
+// micro-chrome — badge text, push-tab letters, admin annotations and section
+// labels (9-13px), icon-only button padding (aspect-ratio driven), and the
+// splash screen (sits on the fixed-black canvas, not the themed bg). These
+// label the chrome, not the content, and must stay readable at any theme
+// scale. Anything else hardcoded is a bug.
 
 // Surface containers alias the bg-derived --bevel-* tones to the surface-derived
 // set, so every control nested inside (button, link, input, slider, switch)
@@ -217,7 +225,7 @@
   isolation: isolate;
   z-index: 0;
   text-align: center;
-  font-size: 15px;
+  font-size: var(--font-sm, #{$font-sm});
   font-weight: 600;
   text-decoration: none;
   color: var(--color-text, #{$color-text});
@@ -369,22 +377,22 @@
 
 /* ── Size axis (padding + font; Icon px is set on the Icon in TSX) ── */
 .skeu-btn--size-xs {
-  font-size: 11px;
+  font-size: var(--font-xxs, #{$font-xxs});
   padding: 2px 8px;
 }
 .skeu-btn--size-sm {
-  font-size: 13px;
+  font-size: var(--font-xs, #{$font-xs});
   padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 0.55)
     calc(var(--btn-padding-x, #{$btn-padding-x}) * 0.65);
 }
 /* --size-md keeps the base padding/font (no override). */
 .skeu-btn--size-lg {
-  font-size: 17px;
+  font-size: var(--font-base, #{$font-base});
   padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.25)
     calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.15);
 }
 .skeu-btn--size-xl {
-  font-size: 20px;
+  font-size: var(--font-lg, #{$font-lg});
   padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.6)
     calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.4);
 }
@@ -523,7 +531,7 @@
   padding: 0;
   -webkit-appearance: none;
   appearance: none;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family-display, #{$font-family-display});
   font-size: var(--font-sm, #{$font-sm});
   color: var(--color-muted, #{$color-muted});
   letter-spacing: 0.1em;
@@ -1558,7 +1566,7 @@ a.skeu-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(128, 128, 128, 0.08);
+  border: 1px solid var(--border-color, #{$border-color});
 }
 .skeu-mixed-grid__feat-hero-text {
   font-size: 11px;

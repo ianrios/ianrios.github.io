@@ -23,6 +23,7 @@ type TokenCategory =
   | 'spacing'
   | 'radii'
   | 'font'
+  | 'font-family'
   | 'line-height'
   | 'motion'
   | 'layout'
@@ -83,6 +84,9 @@ export const TOKEN_REGISTRY: TokenDef[] = [
   { cssVar: '--radius-sm', category: 'radii', default: '0px', control: range('Radius SM', 0, 24) },
   { cssVar: '--radius-md', category: 'radii', default: '0px', control: range('Radius MD', 0, 40) },
   { cssVar: '--radius-lg', category: 'radii', default: '0px', control: range('Radius LG', 0, 48) },
+  // ── Font families (fixed; no control until more fonts exist) ────────────
+  { cssVar: '--font-family-base', category: 'font-family', default: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" },
+  { cssVar: '--font-family-display', category: 'font-family', default: "'Montserrat', sans-serif" },
   // ── Typography — font sizes ─────────────────────────────────────────────
   { cssVar: '--font-xxs', category: 'font', default: '12px', control: range('Font xxs', 8, 24) },
   { cssVar: '--font-xs', category: 'font', default: '14px', control: range('Font xs', 8, 28) },

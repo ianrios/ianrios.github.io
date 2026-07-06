@@ -59,6 +59,12 @@ $radius-sm: 0px;
 $radius-md: 0px;
 $radius-lg: 0px;
 
+// ─── Font families (fixed tokens — no control until more fonts exist) ────────
+$font-family-base:
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+  Arial, sans-serif;
+$font-family-display: 'Montserrat', sans-serif;
+
 // ─── Typography scale ─────────────────────────────────────────────────────────
 $font-xxs: 12px;
 $font-xs: 14px;
