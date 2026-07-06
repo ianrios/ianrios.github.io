@@ -1,4 +1,4 @@
-import { useDesignVars } from './useDesignVars';
+import { useDesignVars } from './designVarsContext';
 import { THEMES } from '../pages/admin/adminData';
 
 export function useHomeDesignPanel() {

@@ -6,7 +6,7 @@ import { V2Preview } from './admin/V2Preview';
 import { THEMES } from './admin/adminData';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Button } from '../components/atoms/Button';
-import { useDesignVars } from '../hooks/useDesignVars';
+import { useDesignVars } from '../hooks/designVarsContext';
 
 const TABS = [
   { id: 'design', label: 'Design System' },

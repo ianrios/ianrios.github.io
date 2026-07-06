@@ -1,6 +1,8 @@
 import { useState, useMemo, useLayoutEffect } from 'react';
+import type React from 'react';
 import type { CSSTokenMap } from '../types/admin';
 import type { DesignVarsReturn } from '../types/design-vars';
+import { DesignVarsContext } from './designVarsContext';
 import { THEMES, DEFAULTS, DEFAULT_THEME } from '../pages/admin/adminData';
 import {
   loadStoredDesign,
@@ -38,7 +40,7 @@ interface HookState extends DesignState {
   touched: boolean;
 }
 
-export function useDesignVars(): DesignVarsReturn {
+function useDesignVarsState(): DesignVarsReturn {
   const [state, setState] = useState<HookState>(() => {
     const stored = loadStoredDesign(THEMES);
     return stored
@@ -99,4 +101,17 @@ export function useDesignVars(): DesignVarsReturn {
     resetAll,
     exportText,
   };
+}
+
+export function DesignVarsProvider({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  const value = useDesignVarsState();
+  return (
+    <DesignVarsContext.Provider value={value}>
+      {children}
+    </DesignVarsContext.Provider>
+  );
 }

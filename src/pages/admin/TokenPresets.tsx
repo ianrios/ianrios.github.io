@@ -1,22 +1,24 @@
-import { isHexColor } from './colorUtils';
-import { categoryVars } from '../../styles/token-registry';
+import { TOKEN_REGISTRY } from '../../styles/token-registry';
 import type { CSSTokenMap, Preset } from '../../types/admin';
 
-// The core palette tokens, in registry order. Swatches read these from the live
-// `vars` map so edits preview immediately, with or without an active preset.
-const SWATCH_KEYS = categoryVars('color');
+// Every color-type control, in registry order — the same palette the Design
+// Tokens view shows. Swatches read the live `vars` map (theme + user edits)
+// so they always mirror the applied state.
+const SWATCH_KEYS = TOKEN_REGISTRY.filter(
+  (t) => t.control?.type === 'color',
+).map((t) => t.cssVar);
 
 function ColorSwatches({ vars }: { vars: CSSTokenMap }) {
-  const colors = SWATCH_KEYS.map((k) => (vars[k] ?? '').trim()).filter(
-    isHexColor,
-  );
+  const colors = SWATCH_KEYS.map(
+    (k) => [k, (vars[k] ?? '').trim()] as const,
+  ).filter(([, v]) => v !== '');
   if (colors.length === 0) return null;
   return (
     <div className="skeu-preset-swatches">
-      {colors.map((c, i) => (
+      {colors.map(([k, c]) => (
         <div
-          key={i}
-          title={c}
+          key={k}
+          title={`${k}: ${c}`}
           className="skeu-preset-swatch"
           style={{ background: c }}
         />
