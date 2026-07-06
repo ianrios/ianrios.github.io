@@ -1,6 +1,9 @@
-import { ColorControl, RangeControl } from './TokenControls';
-import { BTN_COLOR_CONTROLS, BTN_SHAPE_CONTROLS } from './token-sidebar-data';
+import { TokenControlList } from './TokenControls';
+import { controlList } from '../../styles/token-registry';
 import type { CSSTokenMap } from '../../types/admin';
+
+const BTN_COLOR_VARS = controlList('button', 'color').map((c) => c.varName);
+const BTN_SHAPE_VARS = controlList('button', 'range').map((c) => c.varName);
 
 export function ButtonSidebarSection({
   vars,
@@ -12,13 +15,9 @@ export function ButtonSidebarSection({
   return (
     <>
       <div className="skeu-control-sublabel">Color</div>
-      {BTN_COLOR_CONTROLS.map((c) => (
-        <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-      ))}
+      <TokenControlList varNames={BTN_COLOR_VARS} vars={vars} setVar={setVar} />
       <div className="skeu-control-sublabel">Shape</div>
-      {BTN_SHAPE_CONTROLS.map((c) => (
-        <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-      ))}
+      <TokenControlList varNames={BTN_SHAPE_VARS} vars={vars} setVar={setVar} />
     </>
   );
 }

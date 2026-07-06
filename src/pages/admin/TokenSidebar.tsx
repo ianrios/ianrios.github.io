@@ -1,21 +1,18 @@
 import type { CSSTokenMap, Preset } from '../../types/admin';
 import { Button } from '../../components/atoms/Button';
-import { SidebarSection, ColorControl, RangeControl } from './TokenControls';
+import { SidebarSection, TokenControlList } from './TokenControls';
 import { PresetSelect } from './TokenPresets';
 import { ButtonSidebarSection } from './ButtonSidebarSection';
-import {
-  COLOR_CONTROLS,
-  CHROME_CONTROLS,
-  SPACING_CONTROLS,
-  RADII_CONTROLS,
-  LINK_COLOR_CONTROLS,
-} from './token-sidebar-data';
+import { controlList } from '../../styles/token-registry';
 import {
   MotionSection,
   TypographySection,
   LayoutSection,
   DepthSection,
 } from './TokenSidebarExtra';
+
+const vn = (category: Parameters<typeof controlList>[0]): string[] =>
+  controlList(category).map((c) => c.varName);
 
 export function TokenSidebar({
   vars,
@@ -49,23 +46,19 @@ export function TokenSidebar({
         </div>
       </SidebarSection>
       <SidebarSection title="Colors" badge="global">
-        {COLOR_CONTROLS.map((c) => (
-          <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
+        <TokenControlList varNames={vn('color')} vars={vars} setVar={setVar} />
         <div className="skeu-control-sublabel">Chrome</div>
-        {CHROME_CONTROLS.map((c) => (
-          <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
+        <TokenControlList varNames={vn('chrome')} vars={vars} setVar={setVar} />
       </SidebarSection>
       <SidebarSection title="Spacing" badge="global" defaultOpen={false}>
-        {SPACING_CONTROLS.map((c) => (
-          <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
+        <TokenControlList
+          varNames={vn('spacing')}
+          vars={vars}
+          setVar={setVar}
+        />
       </SidebarSection>
       <SidebarSection title="Radii" badge="global" defaultOpen={false}>
-        {RADII_CONTROLS.map((c) => (
-          <RangeControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
+        <TokenControlList varNames={vn('radii')} vars={vars} setVar={setVar} />
       </SidebarSection>
       <MotionSection vars={vars} setVar={setVar} />
       <TypographySection vars={vars} setVar={setVar} />
@@ -74,20 +67,7 @@ export function TokenSidebar({
         <ButtonSidebarSection vars={vars} setVar={setVar} />
       </SidebarSection>
       <SidebarSection title="Focus" badge="atom" defaultOpen={false}>
-        <ColorControl
-          label="Focus ring"
-          varName="--focus-ring-color"
-          vars={vars}
-          setVar={setVar}
-        />
-        <RangeControl
-          label="Ring width"
-          varName="--focus-ring-width"
-          vars={vars}
-          setVar={setVar}
-          min={0}
-          max={12}
-        />
+        <TokenControlList varNames={vn('focus')} vars={vars} setVar={setVar} />
       </SidebarSection>
       <SidebarSection title="Bevel" badge="global" defaultOpen={false}>
         <div className="skeu-preview-note skeu-control-row">
@@ -106,9 +86,7 @@ export function TokenSidebar({
           <br />
           <strong>Hover / Active</strong>: all interactive elements.
         </div>
-        {LINK_COLOR_CONTROLS.map((c) => (
-          <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
-        ))}
+        <TokenControlList varNames={vn('link')} vars={vars} setVar={setVar} />
       </SidebarSection>
     </aside>
   );
