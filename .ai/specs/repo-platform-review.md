@@ -56,6 +56,8 @@ Build and Deploy (cloud layer):
 
 - build functions work
 - deployment to firebase includes other checks that agents should always do, such as the npm check and npm build
+- what is the default design for when we deploy
+- can we deploy today after everything gets fixed?
 
 Nits and personal preferences:
 
@@ -68,3 +70,7 @@ context engineering:
 - is this file /Users/ianrios/Sites/ianrios.github.io/.claude/settings.json up to date with relevant real settings we should be using to allow agents to move quickly and iterate without waiting on human operator intervention? can agents learn to use /update-config and /fewer-permission-prompts when deemed useful?
 - are any documentation files out of date or include prose details that should actually be documented as pointer references to code files like package.json, vite.config.ts, tsconfig.json, etc?
 - are we following a "less is more" best practice while keeping critical true details up front in context? in my human opinion, any text that is written is not worth writing if it could be summarized. if so, then the summary is what should have been written. keeping this in mind, there are always valuable things to mention, but understanding what is valuable is the true skill, and agents should understand to write everything in such a lean and clean way that it could not be summarized without losing critical details. the bare minimum to keep context actually useful is what is important here.
+- For all coding tasks use your judgement to decide an appropriate lower power model and run that in a subagent
+- leverage claude repo memories
+- leverage claude context files
+- leverage custom skills scoped to custom agents (not all skills should auto ingest for each general agent)
