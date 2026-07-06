@@ -9,12 +9,15 @@
     <title>Ian Rios</title>
     <script>
       try {
-        var _sv = JSON.parse(localStorage.getItem('skeuomorph:vars') || 'null');
-        if (_sv) {
+        var _d = JSON.parse(localStorage.getItem('design:v1') || 'null');
+        if (_d && _d.version === 1 && _d.snapshot) {
           var _s = document.documentElement.style;
-          for (var _k in _sv) {
-            if (Object.prototype.hasOwnProperty.call(_sv, _k))
-              _s.setProperty(_k, _sv[_k]);
+          for (var _k in _d.snapshot) {
+            if (
+              Object.prototype.hasOwnProperty.call(_d.snapshot, _k) &&
+              typeof _d.snapshot[_k] === 'string'
+            )
+              _s.setProperty(_k, _d.snapshot[_k]);
           }
         }
       } catch (e) {}

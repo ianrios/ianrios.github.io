@@ -39,7 +39,6 @@ interface ThemeSpec {
   link: string;
   linkHover: string;
   linkActive: string;
-  linkPrimary: string;
   // button colors
   btnPrimaryBg: string;
   btnPrimaryText: string;
@@ -84,7 +83,6 @@ const theme = (s: ThemeSpec): Preset => ({
     '--link-color': s.link,
     '--link-hover': s.linkHover,
     '--link-active': s.linkActive,
-    '--link-primary-color': s.linkPrimary,
     '--btn-primary-bg': s.btnPrimaryBg,
     '--btn-primary-text': s.btnPrimaryText,
     '--space-xxs': s.space[0],
@@ -120,9 +118,13 @@ const theme = (s: ThemeSpec): Preset => ({
   },
 });
 
+// The theme every new visitor gets. Its vars equal the registry defaults and
+// the SCSS first paint — enforced by [default-value-sync]. Change the default
+// by editing this constant; the check lists every value that must follow.
+export const DEFAULT_THEME = 'High Contrast';
+
 export const THEMES: Preset[] = [
-  // DEFAULT — bevel-leaning with slight softness. Its vars equal the registry
-  // defaults, so a fresh load (and resetAll) detects "Terminal" as active.
+  // Bevel-leaning terminal green with slight softness.
   theme({
     name: 'Terminal',
     bg: '#0a0e0a',
@@ -135,7 +137,6 @@ export const THEMES: Preset[] = [
     link: '#00ffaa',
     linkHover: '#fff800',
     linkActive: '#ff3300',
-    linkPrimary: '#39ff14',
     btnPrimaryBg: '#39ff14',
     btnPrimaryText: '#060e06',
     space: ['4px', '8px', '20px', '32px', '56px', '64px'],
@@ -171,7 +172,6 @@ export const THEMES: Preset[] = [
     link: '#0a3a8c',
     linkHover: '#5a2d91',
     linkActive: '#8c1a1a',
-    linkPrimary: '#e8ebee',
     btnPrimaryBg: '#b0b4b8',
     btnPrimaryText: '#1a1d20',
     space: ['2px', '6px', '10px', '16px', '24px', '32px'],
@@ -207,7 +207,6 @@ export const THEMES: Preset[] = [
     link: '#5b7cba',
     linkHover: '#7a6bcc',
     linkActive: '#c0607a',
-    linkPrimary: '#eef2f8',
     btnPrimaryBg: '#cdd9ec',
     btnPrimaryText: '#4a5568',
     space: ['6px', '12px', '20px', '32px', '48px', '64px'],
@@ -243,7 +242,6 @@ export const THEMES: Preset[] = [
     link: '#0000ee',
     linkHover: '#ee0000',
     linkActive: '#aa00aa',
-    linkPrimary: '#000000',
     btnPrimaryBg: '#1a1a1a',
     btnPrimaryText: '#fafafa',
     space: ['4px', '8px', '16px', '40px', '64px', '96px'],
@@ -279,7 +277,6 @@ export const THEMES: Preset[] = [
     link: '#4da6ff',
     linkHover: '#ffff00',
     linkActive: '#ff6666',
-    linkPrimary: '#ffe000',
     btnPrimaryBg: '#ffe000',
     btnPrimaryText: '#000000',
     space: ['4px', '8px', '16px', '24px', '40px', '56px'],
@@ -315,7 +312,6 @@ export const THEMES: Preset[] = [
     link: '#6b3a2a',
     linkHover: '#9b5a10',
     linkActive: '#8b0000',
-    linkPrimary: '#f0ebe0',
     btnPrimaryBg: '#e8dcc8',
     btnPrimaryText: '#2a2018',
     space: ['3px', '6px', '12px', '20px', '32px', '44px'],
@@ -351,7 +347,6 @@ export const THEMES: Preset[] = [
     link: '#00ffee',
     linkHover: '#ff44cc',
     linkActive: '#ffee00',
-    linkPrimary: '#ff00cc',
     btnPrimaryBg: '#ff00cc',
     btnPrimaryText: '#14001f',
     space: ['5px', '10px', '22px', '36px', '56px', '80px'],
@@ -387,7 +382,6 @@ export const THEMES: Preset[] = [
     link: '#9a7fd0',
     linkHover: '#d07fb0',
     linkActive: '#d09a7f',
-    linkPrimary: '#f8eeff',
     btnPrimaryBg: '#e8d8f5',
     btnPrimaryText: '#5a4a6e',
     space: ['8px', '14px', '28px', '44px', '72px', '104px'],
@@ -423,7 +417,6 @@ export const THEMES: Preset[] = [
     link: '#00eeff',
     linkHover: '#ff0099',
     linkActive: '#ffee00',
-    linkPrimary: '#ff0099',
     btnPrimaryBg: '#ff0099',
     btnPrimaryText: '#1a0033',
     space: ['6px', '12px', '24px', '48px', '80px', '128px'],
@@ -452,34 +445,7 @@ export const THEMES: Preset[] = [
 // hand-listed subset) is reset/exported. Enforced by [defaults-sync].
 export const DEFAULTS: CSSTokenMap = REGISTRY_DEFAULTS;
 
-export const loadStored = (): CSSTokenMap | null => {
-  try {
-    const raw = window.localStorage.getItem('skeuomorph:vars');
-    if (!raw) return null;
-    const parsed: Record<string, unknown> = JSON.parse(raw) as Record<
-      string,
-      unknown
-    >;
-    return Object.fromEntries(
-      Object.entries(parsed)
-        .filter((e): e is [string, string] => typeof e[1] === 'string')
-        .map(([k, v]) => [k, v.trim()]),
-    );
-  } catch {
-    return null;
-  }
-};
-
-export const detectMatchingPreset = (
-  presets: Preset[],
-  currentVars: CSSTokenMap,
-): string | null => {
-  for (const p of presets) {
-    if (Object.entries(p.vars).every(([k, v]) => currentVars[k] === v))
-      return p.name;
-  }
-  return null;
-};
+// Persistence lives in ./designStorage.ts (this file stays data-only).
 
 export const BADGE_SAMPLES: string[] = [
   'React',

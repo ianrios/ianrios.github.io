@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { TOKEN_REGISTRY, REGISTRY_DEFAULTS } from '../../styles/token-registry';
-import { THEMES, DEFAULTS, detectMatchingPreset } from './adminData';
+import { THEMES, DEFAULTS, DEFAULT_THEME } from './adminData';
+import { detectMatchingPreset } from './designStorage';
 
 const registryVars = new Set(TOKEN_REGISTRY.map((t) => t.cssVar));
 
@@ -49,14 +50,14 @@ describe('THEMES — complete theme presets', () => {
     expect(new Set(fingerprints).size).toBe(fingerprints.length);
   });
 
-  it('default theme (Terminal) matches the registry defaults', () => {
-    const terminal = THEMES.find((t) => t.name === 'Terminal');
-    expect(terminal).toBeDefined();
-    for (const [key, value] of Object.entries(terminal?.vars ?? {})) {
+  it('DEFAULT_THEME matches the registry defaults', () => {
+    const def = THEMES.find((t) => t.name === DEFAULT_THEME);
+    expect(def).toBeDefined();
+    for (const [key, value] of Object.entries(def?.vars ?? {})) {
       expect(REGISTRY_DEFAULTS[key], key).toBe(value);
     }
-    // A fresh load (DEFAULTS) therefore detects Terminal as the active theme.
-    expect(detectMatchingPreset(THEMES, DEFAULTS)).toBe('Terminal');
+    // A fresh load (DEFAULTS) therefore detects the default theme as active.
+    expect(detectMatchingPreset(THEMES, DEFAULTS)).toBe(DEFAULT_THEME);
   });
 
   it('spans the full depth range across the set (hard ↔ soft)', () => {

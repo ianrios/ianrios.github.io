@@ -45,10 +45,18 @@
   --bevel-dark-shadow: #{$bevel-dark-shadow};
 
   // Bevel tones — surface-derived (aliased onto --bevel-* by surface containers)
-  --bevel-surface-highlight: #{bevel-tone($color-surface, 0.22)};
-  --bevel-surface-light: #{bevel-tone($color-surface, 0.1)};
-  --bevel-surface-shadow: #{bevel-tone($color-surface, -0.1)};
-  --bevel-surface-dark-shadow: #{bevel-tone($color-surface, -0.2)};
+  --bevel-surface-highlight: #{bevel-tone(
+      $color-surface,
+      0.22,
+      $depth-contrast
+    )};
+  --bevel-surface-light: #{bevel-tone($color-surface, 0.1, $depth-contrast)};
+  --bevel-surface-shadow: #{bevel-tone($color-surface, -0.1, $depth-contrast)};
+  --bevel-surface-dark-shadow: #{bevel-tone(
+      $color-surface,
+      -0.2,
+      $depth-contrast
+    )};
 
   // Parametric depth geometry (tunable hard bevel ↔ soft neu via sidebar)
   --depth-distance: #{$depth-distance};
@@ -81,11 +89,10 @@
   --link-color: #{$link-color};
   --link-hover: #{$link-hover};
   --link-active: #{$link-active};
-  --link-primary-color: #{$link-primary-color};
 
-  // Animation
-  --anim-speed: 0.12s;
-  --anim-speed-fast: 0.06s;
+  // Animation (--anim-speed-fast is derived: --anim-speed * 0.5)
+  --anim-speed: 0.1s;
+  --anim-speed-fast: 0.05s;
   --anim-speed-slow: #{$anim-speed-slow};
 }
 

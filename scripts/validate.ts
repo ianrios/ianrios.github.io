@@ -4,7 +4,12 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { extname, join, relative, resolve, sep } from 'path';
 import { fileURLToPath } from 'url';
-import { DEFAULTS, THEMES } from '../src/pages/admin/adminData.ts';
+import {
+  DEFAULTS,
+  THEMES,
+  DEFAULT_THEME,
+} from '../src/pages/admin/adminData.ts';
+import { checkDefaultValueSync } from './value-sync-check.ts';
 import {
   parseRootVars,
   parseScssTokens,
@@ -47,6 +52,7 @@ type ViolationType =
   | 'token-sync'
   | 'control-sync'
   | 'defaults-sync'
+  | 'default-value-sync'
   | 'preset-token'
   | 'theme-control'
   | 'token-unused'
@@ -58,6 +64,7 @@ const DRIFT_TYPES: ViolationType[] = [
   'token-sync',
   'control-sync',
   'defaults-sync',
+  'default-value-sync',
   'preset-token',
   'theme-control',
   'token-unused',
@@ -212,10 +219,17 @@ for (const tier of ['atoms', 'molecules', 'organisms']) {
   }
 }
 
+const tokensScssSrc = read('src', 'styles', '_tokens.scss');
+const baseScssSrc = read('src', 'styles', '_base.scss');
+
 const driftChecks: [ViolationType, string[]][] = [
   ['token-sync', checkTokenSync(scssTokens, rootVars)],
   ['control-sync', checkControlSync(rootVars)],
   ['defaults-sync', checkDefaultsSync(Object.keys(DEFAULTS), rootVars)],
+  [
+    'default-value-sync',
+    checkDefaultValueSync(THEMES, DEFAULT_THEME, tokensScssSrc, baseScssSrc),
+  ],
   ['preset-token', checkPresetTokens(THEMES, rootVars)],
   ['theme-control', checkThemeControls(THEMES)],
   ['token-unused', checkTokenUnused(scssAll)],

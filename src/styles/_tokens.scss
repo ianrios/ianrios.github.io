@@ -4,6 +4,10 @@
 // Classic Windows 3D bevel design tokens
 // Purpose: single source of truth for SCSS values; :root in _base.scss exposes them as CSS custom props
 //
+// First-paint values equal THEMES[DEFAULT_THEME] (High Contrast) — enforced by
+// the [default-value-sync] drift check against token-registry.ts. To change the
+// default theme, edit DEFAULT_THEME in adminData.ts and follow the check.
+//
 // ─── Backdrop-derived bevel tones (the blend fix) ────────────────────────────
 // Depth is drawn with HARD, ZERO-BLUR solid-color inset bevels (Windows 95/98/NT
 // raised/sunken look), not blurred halos. Four SOLID tone colors derive from a
@@ -27,7 +31,6 @@
 }
 // $contrast multiplies the lightness delta, so stronger contrast pushes the
 // tones further from the backdrop. JS twin: computeBevelTones(..., contrast).
-// Default 1 keeps the SCSS first-paint identical to the registry bevel defaults.
 @function bevel-tone($c, $delta, $contrast: 1) {
   $l: _surface-l($c);
   @return color.change(
@@ -36,43 +39,35 @@
   );
 }
 
-// ─── Colors — Terminal defaults ──────────────────────────────────────────────
-$color-bg: #0a0e0a !default;
-$color-surface: #0f1a0f !default;
-$color-accent: #1a3a1a !default;
-$color-muted: #4a7c4a !default;
-$color-text: #39ff14 !default;
+// ─── Colors — High Contrast defaults ─────────────────────────────────────────
+$color-bg: #000000 !default;
+$color-surface: #101010 !default;
+$color-accent: #1f1f1f !default;
+$color-muted: #c0c0c0 !default;
+$color-text: #ffffff !default;
 
-// ─── Spacing scale — Chunky defaults ─────────────────────────────────────────
+// ─── Spacing scale ────────────────────────────────────────────────────────────
 $space-xxs: 4px;
 $space-xs: 8px;
-$space-sm: 20px;
-$space-md: 32px;
-$space-lg: 56px;
-$space-xl: 64px;
+$space-sm: 16px;
+$space-md: 24px;
+$space-lg: 40px;
+$space-xl: 56px;
 
-// ─── Radii — Chunky defaults ─────────────────────────────────────────────────
-$radius-sm: 8px;
-$radius-md: 16px;
-$radius-lg: 24px;
+// ─── Radii ────────────────────────────────────────────────────────────────────
+$radius-sm: 0px;
+$radius-md: 0px;
+$radius-lg: 0px;
 
-// ─── Typography scale (not theme-variable; fixed across all presets) ─────────
-$font-xxs: 10px;
-$font-xs: 12px;
-$font-sm: 14px;
-$font-base: 16px;
-$font-lg: 18px;
+// ─── Typography scale ─────────────────────────────────────────────────────────
+$font-xxs: 12px;
+$font-xs: 14px;
+$font-sm: 16px;
+$font-base: 18px;
+$font-lg: 22px;
 $line-height-base: 1.5;
 $line-height-loose: 1.6;
-$anim-speed-slow: 0.5s;
-
-// ─── Bevel tones — backdrop-derived (first-paint defaults; JS re-derives live) ─
-// bg-derived set (page-level controls). The surface-derived set is exposed only
-// as :root --bevel-surface-* in _base.scss (computed inline from $color-surface).
-$bevel-highlight: bevel-tone($color-bg, 0.22);
-$bevel-light: bevel-tone($color-bg, 0.1);
-$bevel-shadow: bevel-tone($color-bg, -0.1);
-$bevel-dark-shadow: bevel-tone($color-bg, -0.2);
+$anim-speed-slow: 0.3s;
 
 // ─── Parametric depth geometry (first-paint defaults; sidebar sliders override) ─
 // One knob set spans the whole range: hard Win95 bevel ↔ soft neumorphism.
@@ -80,31 +75,39 @@ $bevel-dark-shadow: bevel-tone($color-bg, -0.2);
 //   --depth-blur      0 = hard bevel, higher = soft neu halo
 //   --depth-intensity per-shadow alpha (0–1)
 //   --depth-contrast  multiplier on the bevel-tone lightness delta
-// Default feel = bevel-leaning with slight softness (NOT 100% hard).
 $depth-distance: 2px;
-$depth-blur: 3px;
-$depth-intensity: 0.6;
-$depth-contrast: 1;
+$depth-blur: 0px;
+$depth-intensity: 1;
+$depth-contrast: 2;
+
+// ─── Bevel tones — backdrop-derived (first-paint defaults; JS re-derives live) ─
+// bg-derived set (page-level controls). The surface-derived set is exposed only
+// as :root --bevel-surface-* in _base.scss (computed inline from $color-surface).
+// Both pass $depth-contrast so first paint matches the JS derivation.
+$bevel-highlight: bevel-tone($color-bg, 0.22, $depth-contrast);
+$bevel-light: bevel-tone($color-bg, 0.1, $depth-contrast);
+$bevel-shadow: bevel-tone($color-bg, -0.1, $depth-contrast);
+$bevel-dark-shadow: bevel-tone($color-bg, -0.2, $depth-contrast);
 
 // ─── Overlays / chrome ───────────────────────────────────────────────────────
-$overlay-bg: rgba(0, 0, 0, 0.55);
-$border-color: rgba(128, 128, 128, 0.12);
+$overlay-bg: rgba(0, 0, 0, 0.85);
+$border-color: rgba(255, 255, 255, 0.6);
 
-// ─── Layout constants (not theme-variable) ────────────────────────────────────
+// ─── Layout constants ─────────────────────────────────────────────────────────
 $sidebar-width: 220px;
 $drawer-width: 280px;
 $modal-max-width: 700px;
 
-// ─── Button tokens — Chunky defaults ─────────────────────────────────────────
-$btn-padding-y: 16px;
-$btn-padding-x: 40px;
-$btn-primary-bg: #39ff14;
-$btn-primary-text: #060e06;
-$btn-radius: 12px;
+// ─── Button tokens ────────────────────────────────────────────────────────────
+$btn-padding-y: 10px;
+$btn-padding-x: 24px;
+$btn-primary-bg: #ffe000;
+$btn-primary-text: #000000;
+$btn-radius: 0px;
 $clickable-border-width: 1px;
 
 // ─── Focus ring ──────────────────────────────────────────────────────────────
-$focus-ring-color: rgba(57, 255, 20, 0.15);
+$focus-ring-color: #ffff00;
 $focus-ring-width: 4px;
 
 // ─── Mixins ──────────────────────────────────────────────────────────────────
@@ -174,8 +177,7 @@ $focus-ring-width: 4px;
   outline: none;
 }
 
-// ─── Link three-state colors (default, hover, active/click) ──────────────────
-$link-color: #00ffaa !default; // default: teal-green (distinct from text)
-$link-hover: #fff800 !default; // hover:   warning yellow
-$link-active: #ff3300 !default; // click:   danger red
-$link-primary-color: #1a3a1a !default; // primary-link gradient-text color
+// ─── Link three-state colors (rest, hover, active/click) ─────────────────────
+$link-color: #4da6ff !default;
+$link-hover: #ffff00 !default;
+$link-active: #ff6666 !default;

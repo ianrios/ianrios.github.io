@@ -1,125 +1,90 @@
 import { useState, useMemo, useLayoutEffect } from 'react';
 import type { CSSTokenMap } from '../types/admin';
 import type { DesignVarsReturn } from '../types/design-vars';
+import { THEMES, DEFAULTS, DEFAULT_THEME } from '../pages/admin/adminData';
 import {
-  THEMES,
-  DEFAULTS,
-  loadStored,
-  detectMatchingPreset,
-} from '../pages/admin/adminData';
-import {
-  isHexColor,
-  isWarmHex,
-  desaturateHex,
-} from '../pages/admin/colorUtils';
+  loadStoredDesign,
+  persistDesign,
+  clearStoredDesign,
+  type DesignState,
+} from '../pages/admin/designStorage';
 import { computeBevelTones } from '../pages/admin/bevelTones';
 
 // Re-derive the eight bevel tone vars from the current --color-bg +
-// --color-surface and merge them over `next`. Precedence: any bg/surface change
-// overwrites the derived tone vars (they are derived, never hand-authored).
-// Cheap — only runs on color edits, preset apply and reset.
+// --color-surface + --depth-contrast and merge them over `next`. Tones are
+// derived, never hand-authored, so every resolution recomputes them.
 const withBevelTones = (next: CSSTokenMap): CSSTokenMap => {
-  const bgHex = (next['--color-bg'] ?? '#0a0e0a').trim();
-  const surfaceHex = (next['--color-surface'] ?? '#0f1a0f').trim();
-  const contrast = parseFloat(next['--depth-contrast'] ?? '1') || 1;
+  const bgHex = (next['--color-bg'] ?? '#000000').trim();
+  const surfaceHex = (next['--color-surface'] ?? '#101010').trim();
+  const contrast = parseFloat(next['--depth-contrast'] ?? '2') || 2;
   const tones = computeBevelTones(bgHex, surfaceHex, contrast);
   return tones ? { ...next, ...tones } : next;
 };
 
-export function useDesignVars(): DesignVarsReturn {
-  const initialVars = (() => {
-    const s = loadStored();
-    const base = s ? { ...DEFAULTS, ...s } : { ...DEFAULTS };
-    // Always re-derive bevel tones from the resolved bg/surface so they match
-    // the loaded theme (tones are derived; stored values are safely replaced).
-    return withBevelTones(base);
-  })();
+const themeVars = (theme: string | null): CSSTokenMap =>
+  theme ? (THEMES.find((p) => p.name === theme)?.vars ?? {}) : {};
 
-  const [vars, setVars] = useState(initialVars);
-  const [activeTheme, setActiveTheme] = useState(() =>
-    detectMatchingPreset(THEMES, initialVars),
-  );
-  const [copySuccess, setCopySuccess] = useState(false);
-  const [warmDismissed, setWarmDismissed] = useState(false);
+// DEFAULTS ∪ theme ∪ user overrides, bevel tones re-derived last.
+const resolveVars = (state: DesignState): CSSTokenMap =>
+  withBevelTones({
+    ...DEFAULTS,
+    ...themeVars(state.theme),
+    ...state.overrides,
+  });
+
+// `touched` gates persistence: a clean first visit writes nothing, so future
+// default-theme changes still reach visitors who never customized (F5).
+interface HookState extends DesignState {
+  touched: boolean;
+}
+
+export function useDesignVars(): DesignVarsReturn {
+  const [state, setState] = useState<HookState>(() => {
+    const stored = loadStoredDesign(THEMES);
+    return stored
+      ? { ...stored, touched: true }
+      : { theme: DEFAULT_THEME, overrides: {}, touched: false };
+  });
+
+  const vars = useMemo(() => resolveVars(state), [state]);
 
   useLayoutEffect(() => {
-    Object.entries(vars).forEach(([k, v]) => {
+    const fastS = (
+      (parseFloat(vars['--anim-speed'] ?? '0.1') || 0.1) * 0.5
+    ).toFixed(3);
+    const snapshot = { ...vars, '--anim-speed-fast': `${fastS}s` };
+    Object.entries(snapshot).forEach(([k, v]) => {
       document.documentElement.style.setProperty(k, v);
     });
-    const fastS = (
-      (parseFloat(vars['--anim-speed'] ?? '0.12') || 0.12) * 0.5
-    ).toFixed(3);
-    document.documentElement.style.setProperty(
-      '--anim-speed-fast',
-      `${fastS}s`,
-    );
-    window.localStorage.setItem('skeuomorph:vars', JSON.stringify(vars));
-  }, [vars]);
-
-  const warmKeys = useMemo(
-    () =>
-      Object.entries(vars)
-        .filter(([, v]) => isHexColor(v.trim()) && isWarmHex(v.trim()))
-        .map(([k]) => k),
-    [vars],
-  );
-  const warmFound = warmKeys.length > 0 && !warmDismissed;
+    if (state.touched) {
+      persistDesign(
+        { theme: state.theme, overrides: state.overrides },
+        snapshot,
+      );
+    }
+  }, [vars, state]);
 
   const setVar = (name: string, value: string) => {
-    setVars((prev) => {
-      const next = { ...prev, [name]: value };
-      // A background, surface, or depth-contrast edit re-blends every derived
-      // bevel tone live (contrast scales the tone lightness delta).
-      return name === '--color-bg' ||
-        name === '--color-surface' ||
-        name === '--depth-contrast'
-        ? withBevelTones(next)
-        : next;
+    setState((prev) => {
+      const baseline = themeVars(prev.theme)[name] ?? DEFAULTS[name];
+      // editing back to the theme's own value clears the override
+      const overrides = Object.fromEntries(
+        Object.entries(prev.overrides).filter(([k]) => k !== name),
+      );
+      if (value !== baseline) overrides[name] = value;
+      return { ...prev, overrides, touched: true };
     });
   };
 
-  // One click applies an entire theme: every category's vars at once, then the
-  // bevel tones are re-derived from the theme's bg/surface + depth-contrast.
+  // One click applies an entire theme and drops all overrides.
   const applyTheme = (name: string | null) => {
-    setActiveTheme(name);
-    if (!name) return;
-    const preset = THEMES.find((p) => p.name === name);
-    if (!preset) return;
-    setVars((prev) => withBevelTones({ ...prev, ...preset.vars }));
+    if (!name || !THEMES.some((p) => p.name === name)) return;
+    setState({ theme: name, overrides: {}, touched: true });
   };
 
   const resetAll = () => {
-    window.localStorage.removeItem('skeuomorph:vars');
-    setVars(withBevelTones({ ...DEFAULTS }));
-    setActiveTheme(detectMatchingPreset(THEMES, DEFAULTS));
-  };
-
-  const autoFixWarmTones = () => {
-    const next = { ...vars };
-    Object.entries(vars).forEach(([k, v]) => {
-      const t = (v || '').trim();
-      if (isHexColor(t) && isWarmHex(t)) next[k] = desaturateHex(t);
-    });
-    setVars(next);
-  };
-
-  // Re-derive the bevel tones from the current bg/surface (the "Auto from
-  // backdrop" button) — useful after manual color edits land out of order.
-  const autoBevelTones = () => {
-    setVars((prev) => withBevelTones({ ...prev }));
-  };
-
-  const exportCSS = () => {
-    const css = `:root {\n${Object.entries(vars)
-      .map(([k, v]) => `  ${k}: ${v};`)
-      .join('\n')}\n}`;
-    const onSuccess = () => {
-      setCopySuccess(true);
-      setTimeout(() => {
-        setCopySuccess(false);
-      }, 2000);
-    };
-    void navigator.clipboard.writeText(css).then(onSuccess);
+    clearStoredDesign();
+    setState({ theme: DEFAULT_THEME, overrides: {}, touched: false });
   };
 
   const exportText = `:root {\n${Object.entries(vars)
@@ -129,19 +94,9 @@ export function useDesignVars(): DesignVarsReturn {
   return {
     vars,
     setVar,
-    setVars,
-    activeTheme,
+    activeTheme: state.theme,
     applyTheme,
     resetAll,
-    warmFound,
-    warmKeys,
-    dismissWarmTones: () => {
-      setWarmDismissed(true);
-    },
-    autoFixWarmTones,
-    autoBevelTones,
-    copySuccess,
-    exportCSS,
     exportText,
   };
 }

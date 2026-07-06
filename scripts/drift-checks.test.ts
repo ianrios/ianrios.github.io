@@ -2,7 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import { join, resolve } from 'path';
 import { TOKEN_REGISTRY } from '../src/styles/token-registry.ts';
-import { DEFAULTS, THEMES } from '../src/pages/admin/adminData.ts';
+import {
+  DEFAULTS,
+  THEMES,
+  DEFAULT_THEME,
+} from '../src/pages/admin/adminData.ts';
+import { checkDefaultValueSync } from './value-sync-check.ts';
 import {
   parseRootVars,
   parseScssTokens,
@@ -31,6 +36,50 @@ describe('registry → DEFAULTS derivation', () => {
     for (const t of TOKEN_REGISTRY) {
       expect(t.default.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('[default-value-sync]', () => {
+  it('passes for the real sources', () => {
+    expect(
+      checkDefaultValueSync(
+        THEMES,
+        DEFAULT_THEME,
+        read('src', 'styles', '_tokens.scss'),
+        read('src', 'styles', '_base.scss'),
+      ),
+    ).toEqual([]);
+  });
+
+  it('fires when the default theme is unknown', () => {
+    expect(checkDefaultValueSync(THEMES, 'Nope', '', '').length).toBe(1);
+  });
+
+  it('fires when a registry default disagrees with the default theme', () => {
+    const fake = [{ name: 'X', vars: { '--color-bg': '#bad000' } }];
+    const out = checkDefaultValueSync(fake, 'X', '', '');
+    expect(out.some((m) => m.includes('--color-bg'))).toBe(true);
+  });
+
+  it('fires on a drifted literal $token and skips computed values', () => {
+    const scss = '$color-bg: #bad000;\n$bevel-highlight: bevel-tone($x, 1);\n';
+    const def = THEMES.find((t) => t.name === DEFAULT_THEME) ?? {
+      name: DEFAULT_THEME,
+      vars: {},
+    };
+    const out = checkDefaultValueSync([def], DEFAULT_THEME, scss, '');
+    expect(out.length).toBe(1);
+    expect(out[0]).toContain('$color-bg');
+  });
+
+  it('fires on a drifted :root literal', () => {
+    const base = ':root {\n  --anim-speed: 9s;\n}\n';
+    const def = THEMES.find((t) => t.name === DEFAULT_THEME) ?? {
+      name: DEFAULT_THEME,
+      vars: {},
+    };
+    const out = checkDefaultValueSync([def], DEFAULT_THEME, '', base);
+    expect(out.some((m) => m.includes('--anim-speed'))).toBe(true);
   });
 });
 

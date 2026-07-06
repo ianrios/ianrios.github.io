@@ -357,8 +357,10 @@
     color: var(--link-active, #{$link-active});
   }
 }
+/* primary = the theme's CTA color (same token as the solid fill), so it is
+   legible on every theme by construction. */
 .skeu-btn--color-primary:not(.skeu-btn--solid) {
-  color: var(--link-primary-color, #{$link-primary-color});
+  color: var(--btn-primary-bg, #{$btn-primary-bg});
   font-weight: 700;
   &:hover {
     filter: brightness(1.2);

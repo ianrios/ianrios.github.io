@@ -67,19 +67,3 @@ export const hslToHex = (hIn: number, s: number, l: number): string => {
 
 export const isHexColor = (v: string): boolean =>
   typeof v === 'string' && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v.trim());
-
-export const isWarmHex = (hex: string): boolean => {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return false;
-  const [h, s] = rgbToHsl(...rgb);
-  return h >= 8 && h <= 50 && s > 0.15;
-};
-
-export const desaturateHex = (hex: string): string => {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return hex;
-  const [h, s0, l0] = rgbToHsl(...rgb);
-  const s = Math.min(0.12, s0 * 0.25);
-  const l = Math.min(0.96, l0 + 0.12);
-  return hslToHex(h, s, l);
-};

@@ -17,18 +17,8 @@ const TABS = [
 function Admin() {
   const [activeView, setActiveView] = useState('design');
 
-  const {
-    vars,
-    setVar,
-    activeTheme,
-    applyTheme,
-    warmFound,
-    warmKeys,
-    dismissWarmTones,
-    autoFixWarmTones,
-    autoBevelTones,
-    exportText,
-  } = useDesignVars();
+  const { vars, setVar, activeTheme, applyTheme, resetAll, exportText } =
+    useDesignVars();
 
   const tokenSidebarProps = {
     vars,
@@ -36,11 +26,7 @@ function Admin() {
     themes: THEMES,
     activeTheme,
     applyTheme,
-    autoBevelTones,
-    warmFound,
-    warmKeys,
-    autoFixWarmTones,
-    dismissWarmTones,
+    resetAll,
   };
 
   return (

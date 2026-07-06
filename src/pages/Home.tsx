@@ -14,6 +14,13 @@ import { MobileNavDrawer } from './MobileNavDrawer';
 
 const MOBILE_BREAKPOINT = 992;
 
+// router state is untyped external input; accept only { view: string }
+function viewFromState(state: unknown): string | null {
+  if (typeof state !== 'object' || state === null) return null;
+  const view: unknown = (state as Record<string, unknown>).view;
+  return typeof view === 'string' ? view : null;
+}
+
 const allProjects = [...workProjectsData, ...independentProjectsData];
 const skills = Object.entries(
   allProjects.reduce<Record<string, number>>((a, c) => {
@@ -28,7 +35,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [view, setView] = useState(
-    (location.state as { view?: string } | null)?.view ?? initialView,
+    viewFromState(location.state) ?? initialView,
   );
   const [page, setPage] = useState('work');
   const onMobile = windowWidth < MOBILE_BREAKPOINT;

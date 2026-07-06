@@ -17,53 +17,20 @@ import {
   DepthSection,
 } from './TokenSidebarExtra';
 
-function WarmTonesWarning({
-  warmKeys,
-  autoFixWarmTones,
-  dismissWarmTones,
-}: {
-  warmKeys: string[];
-  autoFixWarmTones: () => void;
-  dismissWarmTones: () => void;
-}) {
-  return (
-    <div className="skeu-warm-tones">
-      <strong>Warm tones detected</strong>
-      <div className="skeu-warm-tones__keys">{warmKeys.join(', ')}</div>
-      <div className="skeu-warm-tones__actions">
-        <Button variant="solid" size="sm" onClick={autoFixWarmTones}>
-          Auto-fix
-        </Button>
-        <Button variant="outline" size="sm" onClick={dismissWarmTones}>
-          Ignore
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 export function TokenSidebar({
   vars,
   setVar,
   themes,
   activeTheme,
   applyTheme,
-  autoBevelTones,
-  warmFound,
-  warmKeys,
-  autoFixWarmTones,
-  dismissWarmTones,
+  resetAll,
 }: {
   vars: CSSTokenMap;
   setVar: (name: string, value: string) => void;
   themes: Preset[];
   activeTheme: string | null;
   applyTheme: (name: string | null) => void;
-  autoBevelTones: () => void;
-  warmFound: boolean;
-  warmKeys: string[];
-  autoFixWarmTones: () => void;
-  dismissWarmTones: () => void;
+  resetAll: () => void;
 }) {
   return (
     <aside className="skeu-admin-sidebar">
@@ -75,6 +42,11 @@ export function TokenSidebar({
           vars={vars}
           onSelect={applyTheme}
         />
+        <div className="skeu-control-row">
+          <Button variant="outline" size="sm" onClick={resetAll}>
+            Reset to defaults
+          </Button>
+        </div>
       </SidebarSection>
       <SidebarSection title="Colors" badge="global">
         {COLOR_CONTROLS.map((c) => (
@@ -119,34 +91,25 @@ export function TokenSidebar({
       </SidebarSection>
       <SidebarSection title="Bevel" badge="global" defaultOpen={false}>
         <div className="skeu-preview-note skeu-control-row">
-          Classic Windows 3D bevels. The four tone colors are derived from{' '}
+          Classic Windows 3D bevels. The four tone colors derive from{' '}
           <strong>Background</strong> (page-level) and <strong>Surface</strong>{' '}
-          (in-card) by lightness, so every control&#39;s edges blend into
-          whatever it sits on. They re-derive automatically when you edit those
-          colors; use the button below to force a re-derive.
+          (in-card) by lightness, scaled by the Depth contrast slider, so every
+          control&#39;s edges blend into whatever it sits on. They re-derive
+          automatically whenever those values change.
         </div>
-        <Button variant="outline" size="sm" onClick={autoBevelTones}>
-          Auto from backdrop
-        </Button>
       </SidebarSection>
       <DepthSection vars={vars} setVar={setVar} />
       <SidebarSection title="Links" badge="atom">
         <div className="skeu-preview-note skeu-control-row">
-          <strong>Default</strong> — plain {'<a>'} tag text color only.
+          <strong>Default</strong>: anchor text and the default button color
+          axis.
           <br />
-          <strong>Hover / Active</strong> — all interactive elements.
+          <strong>Hover / Active</strong>: all interactive elements.
         </div>
         {LINK_COLOR_CONTROLS.map((c) => (
           <ColorControl key={c.varName} {...c} vars={vars} setVar={setVar} />
         ))}
       </SidebarSection>
-      {warmFound && (
-        <WarmTonesWarning
-          warmKeys={warmKeys}
-          autoFixWarmTones={autoFixWarmTones}
-          dismissWarmTones={dismissWarmTones}
-        />
-      )}
     </aside>
   );
 }

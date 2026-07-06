@@ -5,6 +5,15 @@ export interface Preset {
   vars: CSSTokenMap;
 }
 
+// localStorage design:v1 payload. theme + overrides are the semantic state;
+// snapshot is the resolved var map the index.html flash script replays.
+export interface StoredDesign {
+  version: 1;
+  theme: string | null;
+  overrides: CSSTokenMap;
+  snapshot: CSSTokenMap;
+}
+
 export interface CardGridItem {
   title: string;
   desc: string;

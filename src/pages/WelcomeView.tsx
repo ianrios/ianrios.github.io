@@ -24,8 +24,12 @@ function pickColor(): string {
   let recent: string[] = [];
   try {
     const raw = localStorage.getItem('splash_recent');
-    if (raw) recent = JSON.parse(raw) as string[];
-    if (!Array.isArray(recent)) recent = [];
+    if (raw) {
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        recent = parsed.filter((c): c is string => typeof c === 'string');
+      }
+    }
   } catch {
     recent = [];
   }
