@@ -11,16 +11,27 @@ export interface ProjectData {
   info?: string;
 }
 
+export type CareerPhase =
+  | 'Senior Engineer'
+  | 'Software Engineer II'
+  | 'Early career'
+  | 'Research';
+
 export interface WorkExperience {
-  title: string;
-  year: number;
-  tools: string[];
-  activelyMaintained: boolean;
   company: string;
-  img_src_arr?: string[];
-  body: string;
-  href: string;
-  live: string;
+  title: string;
+  phase: CareerPhase;
+  startYear: number;
+  endYear: number | null;
+  bullets: string[];
+  companyUrl?: string;
+}
+
+export interface AboutData {
+  bio: string;
+  personal: string;
+  closing: string;
+  photo?: string;
 }
 
 export interface HobbyData {
@@ -31,6 +42,8 @@ export interface HobbyData {
   body: string;
   url: string;
   instagram: string;
+  /** Volunteering/mentorship entries render in their own labeled sub-group. */
+  kind?: 'volunteering';
 }
 
 /** Any card renderable in the portfolio masonry grid. */

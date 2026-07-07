@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { tools } from '../../data';
-import type { PortfolioItem } from '../../types/data';
+import type { PortfolioItem, CareerPhase } from '../../types/data';
 import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import { Badge } from '../atoms/Badge';
 import { Card } from '../molecules/Card';
+import { Heading } from '../atoms/Heading';
+import { Text } from '../atoms/Text';
 
 export function MasonryCard({
   index,
@@ -29,36 +31,51 @@ export function MasonryCard({
   const info = 'info' in item ? item.info : undefined;
   const instagram = 'instagram' in item ? item.instagram : undefined;
   const url = 'url' in item ? item.url : undefined;
+  const companyUrl = 'companyUrl' in item ? item.companyUrl : undefined;
+  const bullets = 'bullets' in item ? item.bullets : undefined;
+  const imgSrcArr = 'img_src_arr' in item ? item.img_src_arr : undefined;
+  const body = 'body' in item ? item.body : undefined;
+
+  const phase: CareerPhase | undefined =
+    'phase' in item ? item.phase : undefined;
+
+  const meta =
+    'startYear' in item
+      ? `${phase}, ${item.startYear} to ${item.endYear ?? 'present'}`
+      : item.activelyMaintained
+        ? `started in ${item.year} - active`
+        : `built in ${item.year}`;
 
   return (
     <Card {...(variant !== undefined ? { variant } : {})}>
-      <h4 className="skeu-masonry-card__title">{item.title}</h4>
-      {item.img_src_arr && (
+      <Heading level={4} className="skeu-masonry-card__title">
+        {item.title}
+      </Heading>
+      {imgSrcArr && (
         <>
-          {item.img_src_arr.length > 0 && (
+          {imgSrcArr.length > 0 && (
             <img
-              src={item.img_src_arr[0]}
+              src={imgSrcArr[0]}
               alt={item.title}
               className="skeu-masonry-card__img"
             />
           )}
-          {item.img_src_arr.length > 1 && (
-            <img
-              src={item.img_src_arr[1]}
-              alt=""
-              className="skeu-masonry-card__img"
-            />
+          {imgSrcArr.length > 1 && (
+            <img src={imgSrcArr[1]} alt="" className="skeu-masonry-card__img" />
           )}
         </>
       )}
-      <p className="skeu-masonry-card__meta">
-        <em>
-          {item.activelyMaintained
-            ? `started in ${item.year} - active`
-            : `built in ${item.year}`}
-        </em>
-      </p>
-      {item.body && <p className="skeu-masonry-card__body">{item.body}</p>}
+      <Text className="skeu-masonry-card__meta">
+        <em>{meta}</em>
+      </Text>
+      {body && <Text className="skeu-masonry-card__body">{body}</Text>}
+      {bullets && bullets.length > 0 && (
+        <ul className="skeu-masonry-card__body">
+          {bullets.map((b) => (
+            <li key={b}>{b}</li>
+          ))}
+        </ul>
+      )}
       {itemTools && (
         <>
           <hr className="skeu-masonry-card__divider" />
@@ -138,6 +155,17 @@ export function MasonryCard({
             aria-label="Open"
             variant="ghost"
           />
+        )}
+        {!!companyUrl && (
+          <Button
+            as="link"
+            href={companyUrl}
+            external
+            size="xs"
+            variant="surface"
+          >
+            Company site
+          </Button>
         )}
       </div>
     </Card>

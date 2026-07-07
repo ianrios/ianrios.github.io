@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
+import { Text } from '../components/atoms/Text';
 import type { View } from '../types/data';
 
 // Lazy so three.js stays out of the entry chunk; the canvas fades in when the
@@ -71,7 +72,7 @@ export function WelcomeView({ setView }: { setView: (v: View) => void }) {
       >
         Ian Rios
       </button>
-      <p className="special-b">
+      <Text className="special-b">
         <button
           className="splash-enter"
           onClick={() => {
@@ -80,7 +81,7 @@ export function WelcomeView({ setView }: { setView: (v: View) => void }) {
         >
           enter
         </button>
-      </p>
+      </Text>
     </div>
   );
 }

@@ -219,6 +219,9 @@
   color: var(--color-muted, #{$color-muted});
   margin-top: 2px;
 }
+.skeu-expandable-card__header--static {
+  cursor: default;
+}
 .skeu-expandable-card__caret {
   font-size: var(--font-base, #{$font-base});
   color: var(--color-muted, #{$color-muted});
@@ -237,7 +240,9 @@
     max-height var(--anim-speed, 0.12s) ease,
     opacity var(--anim-speed, 0.12s) ease;
   &.is-open {
-    max-height: 400px;
+    /* Animation cap only - must clear the longest real bullet list (7
+       multi-line resume bullets) on a one-column mobile layout. */
+    max-height: 2000px;
     opacity: 1;
   }
 }
@@ -259,4 +264,7 @@
   padding-left: var(--space-sm, #{$space-sm});
   margin-bottom: var(--space-xxs, #{$space-xxs});
   border-left: 2px solid var(--color-accent, #{$color-accent});
+}
+.skeu-expandable-card__company {
+  margin-top: var(--space-xs, #{$space-xs});
 }

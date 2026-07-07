@@ -7,6 +7,10 @@ import { ValueInput } from '../../../components/atoms/ValueInput';
 import { ColorPicker } from '../../../components/atoms/ColorPicker';
 import { Switch } from '../../../components/atoms/Switch';
 import { Button } from '../../../components/atoms/Button';
+import { Heading } from '../../../components/atoms/Heading';
+import { Text } from '../../../components/atoms/Text';
+import { Stack } from '../../../components/atoms/Stack';
+import { Section } from '../../../components/atoms/Section';
 import { SectionLabel, TierLabel } from '../AdminUI';
 import { BADGE_SAMPLES } from '../adminData';
 
@@ -27,6 +31,8 @@ const ICON_SAMPLES: IconName[] = [
   'plus',
   'close',
 ];
+const HEADING_LEVELS = [1, 2, 3, 4, 5, 6] as const;
+const TEXT_SIZES = ['lg', 'base', 'sm', 'xs', 'xxs'] as const;
 
 export function AtomsSection() {
   const [sliderVal, setSliderVal] = useState(40);
@@ -36,6 +42,44 @@ export function AtomsSection() {
   return (
     <>
       <TierLabel>Atoms</TierLabel>
+
+      <SectionLabel>
+        Heading/Text: 6 size tokens · --font-weight-heading vs
+        --font-weight-base (compare weight) · Text `as` swaps the tag
+      </SectionLabel>
+      <div className="skeu-preview-section">
+        {HEADING_LEVELS.map((level) => (
+          <Heading key={level} level={level}>
+            Heading level {level}
+          </Heading>
+        ))}
+        {TEXT_SIZES.map((size) => (
+          <Text key={size} size={size}>
+            Text size {size}
+          </Text>
+        ))}
+        <Text>
+          Inline: <Text as="span">span</Text>, <Text as="em">em</Text>,{' '}
+          <Text as="strong">strong</Text>
+        </Text>
+      </div>
+
+      <SectionLabel>
+        Stack/Section: flex row/col + token gap · page region + token padding
+      </SectionLabel>
+      <div className="skeu-preview-section">
+        <Stack direction="row" gap="sm">
+          <Badge>row</Badge>
+          <Badge>gap sm</Badge>
+        </Stack>
+        <Stack direction="col" gap="xs">
+          <Badge>col</Badge>
+          <Badge>gap xs</Badge>
+        </Stack>
+        <Section padding="sm">
+          <Text size="sm">Section padding sm</Text>
+        </Section>
+      </div>
 
       <SectionLabel>
         Button: variant × size · button / link / icon-only

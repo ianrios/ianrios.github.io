@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { independentProjectsData, hobbyData, workProjectsData } from '../data';
-import Masonry from 'react-masonry-css';
-import { MasonryCard } from '../components/organisms/MasonryCard';
-import { PortfolioSidebar } from '../components/organisms/PortfolioSidebar';
+import { ExperienceView } from './home/ExperienceView';
+import { ProjectsView, skills } from './home/ProjectsView';
+import { HobbiesView } from './home/HobbiesView';
 import { ContactModal } from '../components/organisms/ContactModal';
 import { PushPanel } from '../components/organisms/PushPanel';
+import { Button } from '../components/atoms/Button';
 import { Icon } from '../components/atoms/Icon';
 import { TokenSidebar } from './admin/TokenSidebar';
 import { useHomeDesignPanel } from '../hooks/useHomeDesignPanel';
+import { useNavChrome } from '../hooks/navChromeContext';
 import { WelcomeView } from './WelcomeView';
 import { MobileNavDrawer } from './MobileNavDrawer';
+import { Heading } from '../components/atoms/Heading';
 import type { PageId, View } from '../types/data';
 
 const MOBILE_BREAKPOINT = 992;
@@ -21,17 +23,6 @@ function viewFromState(state: unknown): View | null {
   const view: unknown = (state as Record<string, unknown>).view;
   return view === 'welcome' || view === 'main' ? view : null;
 }
-
-const allProjects = [...workProjectsData, ...independentProjectsData];
-// most-used skill first
-const skills = Object.entries(
-  allProjects.reduce<Record<string, number>>((a, c) => {
-    c.tools.forEach((t) => {
-      a[t] = (a[t] ?? 0) + 1;
-    });
-    return a;
-  }, {}),
-).sort((a, b) => b[1] - a[1]);
 
 const PAGE_TITLES: Record<PageId, string> = {
   work: 'experience',
@@ -54,9 +45,15 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
 
   const designPanelProps = useHomeDesignPanel();
   const [panelOpen, setPanelOpen] = useState(false);
-  const breakpointColumnsObj = panelOpen
-    ? { default: 2, 992: 2, 991: 1 }
-    : { default: 3, 992: 3, 991: 1 };
+
+  // The floating site nav must never overlay the MetaBalls splash.
+  const { setHidden } = useNavChrome();
+  useEffect(() => {
+    setHidden(view === 'welcome');
+    return () => {
+      setHidden(false);
+    };
+  }, [view, setHidden]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,7 +67,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
 
   const changePage = (p: PageId) => {
     setPage(p);
-    document.getElementById('masonrygrid')?.scrollIntoView();
+    document.getElementById('home-scroll')?.scrollTo({ top: 0 });
   };
 
   const sidebarProps = {
@@ -101,7 +98,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
             <TokenSidebar {...designPanelProps} />
           </PushPanel>
 
-          {onMobile ? (
+          {onMobile && (
             <>
               <button
                 className="skeu-hamburger"
@@ -118,11 +115,6 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
                 sidebarProps={sidebarProps}
               />
             </>
-          ) : (
-            <div className="home-sidebar">
-              <h1>Ian Rios</h1>
-              <PortfolioSidebar {...sidebarProps} />
-            </div>
           )}
 
           <div
@@ -130,29 +122,40 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
               .filter(Boolean)
               .join(' ')}
           >
-            <div className="home-content__header">
-              <h2 className="home-content__title">{PAGE_TITLES[page]}</h2>
-            </div>
-            <div className="hide-scrollbars home-content__scroll">
-              <Masonry
-                breakpointCols={breakpointColumnsObj}
-                className="my-masonry-grid"
-                id="masonrygrid"
-                columnClassName="my-masonry-grid_column"
-              >
-                {page === 'work' &&
-                  workProjectsData.map((item, i) => (
-                    <MasonryCard key={item.title} item={item} index={i} />
+            {onMobile ? (
+              <div className="home-content__header">
+                <Heading level={2} className="home-content__title">
+                  {PAGE_TITLES[page]}
+                </Heading>
+              </div>
+            ) : (
+              <div className="home-content__header home-content__header--bar">
+                <Heading level={1} className="home-content__brand">
+                  Ian Rios
+                </Heading>
+                <div className="home-content__tabs">
+                  {(Object.keys(PAGE_TITLES) as PageId[]).map((id) => (
+                    <Button
+                      key={id}
+                      variant="outline"
+                      aria-pressed={page === id}
+                      onClick={() => {
+                        changePage(id);
+                      }}
+                    >
+                      {PAGE_TITLES[id]}
+                    </Button>
                   ))}
-                {page === 'projects' &&
-                  independentProjectsData.map((item, i) => (
-                    <MasonryCard key={item.title} item={item} index={i} />
-                  ))}
-                {page === 'hobbies' &&
-                  hobbyData.map((item, i) => (
-                    <MasonryCard key={item.title} item={item} index={i} />
-                  ))}
-              </Masonry>
+                </div>
+              </div>
+            )}
+            <div
+              id="home-scroll"
+              className="hide-scrollbars home-content__scroll"
+            >
+              {page === 'work' && <ExperienceView />}
+              {page === 'projects' && <ProjectsView condensed={panelOpen} />}
+              {page === 'hobbies' && <HobbiesView />}
             </div>
           </div>
 

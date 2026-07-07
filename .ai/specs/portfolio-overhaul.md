@@ -1,5 +1,12 @@
 i want a new cool way to show my job experience and personal projects and hobbies on my portfolio site.
 
+> **SUPERSEDED 2026-07-07.** Every item below has been triaged into
+> `.ai/plans/portfolio-v2-concepts.md`: sections 7-10 of that doc map each
+> numbered idea here to today's session scope, an open fork still needing a
+> decision, something explicitly dropped, or a new backlog spec under
+> `.ai/specs/`. Kept here as the original raw brainstorm, not maintained
+> further.
+
 1. i need to add new projects and work experience (built technologies - budget versioning/ change orders, sub job/ project specific codes, unified pay app frame (add payables to draw, unit based pay apps, create data in place with rollback, autosave), ai document extraction (refinement, unifying document extraction, update to mysql), csv import flow (editable pre upload grid, ), design system) - IDEA! do i need to list out everything i did for each job at all? i think not. in fact, i get a new job every 2 to 3 years, so it might get very noisy. especially since i work as a primary contributor for startups, the number of individual projects would get immense
 2. i need to create a new grouping type for job so that i can close sections and automatically open sections, perhaps on scroll? maybe on load of page? idk.
 3. i want an about me page

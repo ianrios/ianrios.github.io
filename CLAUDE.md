@@ -6,9 +6,9 @@
 2. Read any specs in `.ai/specs/` relevant to the request
 3. Scan `src/components/` and `src/styles/` for current system state
 4. Synthesize: current phase, active focus, open issues
-5. For any non-trivial work: create a sub-plan in `.ai/plans/`, peer-review it with a zero-context subagent, fold in findings, present a skimmable summary to Ian, and wait for his **explicit approval** before writing code. See `.ai/WORKFLOW.md` for the full lifecycle.
+5. For any non-trivial work: create a sub-plan in `.ai/plans/`, peer-review it with a zero-context subagent, and fold in findings. NEW epics and direction changes need Ian's **explicit approval**; phases inside an approved epic proceed autonomously — surface genuine decision gaps, never approval check-ins. See `.ai/WORKFLOW.md`.
 6. Interview Ian only if genuine ambiguity remains after steps 1-5. One question max.
-7. After Ian confirms done, complete ALL doc updates (sub-plan, epic, WORK.md priorities, CLAUDE.md) before ending the session.
+7. At each phase close, complete ALL doc updates (sub-plan, epic, WORK.md, CLAUDE.md) before moving on.
 
 ## Operating model
 
@@ -32,9 +32,10 @@ Always run `npm run check`, not individual scripts (Prettier must precede ESLint
 
 ## App structure
 
-Routes in `src/App.tsx` (lazy-loaded: three.js and Admin live in their own chunks; there is a 404 catch-all and a top-level error boundary); all portfolio content in `src/data.ts` (no API — edit there to add/update cards):
+Routes in `src/App.tsx` (three.js and Admin lazy-loaded in their own chunks; 404 catch-all, top-level error boundary, root-mounted `CookieConsent`); portfolio content in `src/data.ts` (no API — edit there):
 
 - `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → sidebar nav + masonry card grid
+- `/about` — **About** (`src/pages/About.tsx`) — copy from `aboutData` in `data.ts`; V2 layout pending epic Phase 3 (`.ai/plans/portfolio-v2-epic.md`)
 - `/design-system` — **Admin** (`src/pages/Admin.tsx`) — live playground + token editor. `/admin` permanently redirects here (old resume/GitHub links).
 - `/three` — **ThreeScene** (`src/three/ThreeScene.tsx`) — MarchingCubes metaballs, live route
 - `/imagebox` — **ImageBox** — planned, not yet built (see `.ai/specs/imagebox-epic.md`)
@@ -47,7 +48,7 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 
 **Default theme is programmatic.** `DEFAULT_THEME` in `adminData.ts` (High Contrast) is what every new visitor sees; registry defaults and the SCSS first paint must equal it. Visitor state persists as localStorage `design:v1` `{version, theme, overrides, snapshot}` — theme + edited diffs only; clean visits persist nothing, so default changes reach returning visitors. The inline `index.html` flash script replays `snapshot` before any module loads — never remove it or move it to a `.ts` file. Future theme ideas: `.ai/specs/theme-ideas.md`.
 
-**Integrity rule** — every editable token must have a control, a real CSS effect, AND a live preview example. `npm run check` runs **ten** hard-error drift checks (`scripts/drift-checks.ts` + `scripts/value-sync-check.ts`):
+**Integrity rule** — every editable token must have a control, a real CSS effect, AND a live preview example. `npm run check` runs **eleven** hard-error drift checks (`scripts/drift-checks.ts` + `scripts/component-checks.ts` + `scripts/value-sync-check.ts`):
 
 - `token-sync` — every `$token` is exposed as a `:root` var
 - `control-sync` — `:root` vars and registry entries are the same set
@@ -57,16 +58,16 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 - `theme-control` — every token a THEME writes has an editable control
 - `token-specimen` — every displayed-category token renders in `TokensSection`
 - `demo-missing` — every component (incl. the components root) is reachable from the preview tree
-- `token-unused` — every editable token has a real `var()` CSS consumer
-- `token-example` — every editable token has a live preview example
+- `token-unused` / `token-example` — every editable token has a real `var()` CSS consumer and a live preview example
+- `semantic-html` — no raw `<h1>`-`<h6>`/`<p>` in `src/**/*.tsx`; use the Heading/Text atoms (exempt: Heading, Text, AppErrorBoundary)
 
 **Design language: Classic Windows 3D bevel, parametric.** Hard-edged Win95/98 bevels (not soft neumorphism — that pass was rejected). Bevel tones derive from the backdrop (`--color-bg`/`--color-surface`) scaled by `--depth-contrast`; geometry tunes via `--depth-distance`/`--depth-blur`/`--depth-intensity` (blur 0 = hard). Flat at rest → raised on hover → sunken on press. Links are three-state (`--link-color`/`--link-hover`/`--link-active`); the Button `primary` color axis uses `--btn-primary-bg`. Presets are **complete themes** — one `THEMES` list; each sets every editable token except `--clickable-border-width`.
 
 Components in `src/components/` — audit for an existing atom before adding one:
 
-- `atoms/` — Badge, Button, ColorPicker, Icon (typed name union), Input, Slider, Switch, ValueInput
+- `atoms/` — Badge, Button, ColorPicker, Heading, Icon (typed name union), Input, Section, Slider, Stack, Switch, Text, ValueInput
 - `molecules/` — Accordion (`autoClose`/`defaultOpen`), Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections
-- `organisms/` — ContactModal, ExpandableCard, MasonryCard, PageLayout, PortfolioSidebar, PushPanel
+- `organisms/` — ContactModal, CookieConsent, ExpandableCard, MasonryCard, PageLayout, PortfolioSidebar, PushPanel
 
 Shared hooks in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `useDisclosureGroup`, `useActiveNav`.
 
@@ -75,6 +76,5 @@ Shared hooks in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars st
 ## Known gotchas
 
 - **Dev server:** port 3000 is often taken by a colima SSH mux — always `npm run dev -- --port 3001` (protocol in `.ai/RULES.md`).
-- **Specs:** see `.ai/specs/` for active design specs. Do not implement what isn't in a spec unless explicitly asked.
-- **Build output:** Vite defaults to `dist/`; this repo uses `build/` (`vite.config.ts`) to match Firebase hosting.
-- **Analytics:** Firebase modular SDK, dynamically imported post-hydration from `src/analytics.ts` — never add render-blocking SDK scripts to `index.html`.
+- **Specs:** `.ai/specs/` has active design specs; don't implement outside one unless asked. **Build output:** Vite defaults to `dist/`; this repo uses `build/` (`vite.config.ts`) to match Firebase hosting.
+- **Analytics:** Firebase modular SDK, lazy-loaded from `src/analytics.ts`, gated on `cookie-consent:v1` (`src/hooks/cookieConsent.ts`) — never render-blocking, never without consent.

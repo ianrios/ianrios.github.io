@@ -1,9 +1,15 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Main } from './pages/Home';
+import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
 import { DesignVarsProvider } from './hooks/DesignVarsProvider';
+import { NavChromeProvider } from './hooks/NavChromeProvider';
+import { SiteNav } from './pages/SiteNav';
 import { AppErrorBoundary } from './AppErrorBoundary';
+import { CookieConsent } from './components/organisms/CookieConsent';
+import { useCookieConsent } from './hooks/cookieConsent';
+import { initAnalytics } from './analytics';
 
 const Admin = lazy(() => import('./pages/Admin'));
 const ThreeScene = lazy(() => import('./three/ThreeScene'));
@@ -11,22 +17,31 @@ const ThreeScene = lazy(() => import('./three/ThreeScene'));
 const loadingFallback = <div className="skeu-admin-section-desc">Loading</div>;
 
 function App() {
+  const { consent, accept, decline } = useCookieConsent();
+
   return (
     <AppErrorBoundary>
       <DesignVarsProvider>
-        <Suspense fallback={loadingFallback}>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/design-system" element={<Admin />} />
-            {/* Permanent alias - resume/GitHub links point at the old route */}
-            <Route
-              path="/admin"
-              element={<Navigate to="/design-system" replace />}
-            />
-            <Route path="/three" element={<ThreeScene />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <NavChromeProvider>
+          <Suspense fallback={loadingFallback}>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/design-system" element={<Admin />} />
+              <Route path="/metaballs" element={<ThreeScene />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <SiteNav />
+        </NavChromeProvider>
+        <CookieConsent
+          visible={consent === null}
+          onAccept={() => {
+            accept();
+            initAnalytics();
+          }}
+          onDecline={decline}
+        />
       </DesignVarsProvider>
     </AppErrorBoundary>
   );

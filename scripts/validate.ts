@@ -21,9 +21,12 @@ import {
   checkTokenUnused,
   checkTokenExample,
   checkTokenSpecimen,
-  checkDemoMissing,
-  reachableFrom,
 } from './drift-checks.ts';
+import {
+  checkDemoMissing,
+  checkSemanticHtml,
+  reachableFrom,
+} from './component-checks.ts';
 
 const MAX_MD_FILES = 25;
 const MAX_MD_LINES = 80;
@@ -55,7 +58,8 @@ type ViolationType =
   | 'token-unused'
   | 'token-example'
   | 'token-specimen'
-  | 'demo-missing';
+  | 'demo-missing'
+  | 'semantic-html';
 
 interface Violation {
   type: ViolationType;
@@ -230,6 +234,12 @@ for (const tier of ['', 'atoms', 'molecules', 'organisms']) {
 const tokensScssSrc = read('src', 'styles', '_tokens.scss');
 const baseScssSrc = read('src', 'styles', '_base.scss');
 
+// [semantic-html] scans every src/ .tsx file (not just components/pages) so
+// a stray raw tag anywhere - including e.g. hooks that render - can't dodge it.
+const srcTsxFiles = codeFiles
+  .filter((f) => extname(f) === '.tsx' && f.startsWith(`src${sep}`))
+  .map((f) => ({ path: f, content: readFileSync(f, 'utf-8') }));
+
 const driftChecks: [ViolationType, string[]][] = [
   ['token-sync', checkTokenSync(scssTokens, rootVars)],
   ['control-sync', checkControlSync(rootVars)],
@@ -244,6 +254,7 @@ const driftChecks: [ViolationType, string[]][] = [
   ['token-example', checkTokenExample(specimenSrc, previewSrc)],
   ['token-specimen', checkTokenSpecimen(specimenSrc)],
   ['demo-missing', checkDemoMissing(componentFiles, reachable)],
+  ['semantic-html', checkSemanticHtml(srcTsxFiles)],
 ];
 for (const [type, messages] of driftChecks) {
   for (const message of messages) flag(type, message);

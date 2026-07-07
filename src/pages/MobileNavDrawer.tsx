@@ -1,5 +1,6 @@
 import { PortfolioSidebar } from '../components/organisms/PortfolioSidebar';
 import { Button } from '../components/atoms/Button';
+import { Heading } from '../components/atoms/Heading';
 import type { PageId, SkillTuple } from '../types/data';
 
 interface SidebarProps {
@@ -35,7 +36,9 @@ export function MobileNavDrawer({
       />
       <div className="skeu-mobile-drawer__panel">
         <div className="skeu-mobile-drawer__header">
-          <h1 className="skeu-mobile-drawer__heading">Ian Rios</h1>
+          <Heading level={1} className="skeu-mobile-drawer__heading">
+            Ian Rios
+          </Heading>
           <Button
             icon="close"
             aria-label="Close navigation"

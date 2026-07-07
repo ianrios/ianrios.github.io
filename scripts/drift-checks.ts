@@ -3,8 +3,6 @@
 // violation messages (empty array == in sync). File IO lives in validate.ts;
 // the import-graph helpers here are pure given the filesystem.
 
-import { existsSync, readFileSync, statSync } from 'fs';
-import { dirname, join, resolve } from 'path';
 import {
   TOKEN_REGISTRY,
   SPECIMEN_CATEGORIES,
@@ -60,12 +58,16 @@ export function checkTokenUnused(scss: string): string[] {
 // [token-example] every editable token must have a LIVE example in the preview,
 // so a control always shows a visible effect on the design-system page. A token
 // is covered three ways (honest coverage, not proven pixel-change — that stays
-// Ian's manual review): (1) its category is rendered as a swatch specimen in
-// TokensSection via categoryVars(); (2) its category is demonstrated live by a
-// component demo rather than a swatch (button shape/fill, depth bevel reacting,
-// focus ring on Input); or (3) its cssVar is literally referenced by a bespoke
-// preview specimen (e.g. TokenShowcase's var(--drawer-width)).
-const COMPONENT_DEMO_CATEGORIES = new Set(['button', 'depth', 'focus']);
+// Ian's manual review): (1) its category is a swatch specimen in TokensSection
+// via categoryVars(); (2) its category is demonstrated live by a component demo
+// (button shape/fill, depth bevel, focus ring, Heading/Text weight); or (3) its
+// cssVar is referenced by a bespoke specimen (TokenShowcase's --drawer-width).
+const COMPONENT_DEMO_CATEGORIES = new Set([
+  'button',
+  'depth',
+  'focus',
+  'font-weight',
+]);
 export function checkTokenExample(
   tokensSectionSrc: string,
   previewSrc: string,
@@ -189,57 +191,5 @@ export function checkTokenSpecimen(specimenSrc: string): string[] {
   return out;
 }
 
-// [demo-missing] every component file must be reachable from the preview tree.
-export function checkDemoMissing(
-  componentFiles: string[],
-  reachable: Set<string>,
-): string[] {
-  const out: string[] = [];
-  for (const file of componentFiles) {
-    if (!reachable.has(file)) {
-      out.push(`${file} has no demo in the admin preview tree`);
-    }
-  }
-  return out;
-}
-
-/** Resolve a relative import specifier to an existing source file. */
-function resolveImport(fromFile: string, spec: string): string | null {
-  if (!spec.startsWith('.')) return null;
-  const target = resolve(dirname(fromFile), spec);
-  const candidates = [
-    target,
-    `${target}.tsx`,
-    `${target}.ts`,
-    join(target, 'index.tsx'),
-    join(target, 'index.ts'),
-  ];
-  for (const c of candidates) {
-    if (existsSync(c) && statSync(c).isFile()) return c;
-  }
-  return null;
-}
-
-/** Files reachable by following relative imports from the given roots. */
-export function reachableFrom(roots: string[]): Set<string> {
-  const seen = new Set<string>();
-  const queue = [...roots];
-  while (queue.length > 0) {
-    const file = queue.pop();
-    if (file === undefined || seen.has(file)) continue;
-    seen.add(file);
-    let src = '';
-    try {
-      src = readFileSync(file, 'utf-8');
-    } catch {
-      continue;
-    }
-    for (const m of src.matchAll(/(?:from|import)\s+['"]([^'"]+)['"]/g)) {
-      const spec = m[1];
-      if (!spec) continue;
-      const resolved = resolveImport(file, spec);
-      if (resolved && !seen.has(resolved)) queue.push(resolved);
-    }
-  }
-  return seen;
-}
+// [semantic-html], [demo-missing], and their shared reachability graph moved
+// to scripts/component-checks.ts (250-line budget split, see its header).

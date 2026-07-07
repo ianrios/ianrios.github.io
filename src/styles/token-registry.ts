@@ -24,6 +24,7 @@ type TokenCategory =
   | 'radii'
   | 'font'
   | 'font-family'
+  | 'font-weight'
   | 'line-height'
   | 'motion'
   | 'layout'
@@ -93,6 +94,10 @@ export const TOKEN_REGISTRY: TokenDef[] = [
   { cssVar: '--font-sm', category: 'font', default: '16px', control: range('Font sm', 8, 32) },
   { cssVar: '--font-base', category: 'font', default: '18px', control: range('Font base', 10, 40) },
   { cssVar: '--font-lg', category: 'font', default: '22px', control: range('Font lg', 12, 48) },
+  { cssVar: '--font-xl', category: 'font', default: '28px', control: range('Font xl', 14, 56) },
+  // ── Typography — font weights (Heading uses -heading, Text uses -base) ──
+  { cssVar: '--font-weight-base', category: 'font-weight', default: '400', control: { type: 'raw', label: 'Weight (base)', min: 100, max: 900, step: 100 } },
+  { cssVar: '--font-weight-heading', category: 'font-weight', default: '700', control: { type: 'raw', label: 'Weight (heading)', min: 100, max: 900, step: 100 } },
   // ── Typography — line heights ───────────────────────────────────────────
   { cssVar: '--line-height-base', category: 'line-height', default: '1.5', control: { type: 'pct', label: 'Line height (base)', min: 120, max: 200, step: 5, unit: '%' } },
   { cssVar: '--line-height-loose', category: 'line-height', default: '1.6', control: { type: 'pct', label: 'Line height (loose)', min: 120, max: 200, step: 5, unit: '%' } },

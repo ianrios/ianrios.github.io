@@ -41,6 +41,9 @@
   --font-sm: #{$font-sm};
   --font-base: #{$font-base};
   --font-lg: #{$font-lg};
+  --font-xl: #{$font-xl};
+  --font-weight-base: #{$font-weight-base};
+  --font-weight-heading: #{$font-weight-heading};
   --line-height-base: #{$line-height-base};
   --line-height-loose: #{$line-height-loose};
 
@@ -334,6 +337,24 @@ code {
 .home-content__header {
   text-align: center;
   padding: var(--space-sm, #{$space-sm}) 0;
+}
+/* Desktop header bar: brand left, page tabs right (sidebar dissolved in V2). */
+.home-content__header--bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm, #{$space-sm});
+  flex-wrap: wrap;
+  text-align: left;
+  padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md});
+}
+.home-content__brand {
+  margin: 0;
+}
+.home-content__tabs {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  flex-wrap: wrap;
 }
 .home-content__title {
   cursor: default;

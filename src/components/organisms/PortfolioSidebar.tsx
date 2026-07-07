@@ -3,6 +3,7 @@ import type { PageId, SkillTuple } from '../../types/data';
 import { Icon } from '../atoms/Icon';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
+import { Heading } from '../atoms/Heading';
 
 const NAV_ITEMS: { id: PageId; label: string; requiresWork?: boolean }[] = [
   { id: 'work', label: 'experience', requiresWork: true },
@@ -35,7 +36,9 @@ export function PortfolioSidebar({
 }) {
   return (
     <>
-      <h3 className="skeu-sidebar__heading">Portfolio</h3>
+      <Heading level={3} className="skeu-sidebar__heading">
+        Portfolio
+      </Heading>
 
       {NAV_ITEMS.filter((n) => !n.requiresWork || workVisible).map((nav) => (
         <Button

@@ -2,6 +2,8 @@ import { Badge } from '../../../components/atoms/Badge';
 import { Button } from '../../../components/atoms/Button';
 import { Icon, type IconName } from '../../../components/atoms/Icon';
 import { Card } from '../../../components/molecules/Card';
+import { Heading } from '../../../components/atoms/Heading';
+import { Text } from '../../../components/atoms/Text';
 import { SectionLabel } from '../AdminUI';
 export function LayoutCombinations() {
   return (
@@ -9,7 +11,9 @@ export function LayoutCombinations() {
       <SectionLabel>Settings panel: Card → nested item rows</SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={360}>
-          <h4 className="skeu-combo-card-heading--sm">Preferences</h4>
+          <Heading level={4} className="skeu-combo-card-heading--sm">
+            Preferences
+          </Heading>
           {(
             [
               { icon: 'edit', label: 'Display name', value: 'Ian Rios' },
@@ -38,7 +42,9 @@ export function LayoutCombinations() {
       </SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={420}>
-          <h4 className="skeu-combo-card-heading--sm">Open source</h4>
+          <Heading level={4} className="skeu-combo-card-heading--sm">
+            Open source
+          </Heading>
           <div className="skeu-combo-inset">
             <div className="skeu-combo-inset__tags">
               <Badge>React</Badge>
@@ -101,10 +107,12 @@ export function LayoutCombinations() {
         <div className="skeu-combo-modal-overlay">
           <div className="skeu-combo-modal-dialog">
             <Card>
-              <h4 className="skeu-combo-card-heading--sm">Confirm delete</h4>
-              <p className="skeu-combo-modal-para">
+              <Heading level={4} className="skeu-combo-card-heading--sm">
+                Confirm delete
+              </Heading>
+              <Text className="skeu-combo-modal-para">
                 This action cannot be undone.
-              </p>
+              </Text>
               <div className="skeu-combo-modal-actions">
                 <Button variant="outline" size="xs">
                   Cancel

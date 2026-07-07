@@ -7,6 +7,8 @@ import { Accordion } from '../../../components/molecules/Accordion';
 import { CardWithDropdown } from '../../../components/molecules/CardWithDropdown';
 import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
+import { Heading } from '../../../components/atoms/Heading';
+import { Text } from '../../../components/atoms/Text';
 import { SectionLabel, TierLabel } from '../AdminUI';
 import {
   ACCORDION_ITEMS,
@@ -32,10 +34,12 @@ export function MoleculesSection() {
       <SectionLabel>Card: primary actions</SectionLabel>
       <div className="skeu-preview-section">
         <Card maxWidth={320}>
-          <h4 className="skeu-card-demo-heading">Card title</h4>
-          <p className="skeu-preview-body-text">
+          <Heading level={4} className="skeu-card-demo-heading">
+            Card title
+          </Heading>
+          <Text className="skeu-preview-body-text">
             Surface container: pop shadows + token-aware padding and radius.
-          </p>
+          </Text>
           <div className="skeu-preview-tags">
             <Badge>tag-one</Badge>
             <Badge>tag-two</Badge>
@@ -52,10 +56,12 @@ export function MoleculesSection() {
       <SectionLabel>Card: surface actions</SectionLabel>
       <div className="skeu-preview-section">
         <Card maxWidth={320}>
-          <h4 className="skeu-card-demo-heading">Settings</h4>
-          <p className="skeu-preview-body-text">
+          <Heading level={4} className="skeu-card-demo-heading">
+            Settings
+          </Heading>
+          <Text className="skeu-preview-body-text">
             Surface links blend into the card background.
-          </p>
+          </Text>
           <div className="skeu-preview-actions">
             <a href="#demo" className="skeu-link skeu-btn--xs">
               Export
@@ -96,7 +102,9 @@ export function MoleculesSection() {
       <SectionLabel>Card with accordion</SectionLabel>
       <div className="skeu-preview-section">
         <Card maxWidth={380}>
-          <h4 className="skeu-card-demo-heading--mb-sm">FAQ</h4>
+          <Heading level={4} className="skeu-card-demo-heading--mb-sm">
+            FAQ
+          </Heading>
           <Accordion items={ACCORDION_ITEMS} inline />
         </Card>
       </div>

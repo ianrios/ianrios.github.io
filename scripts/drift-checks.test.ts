@@ -19,9 +19,12 @@ import {
   checkTokenUnused,
   checkTokenExample,
   checkTokenSpecimen,
-  checkDemoMissing,
-  reachableFrom,
 } from './drift-checks.ts';
+import {
+  checkDemoMissing,
+  checkSemanticHtml,
+  reachableFrom,
+} from './component-checks.ts';
 
 const read = (...p: string[]) => readFileSync(join(...p), 'utf-8');
 const rootVars = parseRootVars(read('src', 'styles', '_base.scss'));
@@ -270,5 +273,56 @@ describe('[demo-missing]', () => {
       reachable,
     );
     expect(out.length).toBe(1);
+  });
+});
+
+describe('[semantic-html]', () => {
+  function srcTsxFiles(dir: string): { path: string; content: string }[] {
+    const out: { path: string; content: string }[] = [];
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) out.push(...srcTsxFiles(full));
+      else if (entry.name.endsWith('.tsx') && !entry.name.includes('.test.')) {
+        out.push({ path: full, content: readFileSync(full, 'utf-8') });
+      }
+    }
+    return out;
+  }
+
+  it('passes for the real src tree', () => {
+    expect(checkSemanticHtml(srcTsxFiles('src'))).toEqual([]);
+  });
+
+  it('fires on raw heading and paragraph tags', () => {
+    const out = checkSemanticHtml([
+      { path: join('src', 'pages', 'Bad.tsx'), content: '<h1>x</h1><p>y</p>' },
+    ]);
+    expect(out.length).toBe(1);
+    expect(out[0]).toContain('h1');
+    expect(out[0]).toContain('p');
+  });
+
+  it('skips exempt files', () => {
+    const out = checkSemanticHtml([
+      {
+        path: join('src', 'AppErrorBoundary.tsx'),
+        content: '<h1>crash</h1><p>details</p>',
+      },
+      {
+        path: join('src', 'components', 'atoms', 'Heading.tsx'),
+        content: '<h2>real</h2>',
+      },
+    ]);
+    expect(out).toEqual([]);
+  });
+
+  it('does not flag inline marks or tags in prop strings', () => {
+    const out = checkSemanticHtml([
+      {
+        path: join('src', 'pages', 'Ok.tsx'),
+        content: '<span>x</span><em>y</em><strong>z</strong>',
+      },
+    ]);
+    expect(out).toEqual([]);
   });
 });

@@ -48,6 +48,12 @@ export function TypographySection({ vars, setVar }: SectionProps) {
         vars={vars}
         setVar={setVar}
       />
+      <div className="skeu-control-sublabel">Weight</div>
+      <TokenControlList
+        varNames={varNames('font-weight')}
+        vars={vars}
+        setVar={setVar}
+      />
       <TokenControlList
         varNames={varNames('line-height')}
         vars={vars}

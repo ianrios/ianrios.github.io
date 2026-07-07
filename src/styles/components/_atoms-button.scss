@@ -38,6 +38,13 @@
 
 /* ── Variants (surface treatment only) ── */
 
+/* Active destination (nav) or active tab: held-down key, matching the press
+   interaction so "where am I" reads as the sunken control. */
+.skeu-btn[aria-current='page'],
+.skeu-btn[aria-pressed='true'] {
+  @include bevel-sunken;
+}
+
 /* solid — real fill + its own text token, flat at rest → raise → sink. */
 .skeu-btn--solid {
   font-weight: 700;

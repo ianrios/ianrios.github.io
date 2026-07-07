@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Button } from '../atoms/Button';
 import { Card } from './Card';
 import { Icon } from '../atoms/Icon';
+import { Heading } from '../atoms/Heading';
+import { Text } from '../atoms/Text';
 import type { DropdownOption } from '../../types/admin';
 
 export function CardWithDropdown({
@@ -21,8 +23,10 @@ export function CardWithDropdown({
 
   return (
     <Card maxWidth={280}>
-      <h4 className="skeu-card-dropdown__title">{title}</h4>
-      <p className="skeu-card-dropdown__subtitle">{subtitle}</p>
+      <Heading level={4} className="skeu-card-dropdown__title">
+        {title}
+      </Heading>
+      <Text className="skeu-card-dropdown__subtitle">{subtitle}</Text>
       <div
         className={['skeu-card-dropdown__trigger', isOpen ? 'is-open' : '']
           .filter(Boolean)

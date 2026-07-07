@@ -7,6 +7,9 @@ import { NavVertical } from '../../../components/molecules/NavVertical';
 import { NavVerticalSections } from '../../../components/molecules/NavVerticalSections';
 import { PageLayout } from '../../../components/organisms/PageLayout';
 import { MasonryCard } from '../../../components/organisms/MasonryCard';
+import { FloatingNav } from '../../../components/organisms/FloatingNav';
+import { Heading } from '../../../components/atoms/Heading';
+import { Text } from '../../../components/atoms/Text';
 import { SectionLabel, TierLabel } from '../AdminUI';
 import {
   CARD_GRID_DATA,
@@ -20,6 +23,26 @@ export function OrganismsSection() {
       <TierLabel>Organisms</TierLabel>
 
       <PushPanelVariants />
+
+      <SectionLabel>Floating nav (draggable site remote)</SectionLabel>
+      <div className="skeu-preview-note">
+        Fixed bottom-right on live pages; the grip drags it anywhere (arrow
+        keys nudge it) and the position persists across routes and reloads.
+        Shown inline here.
+      </div>
+      <div className="skeu-preview-section">
+        <FloatingNav inline>
+          <Button variant="outline" fullWidth justify="start" aria-current="page">
+            home
+          </Button>
+          <Button variant="outline" fullWidth justify="start">
+            about
+          </Button>
+          <Button variant="outline" fullWidth justify="between">
+            contact <Icon name="send" size={13} />
+          </Button>
+        </FloatingNav>
+      </div>
 
       <SectionLabel>Masonry card (portfolio grid item)</SectionLabel>
       <div className="skeu-preview-section">
@@ -38,10 +61,12 @@ export function OrganismsSection() {
         <NavBar />
         <div className="skeu-mt-md">
           <Card maxWidth={320}>
-            <h4 className="skeu-card-demo-heading">Page content</h4>
-            <p className="skeu-preview-body-text">
+            <Heading level={4} className="skeu-card-demo-heading">
+              Page content
+            </Heading>
+            <Text className="skeu-preview-body-text">
               A surface card lives inside the page bg layer.
-            </p>
+            </Text>
             <Button variant="solid">
               <Icon name="arrow" /> Get started
             </Button>
@@ -54,7 +79,7 @@ export function OrganismsSection() {
         {CARD_GRID_DATA.map(({ title, desc, tools }) => (
           <Card key={title} padding="sm">
             <strong className="skeu-preview-strong">{title}</strong>
-            <p className="skeu-card-grid__desc">{desc}</p>
+            <Text className="skeu-card-grid__desc">{desc}</Text>
             <div className="skeu-card-grid__tags">
               {tools.map((t) => (
                 <Badge key={t}>{t}</Badge>

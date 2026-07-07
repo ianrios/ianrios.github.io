@@ -254,6 +254,7 @@
 .skeu-combo-notif__actions {
   display: flex;
   gap: var(--space-xs, #{$space-xs});
+  flex-wrap: wrap;
 }
 .skeu-combo-section {
   margin-bottom: var(--space-md, #{$space-md});
@@ -282,6 +283,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs, #{$space-xs});
+  flex-wrap: wrap;
 }
 .skeu-combo-settings__value {
   font-size: var(--font-xs, #{$font-xs});
@@ -347,6 +349,7 @@
   display: flex;
   gap: var(--space-xs, #{$space-xs});
   justify-content: flex-end;
+  flex-wrap: wrap;
 }
 .skeu-combo-page-label {
   font-size: 9px;

@@ -25,7 +25,7 @@ import type { ProjectData } from '../../types/data';
 
 type Triple = readonly [string, string, string];
 type SpaceScale = readonly [string, string, string, string, string, string];
-type FontScale = readonly [string, string, string, string, string];
+type FontScale = readonly [string, string, string, string, string, string];
 
 interface ThemeSpec {
   name: string;
@@ -51,8 +51,10 @@ interface ThemeSpec {
   btnPadY: string;
   btnPadX: string;
   btnRadius: string;
-  // typography (xxs..lg) + line heights
+  // typography (xxs..xl) + weights + line heights
   font: FontScale;
+  fontWeightBase: string;
+  fontWeightHeading: string;
   lineBase: string;
   lineLoose: string;
   // motion
@@ -104,6 +106,9 @@ const theme = (s: ThemeSpec): Preset => ({
     '--font-sm': s.font[2],
     '--font-base': s.font[3],
     '--font-lg': s.font[4],
+    '--font-xl': s.font[5],
+    '--font-weight-base': s.fontWeightBase,
+    '--font-weight-heading': s.fontWeightHeading,
     '--line-height-base': s.lineBase,
     '--line-height-loose': s.lineLoose,
     '--anim-speed': s.anim,
@@ -146,7 +151,9 @@ export const THEMES: Preset[] = [
     btnPadY: '16px',
     btnPadX: '40px',
     btnRadius: '12px',
-    font: ['10px', '12px', '14px', '16px', '18px'],
+    font: ['10px', '12px', '14px', '16px', '18px', '22px'],
+    fontWeightBase: '400',
+    fontWeightHeading: '700',
     lineBase: '1.5',
     lineLoose: '1.6',
     anim: '0.12s',
@@ -181,7 +188,9 @@ export const THEMES: Preset[] = [
     btnPadY: '4px',
     btnPadX: '12px',
     btnRadius: '0px',
-    font: ['10px', '11px', '12px', '13px', '15px'],
+    font: ['10px', '11px', '12px', '13px', '15px', '17px'],
+    fontWeightBase: '400',
+    fontWeightHeading: '700',
     lineBase: '1.3',
     lineLoose: '1.4',
     anim: '0.06s',
@@ -216,7 +225,9 @@ export const THEMES: Preset[] = [
     btnPadY: '12px',
     btnPadX: '28px',
     btnRadius: '16px',
-    font: ['11px', '13px', '15px', '17px', '20px'],
+    font: ['11px', '13px', '15px', '17px', '20px', '24px'],
+    fontWeightBase: '300',
+    fontWeightHeading: '600',
     lineBase: '1.6',
     lineLoose: '1.7',
     anim: '0.3s',
@@ -251,7 +262,9 @@ export const THEMES: Preset[] = [
     btnPadY: '10px',
     btnPadX: '20px',
     btnRadius: '0px',
-    font: ['12px', '14px', '18px', '22px', '30px'],
+    font: ['12px', '14px', '18px', '22px', '30px', '40px'],
+    fontWeightBase: '700',
+    fontWeightHeading: '900',
     lineBase: '1.2',
     lineLoose: '1.3',
     anim: '0s',
@@ -286,7 +299,9 @@ export const THEMES: Preset[] = [
     btnPadY: '10px',
     btnPadX: '24px',
     btnRadius: '0px',
-    font: ['12px', '14px', '16px', '18px', '22px'],
+    font: ['12px', '14px', '16px', '18px', '22px', '28px'],
+    fontWeightBase: '400',
+    fontWeightHeading: '700',
     lineBase: '1.5',
     lineLoose: '1.6',
     anim: '0.1s',
@@ -321,7 +336,9 @@ export const THEMES: Preset[] = [
     btnPadY: '8px',
     btnPadX: '18px',
     btnRadius: '6px',
-    font: ['11px', '13px', '15px', '17px', '20px'],
+    font: ['11px', '13px', '15px', '17px', '20px', '24px'],
+    fontWeightBase: '400',
+    fontWeightHeading: '600',
     lineBase: '1.6',
     lineLoose: '1.8',
     anim: '0.2s',
@@ -356,7 +373,9 @@ export const THEMES: Preset[] = [
     btnPadY: '12px',
     btnPadX: '28px',
     btnRadius: '24px',
-    font: ['11px', '13px', '15px', '18px', '24px'],
+    font: ['11px', '13px', '15px', '18px', '24px', '30px'],
+    fontWeightBase: '400',
+    fontWeightHeading: '700',
     lineBase: '1.5',
     lineLoose: '1.6',
     anim: '0.4s',
@@ -391,7 +410,9 @@ export const THEMES: Preset[] = [
     btnPadY: '16px',
     btnPadX: '40px',
     btnRadius: '50px',
-    font: ['12px', '14px', '16px', '19px', '24px'],
+    font: ['12px', '14px', '16px', '19px', '24px', '30px'],
+    fontWeightBase: '300',
+    fontWeightHeading: '600',
     lineBase: '1.6',
     lineLoose: '1.7',
     anim: '0.5s',
@@ -426,7 +447,9 @@ export const THEMES: Preset[] = [
     btnPadY: '18px',
     btnPadX: '48px',
     btnRadius: '20px',
-    font: ['13px', '16px', '20px', '26px', '36px'],
+    font: ['13px', '16px', '20px', '26px', '36px', '48px'],
+    fontWeightBase: '700',
+    fontWeightHeading: '900',
     lineBase: '1.4',
     lineLoose: '1.5',
     anim: '0.3s',

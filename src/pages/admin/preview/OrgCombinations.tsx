@@ -4,13 +4,12 @@ import { Button } from '../../../components/atoms/Button';
 import { Card } from '../../../components/molecules/Card';
 import { PortfolioSidebar } from '../../../components/organisms/PortfolioSidebar';
 import { ContactModal } from '../../../components/organisms/ContactModal';
+import { CookieConsent } from '../../../components/organisms/CookieConsent';
 import { SectionLabel } from '../AdminUI';
-import { independentProjectsData, workProjectsData } from '../../../data';
+import { independentProjectsData } from '../../../data';
 
 const DEMO_SKILLS = Object.entries(
-  [...workProjectsData, ...independentProjectsData].reduce<
-    Record<string, number>
-  >((a, c) => {
+  independentProjectsData.reduce<Record<string, number>>((a, c) => {
     c.tools.forEach((t) => {
       a[t] = (a[t] ?? 0) + 1;
     });
@@ -23,6 +22,7 @@ export function OrgCombinations() {
   const [sidebarShowTools, setSidebarShowTools] = useState(false);
   const [sidebarUl, setSidebarUl] = useState(true);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [cookieConsentVisible, setCookieConsentVisible] = useState(false);
 
   return (
     <>
@@ -65,6 +65,27 @@ export function OrgCombinations() {
           show={contactModalOpen}
           onHide={() => {
             setContactModalOpen(false);
+          }}
+        />
+      </div>
+
+      <SectionLabel>CookieConsent: fixed banner (demo-only state)</SectionLabel>
+      <div className="skeu-preview-section">
+        <Button
+          variant="outline"
+          onClick={() => {
+            setCookieConsentVisible(true);
+          }}
+        >
+          Show cookie consent banner
+        </Button>
+        <CookieConsent
+          visible={cookieConsentVisible}
+          onAccept={() => {
+            setCookieConsentVisible(false);
+          }}
+          onDecline={() => {
+            setCookieConsentVisible(false);
           }}
         />
       </div>

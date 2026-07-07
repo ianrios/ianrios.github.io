@@ -3,6 +3,7 @@ import { Icon } from '../../../components/atoms/Icon';
 import { Input } from '../../../components/atoms/Input';
 import { Card } from '../../../components/molecules/Card';
 import { FormField } from '../../../components/molecules/FormField';
+import { Heading } from '../../../components/atoms/Heading';
 import { SectionLabel } from '../AdminUI';
 export function BasicCombinations() {
   return (
@@ -20,7 +21,9 @@ export function BasicCombinations() {
       <SectionLabel>Login card: Card → FormField × 2 + Button</SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={300}>
-          <h4 className="skeu-combo-card-heading">Sign in</h4>
+          <Heading level={4} className="skeu-combo-card-heading">
+            Sign in
+          </Heading>
           <div className="skeu-combo-form">
             <FormField
               label="Email"

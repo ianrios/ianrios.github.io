@@ -6,6 +6,8 @@ import { V2Preview } from './admin/V2Preview';
 import { THEMES } from './admin/adminData';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Button } from '../components/atoms/Button';
+import { Heading } from '../components/atoms/Heading';
+import { Text } from '../components/atoms/Text';
 import { useDesignVars } from '../hooks/designVarsContext';
 
 const TABS = [
@@ -61,11 +63,13 @@ function Admin() {
           </header>
 
           <div className="skeu-admin-content__body">
-            <h2 className="skeu-admin-section-heading">Design System</h2>
-            <p className="skeu-admin-section-desc">
+            <Heading level={2} className="skeu-admin-section-heading">
+              Design System
+            </Heading>
+            <Text className="skeu-admin-section-desc">
               Edits apply to the whole page instantly and persist to
               localStorage.
-            </p>
+            </Text>
             <div className="skeu-admin-tabs">
               {TABS.map(({ id, label }) => (
                 <Button

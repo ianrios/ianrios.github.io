@@ -212,3 +212,128 @@
   flex-shrink: 0;
   vertical-align: middle;
 }
+
+/* Heading — level 1-6 maps 1:1 onto the six --font-* size tokens */
+.skeu-heading {
+  margin: 0;
+  font-family: var(--font-family-display, #{$font-family-display});
+  font-weight: var(--font-weight-heading, #{$font-weight-heading});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-heading--h1 {
+  font-size: var(--font-xl, #{$font-xl});
+}
+.skeu-heading--h2 {
+  font-size: var(--font-lg, #{$font-lg});
+}
+.skeu-heading--h3 {
+  font-size: var(--font-base, #{$font-base});
+}
+.skeu-heading--h4 {
+  font-size: var(--font-sm, #{$font-sm});
+}
+.skeu-heading--h5 {
+  font-size: var(--font-xs, #{$font-xs});
+}
+.skeu-heading--h6 {
+  font-size: var(--font-xxs, #{$font-xxs});
+}
+
+/* Text — body copy, default `p`, `as` swaps the tag for inline usage */
+.skeu-text {
+  margin: 0;
+  font-family: var(--font-family-base, #{$font-family-base});
+  font-weight: var(--font-weight-base, #{$font-weight-base});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-text--xxs {
+  font-size: var(--font-xxs, #{$font-xxs});
+}
+.skeu-text--xs {
+  font-size: var(--font-xs, #{$font-xs});
+}
+.skeu-text--sm {
+  font-size: var(--font-sm, #{$font-sm});
+}
+.skeu-text--base {
+  font-size: var(--font-base, #{$font-base});
+}
+.skeu-text--lg {
+  font-size: var(--font-lg, #{$font-lg});
+}
+
+/* Stack — flex layout primitive, direction + token-driven gap */
+.skeu-stack {
+  display: flex;
+}
+.skeu-stack--row {
+  flex-direction: row;
+}
+.skeu-stack--col {
+  flex-direction: column;
+}
+.skeu-stack--gap-xxs {
+  gap: var(--space-xxs, #{$space-xxs});
+}
+.skeu-stack--gap-xs {
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-stack--gap-sm {
+  gap: var(--space-sm, #{$space-sm});
+}
+.skeu-stack--gap-md {
+  gap: var(--space-md, #{$space-md});
+}
+.skeu-stack--gap-lg {
+  gap: var(--space-lg, #{$space-lg});
+}
+.skeu-stack--gap-xl {
+  gap: var(--space-xl, #{$space-xl});
+}
+.skeu-stack--align-start {
+  align-items: flex-start;
+}
+.skeu-stack--align-center {
+  align-items: center;
+}
+.skeu-stack--align-end {
+  align-items: flex-end;
+}
+.skeu-stack--align-stretch {
+  align-items: stretch;
+}
+.skeu-stack--justify-start {
+  justify-content: flex-start;
+}
+.skeu-stack--justify-center {
+  justify-content: center;
+}
+.skeu-stack--justify-end {
+  justify-content: flex-end;
+}
+.skeu-stack--justify-between {
+  justify-content: space-between;
+}
+
+/* Section — page-level content region, token-driven padding */
+.skeu-section--padding-none {
+  padding: 0;
+}
+.skeu-section--padding-xxs {
+  padding: var(--space-xxs, #{$space-xxs});
+}
+.skeu-section--padding-xs {
+  padding: var(--space-xs, #{$space-xs});
+}
+.skeu-section--padding-sm {
+  padding: var(--space-sm, #{$space-sm});
+}
+.skeu-section--padding-md {
+  padding: var(--space-md, #{$space-md});
+}
+.skeu-section--padding-lg {
+  padding: var(--space-lg, #{$space-lg});
+}
+.skeu-section--padding-xl {
+  padding: var(--space-xl, #{$space-xl});
+}

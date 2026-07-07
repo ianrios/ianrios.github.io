@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../components/atoms/Button';
+import { Heading } from '../../components/atoms/Heading';
 import { TokensSection } from './preview/TokensSection';
 import { AtomsSection } from './preview/AtomsSection';
 import { MoleculesSection } from './preview/MoleculesSection';
@@ -48,7 +49,9 @@ export function DSPreview({ exportText }: { exportText: string }) {
       </div>
 
       <hr />
-      <h3 className="skeu-admin-section-heading">Export</h3>
+      <Heading level={3} className="skeu-admin-section-heading">
+        Export
+      </Heading>
       <textarea readOnly value={exportText} className="skeu-ds-export" />
     </>
   );

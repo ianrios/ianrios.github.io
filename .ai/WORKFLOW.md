@@ -45,9 +45,11 @@ and ambiguities only Ian can resolve. Fold real findings into the plan.
 
 ## Human approval gate
 
-After peer review: present Ian a skimmable chat summary. Wait for explicit
-approval. Do not start implementing without an unambiguous go-ahead.
-See `.ai/ANTI-PATTERNS.md` for what does NOT count as approval.
+New epics and direction changes: present Ian a skimmable summary and wait
+for explicit approval (`.ai/ANTI-PATTERNS.md` lists what does NOT count).
+Phases inside an approved epic proceed WITHOUT asking (Ian, 2026-07-07) —
+he steers by reviewing the dev server and diffs. Bring him genuine gaps
+(decisions only he can make, stated as such); progress check-ins are noise.
 
 ## Verification
 
@@ -55,23 +57,24 @@ Run `npm run check`, `npm run build`, `npm test`. Passing automated checks
 is not the same as done. Visual / behavioral confirmation requires Ian's
 review directly.
 
-## Doc updates (after Ian confirms done)
+## Doc updates (at each phase close)
 
 1. Fold epic phase to one line (entire section replaced — no old content)
 2. Mark sub-plan complete with one-line status header
-3. Update `.ai/WORK.md` active priorities list — mark ✅, add next phase
+3. Update `.ai/WORK.md` only if the current phase, priorities, or open
+   questions changed — completed work is never listed there
 4. Update `CLAUDE.md` if any structural facts changed
 
 ## Design system invariant
 
 All new code: CSS custom properties for colors / spacing / radii / shadows,
-atoms from `src/components/atoms/`, `skeu-*` class names from `_components.scss`.
-No hardcoded values. No Bootstrap classes.
+atoms from `src/components/atoms/`, `skeu-*` class names from the tier
+partials under `src/styles/components/`. No hardcoded values. No Bootstrap.
 
 Tokens have one source of truth: `src/styles/token-registry.ts` — add/change
 tokens there, never in a parallel array. Every editable token needs a control,
-a real CSS effect, and a live preview example (control↔effect↔example; ten
-drift checks gate `npm run check`, listed in `CLAUDE.md`).
+a real CSS effect, and a live preview example (control↔effect↔example; the
+drift checks listed in `CLAUDE.md` gate `npm run check`).
 
 Every component in `src/components/` needs an accurate demo in the grouped preview
 nav under `src/pages/admin/preview/` (`demo-missing` check) — stale demos are bugs.

@@ -11,3 +11,69 @@
   left: var(--space-sm, #{$space-sm});
   z-index: 10;
 }
+
+/* ─── Home per-page views (V2 Phase 3) ──────────────────────────────────────── */
+/* Readable-column max-widths are layout metrics, not design tokens. */
+.skeu-experience {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0 var(--space-md, #{$space-md}) var(--space-lg, #{$space-lg});
+}
+.skeu-experience__phase {
+  margin: var(--space-md, #{$space-md}) 0 var(--space-xs, #{$space-xs});
+  color: var(--color-muted, #{$color-muted});
+}
+
+.skeu-hobbies {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md})
+    var(--space-lg, #{$space-lg});
+}
+.skeu-hobbies__sublabel {
+  margin: var(--space-lg, #{$space-lg}) 0 var(--space-sm, #{$space-sm});
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-hobby__title {
+  margin: 0;
+}
+.skeu-hobby__meta {
+  color: var(--color-muted, #{$color-muted});
+  font-style: italic;
+}
+.skeu-hobby__body {
+  margin-top: var(--space-xxs, #{$space-xxs});
+  max-width: 44rem;
+}
+
+.skeu-projects-skills {
+  padding: 0 var(--space-md, #{$space-md}) var(--space-sm, #{$space-sm});
+}
+.skeu-projects-skills__cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xxs, #{$space-xxs});
+  margin-top: var(--space-xs, #{$space-xs});
+}
+
+/* ─── About page ────────────────────────────────────────────────────────────── */
+.skeu-about {
+  min-height: 100vh;
+  background-color: var(--color-bg, #{$color-bg});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-about__column {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.skeu-about__photo {
+  max-width: 100%;
+  border-radius: var(--radius-md, #{$radius-md});
+}
+.skeu-about__lead {
+  font-size: var(--font-lg, #{$font-lg});
+}
+.skeu-about__closing {
+  color: var(--color-muted, #{$color-muted});
+  font-style: italic;
+}

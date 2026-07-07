@@ -1,4 +1,6 @@
-import { ExpandableCard } from '../../components/organisms/ExpandableCard';
+import { ExperienceView } from '../home/ExperienceView';
+import { Heading } from '../../components/atoms/Heading';
+import { Text } from '../../components/atoms/Text';
 import { SectionLabel } from './AdminUI';
 import { TIMELINE_EVENTS } from './adminData';
 import { MixedProjectGrid } from './MixedProjectGrid';
@@ -17,12 +19,12 @@ function TimelineDot({ isLast }: { isLast: boolean }) {
 export function V2Preview() {
   return (
     <div className="skeu-preview-page-frame skeu-v2-preview">
-      <h3 className="skeu-admin-section-heading">
+      <Heading level={3} className="skeu-admin-section-heading">
         Portfolio v2: Layout Exploration
-      </h3>
-      <p className="skeu-v2-desc">
+      </Heading>
+      <Text className="skeu-v2-desc">
         Click role cards to expand. Patterns from portfolio-overhaul.md.
-      </p>
+      </Text>
 
       <SectionLabel>Career timeline (organism)</SectionLabel>
       <div className="skeu-timeline">
@@ -39,35 +41,12 @@ export function V2Preview() {
         </div>
       </div>
 
-      <SectionLabel>
-        Expandable experience (organism: molecule × N)
-      </SectionLabel>
+      <SectionLabel>Experience view (live Phase 3 layout)</SectionLabel>
       <div className="skeu-preview-note">
-        Sample data for layout preview, not a real work history.
+        Real work history from data.ts - the same component tree the home
+        experience tab renders.
       </div>
-      <ExpandableCard
-        title="Senior Frontend Engineer"
-        company="Built Technologies"
-        period="2022 to now"
-        tech={['TypeScript', 'React', 'Three.js', 'Python', 'MySQL']}
-        bullets={[
-          'Budget versioning & change order system',
-          'AI document extraction + MySQL migration',
-          'Design system (this!)',
-          'Unit-based pay app with autosave & rollback',
-        ]}
-      />
-      <ExpandableCard
-        title="Frontend Engineer"
-        company="Sample Co"
-        period="2020 to 2022"
-        tech={['React', 'Redux', 'Node.js', 'CSS']}
-        bullets={[
-          'Internal tooling dashboard',
-          'API integration layer',
-          'Accessibility improvements',
-        ]}
-      />
+      <ExperienceView />
 
       <SectionLabel>
         Mixed-density project grid: without images (organism)
