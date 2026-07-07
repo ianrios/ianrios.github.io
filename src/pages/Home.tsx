@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { independentProjectsData, hobbyData, workProjectsData } from '../data';
 import Masonry from 'react-masonry-css';
-import MasonryCard from '../components/masonry-card';
+import { MasonryCard } from '../components/organisms/MasonryCard';
 import { PortfolioSidebar } from '../components/organisms/PortfolioSidebar';
 import { ContactModal } from '../components/organisms/ContactModal';
 import { PushPanel } from '../components/organisms/PushPanel';
@@ -11,17 +11,19 @@ import { TokenSidebar } from './admin/TokenSidebar';
 import { useHomeDesignPanel } from '../hooks/useHomeDesignPanel';
 import { WelcomeView } from './WelcomeView';
 import { MobileNavDrawer } from './MobileNavDrawer';
+import type { PageId, View } from '../types/data';
 
 const MOBILE_BREAKPOINT = 992;
 
-// router state is untyped external input; accept only { view: string }
-function viewFromState(state: unknown): string | null {
+// router state is untyped external input; accept only a known view value
+function viewFromState(state: unknown): View | null {
   if (typeof state !== 'object' || state === null) return null;
   const view: unknown = (state as Record<string, unknown>).view;
-  return typeof view === 'string' ? view : null;
+  return view === 'welcome' || view === 'main' ? view : null;
 }
 
 const allProjects = [...workProjectsData, ...independentProjectsData];
+// most-used skill first
 const skills = Object.entries(
   allProjects.reduce<Record<string, number>>((a, c) => {
     c.tools.forEach((t) => {
@@ -29,18 +31,24 @@ const skills = Object.entries(
     });
     return a;
   }, {}),
-);
+).sort((a, b) => b[1] - a[1]);
 
-export function Main({ initialView = 'welcome' }: { initialView?: string }) {
+const PAGE_TITLES: Record<PageId, string> = {
+  work: 'experience',
+  projects: 'projects',
+  hobbies: 'hobbies',
+};
+
+export function Main({ initialView = 'welcome' }: { initialView?: View }) {
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [view, setView] = useState(
     viewFromState(location.state) ?? initialView,
   );
-  const [page, setPage] = useState('work');
+  const [page, setPage] = useState<PageId>('work');
   const onMobile = windowWidth < MOBILE_BREAKPOINT;
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [ul, setUl] = useState(true);
+  const [linksOpen, setLinksOpen] = useState(true);
   const [modalShow, setModalShow] = useState(false);
   const [showTools, setShowTools] = useState(false);
 
@@ -60,29 +68,18 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (view === 'main') {
-      document.getElementById('three-container')?.replaceChildren();
-    }
-  }, [view]);
-
-  const titleSelector = () => {
+  const changePage = (p: PageId) => {
+    setPage(p);
     document.getElementById('masonrygrid')?.scrollIntoView();
-    const MAP: Record<string, string> = {
-      work: 'experience',
-      projects: 'projects',
-      hobbies: 'hobbies',
-    };
-    return MAP[page] ?? 'Not Found';
   };
 
   const sidebarProps = {
     page,
-    setPage,
+    setPage: changePage,
     showTools,
     setShowTools,
-    ul,
-    setUl,
+    linksOpen,
+    setLinksOpen,
     setModalShow,
     skills,
     workVisible: true,
@@ -134,7 +131,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
               .join(' ')}
           >
             <div className="home-content__header">
-              <h2 className="home-content__title">{titleSelector()}</h2>
+              <h2 className="home-content__title">{PAGE_TITLES[page]}</h2>
             </div>
             <div className="hide-scrollbars home-content__scroll">
               <Masonry
@@ -145,15 +142,15 @@ export function Main({ initialView = 'welcome' }: { initialView?: string }) {
               >
                 {page === 'work' &&
                   workProjectsData.map((item, i) => (
-                    <MasonryCard key={i} item={item} index={i} />
+                    <MasonryCard key={item.title} item={item} index={i} />
                   ))}
                 {page === 'projects' &&
                   independentProjectsData.map((item, i) => (
-                    <MasonryCard key={i} item={item} index={i} />
+                    <MasonryCard key={item.title} item={item} index={i} />
                   ))}
                 {page === 'hobbies' &&
                   hobbyData.map((item, i) => (
-                    <MasonryCard key={i} item={item} index={i} />
+                    <MasonryCard key={item.title} item={item} index={i} />
                   ))}
               </Masonry>
             </div>

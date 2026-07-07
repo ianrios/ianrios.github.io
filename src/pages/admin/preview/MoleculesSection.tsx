@@ -8,7 +8,11 @@ import { CardWithDropdown } from '../../../components/molecules/CardWithDropdown
 import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
 import { SectionLabel, TierLabel } from '../AdminUI';
-import { ACCORDION_ITEMS, CARD_COLOR_VARIANTS } from '../adminData';
+import {
+  ACCORDION_ITEMS,
+  CARD_COLOR_VARIANTS,
+  DROPDOWN_DEMO,
+} from '../adminData';
 export function MoleculesSection() {
   return (
     <>
@@ -99,7 +103,7 @@ export function MoleculesSection() {
 
       <SectionLabel>Card with dropdown</SectionLabel>
       <div className="skeu-preview-section">
-        <CardWithDropdown />
+        <CardWithDropdown {...DROPDOWN_DEMO} />
       </div>
 
       <SectionLabel>Nav — horizontal (link-style)</SectionLabel>

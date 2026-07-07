@@ -3,6 +3,7 @@ import type {
   WorkExperience,
   HobbyData,
   ToolsMap,
+  ExternalLink,
 } from './types/data';
 
 export const independentProjectsData: ProjectData[] = [
@@ -19,6 +20,7 @@ export const independentProjectsData: ProjectData[] = [
     title: 'Meta Spheres',
     year: 2021,
     activelyMaintained: false,
+    info: 'https://en.wikipedia.org/wiki/Metaballs',
     img_src_arr: ['./img/metaspheres.png'],
     body: 'Built for my portfolio to display my passion for math, design, and 3D sites.',
     href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
@@ -605,3 +607,11 @@ export const tools: ToolsMap = {
   'Node.js': 'https://nodejs.org/en',
   PostgreSQL: 'https://www.postgresql.org/',
 };
+
+export const externalLinks: ExternalLink[] = [
+  { label: 'personal github', href: 'https://github.com/ianrios/' },
+  { label: 'work github', href: 'https://github.com/ianriosbaf/' },
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/ian-rios/' },
+  { label: 'codewars', href: 'https://www.codewars.com/users/ianrios' },
+  { label: 'instagram', href: 'https://www.instagram.com/ian___rios' },
+];

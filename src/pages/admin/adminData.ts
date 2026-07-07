@@ -1,6 +1,7 @@
 import type {
   CSSTokenMap,
   Preset,
+  DropdownOption,
   CardGridItem,
   AccordionItem,
   NavSection,
@@ -9,6 +10,7 @@ import type {
   V2Project,
 } from '../../types/admin';
 import { REGISTRY_DEFAULTS } from '../../styles/token-registry';
+import type { ProjectData } from '../../types/data';
 
 // ── Complete theme presets ────────────────────────────────────────────────
 // One click sets EVERY editable category at once: colors, chrome, links,
@@ -446,6 +448,35 @@ export const THEMES: Preset[] = [
 export const DEFAULTS: CSSTokenMap = REGISTRY_DEFAULTS;
 
 // Persistence lives in ./designStorage.ts (this file stays data-only).
+
+// Sample portfolio item for the MasonryCard organism demo (sample data, not a
+// real project).
+export const MASONRY_DEMO_ITEM: ProjectData = {
+  title: 'Sample Project',
+  year: 2024,
+  activelyMaintained: true,
+  body: 'Masonry portfolio card with a tools disclosure and link actions.',
+  href: 'https://github.com/ianrios',
+  live: '/design-system',
+  info: 'https://en.wikipedia.org/wiki/Design_system',
+  tools: ['React', 'TypeScript'],
+};
+
+export const DROPDOWN_DEMO: {
+  title: string;
+  subtitle: string;
+  cta: string;
+  options: DropdownOption[];
+} = {
+  title: 'Report settings',
+  subtitle: 'Select report type',
+  cta: 'Generate',
+  options: [
+    { value: 'monthly', label: 'Monthly report' },
+    { value: 'weekly', label: 'Weekly summary' },
+    { value: 'annual', label: 'Annual overview' },
+  ],
+};
 
 export const BADGE_SAMPLES: string[] = [
   'React',

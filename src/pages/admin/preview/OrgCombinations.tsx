@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { PageId } from '../../../types/data';
 import { Button } from '../../../components/atoms/Button';
 import { Card } from '../../../components/molecules/Card';
 import { PortfolioSidebar } from '../../../components/organisms/PortfolioSidebar';
@@ -18,7 +19,7 @@ const DEMO_SKILLS = Object.entries(
 );
 
 export function OrgCombinations() {
-  const [sidebarPage, setSidebarPage] = useState('work');
+  const [sidebarPage, setSidebarPage] = useState<PageId>('work');
   const [sidebarShowTools, setSidebarShowTools] = useState(false);
   const [sidebarUl, setSidebarUl] = useState(true);
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -34,8 +35,8 @@ export function OrgCombinations() {
               setPage={setSidebarPage}
               showTools={sidebarShowTools}
               setShowTools={setSidebarShowTools}
-              ul={sidebarUl}
-              setUl={setSidebarUl}
+              linksOpen={sidebarUl}
+              setLinksOpen={setSidebarUl}
               setModalShow={() => {
                 setContactModalOpen(true);
               }}

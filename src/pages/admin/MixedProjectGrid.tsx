@@ -4,8 +4,9 @@ import { Card } from '../../components/molecules/Card';
 import { V2_PROJECTS } from './adminData';
 
 export function MixedProjectGrid({ showImages }: { showImages: boolean }) {
-  const featured = V2_PROJECTS.find((p) => p.featured);
-  const rest = V2_PROJECTS.filter((p) => !p.featured);
+  const featured = V2_PROJECTS.find((p) => p.featured) ?? V2_PROJECTS[0];
+  const rest = V2_PROJECTS.filter((p) => p !== featured);
+  if (!featured) return null;
   return (
     <div className="skeu-mixed-grid">
       <Card>
@@ -20,15 +21,10 @@ export function MixedProjectGrid({ showImages }: { showImages: boolean }) {
             </span>
           </div>
         )}
-        <div className="skeu-mixed-grid__feat-title">
-          {featured?.title ?? 'SpecLab'}
-        </div>
-        <div className="skeu-mixed-grid__feat-desc">
-          {featured?.desc ??
-            '3D spectroscopy visualization tool. Interactive real-time rendering of mass spectrometry data.'}
-        </div>
+        <div className="skeu-mixed-grid__feat-title">{featured.title}</div>
+        <div className="skeu-mixed-grid__feat-desc">{featured.desc}</div>
         <div className="skeu-mixed-grid__feat-tools">
-          {(featured?.tools ?? ['Three.js', 'React', 'WebGL']).map((t) => (
+          {featured.tools.map((t) => (
             <Badge key={t}>{t}</Badge>
           ))}
         </div>

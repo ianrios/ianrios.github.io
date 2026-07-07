@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Badge } from '../atoms/Badge';
 
 export function ExpandableCard({
@@ -15,22 +15,22 @@ export function ExpandableCard({
   bullets?: string[];
 }) {
   const [open, setOpen] = useState(false);
+  const bodyId = useId();
 
   return (
     <div
       className={['skeu-expandable-card', open ? 'is-open' : '']
         .filter(Boolean)
         .join(' ')}
-      role="button"
-      tabIndex={0}
-      onClick={() => {
-        setOpen((o) => !o);
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') setOpen((o) => !o);
-      }}
     >
-      <div className="skeu-expandable-card__header">
+      <button
+        className="skeu-expandable-card__header"
+        aria-expanded={open}
+        aria-controls={bodyId}
+        onClick={() => {
+          setOpen((o) => !o);
+        }}
+      >
         <div>
           <div className="skeu-expandable-card__title">{title}</div>
           <div className="skeu-expandable-card__meta">
@@ -38,8 +38,9 @@ export function ExpandableCard({
           </div>
         </div>
         <span className="skeu-expandable-card__caret">▾</span>
-      </div>
+      </button>
       <div
+        id={bodyId}
         className={['skeu-expandable-card__body', open ? 'is-open' : '']
           .filter(Boolean)
           .join(' ')}

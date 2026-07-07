@@ -1,10 +1,10 @@
-import { tools } from '../../data';
-import type { SkillTuple } from '../../types/data';
+import { tools, externalLinks } from '../../data';
+import type { PageId, SkillTuple } from '../../types/data';
 import { Icon } from '../atoms/Icon';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
-const NAV_ITEMS = [
+const NAV_ITEMS: { id: PageId; label: string; requiresWork?: boolean }[] = [
   { id: 'work', label: 'experience', requiresWork: true },
   { id: 'projects', label: 'projects' },
   { id: 'hobbies', label: 'hobbies' },
@@ -15,19 +15,19 @@ export function PortfolioSidebar({
   setPage,
   showTools,
   setShowTools,
-  ul,
-  setUl,
+  linksOpen,
+  setLinksOpen,
   setModalShow,
   skills,
   workVisible,
   onClose,
 }: {
-  page: string;
-  setPage: (p: string) => void;
+  page: PageId;
+  setPage: (p: PageId) => void;
   showTools: boolean;
   setShowTools: (v: boolean) => void;
-  ul: boolean;
-  setUl: (v: boolean) => void;
+  linksOpen: boolean;
+  setLinksOpen: (v: boolean) => void;
   setModalShow: (v: boolean) => void;
   skills: SkillTuple[];
   workVisible: boolean;
@@ -55,6 +55,7 @@ export function PortfolioSidebar({
       <Button
         variant="outline"
         fullWidth
+        aria-expanded={showTools}
         onClick={() => {
           setShowTools(!showTools);
         }}
@@ -64,80 +65,42 @@ export function PortfolioSidebar({
       </Button>
       {showTools && (
         <div className="skeu-sidebar-skills">
-          {skills
-            .sort((a, b) => a[1] - b[1])
-            .map((o, i) => {
-              const href = tools[o[0]];
-              return href ? (
-                <Badge key={i} href={href}>
-                  {o[0]}
-                </Badge>
-              ) : (
-                <Badge key={i}>{o[0]}</Badge>
-              );
-            })}
+          {skills.map(([name]) => {
+            const href = tools[name];
+            return href ? (
+              <Badge key={name} href={href}>
+                {name}
+              </Badge>
+            ) : (
+              <Badge key={name}>{name}</Badge>
+            );
+          })}
         </div>
       )}
 
       <Button
         variant="outline"
         fullWidth
+        aria-expanded={linksOpen}
         onClick={() => {
-          setUl(!ul);
+          setLinksOpen(!linksOpen);
         }}
       >
-        external <Icon name={ul ? 'chevron-down' : 'chevron-up'} size={13} />
+        external{' '}
+        <Icon name={linksOpen ? 'chevron-down' : 'chevron-up'} size={13} />
       </Button>
       <ul
-        className={['skeu-sidebar-links', ul ? 'is-open' : '']
+        className={['skeu-sidebar-links', linksOpen ? 'is-open' : '']
           .filter(Boolean)
           .join(' ')}
       >
-        <li>
-          <a
-            rel="noreferrer"
-            target="_blank"
-            href="https://github.com/ianrios/"
-          >
-            personal github
-          </a>
-        </li>
-        <li>
-          <a
-            rel="noreferrer"
-            target="_blank"
-            href="https://github.com/ianriosbaf/"
-          >
-            work github
-          </a>
-        </li>
-        <li>
-          <a
-            rel="noreferrer"
-            target="_blank"
-            href="https://www.linkedin.com/in/ian-rios/"
-          >
-            linkedin
-          </a>
-        </li>
-        <li>
-          <a
-            rel="noreferrer"
-            target="_blank"
-            href="https://www.codewars.com/users/ianrios"
-          >
-            codewars
-          </a>
-        </li>
-        <li>
-          <a
-            rel="noreferrer"
-            target="_blank"
-            href="https://www.instagram.com/ian___rios"
-          >
-            instagram
-          </a>
-        </li>
+        {externalLinks.map((link) => (
+          <li key={link.href}>
+            <a rel="noreferrer" target="_blank" href={link.href}>
+              {link.label}
+            </a>
+          </li>
+        ))}
       </ul>
 
       <Button

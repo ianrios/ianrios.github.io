@@ -101,11 +101,9 @@ export function PushPanel({
       {/* Trigger tab */}
       <button
         onClick={() => {
-          setOpen((o) => {
-            const next = !o;
-            onOpenChange?.(next);
-            return next;
-          });
+          const next = !open;
+          setOpen(next);
+          onOpenChange?.(next);
         }}
         className={['skeu-push-tab', variantClass, tabShown ? '' : 'is-hidden']
           .filter(Boolean)

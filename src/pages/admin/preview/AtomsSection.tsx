@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Badge } from '../../../components/atoms/Badge';
-import { Icon } from '../../../components/atoms/Icon';
+import { Icon, type IconName } from '../../../components/atoms/Icon';
 import { Input } from '../../../components/atoms/Input';
 import { Slider } from '../../../components/atoms/Slider';
 import { ValueInput } from '../../../components/atoms/ValueInput';
@@ -19,7 +19,14 @@ const BUTTON_VARIANTS = [
 ] as const;
 const BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
 const BUTTON_COLORS = ['default', 'muted', 'accent', 'primary'] as const;
-const ICON_SAMPLES = ['send', 'github', 'info', 'external', 'plus', 'close'];
+const ICON_SAMPLES: IconName[] = [
+  'send',
+  'github',
+  'info',
+  'external',
+  'plus',
+  'close',
+];
 
 export function AtomsSection() {
   const [sliderVal, setSliderVal] = useState(40);
@@ -46,7 +53,12 @@ export function AtomsSection() {
                 icon="send"
                 aria-label={`${variant} icon-only`}
               />
-              <Button variant={variant} as="link" href="/admin" text="link" />
+              <Button
+                variant={variant}
+                as="link"
+                href="/design-system"
+                text="link"
+              />
             </div>
           </div>
         ))}
@@ -65,9 +77,19 @@ export function AtomsSection() {
         </div>
         <div className="skeu-preview-flex skeu-preview-flex--end skeu-mt-md">
           <Button variant="ghost" underline text="underline" />
-          <Button as="link" href="/admin" underline text="link underline" />
+          <Button
+            as="link"
+            href="/design-system"
+            underline
+            text="link underline"
+          />
           <Button variant="outline" disabled text="disabled" />
-          <Button as="link" href="/admin" disabled text="disabled link" />
+          <Button
+            as="link"
+            href="/design-system"
+            disabled
+            text="disabled link"
+          />
         </div>
       </div>
 

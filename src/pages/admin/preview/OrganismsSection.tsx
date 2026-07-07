@@ -6,8 +6,13 @@ import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
 import { NavVerticalSections } from '../../../components/molecules/NavVerticalSections';
 import { PageLayout } from '../../../components/organisms/PageLayout';
+import { MasonryCard } from '../../../components/organisms/MasonryCard';
 import { SectionLabel, TierLabel } from '../AdminUI';
-import { CARD_GRID_DATA, VERTICAL_NAV_SECTIONS } from '../adminData';
+import {
+  CARD_GRID_DATA,
+  MASONRY_DEMO_ITEM,
+  VERTICAL_NAV_SECTIONS,
+} from '../adminData';
 import { PushPanelVariants } from './PushPanelVariants';
 export function OrganismsSection() {
   return (
@@ -15,6 +20,11 @@ export function OrganismsSection() {
       <TierLabel>Organisms</TierLabel>
 
       <PushPanelVariants />
+
+      <SectionLabel>Masonry card (portfolio grid item)</SectionLabel>
+      <div className="skeu-preview-section">
+        <MasonryCard item={MASONRY_DEMO_ITEM} index={0} />
+      </div>
 
       <SectionLabel>Page / Layout</SectionLabel>
       <PageLayout>

@@ -1,4 +1,4 @@
-export const ICON_MAP: Record<string, string> = {
+export const ICON_MAP = {
   arrow: '→',
   plus: '+',
   check: '✓',
@@ -11,4 +11,6 @@ export const ICON_MAP: Record<string, string> = {
   'circle-fill': '●',
   circle: '○',
   link: '⌁',
-};
+} as const satisfies Record<string, string>;
+
+export type TextIconName = keyof typeof ICON_MAP;

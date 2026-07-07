@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
 
 // The unified clickable atom: one polymorphic control spanning button + link,
 // with orthogonal variant / color / size / icon axes mapped to the .skeu-btn
@@ -55,14 +55,14 @@ interface StyleProps extends React.AriaAttributes {
 
 // Content arm: icon-only REQUIRES aria-label; labelled needs text|children.
 interface IconOnlyContent {
-  icon: string;
+  icon: IconName;
   text?: never;
   children?: never;
   'aria-label': string;
 }
 type LabelledContent =
-  | { icon?: string; text: string; children?: React.ReactNode }
-  | { icon?: string; text?: string; children: React.ReactNode };
+  | { icon?: IconName; text: string; children?: React.ReactNode }
+  | { icon?: IconName; text?: string; children: React.ReactNode };
 type ContentProps = IconOnlyContent | LabelledContent;
 
 // Element arm: discriminated on `as`.

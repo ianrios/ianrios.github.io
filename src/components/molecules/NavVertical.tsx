@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Button } from '../atoms/Button';
+import { useActiveNav, type NavProps } from '../../hooks/useActiveNav';
 
 export function NavVertical({
   pages = ['home', 'work', 'about'],
@@ -8,23 +8,12 @@ export function NavVertical({
   variant = 'buttons',
   active: controlledActive,
   onNavigate,
-}: {
-  pages?: string[];
-  ctaLabel?: string;
-  siteName?: string;
-  variant?: 'buttons' | 'links';
-  active?: string;
-  onNavigate?: (page: string) => void;
-}) {
-  const [localActive, setLocalActive] = useState<string | undefined>(
-    controlledActive ?? pages[0],
+}: NavProps) {
+  const { active, handleClick } = useActiveNav(
+    pages,
+    controlledActive,
+    onNavigate,
   );
-  const active = controlledActive ?? localActive;
-
-  const handleClick = (page: string) => {
-    setLocalActive(page);
-    onNavigate?.(page);
-  };
 
   const isLinks = variant === 'links';
 

@@ -28,6 +28,7 @@ export function SidebarSection({
         onClick={() => {
           setOpen((o) => !o);
         }}
+        aria-expanded={open}
         className="skeu-accordion-btn"
       >
         <span className="skeu-sidebar-section__trigger-inner">

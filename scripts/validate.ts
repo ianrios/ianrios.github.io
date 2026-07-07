@@ -210,12 +210,16 @@ const reachable = reachableFrom([
   resolve('src', 'pages', 'admin', 'DSPreview.tsx'),
   resolve('src', 'pages', 'admin', 'V2Preview.tsx'),
 ]);
+// The components root is scanned too, so a stray component outside the
+// atomic tiers cannot dodge the demo requirement.
 const componentFiles: string[] = [];
-for (const tier of ['atoms', 'molecules', 'organisms']) {
+for (const tier of ['', 'atoms', 'molecules', 'organisms']) {
   const dir = join('src', 'components', tier);
   if (!existsSync(dir)) continue;
-  for (const entry of readdirSync(dir)) {
-    if (entry.endsWith('.tsx')) componentFiles.push(resolve(dir, entry));
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isFile() && entry.name.endsWith('.tsx')) {
+      componentFiles.push(resolve(dir, entry.name));
+    }
   }
 }
 

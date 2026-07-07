@@ -1,5 +1,5 @@
 import type React from 'react';
-import { ICON_MAP } from './icon-map';
+import { ICON_MAP, type TextIconName } from './icon-map';
 
 interface SvgPath {
   d: string;
@@ -13,7 +13,7 @@ interface SvgIcon {
 
 // Actual Bootstrap Icons SVG paths already used in the repo
 // (masonry-card, sidebar)
-const SVG_ICONS: Record<string, SvgIcon> = {
+const SVG_ICONS = {
   github: {
     viewBox: '0 0 16 16',
     paths: [
@@ -106,11 +106,16 @@ const SVG_ICONS: Record<string, SvgIcon> = {
       },
     ],
   },
-};
+} satisfies Record<string, SvgIcon>;
 
-export function Icon({ name, size = 14 }: { name: string; size?: number }) {
-  const svg = SVG_ICONS[name];
-  if (svg) {
+type SvgIconName = keyof typeof SVG_ICONS;
+export type IconName = SvgIconName | TextIconName;
+
+const isSvgIcon = (n: IconName): n is SvgIconName => n in SVG_ICONS;
+
+export function Icon({ name, size = 14 }: { name: IconName; size?: number }) {
+  if (isSvgIcon(name)) {
+    const svg = SVG_ICONS[name];
     return (
       <svg
         aria-hidden="true"
@@ -122,14 +127,18 @@ export function Icon({ name, size = 14 }: { name: string; size?: number }) {
         className="skeu-icon"
       >
         {svg.paths.map((p, i) => (
-          <path key={i} d={p.d} fillRule={p.fillRule} />
+          <path
+            key={i}
+            d={p.d}
+            fillRule={'fillRule' in p ? p.fillRule : undefined}
+          />
         ))}
       </svg>
     );
   }
   return (
     <span aria-hidden="true" className="skeu-icon" style={{ fontSize: size }}>
-      {ICON_MAP[name] ?? '·'}
+      {ICON_MAP[name]}
     </span>
   );
 }

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Button } from '../atoms/Button';
+import { useActiveNav, type NavProps } from '../../hooks/useActiveNav';
 
 export function NavBar({
   pages = ['home', 'work', 'about'],
@@ -8,23 +8,12 @@ export function NavBar({
   variant = 'buttons',
   active: controlledActive,
   onNavigate,
-}: {
-  pages?: string[];
-  ctaLabel?: string;
-  siteName?: string;
-  variant?: 'buttons' | 'links';
-  active?: string;
-  onNavigate?: (page: string) => void;
-}) {
-  const [localActive, setLocalActive] = useState<string | undefined>(
-    controlledActive ?? pages[0],
+}: NavProps) {
+  const { active, handleClick } = useActiveNav(
+    pages,
+    controlledActive,
+    onNavigate,
   );
-  const active = controlledActive ?? localActive;
-
-  const handleClick = (page: string) => {
-    setLocalActive(page);
-    onNavigate?.(page);
-  };
 
   return (
     <div className="skeu-nav">
@@ -32,9 +21,15 @@ export function NavBar({
       <div className="skeu-nav__links">
         {pages.map((page) =>
           variant === 'links' ? (
-            <a key={page} href="#demo" className="skeu-link">
+            <button
+              key={page}
+              className={`skeu-nav-link-btn${active === page ? ' active' : ''}`}
+              onClick={() => {
+                handleClick(page);
+              }}
+            >
               {page}
-            </a>
+            </button>
           ) : (
             <Button
               key={page}

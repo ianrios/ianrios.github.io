@@ -957,14 +957,23 @@ a.skeu-badge {
   @include surface-elevation('low');
   padding: var(--space-md, #{$space-md});
   border-radius: var(--radius-md, #{$radius-md});
-  cursor: pointer;
   user-select: none;
   margin-bottom: var(--space-sm, #{$space-sm});
 }
+/* The header is the real disclosure <button>; the card div stays inert so
+   interactive content (badge links) never nests inside a button. */
 .skeu-expandable-card__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 .skeu-expandable-card__title {
   font-weight: 700;

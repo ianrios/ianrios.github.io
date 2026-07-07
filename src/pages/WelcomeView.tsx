@@ -1,5 +1,9 @@
-import { useState } from 'react';
-import MetaBalls from '../MetaBalls';
+import { lazy, Suspense, useState } from 'react';
+import type { View } from '../types/data';
+
+// Lazy so three.js stays out of the entry chunk; the canvas fades in when the
+// chunk lands (same chunk the /three route uses).
+const ThreeScene = lazy(() => import('../three/ThreeScene'));
 
 const colors = [
   'FF6B35', // coral orange
@@ -51,19 +55,18 @@ function pickColor(): string {
   return picked;
 }
 
-export function WelcomeView({ setView }: { setView: (v: string) => void }) {
+export function WelcomeView({ setView }: { setView: (v: View) => void }) {
   const [color] = useState(pickColor);
   return (
     <div className="view-1">
-      <MetaBalls />
+      <Suspense fallback={null}>
+        <ThreeScene />
+      </Suspense>
       <button
         className="name montserrat special-p"
         style={{ '--splash-color': `#${color}` }}
         onClick={() => {
           setView('main');
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') setView('main');
         }}
       >
         Ian Rios

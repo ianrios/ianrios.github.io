@@ -111,6 +111,8 @@ export default function ThreeScene() {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', onResize);
       controls.dispose();
+      effect.geometry.dispose();
+      material.dispose();
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);

@@ -14,6 +14,11 @@ export interface StoredDesign {
   snapshot: CSSTokenMap;
 }
 
+export interface DropdownOption {
+  value: string;
+  label: string;
+}
+
 export interface CardGridItem {
   title: string;
   desc: string;

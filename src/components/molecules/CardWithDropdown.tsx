@@ -2,30 +2,20 @@ import { useState } from 'react';
 import { Button } from '../atoms/Button';
 import { Card } from './Card';
 import { Icon } from '../atoms/Icon';
-
-interface DropdownOption {
-  value: string;
-  label: string;
-}
-
-const DEFAULT_OPTIONS: DropdownOption[] = [
-  { value: 'monthly', label: 'Monthly report' },
-  { value: 'weekly', label: 'Weekly summary' },
-  { value: 'annual', label: 'Annual overview' },
-];
+import type { DropdownOption } from '../../types/admin';
 
 export function CardWithDropdown({
-  title = 'Report settings',
-  subtitle = 'Select report type',
+  title,
+  subtitle,
   options,
-  cta = 'Generate',
+  cta,
 }: {
-  title?: string;
-  subtitle?: string;
-  options?: DropdownOption[];
-  cta?: string;
+  title: string;
+  subtitle: string;
+  options: DropdownOption[];
+  cta: string;
 }) {
-  const opts = options ?? DEFAULT_OPTIONS;
+  const opts = options;
   const [selected, setSelected] = useState<string | undefined>(opts[0]?.value);
   const [isOpen, setIsOpen] = useState(false);
 

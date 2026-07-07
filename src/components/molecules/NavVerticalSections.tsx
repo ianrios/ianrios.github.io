@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../atoms/Button';
+import { useDisclosureGroup } from '../../hooks/useDisclosure';
 import type { NavSection } from '../../types/admin';
 
 export function NavVerticalSections({
@@ -16,28 +17,30 @@ export function NavVerticalSections({
   const [active, setActive] = useState<string | undefined>(
     defaultActive ?? sections[0]?.items[0]?.id,
   );
-  const [openSection, setOpenSection] = useState<string | null>(
-    defaultOpen ?? sections[0]?.id ?? null,
-  );
+  const first = defaultOpen ?? sections[0]?.id;
+  const { isOpen, toggle } = useDisclosureGroup({
+    defaultOpen: first !== undefined ? [first] : [],
+  });
 
   const isLinks = variant === 'links';
 
   return (
     <div className="skeu-nav-sections">
       {sections.map((section) => {
-        const isOpen = openSection === section.id;
+        const open = isOpen(section.id);
         return (
           <div
             key={section.id}
-            className={['skeu-nav-sections__section', isOpen ? 'is-open' : '']
+            className={['skeu-nav-sections__section', open ? 'is-open' : '']
               .filter(Boolean)
               .join(' ')}
           >
             {isLinks ? (
               <button
                 className="skeu-nav-sections__section-btn"
+                aria-expanded={open}
                 onClick={() => {
-                  setOpenSection(isOpen ? null : section.id);
+                  toggle(section.id);
                 }}
               >
                 <span>{section.label}</span>
@@ -48,8 +51,9 @@ export function NavVerticalSections({
                 variant="outline"
                 fullWidth
                 justify="between"
+                aria-expanded={open}
                 onClick={() => {
-                  setOpenSection(isOpen ? null : section.id);
+                  toggle(section.id);
                 }}
               >
                 <span>{section.label}</span>

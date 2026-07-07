@@ -7,6 +7,8 @@ export interface ProjectData {
   live: string;
   tools: string[];
   img_src_arr?: string[];
+  /** Optional background-reading link rendered as an info icon on the card. */
+  info?: string;
 }
 
 export interface WorkExperience {
@@ -31,6 +33,17 @@ export interface HobbyData {
   instagram: string;
 }
 
+/** Any card renderable in the portfolio masonry grid. */
+export type PortfolioItem = ProjectData | WorkExperience | HobbyData;
+
+export interface ExternalLink {
+  label: string;
+  href: string;
+}
+
 export type SkillTuple = [string, number];
 
 export type ToolsMap = Record<string, string>;
+
+export type View = 'welcome' | 'main';
+export type PageId = 'work' | 'projects' | 'hobbies';

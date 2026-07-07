@@ -1,6 +1,6 @@
 import { Badge } from '../../../components/atoms/Badge';
 import { Button } from '../../../components/atoms/Button';
-import { Icon } from '../../../components/atoms/Icon';
+import { Icon, type IconName } from '../../../components/atoms/Icon';
 import { Card } from '../../../components/molecules/Card';
 import { SectionLabel } from '../AdminUI';
 export function LayoutCombinations() {
@@ -10,11 +10,13 @@ export function LayoutCombinations() {
       <div className="skeu-combo-section">
         <Card maxWidth={360}>
           <h4 className="skeu-combo-card-heading--sm">Preferences</h4>
-          {[
-            { icon: 'edit', label: 'Display name', value: 'Ian Rios' },
-            { icon: 'link', label: 'Public URL', value: 'ianrios.me' },
-            { icon: 'star', label: 'Featured project', value: 'SpecLab' },
-          ].map(({ icon, label, value }) => (
+          {(
+            [
+              { icon: 'edit', label: 'Display name', value: 'Ian Rios' },
+              { icon: 'link', label: 'Public URL', value: 'ianrios.me' },
+              { icon: 'star', label: 'Featured project', value: 'SpecLab' },
+            ] satisfies { icon: IconName; label: string; value: string }[]
+          ).map(({ icon, label, value }) => (
             <div key={label} className="skeu-combo-settings__row">
               <div className="skeu-combo-settings__label">
                 <Icon name={icon} size={13} />
