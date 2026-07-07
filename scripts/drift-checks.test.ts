@@ -243,7 +243,7 @@ describe('[demo-missing]', () => {
 
   const componentFiles = ['atoms', 'molecules', 'organisms'].flatMap((tier) =>
     readdirSync(join('src', 'components', tier))
-      .filter((f) => f.endsWith('.tsx'))
+      .filter((f) => f.endsWith('.tsx') && !f.includes('.test.'))
       .map((f) => resolve('src', 'components', tier, f)),
   );
 

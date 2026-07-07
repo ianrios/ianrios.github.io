@@ -19,6 +19,7 @@
     "format": "prettier . --write",
     "check": "npm run format && npm run typecheck && npm run lint",
     "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "deploy": "npm run check && npm test && npm run build && firebase deploy"
   },
   "type": "module",

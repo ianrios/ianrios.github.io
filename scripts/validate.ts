@@ -206,7 +206,11 @@ for (const tier of ['', 'atoms', 'molecules', 'organisms']) {
   const dir = join('src', 'components', tier);
   if (!existsSync(dir)) continue;
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isFile() && entry.name.endsWith('.tsx')) {
+    if (
+      entry.isFile() &&
+      entry.name.endsWith('.tsx') &&
+      !entry.name.includes('.test.')
+    ) {
       componentFiles.push(resolve(dir, entry.name));
     }
   }
