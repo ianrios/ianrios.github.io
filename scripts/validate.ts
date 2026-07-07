@@ -21,6 +21,7 @@ import {
   checkTokenUnused,
   checkTokenExample,
   checkTokenSpecimen,
+  checkLayoutClassNames,
 } from './drift-checks.ts';
 import {
   checkDemoMissing,
@@ -59,7 +60,8 @@ type ViolationType =
   | 'token-example'
   | 'token-specimen'
   | 'demo-missing'
-  | 'semantic-html';
+  | 'semantic-html'
+  | 'layout-classnames';
 
 interface Violation {
   type: ViolationType;
@@ -255,6 +257,7 @@ const driftChecks: [ViolationType, string[]][] = [
   ['token-specimen', checkTokenSpecimen(specimenSrc)],
   ['demo-missing', checkDemoMissing(componentFiles, reachable)],
   ['semantic-html', checkSemanticHtml(srcTsxFiles)],
+  ['layout-classnames', checkLayoutClassNames(srcTsxFiles)],
 ];
 for (const [type, messages] of driftChecks) {
   for (const message of messages) flag(type, message);

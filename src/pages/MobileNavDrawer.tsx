@@ -1,6 +1,7 @@
 import { PortfolioSidebar } from '../components/organisms/PortfolioSidebar';
 import { Button } from '../components/atoms/Button';
 import { Heading } from '../components/atoms/Heading';
+import { Stack } from '../components/atoms/Stack';
 import type { PageId, SkillTuple } from '../types/data';
 
 interface SidebarProps {
@@ -35,7 +36,7 @@ export function MobileNavDrawer({
         }}
       />
       <div className="skeu-mobile-drawer__panel">
-        <div className="skeu-mobile-drawer__header">
+        <Stack direction="row" justify="between" align="center" gap="sm">
           <Heading level={1} className="skeu-mobile-drawer__heading">
             Ian Rios
           </Heading>
@@ -46,7 +47,7 @@ export function MobileNavDrawer({
               setMobileNavOpen(false);
             }}
           />
-        </div>
+        </Stack>
         <PortfolioSidebar
           {...sidebarProps}
           onClose={() => {

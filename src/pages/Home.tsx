@@ -7,6 +7,8 @@ import { ContactModal } from '../components/organisms/ContactModal';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Button } from '../components/atoms/Button';
 import { Icon } from '../components/atoms/Icon';
+import { Stack } from '../components/atoms/Stack';
+import { ScrollArea } from '../components/molecules/ScrollArea';
 import { TokenSidebar } from './admin/TokenSidebar';
 import { useHomeDesignPanel } from '../hooks/useHomeDesignPanel';
 import { useNavChrome } from '../hooks/navChromeContext';
@@ -87,7 +89,12 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
       {view === 'welcome' && <WelcomeView setView={setView} />}
 
       {view === 'main' && (
-        <div className="view-2 home-layout">
+        <Stack
+          direction="row"
+          height="100vh"
+          overflow="hidden"
+          className="view-2"
+        >
           <PushPanel
             label="design"
             width="clamp(320px, 22vw, 440px)"
@@ -117,23 +124,34 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
             </>
           )}
 
-          <div
-            className={['home-content', onMobile ? 'home-content--mobile' : '']
-              .filter(Boolean)
-              .join(' ')}
+          <Stack
+            direction="col"
+            flex="1"
+            overflow="hidden"
+            className={onMobile ? 'home-content--mobile' : ''}
           >
             {onMobile ? (
-              <div className="home-content__header">
+              <Stack
+                direction="col"
+                align="center"
+                className="home-content__header"
+              >
                 <Heading level={2} className="home-content__title">
                   {PAGE_TITLES[page]}
                 </Heading>
-              </div>
+              </Stack>
             ) : (
-              <div className="home-content__header home-content__header--bar">
+              <Stack
+                direction="row"
+                justify="between"
+                align="center"
+                gap="sm"
+                className="home-content__header"
+              >
                 <Heading level={1} className="home-content__brand">
                   Ian Rios
                 </Heading>
-                <div className="home-content__tabs">
+                <Stack direction="row" gap="xs">
                   {(Object.keys(PAGE_TITLES) as PageId[]).map((id) => (
                     <Button
                       key={id}
@@ -146,18 +164,19 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
                       {PAGE_TITLES[id]}
                     </Button>
                   ))}
-                </div>
-              </div>
+                </Stack>
+              </Stack>
             )}
-            <div
+            <ScrollArea
               id="home-scroll"
-              className="hide-scrollbars home-content__scroll"
+              hideScrollbars
+              height="calc(100vh - 80px)"
             >
               {page === 'work' && <ExperienceView />}
               {page === 'projects' && <ProjectsView condensed={panelOpen} />}
               {page === 'hobbies' && <HobbiesView />}
-            </div>
-          </div>
+            </ScrollArea>
+          </Stack>
 
           <ContactModal
             show={modalShow}
@@ -165,7 +184,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
               setModalShow(false);
             }}
           />
-        </div>
+        </Stack>
       )}
     </>
   );

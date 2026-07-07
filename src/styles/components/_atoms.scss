@@ -290,6 +290,24 @@
 .skeu-stack--gap-xl {
   gap: var(--space-xl, #{$space-xl});
 }
+.skeu-stack--padding-xxs {
+  padding: var(--space-xxs, #{$space-xxs});
+}
+.skeu-stack--padding-xs {
+  padding: var(--space-xs, #{$space-xs});
+}
+.skeu-stack--padding-sm {
+  padding: var(--space-sm, #{$space-sm});
+}
+.skeu-stack--padding-md {
+  padding: var(--space-md, #{$space-md});
+}
+.skeu-stack--padding-lg {
+  padding: var(--space-lg, #{$space-lg});
+}
+.skeu-stack--padding-xl {
+  padding: var(--space-xl, #{$space-xl});
+}
 .skeu-stack--align-start {
   align-items: flex-start;
 }

@@ -7,7 +7,6 @@ import { NavVertical } from '../../../components/molecules/NavVertical';
 import { NavVerticalSections } from '../../../components/molecules/NavVerticalSections';
 import { PageLayout } from '../../../components/organisms/PageLayout';
 import { MasonryCard } from '../../../components/organisms/MasonryCard';
-import { FloatingNav } from '../../../components/organisms/FloatingNav';
 import { Heading } from '../../../components/atoms/Heading';
 import { Text } from '../../../components/atoms/Text';
 import { SectionLabel, TierLabel } from '../AdminUI';
@@ -23,26 +22,6 @@ export function OrganismsSection() {
       <TierLabel>Organisms</TierLabel>
 
       <PushPanelVariants />
-
-      <SectionLabel>Floating nav (draggable site remote)</SectionLabel>
-      <div className="skeu-preview-note">
-        Fixed bottom-right on live pages; the grip drags it anywhere (arrow
-        keys nudge it) and the position persists across routes and reloads.
-        Shown inline here.
-      </div>
-      <div className="skeu-preview-section">
-        <FloatingNav inline>
-          <Button variant="outline" fullWidth justify="start" aria-current="page">
-            home
-          </Button>
-          <Button variant="outline" fullWidth justify="start">
-            about
-          </Button>
-          <Button variant="outline" fullWidth justify="between">
-            contact <Icon name="send" size={13} />
-          </Button>
-        </FloatingNav>
-      </div>
 
       <SectionLabel>Masonry card (portfolio grid item)</SectionLabel>
       <div className="skeu-preview-section">

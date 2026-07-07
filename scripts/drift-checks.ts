@@ -191,5 +191,39 @@ export function checkTokenSpecimen(specimenSrc: string): string[] {
   return out;
 }
 
+// [layout-classnames] Phase 2.5: all layout classNames (home-layout,
+// home-content, etc.) must be replaced with Stack/ScrollArea components.
+// Exempt: admin preview pages (src/pages/admin/preview/) which demo raw usage.
+const LAYOUT_CLASSNAMES = [
+  'home-layout',
+  'home-content',
+  'home-sidebar',
+  'skeu-admin-content__body',
+  'skeu-admin-main',
+  'skeu-admin-tabs',
+  'skeu-projects-skills',
+  'skeu-projects-skills__cloud',
+  'skeu-mobile-drawer__header',
+];
+export function checkLayoutClassNames(
+  tsxFiles: { path: string; content: string }[],
+): string[] {
+  const out: string[] = [];
+  for (const file of tsxFiles) {
+    // Skip admin preview pages - they demo raw className usage
+    if (file.path.includes('src/pages/admin/preview/')) continue;
+
+    for (const className of LAYOUT_CLASSNAMES) {
+      if (file.content.includes(`className="${className}"`)) {
+        out.push(
+          `${file.path} uses layout className="${className}" - ` +
+            `migrate to Stack/ScrollArea`,
+        );
+      }
+    }
+  }
+  return out;
+}
+
 // [semantic-html], [demo-missing], and their shared reachability graph moved
 // to scripts/component-checks.ts (250-line budget split, see its header).

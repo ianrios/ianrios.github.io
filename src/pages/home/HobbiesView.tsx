@@ -10,7 +10,7 @@ function HobbyRow({ hobby }: { hobby: HobbyData }) {
     ? `since ${hobby.year}`
     : `${hobby.year}`;
   return (
-    <div className="skeu-hobby">
+    <Stack direction="col" gap="xxs">
       <Stack direction="row" gap="xs" align="center">
         <Heading level={4} className="skeu-hobby__title">
           {hobby.title}
@@ -40,7 +40,7 @@ function HobbyRow({ hobby }: { hobby: HobbyData }) {
       <Text size="sm" className="skeu-hobby__body">
         {hobby.body}
       </Text>
-    </div>
+    </Stack>
   );
 }
 
@@ -49,7 +49,7 @@ export function HobbiesView() {
   const volunteering = hobbyData.filter((h) => h.kind === 'volunteering');
 
   return (
-    <div className="skeu-hobbies">
+    <Stack direction="col" padding="md" className="skeu-hobbies">
       <Stack direction="col" gap="md">
         {personal.map((h) => (
           <HobbyRow key={h.title} hobby={h} />
@@ -67,6 +67,6 @@ export function HobbiesView() {
           </Stack>
         </>
       )}
-    </div>
+    </Stack>
   );
 }

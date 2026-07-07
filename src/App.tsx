@@ -5,7 +5,6 @@ import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
 import { DesignVarsProvider } from './hooks/DesignVarsProvider';
 import { NavChromeProvider } from './hooks/NavChromeProvider';
-import { SiteNav } from './pages/SiteNav';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { CookieConsent } from './components/organisms/CookieConsent';
 import { useCookieConsent } from './hooks/cookieConsent';
@@ -32,7 +31,6 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-          <SiteNav />
         </NavChromeProvider>
         <CookieConsent
           visible={consent === null}

@@ -65,19 +65,18 @@ export function AtomsSection() {
       </div>
 
       <SectionLabel>
-        Stack/Section: flex row/col + token gap · page region + token padding
+        Stack/Section: flex + gap + layout props · padding
       </SectionLabel>
       <div className="skeu-preview-section">
         <Stack direction="row" gap="sm">
           <Badge>row</Badge>
-          <Badge>gap sm</Badge>
+          <Badge>gap</Badge>
         </Stack>
         <Stack direction="col" gap="xs">
           <Badge>col</Badge>
-          <Badge>gap xs</Badge>
         </Stack>
         <Section padding="sm">
-          <Text size="sm">Section padding sm</Text>
+          <Text size="sm">Section</Text>
         </Section>
       </div>
 

@@ -8,7 +8,7 @@ type TextProps = {
   size?: TextSize;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>;
+} & Omit<React.HTMLAttributes<HTMLElement>, 'className'>;
 
 export function Text({
   as = 'p',

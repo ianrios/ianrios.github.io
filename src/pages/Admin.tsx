@@ -7,7 +7,9 @@ import { THEMES } from './admin/adminData';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Button } from '../components/atoms/Button';
 import { Heading } from '../components/atoms/Heading';
+import { Stack } from '../components/atoms/Stack';
 import { Text } from '../components/atoms/Text';
+import { ScrollArea } from '../components/molecules/ScrollArea';
 import { useDesignVars } from '../hooks/designVarsContext';
 
 const TABS = [
@@ -32,9 +34,13 @@ function Admin() {
   };
 
   return (
-    <div className="skeu-admin-page">
-      {/* Main row: controls panel (own region) + scrolling content column */}
-      <div className="skeu-admin-main">
+    <Stack
+      direction="col"
+      height="100vh"
+      overflow="hidden"
+      className="skeu-admin-page"
+    >
+      <Stack direction="row" flex="1" overflow="hidden">
         <PushPanel
           label="controls"
           defaultOpen
@@ -44,8 +50,7 @@ function Admin() {
           <TokenSidebar {...tokenSidebarProps} />
         </PushPanel>
 
-        <div className="skeu-admin-content">
-          {/* Sticky header on the content side — content scrolls behind it */}
+        <ScrollArea flex="1">
           <header className="skeu-design-system-topbar">
             <Button
               as="link"
@@ -62,7 +67,7 @@ function Admin() {
             </span>
           </header>
 
-          <div className="skeu-admin-content__body">
+          <Stack direction="col" padding="lg">
             <Heading level={2} className="skeu-admin-section-heading">
               Design System
             </Heading>
@@ -70,7 +75,7 @@ function Admin() {
               Edits apply to the whole page instantly and persist to
               localStorage.
             </Text>
-            <div className="skeu-admin-tabs">
+            <Stack direction="row" gap="xs" flex="wrap">
               {TABS.map(({ id, label }) => (
                 <Button
                   key={id}
@@ -82,7 +87,7 @@ function Admin() {
                   {label}
                 </Button>
               ))}
-            </div>
+            </Stack>
 
             {activeView === 'design' && <DSPreview exportText={exportText} />}
             {activeView === 'v2' && <V2Preview />}
@@ -91,10 +96,10 @@ function Admin() {
                 <Main initialView="main" />
               </div>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Stack>
+        </ScrollArea>
+      </Stack>
+    </Stack>
   );
 }
 

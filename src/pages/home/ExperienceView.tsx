@@ -2,7 +2,6 @@ import { workProjectsData } from '../../data';
 import type { CareerPhase, WorkExperience } from '../../types/data';
 import { ExpandableCard } from '../../components/organisms/ExpandableCard';
 import { Heading } from '../../components/atoms/Heading';
-import { Section } from '../../components/atoms/Section';
 import { Stack } from '../../components/atoms/Stack';
 
 const PHASE_ORDER: CareerPhase[] = [
@@ -19,18 +18,14 @@ function period(job: WorkExperience): string {
 
 export function ExperienceView() {
   return (
-    <div className="skeu-experience">
+    <Stack direction="col" padding="md" className="skeu-experience">
       {PHASE_ORDER.map((phase) => {
         const jobs = workProjectsData
           .filter((j) => j.phase === phase)
           .sort((a, b) => b.startYear - a.startYear);
         if (jobs.length === 0) return null;
         return (
-          <Section
-            key={phase}
-            padding="none"
-            className="skeu-experience__group"
-          >
+          <Stack key={phase} direction="col" gap="xs">
             <Heading level={3} className="skeu-experience__phase">
               {phase}
             </Heading>
@@ -48,9 +43,9 @@ export function ExperienceView() {
                 />
               ))}
             </Stack>
-          </Section>
+          </Stack>
         );
       })}
-    </div>
+    </Stack>
   );
 }

@@ -7,6 +7,7 @@ import { Accordion } from '../../../components/molecules/Accordion';
 import { CardWithDropdown } from '../../../components/molecules/CardWithDropdown';
 import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
+import { ScrollArea } from '../../../components/molecules/ScrollArea';
 import { Heading } from '../../../components/atoms/Heading';
 import { Text } from '../../../components/atoms/Text';
 import { SectionLabel, TierLabel } from '../AdminUI';
@@ -143,6 +144,23 @@ export function MoleculesSection() {
       <SectionLabel>Accordion: standalone</SectionLabel>
       <div className="skeu-accordion-demo">
         <Accordion items={ACCORDION_ITEMS} />
+      </div>
+
+      <SectionLabel>
+        ScrollArea: overflow container with hideScrollbars prop
+      </SectionLabel>
+      <div className="skeu-preview-section">
+        <ScrollArea height="120px" className="skeu-preview-scroll-demo">
+          <Text size="sm">
+            Scrollable content. Lorem ipsum dolor sit amet, consectetur
+            adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
+          </Text>
+        </ScrollArea>
+        <div className="skeu-preview-note">
+          Use height prop for fixed height. Add hideScrollbars prop to hide
+          scrollbars while keeping scroll functionality.
+        </div>
       </div>
     </>
   );

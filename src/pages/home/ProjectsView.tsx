@@ -6,6 +6,7 @@ import { MasonryCard } from '../../components/organisms/MasonryCard';
 import { Badge } from '../../components/atoms/Badge';
 import { Button } from '../../components/atoms/Button';
 import { Icon } from '../../components/atoms/Icon';
+import { Stack } from '../../components/atoms/Stack';
 
 // Most-used skill first. Lives with the projects view because only
 // independent projects carry tool tags (concepts doc section 3); Home
@@ -22,7 +23,7 @@ export const skills: SkillTuple[] = Object.entries(
 function SkillsCloud() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="skeu-projects-skills">
+    <Stack direction="col" gap="xs" padding="md">
       <Button
         variant="outline"
         size="sm"
@@ -31,10 +32,11 @@ function SkillsCloud() {
           setOpen(!open);
         }}
       >
-        all skills <Icon name={open ? 'chevron-down' : 'chevron-up'} size={13} />
+        all skills{' '}
+        <Icon name={open ? 'chevron-down' : 'chevron-up'} size={13} />
       </Button>
       {open && (
-        <div className="skeu-projects-skills__cloud">
+        <Stack direction="row" gap="xxs" flex="wrap">
           {skills.map(([name]) => {
             const href = tools[name];
             return href !== undefined ? (
@@ -45,9 +47,9 @@ function SkillsCloud() {
               <Badge key={name}>{name}</Badge>
             );
           })}
-        </div>
+        </Stack>
       )}
-    </div>
+    </Stack>
   );
 }
 
