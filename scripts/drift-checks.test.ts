@@ -159,11 +159,19 @@ describe('[theme-control]', () => {
   });
 });
 
+// mirror validate.ts: every .scss under src/styles counts as a consumer
+function readAllScss(dir: string): string {
+  let out = '';
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out += readAllScss(full);
+    else if (entry.name.endsWith('.scss')) out += readFileSync(full, 'utf-8');
+  }
+  return out;
+}
+
 describe('[token-unused]', () => {
-  const scssAll =
-    read('src', 'styles', '_base.scss') +
-    read('src', 'styles', '_components.scss') +
-    read('src', 'styles', '_tokens.scss');
+  const scssAll = readAllScss(join('src', 'styles'));
 
   it('passes for the real SCSS (every controlled token is consumed)', () => {
     expect(checkTokenUnused(scssAll)).toEqual([]);

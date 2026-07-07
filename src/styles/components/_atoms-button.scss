@@ -1,0 +1,559 @@
+@use '../tokens' as *;
+
+/* ─── Unified clickable atom ──────────────────────────────────────────────────
+   One class family for the polymorphic <Button as="button"|"link">. Variant
+   handles the surface treatment; the color axis (reusing the link color tokens)
+   drives text color for every non-solid variant. */
+.skeu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xxs, #{$space-xxs});
+  /* Own stacking context so a hovered control paints above its neighbours. */
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  text-align: center;
+  font-size: var(--font-sm, #{$font-sm});
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-text, #{$color-text});
+  background: transparent;
+  padding: var(--btn-padding-y, #{$btn-padding-y})
+    var(--btn-padding-x, #{$btn-padding-x});
+  border: none;
+  border-radius: var(--btn-radius, #{$btn-radius});
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    transform var(--anim-speed, 0.12s) ease,
+    box-shadow var(--anim-speed, 0.12s) ease,
+    border-color var(--anim-speed, 0.12s) ease,
+    color var(--anim-speed, 0.12s) ease;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/* ── Variants (surface treatment only) ── */
+
+/* solid — real fill + its own text token, flat at rest → raise → sink. */
+.skeu-btn--solid {
+  font-weight: 700;
+  background: var(--btn-primary-bg, #{$btn-primary-bg});
+  color: var(--btn-primary-text, #{$btn-primary-text});
+  &:hover {
+    z-index: 2;
+    @include bevel-raised;
+  }
+  &:active {
+    z-index: 2;
+    transform: translateY(1px);
+    @include bevel-sunken;
+  }
+}
+
+/* outline — resting bevel border → raise on hover → sink on press. */
+.skeu-btn--outline {
+  box-shadow:
+    inset 1px 1px 0 0 var(--bevel-highlight, #{$bevel-highlight}),
+    inset -1px -1px 0 0 var(--bevel-dark-shadow, #{$bevel-dark-shadow});
+  &:hover {
+    z-index: 2;
+    @include bevel-raised;
+  }
+  &:active {
+    z-index: 2;
+    transform: translateY(1px);
+    @include bevel-sunken;
+  }
+}
+
+/* surface — smooth at rest → a REAL border on hover (no inner shadow; the
+   bevel mixins are inset-only) → sunken "key" on press. The transparent resting
+   border reserves the box so the hover border adds no layout shift. */
+.skeu-btn--surface {
+  border: var(--clickable-border-width, #{$clickable-border-width}) solid
+    transparent;
+  &:hover {
+    z-index: 2;
+    border: var(--clickable-border-width, #{$clickable-border-width}) solid
+      var(--border-color, #{$border-color});
+  }
+  &:active {
+    z-index: 2;
+    transform: translateY(1px);
+    border-color: transparent;
+    @include bevel-sunken;
+  }
+}
+
+/* chisel — surface-calm at rest → the OUTLINE'S REST edge appears on hover (a
+   thin rigid bevel border, NOT the stronger raised bevel) → on press that same
+   thin edge inverts, so the rigid outlined shape looks pressed into the page.
+   Distinct from --outline (border always on) and --surface (soft real border). */
+.skeu-btn--chisel {
+  border: none;
+  box-shadow: none;
+  &:hover {
+    z-index: 2;
+    // = the --outline resting edge
+    box-shadow:
+      inset 1px 1px 0 0 var(--bevel-highlight, #{$bevel-highlight}),
+      inset -1px -1px 0 0 var(--bevel-dark-shadow, #{$bevel-dark-shadow});
+  }
+  &:active {
+    z-index: 2;
+    transform: translateY(1px);
+    // = that same thin edge, inverted → the rigid shape sunk into the page
+    box-shadow:
+      inset 1px 1px 0 0 var(--bevel-dark-shadow, #{$bevel-dark-shadow}),
+      inset -1px -1px 0 0 var(--bevel-highlight, #{$bevel-highlight});
+  }
+}
+
+/* ghost — no surface at all; color axis only. */
+.skeu-btn--ghost {
+  background: none;
+  box-shadow: none;
+  &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+/* ── Color axis (text color; excluded from solid, which owns its fill text) ── */
+.skeu-btn--color-default:not(.skeu-btn--solid) {
+  color: var(--link-color, #{$link-color});
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
+}
+.skeu-btn--color-muted:not(.skeu-btn--solid) {
+  color: var(--color-muted, #{$color-muted});
+  &:hover {
+    color: var(--color-text, #{$color-text});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
+}
+.skeu-btn--color-accent:not(.skeu-btn--solid) {
+  color: var(--color-accent, #{$color-accent});
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
+}
+/* primary = the theme's CTA color (same token as the solid fill), so it is
+   legible on every theme by construction. */
+.skeu-btn--color-primary:not(.skeu-btn--solid) {
+  color: var(--btn-primary-bg, #{$btn-primary-bg});
+  font-weight: 700;
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+/* ── Size axis (padding + font; Icon px is set on the Icon in TSX) ── */
+.skeu-btn--size-xs {
+  font-size: var(--font-xxs, #{$font-xxs});
+  padding: 2px 8px;
+}
+.skeu-btn--size-sm {
+  font-size: var(--font-xs, #{$font-xs});
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 0.55)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 0.65);
+}
+/* --size-md keeps the base padding/font (no override). */
+.skeu-btn--size-lg {
+  font-size: var(--font-base, #{$font-base});
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.25)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.15);
+}
+.skeu-btn--size-xl {
+  font-size: var(--font-lg, #{$font-lg});
+  padding: calc(var(--btn-padding-y, #{$btn-padding-y}) * 1.6)
+    calc(var(--btn-padding-x, #{$btn-padding-x}) * 1.4);
+}
+
+/* ── Icon-only: square, size-scaled symmetric padding (beats the size axis) ── */
+.skeu-btn--icon {
+  aspect-ratio: 1 / 1;
+}
+.skeu-btn--icon.skeu-btn--size-xs {
+  padding: 4px;
+}
+.skeu-btn--icon.skeu-btn--size-sm {
+  padding: 6px;
+}
+.skeu-btn--icon.skeu-btn--size-md {
+  padding: 8px;
+}
+.skeu-btn--icon.skeu-btn--size-lg {
+  padding: 10px;
+}
+.skeu-btn--icon.skeu-btn--size-xl {
+  padding: 12px;
+}
+
+/* ── Layout / state modifiers ── */
+.skeu-btn--full {
+  display: flex;
+  width: 100%;
+}
+.skeu-btn--justify-center {
+  justify-content: center;
+}
+.skeu-btn--justify-between {
+  justify-content: space-between;
+}
+.skeu-btn--underline {
+  text-decoration: underline;
+}
+.skeu-btn--disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Tag/chip — uses radius-sm + accent color, making both tokens visible in the UI */
+.skeu-badge {
+  display: inline-block;
+  padding: 2px var(--space-xs, #{$space-xs});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  background: var(--color-accent, #{$color-accent});
+  color: var(--color-text, #{$color-text});
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  /* Flat chip with a crisp 1px edge — non-interactive, no bevel. */
+  box-shadow: inset 0 0 0 1px var(--bevel-shadow);
+}
+
+/* Badge size modifier */
+.skeu-badge--xs {
+  font-size: 9px;
+  padding: 1px 6px;
+}
+
+/* Transparent toggle buttons used in accordions and card expandable sections */
+.skeu-accordion-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md});
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text, #{$color-text});
+  font-weight: 600;
+  font-size: var(--font-sm, #{$font-sm});
+  font-family: inherit;
+  text-align: left;
+  transition: color var(--anim-speed, 0.12s) ease;
+  &:hover {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
+}
+
+/* Flat link-variant nav buttons — no elevation, accent bg + link colors on hover/active */
+.skeu-nav-link-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted, #{$color-muted});
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  padding: var(--space-xxs, #{$space-xxs}) var(--space-xs, #{$space-xs});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  width: 100%;
+  display: block;
+  transition:
+    background var(--anim-speed, 0.12s) ease,
+    color var(--anim-speed, 0.12s) ease;
+  &:hover {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-active, #{$link-active});
+  }
+  &.active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--color-text, #{$color-text});
+    font-weight: 700;
+  }
+}
+
+/* view-1 splash: name button + plain enter CTA */
+.view-1 .name {
+  background: none;
+  border: none;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+  color: var(--splash-color, var(--color-text));
+  cursor: pointer;
+  display: block;
+}
+.splash-enter {
+  background: none;
+  border: none;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: var(--font-family-display, #{$font-family-display});
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-muted, #{$color-muted});
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 50px;
+  display: block;
+  transition: color var(--anim-speed, 0.12s) ease;
+  &:hover,
+  &:focus-visible {
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    color: var(--link-active, #{$link-active});
+  }
+}
+
+/* Masonry grid — react-masonry-css; gutter is driven by --space-md token */
+.my-masonry-grid {
+  display: flex;
+  margin-left: calc(-1 * var(--space-md, #{$space-md}));
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: var(--space-md, #{$space-md});
+  background-clip: padding-box;
+  > div {
+    margin-bottom: var(--space-md, #{$space-md});
+  }
+}
+
+/* PushPanel trigger tab — stacked per-character vertical label, no writing-mode rotation */
+.skeu-push-tab {
+  flex-shrink: 0;
+  height: 100%;
+  background: var(--color-surface, #{$color-surface});
+  border: none;
+  border-right: 1px solid var(--border-color, #{$border-color});
+  cursor: pointer;
+  color: var(--color-text, #{$color-text});
+  padding: var(--space-md, #{$space-md}) 0 var(--space-sm, #{$space-sm});
+  transition:
+    background var(--anim-speed, 0.12s) ease,
+    color var(--anim-speed, 0.12s) ease;
+  &:hover {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--link-active, #{$link-active});
+  }
+
+  .skeu-push-tab__letters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0;
+    line-height: 1.6;
+    user-select: none;
+  }
+
+  .skeu-push-tab__caret {
+    margin-top: var(--space-xs, #{$space-xs});
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+/* PushPanel tab variant: rotated — CSS writing-mode vertical text + chevron */
+.skeu-push-tab--rotated {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md, #{$space-md}) 0 var(--space-sm, #{$space-sm});
+
+  .skeu-push-tab__rotated {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs, #{$space-xs});
+    user-select: none;
+
+    > span:last-child {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  }
+}
+
+/* PushPanel tab variant: grip — drag-handle dots, icon-only */
+.skeu-push-tab--grip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+
+  .skeu-push-tab__grip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs, #{$space-xs});
+    user-select: none;
+  }
+}
+
+/* PushPanel tab variant: pill — wide tab, chevron only, rounded right edge */
+.skeu-push-tab--pill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-right: none;
+  border-radius: 0 var(--radius-md, #{$radius-md})
+    var(--radius-md, #{$radius-md}) 0;
+  @include bevel-raised;
+}
+
+/* Linked badge — reset anchor decoration; filter provides hover feedback */
+a.skeu-badge {
+  text-decoration: none;
+  color: var(--color-text, #{$color-text});
+  transition: filter var(--anim-speed, 0.12s) ease;
+  &:hover {
+    filter: brightness(1.2);
+    text-decoration: none;
+    color: var(--color-text, #{$color-text});
+  }
+  &:active {
+    filter: brightness(0.9);
+  }
+}
+
+/* ColorPicker atom — styled <input type="color"> using only design tokens.
+   Outline = border-color, radius = radius-sm, thickness = 1px (fixed — thinner than focus ring).
+   Hover = link-hover border to signal interactivity.                                              */
+.skeu-color-picker {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-color, #{$border-color});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  /* Flat swatch with a crisp 1px border (no bevel) — defined above. */
+  transition: border-color var(--anim-speed, 0.12s) ease;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px);
+  }
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-sm, #{$radius-sm}) - 3px);
+  }
+
+  &:hover {
+    border-color: var(--link-hover, #{$link-hover});
+  }
+  &:active {
+    border-color: var(--link-active, #{$link-active});
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/* ─── Switch — Classic Windows 3D toggle ─────────────────────────────────────
+   Flat track with a hard 1px edge + raised-bevel thumb. Off = surface thumb on a
+   surface track; on = accent track, thumb slides right and brightens.          */
+.skeu-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-text, #{$color-text});
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+.skeu-switch__track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  /* Follow the global shape scale: radius-lg reads as a pill at the default/high
+     end and squares off under Brutalist (radius 0), like every other control. */
+  border-radius: var(--radius-lg, #{$radius-lg});
+  background: var(--color-surface, #{$color-surface});
+  /* Parametric sunken groove. */
+  @include bevel-groove;
+  transition: background var(--anim-speed, 0.12s) ease;
+}
+.skeu-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  /* Thumb tracks the shape scale too (round → square under Brutalist). */
+  border-radius: var(--radius-md, #{$radius-md});
+  background: var(--color-surface, #{$color-surface});
+  /* Parametric raised-bevel thumb. */
+  @include bevel-raised;
+  transition:
+    transform var(--anim-speed, 0.12s) ease,
+    background var(--anim-speed, 0.12s) ease;
+}
+.skeu-switch.is-on .skeu-switch__track {
+  background: var(--color-accent, #{$color-accent});
+}
+.skeu-switch.is-on .skeu-switch__thumb {
+  transform: translateX(20px);
+  background: var(--color-text, #{$color-text});
+}

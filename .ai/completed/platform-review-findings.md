@@ -1,5 +1,9 @@
 # Platform Review — Findings Register (2026-07-06)
 
+Status: RESOLVED — every finding below was fixed on 2026-07-06/07 via the
+three epics (now in `.ai/completed/`); file:line references describe the
+pre-fix code and are kept as the audit record.
+
 Audit-only pass answering `.ai/specs/repo-platform-review.md`. No code changed.
 Every item is either CONFIRMED (verified by reading code or running checks) or
 OPEN (needs Ian's decision). Fix plans: `.ai/plans/design-system-integrity-epic.md`,

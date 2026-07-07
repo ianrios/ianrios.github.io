@@ -1,0 +1,511 @@
+@use '../tokens' as *;
+
+/* ─── Admin panel layout ─────────────────────────────────────────────────────── */
+.skeu-admin-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-bg, #{$color-bg});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-admin-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.skeu-admin-content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+/* Sticky neu header on the content side — content scrolls behind it, keeping
+   the PushPanel legible as its own region. Lives inside the scroll container
+   so `top: 0` pins it to the content column, never overlapping the panel tab. */
+.skeu-design-system-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, #{$space-md});
+  padding: var(--space-sm, #{$space-sm}) var(--space-lg, #{$space-lg});
+  @include surface-elevation('med');
+  border-radius: 0;
+}
+.skeu-design-system-topbar__title {
+  font-size: var(--font-sm, #{$font-sm});
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.skeu-admin-content__body {
+  padding: var(--space-lg, #{$space-lg}) var(--space-lg, #{$space-lg})
+    var(--space-xl, #{$space-xl});
+}
+.skeu-admin-preview-wrap {
+  border: 1px solid var(--border-color, #{$border-color});
+  border-radius: var(--radius-lg, #{$radius-lg});
+  overflow: auto;
+  height: calc(100vh - 220px);
+}
+.skeu-admin-sidebar {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.skeu-admin-section-heading {
+  font-size: var(--font-lg, #{$font-lg});
+  font-weight: 700;
+  margin: 0 0 var(--space-sm, #{$space-sm}) 0;
+  margin-top: 0;
+  color: var(--color-text, #{$color-text});
+}
+.skeu-admin-section-desc {
+  opacity: 0.6;
+  font-size: var(--font-sm, #{$font-sm});
+  margin: 0 0 var(--space-sm, #{$space-sm}) 0;
+}
+.skeu-admin-tabs {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  margin-bottom: var(--space-md, #{$space-md});
+  flex-wrap: wrap;
+}
+
+/* ─── Admin token sidebar ────────────────────────────────────────────────────── */
+.skeu-token-aside {
+  width: 100%;
+  padding-right: var(--space-xs, #{$space-xs});
+}
+.skeu-warm-tones {
+  padding: var(--space-sm, #{$space-sm});
+  background: var(--color-surface, #{$color-surface});
+  border: 2px solid #e07b2a;
+  border-radius: var(--radius-md, #{$radius-md});
+  margin-top: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-warm-tones__keys {
+  font-size: var(--font-xs, #{$font-xs});
+  margin-top: var(--space-xxs, #{$space-xxs});
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-warm-tones__actions {
+  margin-top: var(--space-xs, #{$space-xs});
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-control-row {
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-control-sublabel {
+  font-size: var(--font-xs, #{$font-xs});
+  font-weight: 600;
+  color: var(--color-muted, #{$color-muted});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+  margin-top: var(--space-xs, #{$space-xs});
+}
+
+/* ─── Preview layout helpers ─────────────────────────────────────────────────── */
+.skeu-preview-icon-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.skeu-preview-icon-label {
+  font-size: 9px;
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-preview-flex {
+  display: flex;
+  gap: var(--space-sm, #{$space-sm});
+  flex-wrap: wrap;
+  align-items: center;
+}
+.skeu-preview-flex--end {
+  align-items: flex-end;
+}
+.skeu-preview-note {
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  line-height: 1.6;
+  margin-top: var(--space-xs, #{$space-xs});
+  padding-top: var(--space-xxs, #{$space-xxs});
+
+  strong {
+    color: var(--color-text, #{$color-text});
+  }
+}
+.skeu-preview-page-frame {
+  background: var(--color-bg, #{$color-bg});
+  padding: var(--space-lg, #{$space-lg});
+  border-radius: var(--radius-lg, #{$radius-lg});
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  margin-bottom: var(--space-md, #{$space-md});
+}
+.skeu-preview-page-frame--dashed {
+  background: var(--color-bg, #{$color-bg});
+  padding: var(--space-lg, #{$space-lg});
+  border-radius: var(--radius-lg, #{$radius-lg});
+  border: 2px dashed rgba(128, 128, 128, 0.18);
+  margin-bottom: var(--space-md, #{$space-md});
+  position: relative;
+}
+
+/* ─── DSPreview ──────────────────────────────────────────────────────────────── */
+.skeu-ds-annotation {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--color-muted, #{$color-muted});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-ds-export {
+  display: block;
+  width: 100%;
+  height: 180px;
+  font-size: 10px;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background: var(--color-surface, #{$color-surface});
+  color: var(--color-text, #{$color-text});
+  border: 1px solid var(--border-color, #{$border-color});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  padding: var(--space-xs, #{$space-xs});
+  resize: vertical;
+}
+
+/* ─── AdminUI ────────────────────────────────────────────────────────────────── */
+.skeu-tier-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--color-bg, #{$color-bg});
+  background: var(--color-muted, #{$color-muted});
+  padding: 3px 8px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  margin-top: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+  display: inline-block;
+}
+
+/* ─── BasicCombinations ──────────────────────────────────────────────────────── */
+.skeu-combo-searchbar {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  align-items: center;
+  max-width: 380px;
+  margin-bottom: var(--space-md, #{$space-md});
+}
+.skeu-combo-searchbar__input {
+  flex: 1;
+}
+.skeu-combo-card-heading {
+  margin: 0;
+  margin-bottom: var(--space-md, #{$space-md});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-combo-card-heading--sm {
+  margin: 0;
+  margin-bottom: var(--space-sm, #{$space-sm});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-combo-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, #{$space-sm});
+}
+.skeu-combo-card-action-row {
+  margin-top: var(--space-md, #{$space-md});
+}
+.skeu-combo-notif {
+  display: flex;
+  gap: var(--space-sm, #{$space-sm});
+  align-items: flex-start;
+}
+.skeu-combo-notif__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  background: var(--color-accent, #{$color-accent});
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.skeu-combo-notif__body {
+  flex: 1;
+}
+.skeu-combo-notif__title {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-sm, #{$font-sm});
+}
+.skeu-combo-notif__desc {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  margin: var(--space-xxs, #{$space-xxs}) 0 var(--space-sm, #{$space-sm});
+}
+.skeu-combo-notif__actions {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-combo-section {
+  margin-bottom: var(--space-md, #{$space-md});
+}
+
+/* ─── LayoutCombinations ─────────────────────────────────────────────────────── */
+.skeu-combo-settings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs, #{$space-xs}) var(--space-sm, #{$space-sm});
+  background: var(--color-bg, #{$color-bg});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-combo-settings__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-combo-settings__label-text {
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-combo-settings__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-combo-settings__value {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-combo-inset {
+  background: var(--color-bg, #{$color-bg});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  padding: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-combo-inset__tags {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+}
+.skeu-combo-inset__desc {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  margin-top: var(--space-xs, #{$space-xs});
+}
+.skeu-combo-inset__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.skeu-combo-inset__icons {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+}
+.skeu-combo-modal-stage {
+  min-height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+.skeu-combo-modal-bg {
+  display: flex;
+  gap: var(--space-sm, #{$space-sm});
+  opacity: 0.25;
+  pointer-events: none;
+}
+.skeu-combo-modal-bg__col {
+  flex: 1;
+}
+.skeu-combo-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-lg, #{$radius-lg});
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.skeu-combo-modal-dialog {
+  width: 240px;
+}
+.skeu-combo-modal-para {
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-muted, #{$color-muted});
+  margin: 0 0 var(--space-sm, #{$space-sm});
+}
+.skeu-combo-modal-actions {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  justify-content: flex-end;
+}
+.skeu-combo-page-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-muted, #{$color-muted});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+
+/* ─── MixedProjectGrid ───────────────────────────────────────────────────────── */
+.skeu-mixed-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-lg, #{$space-lg});
+}
+.skeu-mixed-grid__feat-hero {
+  height: 110px;
+  background: linear-gradient(
+    135deg,
+    var(--color-accent, #{$color-accent}) 0%,
+    var(--color-surface, #{$color-surface}) 60%,
+    var(--color-bg, #{$color-bg}) 100%
+  );
+  border-radius: var(--radius-sm, #{$radius-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color, #{$border-color});
+}
+.skeu-mixed-grid__feat-hero-text {
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  text-align: center;
+}
+.skeu-mixed-grid__feat-hero-sub {
+  opacity: 0.5;
+}
+.skeu-mixed-grid__feat-title {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-base, #{$font-base});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-mixed-grid__feat-desc {
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-muted, #{$color-muted});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-mixed-grid__feat-tools {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-mixed-grid__side-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, #{$space-sm});
+}
+.skeu-mixed-grid__item-hero {
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent, #{$color-accent}),
+    var(--color-bg, #{$color-bg})
+  );
+  border-radius: var(--radius-sm, #{$radius-sm});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+  display: flex;
+  align-items: center;
+  padding-left: var(--space-xs, #{$space-xs});
+  border: 1px solid rgba(128, 128, 128, 0.06);
+}
+.skeu-mixed-grid__item-hero-label {
+  font-size: 10px;
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-mixed-grid__item-title {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-sm, #{$font-sm});
+}
+.skeu-mixed-grid__item-desc {
+  font-size: var(--font-xxs, #{$font-xxs});
+  color: var(--color-muted, #{$color-muted});
+  margin-top: var(--space-xxs, #{$space-xxs});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-mixed-grid__item-tools {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+}
+
+/* ─── ButtonSidebarSection elevation ────────────────────────────────────────── */
+.skeu-elevation-picker {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-elevation-code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  word-break: break-all;
+}
+.skeu-elevation-preview {
+  display: flex;
+  gap: var(--space-sm, #{$space-sm});
+  padding: var(--space-sm, #{$space-sm}) var(--space-xs, #{$space-xs})
+    var(--space-lg, #{$space-lg});
+  background: var(--color-bg, #{$color-bg});
+  border-radius: var(--radius-md, #{$radius-md});
+  border: 1px solid rgba(128, 128, 128, 0.1);
+}
+.skeu-elevation-swatch {
+  flex: 1;
+  padding: var(--space-sm, #{$space-sm});
+  background: var(--color-surface, #{$color-surface});
+  border-radius: var(--radius-md, #{$radius-md});
+  text-align: center;
+}
+.skeu-elevation-swatch__label {
+  font-size: var(--font-xs, #{$font-xs});
+  font-weight: 600;
+  color: var(--color-text, #{$color-text});
+}
+
+/* ─── MobileNavDrawer ────────────────────────────────────────────────────────── */
+.skeu-mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+.skeu-mobile-drawer__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg, #{$overlay-bg});
+}
+.skeu-mobile-drawer__panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--drawer-width, #{$drawer-width});
+  background: var(--color-surface, #{$color-surface});
+  padding: var(--space-md, #{$space-md});
+  overflow-y: auto;
+  z-index: 201;
+  /* Hard offset float off the right edge — drawer sits above the page. */
+  box-shadow: 3px 0 0 0 var(--bevel-dark-shadow);
+}
+.skeu-mobile-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-mobile-drawer__heading {
+  margin: 0;
+}

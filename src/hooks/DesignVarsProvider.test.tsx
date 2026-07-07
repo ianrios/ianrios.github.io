@@ -55,9 +55,9 @@ describe('DesignVarsProvider', () => {
     renderProbe();
     expect(screen.getByTestId('theme')).toHaveTextContent(DEFAULT_THEME);
     expect(stored()).toBeNull();
-    expect(
-      document.documentElement.style.getPropertyValue('--color-bg'),
-    ).toBe('#000000');
+    expect(document.documentElement.style.getPropertyValue('--color-bg')).toBe(
+      '#000000',
+    );
   });
 
   it('editing a token persists theme + override diff only', async () => {

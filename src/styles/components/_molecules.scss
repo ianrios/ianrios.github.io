@@ -1,0 +1,262 @@
+@use '../tokens' as *;
+// @extend targets below (.skeu-nav-link-btn) are defined in atoms-button;
+// Sass extend visibility is module-scoped, so this module must load it too.
+@use 'atoms-button';
+
+/* ─── FormField ──────────────────────────────────────────────────────────────── */
+.skeu-form-field__label {
+  display: block;
+  font-size: var(--font-sm, #{$font-sm});
+  font-weight: 600;
+  color: var(--color-text, #{$color-text});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-form-field__hint {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  margin-top: var(--space-xxs, #{$space-xxs});
+}
+
+/* ─── NavBar child classes ───────────────────────────────────────────────────── */
+.skeu-nav__title {
+  font-weight: 600;
+  color: var(--color-text, #{$color-text});
+}
+.skeu-nav__links {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  align-items: center;
+}
+.skeu-nav .skeu-btn {
+  text-transform: capitalize;
+}
+
+/* ─── NavVertical ────────────────────────────────────────────────────────────── */
+.skeu-nav-vertical {
+  @include surface-elevation('low');
+  width: 160px;
+  padding: var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-md, #{$radius-md});
+}
+.skeu-nav-vertical__title {
+  font-weight: 700;
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-text, #{$color-text});
+  padding: var(--space-xxs, #{$space-xxs}) var(--space-xs, #{$space-xs});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-nav-vertical__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs, #{$space-xxs});
+}
+.skeu-nav-vertical__cta {
+  border-top: 1px solid var(--border-color, #{$border-color});
+  margin-top: var(--space-xxs, #{$space-xxs});
+  padding-top: var(--space-xxs, #{$space-xxs});
+}
+.skeu-nav-vertical .skeu-nav-link-btn {
+  text-transform: capitalize;
+}
+
+/* ─── NavVerticalSections ────────────────────────────────────────────────────── */
+.skeu-nav-sections {
+  @include surface-elevation('low');
+  width: var(--sidebar-width, #{$sidebar-width});
+  padding: var(--space-xs, #{$space-xs});
+  border-radius: var(--radius-md, #{$radius-md});
+}
+.skeu-nav-sections__section {
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-nav-sections__section-btn {
+  @extend .skeu-nav-link-btn;
+  font-weight: 700;
+  font-size: var(--font-sm, #{$font-sm});
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.skeu-nav-sections__caret {
+  font-size: var(--font-xs, #{$font-xs});
+  display: inline-block;
+  opacity: 0.5;
+  transition: transform var(--anim-speed, 0.12s) ease;
+}
+.skeu-nav-sections__section.is-open .skeu-nav-sections__caret {
+  transform: rotate(90deg);
+}
+.skeu-nav-sections__body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--anim-speed, 0.12s) ease;
+  padding-left: var(--space-sm, #{$space-sm});
+}
+.skeu-nav-sections__section.is-open .skeu-nav-sections__body {
+  max-height: 400px;
+}
+.skeu-nav-sections__item-btn {
+  @extend .skeu-nav-link-btn;
+  margin-top: var(--space-xxs, #{$space-xxs});
+  font-size: var(--font-xs, #{$font-xs});
+  &.is-active {
+    background: var(--color-accent, #{$color-accent});
+    color: var(--color-text, #{$color-text});
+    font-weight: 700;
+  }
+}
+.skeu-nav-sections__item {
+  margin-top: var(--space-xxs, #{$space-xxs});
+}
+
+/* ─── CardWithDropdown ───────────────────────────────────────────────────────── */
+.skeu-card-dropdown__trigger {
+  position: relative;
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-card-dropdown__list {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--anim-speed, 0.12s) ease;
+  position: absolute;
+  top: calc(100% + var(--space-xxs, #{$space-xxs}));
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+.skeu-card-dropdown__trigger.is-open .skeu-card-dropdown__list {
+  max-height: 200px;
+}
+.skeu-card-dropdown__opt {
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-card-dropdown__title {
+  margin: 0;
+}
+.skeu-card-dropdown__subtitle {
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-muted, #{$color-muted});
+  margin: var(--space-xxs, #{$space-xxs}) 0 var(--space-sm, #{$space-sm});
+}
+
+/* ─── Accordion ──────────────────────────────────────────────────────────────── */
+.skeu-accordion {
+  @include surface-elevation('low');
+  border-radius: var(--radius-md, #{$radius-md});
+  overflow: hidden;
+}
+.skeu-accordion--inline {
+  background: var(--color-accent, #{$color-accent});
+  box-shadow: none;
+  border-radius: var(--radius-sm, #{$radius-sm});
+}
+.skeu-accordion__item {
+  border-top: 1px solid var(--border-color, #{$border-color});
+  &:first-child {
+    border-top: none;
+  }
+}
+.skeu-accordion__body {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height var(--anim-speed, 0.12s) ease,
+    opacity var(--anim-speed, 0.12s) ease;
+  &.is-open {
+    max-height: 400px;
+    opacity: 1;
+  }
+}
+.skeu-accordion__content {
+  padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md});
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-text, #{$color-text});
+  opacity: 0.8;
+  line-height: var(--line-height-loose, #{$line-height-loose});
+  border-top: 1px solid var(--border-color, #{$border-color});
+}
+.skeu-accordion__caret {
+  font-size: var(--font-xs, #{$font-xs});
+  opacity: 0.55;
+  display: inline-block;
+  transition: transform var(--anim-speed, 0.12s) ease;
+}
+.skeu-accordion-btn.is-open .skeu-accordion__caret {
+  transform: rotate(90deg);
+}
+
+/* ─── ExpandableCard ─────────────────────────────────────────────────────────── */
+.skeu-expandable-card {
+  @include surface-elevation('low');
+  padding: var(--space-md, #{$space-md});
+  border-radius: var(--radius-md, #{$radius-md});
+  user-select: none;
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+/* The header is the real disclosure <button>; the card div stays inert so
+   interactive content (badge links) never nests inside a button. */
+.skeu-expandable-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.skeu-expandable-card__title {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-base, #{$font-base});
+}
+.skeu-expandable-card__meta {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  margin-top: 2px;
+}
+.skeu-expandable-card__caret {
+  font-size: var(--font-base, #{$font-base});
+  color: var(--color-muted, #{$color-muted});
+  flex-shrink: 0;
+  display: inline-block;
+  transition: transform var(--anim-speed, 0.12s) ease;
+}
+.skeu-expandable-card.is-open .skeu-expandable-card__caret {
+  transform: rotate(180deg);
+}
+.skeu-expandable-card__body {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height var(--anim-speed, 0.12s) ease,
+    opacity var(--anim-speed, 0.12s) ease;
+  &.is-open {
+    max-height: 400px;
+    opacity: 1;
+  }
+}
+.skeu-expandable-card__divider {
+  margin-top: var(--space-sm, #{$space-sm});
+  border-top: 1px solid var(--border-color, #{$border-color});
+  padding-top: var(--space-sm, #{$space-sm});
+}
+.skeu-expandable-card__tags {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-expandable-card__bullet {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-text, #{$color-text});
+  opacity: 0.8;
+  padding-left: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+  border-left: 2px solid var(--color-accent, #{$color-accent});
+}

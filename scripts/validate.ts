@@ -28,6 +28,7 @@ import {
 const MAX_MD_FILES = 25;
 const MAX_MD_LINES = 80;
 const MAX_CODE_LINES = 250;
+const MAX_SCSS_LINES = 600;
 const MAX_MD_STORY_LINES = 280;
 
 const IGNORE_DIRS = new Set([
@@ -147,6 +148,15 @@ for (const file of codeFiles) {
   }
 }
 
+const scssFiles = allFiles.filter((f) => extname(f) === '.scss');
+for (const file of scssFiles) {
+  const content = readFileSync(file, 'utf-8');
+  const lines = countLines(content);
+  if (lines > MAX_SCSS_LINES) {
+    flag('code-size', `${file}: ${lines} lines (max ${MAX_SCSS_LINES})`);
+  }
+}
+
 // [eslint-disable]
 const disableRe = /\/\/.*(eslint-disable)|(\/\*.*eslint-disable.*\*\/)/;
 
@@ -175,10 +185,11 @@ const read = (...parts: string[]): string =>
 const rootVars = parseRootVars(read('src', 'styles', '_base.scss'));
 const scssTokens = parseScssTokens(read('src', 'styles', '_tokens.scss'));
 // All SCSS sources concatenated — [token-unused] greps these for var() use.
-const scssAll =
-  read('src', 'styles', '_base.scss') +
-  read('src', 'styles', '_components.scss') +
-  read('src', 'styles', '_tokens.scss');
+// Recursive so it still sees every consumer after the component-tier split.
+const scssAll = walkDir(join('src', 'styles'))
+  .filter((f) => f.endsWith('.scss'))
+  .map((f) => readFileSync(f, 'utf-8'))
+  .join('\n');
 const specimenSrc = read(
   'src',
   'pages',

@@ -1,0 +1,214 @@
+@use '../tokens' as *;
+
+// Component styles using the Classic Windows 3D bevel tokens and mixins
+//
+// Hardcoded-value policy: content-bearing text and every color / spacing /
+// radius / shadow use tokens. Intentionally FIXED literals are limited to
+// micro-chrome — badge text, push-tab letters, admin annotations and section
+// labels (9-13px), icon-only button padding (aspect-ratio driven), and the
+// splash screen (sits on the fixed-black canvas, not the themed bg). These
+// label the chrome, not the content, and must stay readable at any theme
+// scale. Anything else hardcoded is a bug.
+
+// Surface containers alias the bg-derived --bevel-* tones to the surface-derived
+// set, so every control nested inside (button, link, input, slider, switch)
+// inherits surface-blended bevel tones and its edges melt into the card surface
+// rather than the page background.
+.skeu-card,
+.skeu-nav,
+.skeu-nav-vertical,
+.skeu-nav-sections,
+.skeu-accordion,
+.skeu-expandable-card,
+.skeu-modal,
+.skeu-admin-sidebar {
+  --bevel-highlight: var(--bevel-surface-highlight);
+  --bevel-light: var(--bevel-surface-light);
+  --bevel-shadow: var(--bevel-surface-shadow);
+  --bevel-dark-shadow: var(--bevel-surface-dark-shadow);
+}
+
+.skeu-card {
+  @include surface-elevation('low');
+  padding: var(--space-md, #{$space-md});
+  border-radius: var(--radius-md, #{$radius-md});
+  background: var(--color-surface, #{$color-surface});
+  border: none;
+  position: relative;
+  max-width: var(--card-max-width, none);
+}
+
+// Basic form controls
+.skeu-input {
+  padding: var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: none;
+  background: var(--color-surface, #{$color-surface});
+  color: var(--color-text, #{$color-text});
+  /* Parametric sunken field edge — geometry/softness follow the --depth-* vars. */
+  @include bevel-groove;
+  transition: box-shadow var(--anim-speed, 0.12s) ease;
+  &::placeholder {
+    color: var(--color-muted, #{$color-muted});
+    opacity: 1;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/* Full-width input */
+.skeu-input--full {
+  display: block;
+  width: 100%;
+}
+
+/* Custom range slider — replaces stock <input type="range">.
+   Set --slider-pct inline (e.g. style={{ "--slider-pct": "42%" }}) for the colored fill. */
+.skeu-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+  width: 100%;
+  min-width: 0;
+}
+
+.skeu-slider-label {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  white-space: nowrap;
+}
+
+.skeu-slider-value {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  min-width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Filled progress track (■■■■■====]): an accent fill runs up to --slider-pct,
+   the remainder is the surface base color. No thumb — the fill boundary marks
+   the value. The bar carries the parametric sunken edge as its outline. */
+.skeu-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  height: 14px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  outline: none;
+  cursor: pointer;
+  border: none;
+  /* Sunken groove (parametric) is the bar's outline. */
+  @include bevel-groove;
+  background: linear-gradient(
+    to right,
+    var(--color-accent, #{$color-accent}) 0%,
+    var(--color-accent, #{$color-accent}) var(--slider-pct, 50%),
+    var(--color-surface, #{$color-surface}) var(--slider-pct, 50%),
+    var(--color-surface, #{$color-surface}) 100%
+  );
+
+  /* No visible thumb — keep an invisible draggable strip so the native range
+     input stays operable; the filled portion communicates the value. */
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2px;
+    height: 14px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 2px;
+    height: 14px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+  }
+}
+
+/* ValueInput — compact labeled text/number input for token editing (hex, rgba, elevation) */
+.skeu-value-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+  width: 100%;
+  min-width: 0;
+}
+
+.skeu-value-input {
+  @extend .skeu-input;
+  padding: 3px var(--space-xs, #{$space-xs});
+  font-size: var(--font-xs, #{$font-xs});
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  min-width: 0;
+  flex: 1;
+}
+
+// Small site nav used in preview
+.skeu-nav {
+  @include surface-elevation('low');
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-md, #{$radius-md});
+  margin-bottom: 12px;
+}
+
+/* Card variant modifiers — background only. Surface buttons/links inside a variant card
+   automatically match the card bg via the cascade rules below.                          */
+.skeu-card--accent {
+  background: var(--color-accent, #{$color-accent});
+}
+.skeu-card--muted {
+  background: var(--color-muted, #{$color-muted});
+}
+
+/* Card padding modifiers */
+.skeu-card--padding-none {
+  padding: 0;
+}
+
+.skeu-card--padding-xxs {
+  padding: var(--space-xxs, #{$space-xxs});
+}
+
+.skeu-card--padding-xs {
+  padding: var(--space-xs, #{$space-xs});
+}
+
+.skeu-card--padding-sm {
+  padding: var(--space-sm, #{$space-sm});
+}
+
+/* Cascade: surface buttons and links inside a card variant inherit the card's bg color
+   so they sit flush with the card surface, not floating above a mismatched color.       */
+.skeu-card--accent .skeu-btn {
+  background: var(--color-accent, #{$color-accent});
+}
+
+.skeu-card--muted .skeu-btn {
+  background: var(--color-muted, #{$color-muted});
+}
+
+.skeu-card-grid {
+  display: grid;
+  gap: var(--space-md, #{$space-md});
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  margin-bottom: var(--space-lg, #{$space-lg});
+}
+
+/* Icon base layout */
+.skeu-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}

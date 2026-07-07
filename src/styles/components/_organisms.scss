@@ -1,0 +1,161 @@
+@use '../tokens' as *;
+
+/* ─── MasonryCard ────────────────────────────────────────────────────────────── */
+.skeu-masonry-card__meta {
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-muted, #{$color-muted});
+  margin: var(--space-xxs, #{$space-xxs}) 0;
+}
+.skeu-masonry-card__title {
+  margin-bottom: var(--space-xs, #{$space-xs});
+  font-weight: 700;
+}
+.skeu-masonry-card__img {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-masonry-card__divider {
+  border-color: var(--border-color, #{$border-color});
+  border-style: solid;
+  border-width: 1px 0 0 0;
+  margin: var(--space-xs, #{$space-xs}) 0;
+}
+.skeu-masonry-card__tool-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxs, #{$space-xxs});
+  color: var(--color-text, #{$color-text});
+  font-weight: 600;
+  font-size: var(--font-sm, #{$font-sm});
+  font-family: inherit;
+  padding: 0;
+}
+.skeu-masonry-card__tools {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+  margin-top: var(--space-xxs, #{$space-xxs});
+}
+.skeu-masonry-card__links {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  margin-top: var(--space-sm, #{$space-sm});
+  flex-wrap: wrap;
+  align-items: center;
+}
+.skeu-masonry-card__body {
+  margin-top: var(--space-xs, #{$space-xs});
+}
+
+/* ─── ContactModal ───────────────────────────────────────────────────────────── */
+.skeu-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.skeu-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg, #{$overlay-bg});
+}
+.skeu-modal {
+  @include surface-elevation('high');
+  position: relative;
+  z-index: 1;
+  width: min(var(--modal-max-width, #{$modal-max-width}), 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, #{$space-sm});
+  padding: var(--space-md, #{$space-md});
+  border-radius: var(--radius-md, #{$radius-md});
+}
+.skeu-modal__footer {
+  text-align: right;
+}
+.skeu-modal__iframe {
+  border: none;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ─── PageLayout ─────────────────────────────────────────────────────────────── */
+.skeu-page-layout {
+  background: var(--color-bg, #{$color-bg});
+  color: var(--color-text, #{$color-text});
+  padding: var(--space-lg, #{$space-lg});
+  border-radius: var(--radius-lg, #{$radius-lg});
+}
+
+/* ─── PortfolioSidebar ───────────────────────────────────────────────────────── */
+.skeu-sidebar__heading {
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-sidebar-skills {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-sidebar-links {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-xxs, #{$space-xxs});
+  font-size: var(--font-sm, #{$font-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+  list-style: none;
+  padding: 0;
+  &.is-open {
+    display: flex;
+  }
+}
+
+/* ─── PushPanel ──────────────────────────────────────────────────────────────── */
+.skeu-push-panel {
+  display: flex;
+  flex-shrink: 0;
+  height: 100%;
+  align-self: stretch;
+}
+.skeu-push-panel__clip {
+  overflow: hidden;
+  flex-shrink: 0;
+  height: 100%;
+  transition: width var(--anim-speed, 0.12s) ease;
+  width: var(--panel-width, 0px);
+}
+.skeu-push-panel__inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color, #{$border-color});
+  width: 100%;
+}
+.skeu-push-panel__header {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color, #{$border-color});
+}
+.skeu-push-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-xs, #{$space-xs});
+}
+.skeu-push-tab.is-hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--anim-speed-slow, 0.5s) ease,
+    opacity var(--anim-speed-slow, 0.5s) ease;
+}

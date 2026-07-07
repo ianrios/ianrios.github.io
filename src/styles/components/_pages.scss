@@ -1,0 +1,13 @@
+@use '../tokens' as *;
+
+/* ─── ThreeScene ─────────────────────────────────────────────────────────────── */
+.skeu-scene-container {
+  position: fixed;
+  inset: 0;
+}
+.skeu-scene-back {
+  position: fixed;
+  top: var(--space-sm, #{$space-sm});
+  left: var(--space-sm, #{$space-sm});
+  z-index: 10;
+}

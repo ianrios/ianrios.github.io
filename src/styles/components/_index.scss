@@ -1,0 +1,9 @@
+// Tier-scoped component partials, forwarded in the same order the original
+// monolithic _components.scss defined them in (cascade order matters).
+@forward 'atoms';
+@forward 'atoms-button';
+@forward 'molecules';
+@forward 'organisms';
+@forward 'pages';
+@forward 'admin';
+@forward 'admin-preview';
