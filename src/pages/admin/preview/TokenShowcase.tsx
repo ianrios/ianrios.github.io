@@ -61,16 +61,16 @@ export function TokenShowcase() {
         </div>
       </div>
 
-      <SectionLabel>Modal panel — --modal-max-width</SectionLabel>
+      <SectionLabel>Modal panel: --modal-max-width</SectionLabel>
       <div
         className="skeu-token-modal-panel"
         style={{ width: 'min(var(--modal-max-width), 100%)' }}
       >
-        modal-max-width · {cssVar('--modal-max-width')} — panel at
+        modal-max-width · {cssVar('--modal-max-width')}, panel at
         min(var(--modal-max-width), 100%)
       </div>
 
-      <SectionLabel>Overlay scrim — --overlay-bg</SectionLabel>
+      <SectionLabel>Overlay scrim: --overlay-bg</SectionLabel>
       <div className="skeu-token-scrim-stage">
         <div className="skeu-token-scrim-content">
           Content sitting behind the scrim
@@ -81,25 +81,25 @@ export function TokenShowcase() {
         />
       </div>
 
-      <SectionLabel>Slow transition — --anim-speed-slow</SectionLabel>
+      <SectionLabel>Slow transition: --anim-speed-slow</SectionLabel>
       <SlowAnimSpecimen />
 
-      <SectionLabel>Caption — --font-xxs</SectionLabel>
+      <SectionLabel>Caption: --font-xxs</SectionLabel>
       <span
         className="skeu-token-caption-sample"
         style={{ fontSize: 'var(--font-xxs)' }}
       >
-        Caption text — timestamps, footnotes, image credits ({' '}
+        Caption text: timestamps, footnotes, image credits ({' '}
         {cssVar('--font-xxs')} )
       </span>
 
-      <SectionLabel>Loose paragraph — --line-height-loose</SectionLabel>
+      <SectionLabel>Loose paragraph: --line-height-loose</SectionLabel>
       <p
         className="skeu-token-lineheight-sample"
         style={{ lineHeight: 'var(--line-height-loose)' }}
       >
         The quick brown fox jumps over the lazy dog. Pack my box with five dozen
-        liquor jugs. How vexingly quick daft zebras jump — a multi-line body set
+        liquor jugs. How vexingly quick daft zebras jump, a multi-line body set
         at the loose line height so leading changes are visible as you drag the
         control.
       </p>

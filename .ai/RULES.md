@@ -31,3 +31,7 @@ The inner (`skeu-push-panel__inner`) must use `width: 100%` — NOT a CSS variab
 **Why:** The clip establishes a BFC via `overflow: hidden` and is the containing block. With `width: 100%`, the inner always equals the clip's current rendered width. Using a CSS variable gives the inner a fixed pixel value that may differ from the clip's actual width (e.g., if the variable value and the clip's computed width diverge due to the CSS variable chain). This causes content inside to be wider than the clip, which appears as overflow even though the clip should clip it.
 
 **Result:** The previous approach of `--panel-open-width` on the inner was architecturally wrong. Content sizing must derive from the clip's actual box, not a parallel variable.
+
+## Copy style
+
+No em dashes or en dashes in production copy (user-visible strings, data.ts, README). Use a colon, comma, or rewrite.

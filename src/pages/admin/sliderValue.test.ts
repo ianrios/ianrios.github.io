@@ -4,7 +4,7 @@ import { getControl } from '../../styles/token-registry';
 
 // Regression guard for the motion-slider snap-back bug: a value parsing to 0
 // must survive (the old `parseFloat(...) || fallback` reverted it to default).
-describe('msVal — seconds string → slider ms', () => {
+describe('msVal: seconds string → slider ms', () => {
   it('keeps a true 0 instead of reverting to the fallback', () => {
     expect(msVal('0s', 0.12)).toBe(0);
   });
@@ -24,7 +24,7 @@ describe('msVal — seconds string → slider ms', () => {
   });
 });
 
-describe('pctVal — ratio string → slider percent', () => {
+describe('pctVal: ratio string → slider percent', () => {
   it('keeps a true 0 instead of reverting to the fallback', () => {
     expect(pctVal('0', 1.5)).toBe(0);
   });
@@ -39,7 +39,7 @@ describe('pctVal — ratio string → slider percent', () => {
   });
 });
 
-describe('numVal — raw number (px stripped, decimals kept)', () => {
+describe('numVal: raw number (px stripped, decimals kept)', () => {
   it('keeps a true 0 instead of reverting to the fallback', () => {
     // depth-intensity dragged to the far left must hold at 0.
     expect(numVal('0', 0.6)).toBe(0);

@@ -2,9 +2,9 @@
 
 ## Progressive disclosure
 
-One fact in one file. Never duplicate across docs. Don't restate what's
-in source files or config — infer it. Write docs only for: non-obvious
-constraints, external causes, things that burned time before.
+One fact in one file; never duplicate across docs or restate what source
+files show — infer it. Write docs only for non-obvious constraints, external
+causes, and things that burned time before.
 
 ## Planning convention
 
@@ -22,10 +22,11 @@ contents. Planning agents do not write code.
 ## Orchestration model
 
 The agent Ian talks to acts as an **orchestrator**, not a solo implementer:
-plan → delegate → peer-review → gate on Ian's approval. Spawn subagents for
-fan-out reads and parallel implementation of independent phases; do the
-synthesis, plan, and final review yourself. Work inline for small single-surface
-edits. Subagents start cold — give each the plan plus only the files it needs.
+plan → delegate → peer-review → gate on Ian's approval. Do synthesis, plans,
+and final review yourself; work inline for small single-surface edits. Scoped
+implementation with a precise brief goes to a lower-power-model subagent with
+an explicit file allowlist (shared files = conflicts); subagents start cold,
+verify with the repo gates, and never commit.
 
 ## Epics and sub-plans
 
@@ -68,13 +69,9 @@ atoms from `src/components/atoms/`, `skeu-*` class names from `_components.scss`
 No hardcoded values. No Bootstrap classes.
 
 Tokens have one source of truth: `src/styles/token-registry.ts` — add/change
-tokens there, never in a parallel array. Every editable token needs a control, a
-real CSS effect, and a live preview example (control↔effect↔example; nine drift
-checks in `scripts/drift-checks.ts` gate `npm run check`, listed in `CLAUDE.md`).
+tokens there, never in a parallel array. Every editable token needs a control,
+a real CSS effect, and a live preview example (control↔effect↔example; ten
+drift checks gate `npm run check`, listed in `CLAUDE.md`).
 
 Every component in `src/components/` needs an accurate demo in the grouped preview
 nav under `src/pages/admin/preview/` (`demo-missing` check) — stale demos are bugs.
-
-## Anti-patterns
-
-See `.ai/ANTI-PATTERNS.md` — failures requiring multiple steering corrections.

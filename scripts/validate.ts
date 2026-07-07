@@ -25,10 +25,6 @@ import {
   reachableFrom,
 } from './drift-checks.ts';
 
-// Flip `asError` to true in step 1c so the drift checks fail `npm run check`.
-// Object property (not a literal const) so the type stays `boolean`.
-const DRIFT = { asError: true };
-
 const MAX_MD_FILES = 25;
 const MAX_MD_LINES = 80;
 const MAX_CODE_LINES = 250;
@@ -60,19 +56,6 @@ type ViolationType =
   | 'token-specimen'
   | 'demo-missing';
 
-const DRIFT_TYPES: ViolationType[] = [
-  'token-sync',
-  'control-sync',
-  'defaults-sync',
-  'default-value-sync',
-  'preset-token',
-  'theme-control',
-  'token-unused',
-  'token-example',
-  'token-specimen',
-  'demo-missing',
-];
-
 interface Violation {
   type: ViolationType;
   message: string;
@@ -89,8 +72,14 @@ function countLines(content: string): number {
   return content.split('\n').length - (content.endsWith('\n') ? 1 : 0);
 }
 
+// Only the real data manifests are exempt from [code-size] — naming a file
+// *Data.ts does not buy an exemption.
+const DATA_FILES = new Set([
+  join('src', 'data.ts'),
+  join('src', 'pages', 'admin', 'adminData.ts'),
+]);
 function isDataFile(f: string): boolean {
-  return /[Dd]ata\.[jt]sx?$/.test(f) || f.includes('/data/');
+  return DATA_FILES.has(f);
 }
 
 function walkDir(dir: string): string[] {
@@ -246,25 +235,13 @@ for (const [type, messages] of driftChecks) {
 }
 
 // ─── Report ───────────────────────────────────────────────────────────────
-const hard = violations.filter((v) => !DRIFT_TYPES.includes(v.type));
-const drift = violations.filter((v) => DRIFT_TYPES.includes(v.type));
-const fatal = DRIFT.asError ? violations : hard;
-
-if (drift.length > 0 && !DRIFT.asError) {
-  console.error('\n⚠️  Token drift (warnings - will become errors):\n');
-  for (const v of drift) {
-    console.error(`  [${v.type.padEnd(14)}] ${v.message}`);
-  }
-  console.error('');
-}
-
-if (fatal.length === 0) {
+if (violations.length === 0) {
   console.error('✅ Validation passed');
   process.exit(0);
 }
 
 console.error('\n❌ Validation failed:\n');
-for (const v of fatal) {
+for (const v of violations) {
   console.error(`  [${v.type.padEnd(14)}] ${v.message}`);
 }
 console.error('');

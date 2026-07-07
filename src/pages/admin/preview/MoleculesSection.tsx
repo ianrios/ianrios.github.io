@@ -29,7 +29,7 @@ export function MoleculesSection() {
         </div>
       </div>
 
-      <SectionLabel>Card — primary actions</SectionLabel>
+      <SectionLabel>Card: primary actions</SectionLabel>
       <div className="skeu-preview-section">
         <Card maxWidth={320}>
           <h4 className="skeu-card-demo-heading">Card title</h4>
@@ -49,7 +49,7 @@ export function MoleculesSection() {
         </Card>
       </div>
 
-      <SectionLabel>Card — surface actions</SectionLabel>
+      <SectionLabel>Card: surface actions</SectionLabel>
       <div className="skeu-preview-section">
         <Card maxWidth={320}>
           <h4 className="skeu-card-demo-heading">Settings</h4>
@@ -73,7 +73,7 @@ export function MoleculesSection() {
         </Card>
       </div>
 
-      <SectionLabel>Card — color variants</SectionLabel>
+      <SectionLabel>Card: color variants</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section">
         {CARD_COLOR_VARIANTS.map(({ label, variant }) => (
           <Card key={label} {...(variant ? { variant } : {})}>
@@ -106,17 +106,17 @@ export function MoleculesSection() {
         <CardWithDropdown {...DROPDOWN_DEMO} />
       </div>
 
-      <SectionLabel>Nav — horizontal (link-style)</SectionLabel>
+      <SectionLabel>Nav: horizontal (link-style)</SectionLabel>
       <div className="skeu-preview-section--sm">
         <NavBar variant="links" pages={['home', 'work']} />
       </div>
 
-      <SectionLabel>Nav — horizontal (interactive active state)</SectionLabel>
+      <SectionLabel>Nav: horizontal (interactive active state)</SectionLabel>
       <div className="skeu-preview-section">
         <NavBar />
       </div>
 
-      <SectionLabel>Nav — vertical (button variant)</SectionLabel>
+      <SectionLabel>Nav: vertical (button variant)</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section--sm">
         <NavVertical />
         <div className="skeu-preview-sidebar-desc">
@@ -124,15 +124,15 @@ export function MoleculesSection() {
         </div>
       </div>
 
-      <SectionLabel>Nav — vertical (link variant)</SectionLabel>
+      <SectionLabel>Nav: vertical (link variant)</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section">
         <NavVertical variant="links" />
         <div className="skeu-preview-sidebar-desc">
-          Flat link buttons — no elevation, accent bg on hover/active
+          Flat link buttons, no elevation, accent bg on hover/active
         </div>
       </div>
 
-      <SectionLabel>Accordion — standalone</SectionLabel>
+      <SectionLabel>Accordion: standalone</SectionLabel>
       <div className="skeu-accordion-demo">
         <Accordion items={ACCORDION_ITEMS} />
       </div>

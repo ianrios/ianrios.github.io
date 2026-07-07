@@ -62,7 +62,7 @@ export function PresetSelect({
             onSelect(e.target.value || null);
           }}
         >
-          <option value="">— choose —</option>
+          <option value="">choose a theme</option>
           {presets.map((p) => (
             <option key={p.name} value={p.name}>
               {p.name}

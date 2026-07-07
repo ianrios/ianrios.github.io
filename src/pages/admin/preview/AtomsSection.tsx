@@ -38,7 +38,7 @@ export function AtomsSection() {
       <TierLabel>Atoms</TierLabel>
 
       <SectionLabel>
-        Button — variant × size · button / link / icon-only
+        Button: variant × size · button / link / icon-only
       </SectionLabel>
       <div className="skeu-preview-section">
         {BUTTON_VARIANTS.map((variant) => (
@@ -68,7 +68,7 @@ export function AtomsSection() {
         </div>
       </div>
 
-      <SectionLabel>Button — color axis (outline) · disabled</SectionLabel>
+      <SectionLabel>Button: color axis (outline) · disabled</SectionLabel>
       <div className="skeu-preview-section">
         <div className="skeu-preview-flex">
           {BUTTON_COLORS.map((color) => (
@@ -93,7 +93,7 @@ export function AtomsSection() {
         </div>
       </div>
 
-      <SectionLabel>Icon — SVG + Unicode glyph atom</SectionLabel>
+      <SectionLabel>Icon: SVG + Unicode glyph atom</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section">
         {ICON_SAMPLES.map((name) => (
           <span key={name} className="skeu-preview-icon-cell" title={name}>
@@ -118,7 +118,7 @@ export function AtomsSection() {
         <Input placeholder="Text input (tab to see focus ring)" fullWidth />
       </div>
 
-      <SectionLabel>ValueInput — compact token editor input</SectionLabel>
+      <SectionLabel>ValueInput: compact token editor input</SectionLabel>
       <div className="skeu-preview-col-group">
         <ValueInput
           label="Hex color"
@@ -140,7 +140,7 @@ export function AtomsSection() {
         />
       </div>
 
-      <SectionLabel>Slider — custom range input atom</SectionLabel>
+      <SectionLabel>Slider: custom range input atom</SectionLabel>
       <div className="skeu-preview-col-group">
         <Slider
           label="Opacity"
@@ -171,7 +171,7 @@ export function AtomsSection() {
         />
       </div>
 
-      <SectionLabel>Switch — neumorphic toggle atom</SectionLabel>
+      <SectionLabel>Switch: neumorphic toggle atom</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section">
         <Switch
           checked={switchOn}
@@ -186,7 +186,7 @@ export function AtomsSection() {
         </span>
       </div>
 
-      <SectionLabel>ColorPicker — styled color input atom</SectionLabel>
+      <SectionLabel>ColorPicker: styled color input atom</SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section">
         <ColorPicker value="#39ff14" onChange={() => undefined} title="Green" />
         <ColorPicker value="#4da6ff" onChange={() => undefined} title="Blue" />

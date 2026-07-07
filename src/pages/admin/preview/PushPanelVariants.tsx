@@ -61,20 +61,20 @@ function HeaderDemo() {
 export function PushPanelVariants() {
   return (
     <>
-      <SectionLabel>PushPanel — tab variant comparison (pick one)</SectionLabel>
+      <SectionLabel>PushPanel: tab variant comparison (pick one)</SectionLabel>
       <div className="skeu-push-grid">
-        <VariantDemo variant="stacked" label="Original — stacked letters" />
-        <VariantDemo variant="rotated" label="A — rotated text + chevron" />
-        <VariantDemo variant="grip" label="B — grip handle + chevron" />
-        <VariantDemo variant="pill" label="C — pill, chevron only" />
+        <VariantDemo variant="stacked" label="Original: stacked letters" />
+        <VariantDemo variant="rotated" label="A: rotated text + chevron" />
+        <VariantDemo variant="grip" label="B: grip handle + chevron" />
+        <VariantDemo variant="pill" label="C: pill, chevron only" />
       </div>
 
-      <SectionLabel>PushPanel — header prop</SectionLabel>
+      <SectionLabel>PushPanel: header prop</SectionLabel>
       <div className="skeu-push-grid--header">
         <HeaderDemo />
         <div className="skeu-push-grid__desc">
           <code className="skeu-code-inline">header</code> renders above the
-          scrollable body in a fixed zone — ideal for back links, panel titles,
+          scrollable body in a fixed zone, ideal for back links, panel titles,
           or persistent actions. The body scrolls independently beneath it.
         </div>
       </div>

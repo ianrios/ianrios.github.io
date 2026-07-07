@@ -18,7 +18,7 @@ export function V2Preview() {
   return (
     <div className="skeu-preview-page-frame skeu-v2-preview">
       <h3 className="skeu-admin-section-heading">
-        Portfolio v2 — Layout Exploration
+        Portfolio v2: Layout Exploration
       </h3>
       <p className="skeu-v2-desc">
         Click role cards to expand. Patterns from portfolio-overhaul.md.
@@ -40,12 +40,15 @@ export function V2Preview() {
       </div>
 
       <SectionLabel>
-        Expandable experience (organism — molecule × N)
+        Expandable experience (organism: molecule × N)
       </SectionLabel>
+      <div className="skeu-preview-note">
+        Sample data for layout preview, not a real work history.
+      </div>
       <ExpandableCard
         title="Senior Frontend Engineer"
         company="Built Technologies"
-        period="2022–now"
+        period="2022 to now"
         tech={['TypeScript', 'React', 'Three.js', 'Python', 'MySQL']}
         bullets={[
           'Budget versioning & change order system',
@@ -56,8 +59,8 @@ export function V2Preview() {
       />
       <ExpandableCard
         title="Frontend Engineer"
-        company="Previous Co"
-        period="2020–2022"
+        company="Sample Co"
+        period="2020 to 2022"
         tech={['React', 'Redux', 'Node.js', 'CSS']}
         bullets={[
           'Internal tooling dashboard',
@@ -67,12 +70,12 @@ export function V2Preview() {
       />
 
       <SectionLabel>
-        Mixed-density project grid — without images (organism)
+        Mixed-density project grid: without images (organism)
       </SectionLabel>
       <MixedProjectGrid showImages={false} />
 
       <SectionLabel>
-        Mixed-density project grid — with images (organism)
+        Mixed-density project grid: with images (organism)
       </SectionLabel>
       <MixedProjectGrid showImages={true} />
     </div>

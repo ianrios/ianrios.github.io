@@ -26,7 +26,7 @@ export function OrgCombinations() {
 
   return (
     <>
-      <SectionLabel>PortfolioSidebar — full nav organism</SectionLabel>
+      <SectionLabel>PortfolioSidebar: full nav organism</SectionLabel>
       <div className="skeu-org-sidebar-demo">
         <div className="skeu-org-sidebar-demo__nav">
           <Card padding="sm">
@@ -51,7 +51,7 @@ export function OrgCombinations() {
         </div>
       </div>
 
-      <SectionLabel>ContactModal — card overlay</SectionLabel>
+      <SectionLabel>ContactModal: card overlay</SectionLabel>
       <div className="skeu-preview-section">
         <Button
           variant="outline"

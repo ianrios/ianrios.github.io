@@ -11,7 +11,7 @@ export const independentProjectsData: ProjectData[] = [
     title: 'Live Design System',
     year: 2024,
     activelyMaintained: true,
-    body: 'A neumorphic design system you can edit live in the browser - adjust colors, shadows, spacing, motion, and radii and watch the whole component library update instantly.',
+    body: 'A parametric Classic Windows bevel design system you can edit live in the browser - adjust colors, shadows, spacing, motion, and radii and watch the whole component library update instantly.',
     live: '/design-system',
     href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/pages/admin',
     tools: ['React', 'SCSS', 'CSS Custom Properties', 'JavaScript'],
@@ -38,7 +38,7 @@ export const independentProjectsData: ProjectData[] = [
     year: 2021,
     activelyMaintained: false,
     img_src_arr: ['./img/takb.png'],
-    body: 'An reverse-entropy based algorithm for optimizing song order for playlists. Built within a self-contained streaming platform on a single album of music meant to be played on shuffle. Showcased as an interactive installation at the Studio 300 Music and Art Conference.',
+    body: 'A reverse-entropy based algorithm for optimizing song order for playlists. Built within a self-contained streaming platform on a single album of music meant to be played on shuffle. Showcased as an interactive installation at the Studio 300 Music and Art Conference.',
     href: 'https://github.com/ianrios/the-algo-knows-best',
     live: 'https://the-algorithm-knows-best.web.app',
     tools: [
@@ -83,19 +83,6 @@ export const independentProjectsData: ProjectData[] = [
     live: '',
     tools: ['React', 'Bootstrap', 'JavaScript', 'Python', 'Twitter API'],
   },
-  //   {
-  //     title: "Twitterbot API",
-  //     img_src_arr: [],
-  //     href: "https://github.com/ianrios/twitterbot",
-  //     live: "",
-  //   },
-  // {
-  //     title: "PLant lOG",
-  //     img_src_arr: ["./",],
-  //     body: "",
-  //     href: "https://github.com/ianrios/plog",
-  //     live: ""
-  // },
   {
     title: 'neThing',
     year: 2018,

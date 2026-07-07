@@ -7,7 +7,7 @@ import { SectionLabel } from '../AdminUI';
 export function BasicCombinations() {
   return (
     <>
-      <SectionLabel>Search bar — Input + Button inline</SectionLabel>
+      <SectionLabel>Search bar: Input + Button inline</SectionLabel>
       <div className="skeu-combo-searchbar">
         <div className="skeu-combo-searchbar__input">
           <Input placeholder="Search projects…" fullWidth />
@@ -17,7 +17,7 @@ export function BasicCombinations() {
         </Button>
       </div>
 
-      <SectionLabel>Login card — Card → FormField × 2 + Button</SectionLabel>
+      <SectionLabel>Login card: Card → FormField × 2 + Button</SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={300}>
           <h4 className="skeu-combo-card-heading">Sign in</h4>
@@ -41,7 +41,7 @@ export function BasicCombinations() {
       </div>
 
       <SectionLabel>
-        Notification card — Card → Icon + text + actions
+        Notification card: Card → Icon + text + actions
       </SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={340}>

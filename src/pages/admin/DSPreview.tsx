@@ -42,7 +42,7 @@ export function DSPreview({ exportText }: { exportText: string }) {
 
       <div className="skeu-preview-page-frame">
         <div className="skeu-ds-annotation">
-          Page — padding = space-lg · border-radius = radius-lg · bg = color-bg
+          Page: padding = space-lg · border-radius = radius-lg · bg = color-bg
         </div>
         {current.render()}
       </div>

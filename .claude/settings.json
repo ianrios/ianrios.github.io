@@ -4,9 +4,25 @@
       "Bash(npm run check:*)",
       "Bash(npm run build:*)",
       "Bash(npm run test:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run format:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run dev:*)",
       "Bash(npm test:*)",
       "Bash(npx eslint:*)",
       "Bash(npx tsc:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npx vitest:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
       "Bash(tail:*)",
       "Bash(head:*)",
       "Bash(grep:*)",
@@ -16,7 +32,9 @@
       "Bash(echo:*)",
       "Bash(sed:*)",
       "Bash(perl:*)",
-      "Bash(uniq:*)"
+      "Bash(uniq:*)",
+      "Bash(lsof:*)",
+      "Bash(pkill -f vite:*)"
     ]
   }
 }

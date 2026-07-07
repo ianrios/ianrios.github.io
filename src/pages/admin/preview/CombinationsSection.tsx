@@ -7,7 +7,7 @@ export function CombinationsSection() {
     <>
       <TierLabel>Patterns</TierLabel>
       <div className="skeu-preview-note skeu-preview-section">
-        Real compositions — Page wraps content with color-bg + space-lg. Cards
+        Real compositions: Page wraps content with color-bg + space-lg. Cards
         are surfaces inside it. Groups are separated by a space-xl section gap.
       </div>
       <div className="skeu-combo-tiers">

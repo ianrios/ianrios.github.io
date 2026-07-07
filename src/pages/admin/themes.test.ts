@@ -17,7 +17,7 @@ const WRITABLE = new Set(
   ),
 );
 
-describe('THEMES — complete theme presets', () => {
+describe('THEMES: complete theme presets', () => {
   it('mirrors the [preset-token] rule: every key is a real registry var', () => {
     for (const theme of THEMES) {
       for (const key of Object.keys(theme.vars)) {

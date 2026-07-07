@@ -74,12 +74,12 @@ export const TOKEN_REGISTRY: TokenDef[] = [
   { cssVar: '--border-color', category: 'chrome', default: 'rgba(255,255,255,0.6)', control: color('Border') },
   { cssVar: '--overlay-bg', category: 'chrome', default: 'rgba(0,0,0,0.85)', control: color('Overlay') },
   // ── Spacing ─────────────────────────────────────────────────────────────
-  { cssVar: '--space-xxs', category: 'spacing', default: '4px', control: range('XXS — badge, tiny', 1, 12) },
-  { cssVar: '--space-xs', category: 'spacing', default: '8px', control: range('XS — gaps, icons', 2, 20) },
-  { cssVar: '--space-sm', category: 'spacing', default: '16px', control: range('SM — input, nav', 4, 48) },
-  { cssVar: '--space-md', category: 'spacing', default: '24px', control: range('MD — card pad, gap', 4, 64) },
-  { cssVar: '--space-lg', category: 'spacing', default: '40px', control: range('LG — page, btn-lg', 8, 80) },
-  { cssVar: '--space-xl', category: 'spacing', default: '56px', control: range('XL — section gap', 8, 128) },
+  { cssVar: '--space-xxs', category: 'spacing', default: '4px', control: range('XXS: badge, tiny', 1, 12) },
+  { cssVar: '--space-xs', category: 'spacing', default: '8px', control: range('XS: gaps, icons', 2, 20) },
+  { cssVar: '--space-sm', category: 'spacing', default: '16px', control: range('SM: input, nav', 4, 48) },
+  { cssVar: '--space-md', category: 'spacing', default: '24px', control: range('MD: card pad, gap', 4, 64) },
+  { cssVar: '--space-lg', category: 'spacing', default: '40px', control: range('LG: page, btn-lg', 8, 80) },
+  { cssVar: '--space-xl', category: 'spacing', default: '56px', control: range('XL: section gap', 8, 128) },
   // ── Radii ───────────────────────────────────────────────────────────────
   { cssVar: '--radius-sm', category: 'radii', default: '0px', control: range('Radius SM', 0, 24) },
   { cssVar: '--radius-md', category: 'radii', default: '0px', control: range('Radius MD', 0, 40) },

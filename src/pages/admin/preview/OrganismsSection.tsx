@@ -65,7 +65,7 @@ export function OrganismsSection() {
       </div>
 
       <SectionLabel>
-        Vertical nav with section accordion — button variant
+        Vertical nav with section accordion: button variant
       </SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section--sm">
         <NavVerticalSections sections={VERTICAL_NAV_SECTIONS} />
@@ -75,16 +75,16 @@ export function OrganismsSection() {
       </div>
 
       <SectionLabel>
-        Vertical nav with section accordion — link variant
+        Vertical nav with section accordion: link variant
       </SectionLabel>
       <div className="skeu-preview-flex skeu-preview-section--lg">
         <NavVerticalSections sections={VERTICAL_NAV_SECTIONS} variant="links" />
         <div className="skeu-preview-sidebar-desc">
-          Flat link buttons — no elevation, accent bg on hover/active
+          Flat link buttons, no elevation, accent bg on hover/active
         </div>
       </div>
 
-      <SectionLabel>Sidebar layout — NavVertical (button variant)</SectionLabel>
+      <SectionLabel>Sidebar layout: NavVertical (button variant)</SectionLabel>
       <div className="skeu-preview-page-frame">
         <div className="skeu-combo-page-label">Page</div>
         <div className="skeu-preview-flex">
@@ -100,7 +100,7 @@ export function OrganismsSection() {
                 Built Technologies
               </div>
               <div className="skeu-org-sidebar-card__role">
-                Sr. Frontend Eng · 2022–now
+                Sr. Frontend Eng · 2022 to now
               </div>
             </Card>
           </div>

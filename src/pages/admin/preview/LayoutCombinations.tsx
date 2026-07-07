@@ -6,7 +6,7 @@ import { SectionLabel } from '../AdminUI';
 export function LayoutCombinations() {
   return (
     <>
-      <SectionLabel>Settings panel — Card → nested item rows</SectionLabel>
+      <SectionLabel>Settings panel: Card → nested item rows</SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={360}>
           <h4 className="skeu-combo-card-heading--sm">Preferences</h4>
@@ -34,7 +34,7 @@ export function LayoutCombinations() {
       </div>
 
       <SectionLabel>
-        Inset panel with link actions — Card + Button (as link)
+        Inset panel with link actions: Card + Button (as link)
       </SectionLabel>
       <div className="skeu-combo-section">
         <Card maxWidth={420}>
@@ -79,7 +79,7 @@ export function LayoutCombinations() {
         </Card>
       </div>
 
-      <SectionLabel>Modal — Card floating over dimmed Page</SectionLabel>
+      <SectionLabel>Modal: Card floating over dimmed Page</SectionLabel>
       <div className="skeu-preview-page-frame skeu-combo-modal-stage">
         <div className="skeu-combo-page-label">Page</div>
         <div className="skeu-combo-modal-bg">
