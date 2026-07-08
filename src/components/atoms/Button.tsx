@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Icon, type IconName } from './Icon';
+import type { DesignSystemProps } from '../../types/design-system';
 
 // The unified clickable atom: one polymorphic control spanning button + link,
 // with orthogonal variant / color / size / icon axes mapped to the .skeu-btn
@@ -43,7 +44,7 @@ const ICON_PX: Record<Size, number> = {
 };
 
 // Shared styling + a11y / handler props allowed on every arm.
-interface StyleProps extends React.AriaAttributes {
+interface StyleProps extends DesignSystemProps {
   variant?: Variant;
   color?: Color;
   size?: Size;

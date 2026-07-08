@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type SectionPadding = 'none' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -6,7 +7,7 @@ type SectionProps = {
   padding?: SectionPadding;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>;
+} & DesignSystemProps;
 
 export function Section({
   padding = 'md',

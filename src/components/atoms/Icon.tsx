@@ -137,7 +137,7 @@ export function Icon({ name, size = 14 }: { name: IconName; size?: number }) {
     );
   }
   return (
-    <span aria-hidden="true" className="skeu-icon" style={{ fontSize: size }}>
+    <span aria-hidden="true" className={`skeu-icon skeu-icon--size-${size}`}>
       {ICON_MAP[name]}
     </span>
   );

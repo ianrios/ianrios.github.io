@@ -6,7 +6,7 @@ export function ColorPicker({
   title,
   ...props
 }: Omit<
-  React.ComponentPropsWithoutRef<'input'>,
+  React.InputHTMLAttributes<HTMLInputElement>,
   'className' | 'style' | 'type'
 >) {
   return (

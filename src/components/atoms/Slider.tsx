@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type SliderProps = {
   min?: number;
@@ -10,8 +11,8 @@ type SliderProps = {
   unit?: string;
   showValue?: boolean;
 } & Omit<
-  React.ComponentPropsWithoutRef<'input'>,
-  'min' | 'max' | 'step' | 'value' | 'onChange' | 'style' | 'className' | 'type'
+  DesignSystemProps<HTMLInputElement>,
+  'min' | 'max' | 'step' | 'value' | 'onChange' | 'className' | 'type'
 >;
 
 export function Slider({

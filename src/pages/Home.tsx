@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ExperienceView } from './home/ExperienceView';
-import { ProjectsView, skills } from './home/ProjectsView';
+import { ProjectsView } from './home/ProjectsView';
 import { HobbiesView } from './home/HobbiesView';
+import { skills } from './home/projectsData';
 import { ContactModal } from '../components/organisms/ContactModal';
 import { PushPanel } from '../components/organisms/PushPanel';
 import { Button } from '../components/atoms/Button';

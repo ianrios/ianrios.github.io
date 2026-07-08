@@ -1,8 +1,6 @@
-import type React from 'react';
-
 type InputProps = {
   fullWidth?: boolean;
-} & Omit<React.ComponentPropsWithoutRef<'input'>, 'className' | 'style'>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'style' | 'className'>;
 
 export function Input({ fullWidth, ...props }: InputProps) {
   const cls = ['skeu-input', fullWidth ? 'skeu-input--full' : '']

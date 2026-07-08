@@ -5,8 +5,8 @@ type SwitchProps = {
   onChange: (checked: boolean) => void;
   label?: string;
 } & Omit<
-  React.ComponentPropsWithoutRef<'button'>,
-  'className' | 'style' | 'onChange' | 'children' | 'type' | 'role'
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'style' | 'className' | 'onChange' | 'children' | 'type' | 'role'
 >;
 
 export function Switch({

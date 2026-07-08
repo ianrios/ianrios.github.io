@@ -1,24 +1,12 @@
 import { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { independentProjectsData, tools } from '../../data';
-import type { SkillTuple } from '../../types/data';
 import { MasonryCard } from '../../components/organisms/MasonryCard';
 import { Badge } from '../../components/atoms/Badge';
 import { Button } from '../../components/atoms/Button';
 import { Icon } from '../../components/atoms/Icon';
 import { Stack } from '../../components/atoms/Stack';
-
-// Most-used skill first. Lives with the projects view because only
-// independent projects carry tool tags (concepts doc section 3); Home
-// re-exports it into the mobile drawer's sidebar until Phase 7.
-export const skills: SkillTuple[] = Object.entries(
-  independentProjectsData.reduce<Record<string, number>>((a, c) => {
-    c.tools.forEach((t) => {
-      a[t] = (a[t] ?? 0) + 1;
-    });
-    return a;
-  }, {}),
-).sort((a, b) => b[1] - a[1]);
+import { skills } from './projectsData';
 
 function SkillsCloud() {
   const [open, setOpen] = useState(false);

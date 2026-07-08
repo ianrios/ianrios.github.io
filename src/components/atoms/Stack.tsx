@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type StackGap = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -13,7 +14,7 @@ type StackProps = {
   flex?: string;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>;
+} & DesignSystemProps<HTMLDivElement>;
 
 export function Stack({
   direction = 'row',

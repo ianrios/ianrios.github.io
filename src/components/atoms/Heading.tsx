@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -15,7 +16,7 @@ type HeadingProps = {
   level: Level;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLHeadingElement>, 'className' | 'style'>;
+} & DesignSystemProps<HTMLHeadingElement>;
 
 export function Heading({
   level,

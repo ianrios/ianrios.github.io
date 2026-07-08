@@ -95,6 +95,7 @@ export function PushPanel({
 
   const variantClass =
     tabVariant !== 'stacked' ? `skeu-push-tab--${tabVariant}` : '';
+  const widthClass = `skeu-push-tab--width-${tabW}`;
 
   return (
     <div className="skeu-push-panel">
@@ -105,10 +106,14 @@ export function PushPanel({
           setOpen(next);
           onOpenChange?.(next);
         }}
-        className={['skeu-push-tab', variantClass, tabShown ? '' : 'is-hidden']
+        className={[
+          'skeu-push-tab',
+          variantClass,
+          widthClass,
+          tabShown ? '' : 'is-hidden',
+        ]
           .filter(Boolean)
           .join(' ')}
-        style={{ width: tabW }}
         aria-label={open ? `Close ${label} panel` : `Open ${label} panel`}
         title={open ? `Close ${label} panel` : `Open ${label} panel`}
       >

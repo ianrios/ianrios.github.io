@@ -1,10 +1,11 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type BadgeProps = {
   href?: string;
   size?: 'xs';
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'style'>;
+} & DesignSystemProps;
 
 export function Badge({ children, size, href, ...props }: BadgeProps) {
   const cls = ['skeu-badge', size === 'xs' ? 'skeu-badge--xs' : '']

@@ -48,6 +48,8 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 
 **Default theme is programmatic.** `DEFAULT_THEME` in `adminData.ts` (High Contrast) is what every new visitor sees; registry defaults and the SCSS first paint must equal it. Visitor state persists as localStorage `design:v1` `{version, theme, overrides, snapshot}` — theme + edited diffs only; clean visits persist nothing, so default changes reach returning visitors. The inline `index.html` flash script replays `snapshot` before any module loads — never remove it or move it to a `.ts` file. Future theme ideas: `.ai/specs/theme-ideas.md`.
 
+**Style prop policy** — NO design system component accepts `style`. All use `DesignSystemProps<T>` from `src/types/design-system.ts` (blocks via `Omit<HTMLAttributes, 'style'>`). Consumers use named props (variant, size, color); dynamic styling uses CSS classes (`.skeu-icon--size-14`). TypeScript enforces; drift checks verify.
+
 **Integrity rule** — every editable token must have a control, a real CSS effect, AND a live preview example. `npm run check` runs **eleven** hard-error drift checks (`scripts/drift-checks.ts` + `scripts/component-checks.ts` + `scripts/value-sync-check.ts`):
 
 - `token-sync` — every `$token` is exposed as a `:root` var
@@ -71,10 +73,8 @@ Components in `src/components/` — audit for an existing atom before adding one
 
 Shared hooks in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `useDisclosureGroup`, `useActiveNav`.
 
-**Button** is one polymorphic `<Button as="button" | "link">`: orthogonal `variant` (solid/outline/surface/chisel/ghost), semantic `color` (default/muted/accent/primary), `size` (rides the `--font-*` scale), `icon` (icon-only when no text), `underline`. Every component needs an accurate demo in the grouped preview nav (Tokens, Atoms, Molecules, Organisms, Patterns) under `src/pages/admin/preview/` — enforced by `demo-missing`. See `.ai/WORKFLOW.md`.
+**Button** is polymorphic `<Button as="button" | "link">`: `variant` (solid/outline/surface/chisel/ghost), `color` (default/muted/accent/primary), `size`, `icon`, `underline`. Every component needs a demo under `src/pages/admin/preview/` — enforced by `demo-missing`.
 
 ## Known gotchas
 
-- **Dev server:** port 3000 is often taken by a colima SSH mux — always `npm run dev -- --port 3001` (protocol in `.ai/RULES.md`).
-- **Specs:** `.ai/specs/` has active design specs; don't implement outside one unless asked. **Build output:** Vite defaults to `dist/`; this repo uses `build/` (`vite.config.ts`) to match Firebase hosting.
-- **Analytics:** Firebase modular SDK, lazy-loaded from `src/analytics.ts`, gated on `cookie-consent:v1` (`src/hooks/cookieConsent.ts`) — never render-blocking, never without consent.
+- **Dev server:** port 3000 often taken — use `npm run dev -- --port 3001`. **Build:** outputs to `build/` not `dist/`. **Analytics:** lazy-loaded, gated on cookie consent.

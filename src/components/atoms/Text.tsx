@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type TextTag = 'p' | 'span' | 'em' | 'strong';
 type TextSize = 'xxs' | 'xs' | 'sm' | 'base' | 'lg';
@@ -8,7 +9,7 @@ type TextProps = {
   size?: TextSize;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'className'>;
+} & DesignSystemProps;
 
 export function Text({
   as = 'p',

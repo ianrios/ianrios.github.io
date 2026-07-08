@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 type ScrollAreaProps = {
   hideScrollbars?: boolean;
@@ -6,7 +7,7 @@ type ScrollAreaProps = {
   flex?: string;
   className?: string;
   children?: React.ReactNode;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>;
+} & DesignSystemProps<HTMLDivElement>;
 
 export function ScrollArea({
   hideScrollbars = false,

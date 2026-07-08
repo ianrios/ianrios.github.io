@@ -213,6 +213,41 @@
   vertical-align: middle;
 }
 
+/* Icon size variants */
+.skeu-icon--size-8 {
+  font-size: 8px;
+}
+.skeu-icon--size-10 {
+  font-size: 10px;
+}
+.skeu-icon--size-12 {
+  font-size: 12px;
+}
+.skeu-icon--size-13 {
+  font-size: 13px;
+}
+.skeu-icon--size-14 {
+  font-size: 14px;
+}
+.skeu-icon--size-16 {
+  font-size: 16px;
+}
+.skeu-icon--size-18 {
+  font-size: 18px;
+}
+.skeu-icon--size-20 {
+  font-size: 20px;
+}
+.skeu-icon--size-24 {
+  font-size: 24px;
+}
+.skeu-icon--size-28 {
+  font-size: 28px;
+}
+.skeu-icon--size-32 {
+  font-size: 32px;
+}
+
 /* Heading — level 1-6 maps 1:1 onto the six --font-* size tokens */
 .skeu-heading {
   margin: 0;

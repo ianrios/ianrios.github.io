@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DesignSystemProps } from '../../types/design-system';
 
 const PADDING_CLASS: Record<'none' | 'xxs' | 'xs' | 'sm' | 'md', string> = {
   none: 'skeu-card--padding-none',
@@ -8,7 +9,7 @@ const PADDING_CLASS: Record<'none' | 'xxs' | 'xs' | 'sm' | 'md', string> = {
   md: '',
 };
 
-interface CardProps {
+interface CardProps extends DesignSystemProps<HTMLDivElement> {
   children?: React.ReactNode;
   variant?: 'accent' | 'muted';
   padding?: 'none' | 'xxs' | 'xs' | 'sm' | 'md';

@@ -3,7 +3,7 @@ import type React from 'react';
 type ValueInputProps = {
   label?: string;
   suffix?: string;
-} & Omit<React.ComponentPropsWithoutRef<'input'>, 'style' | 'className'>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'style' | 'className'>;
 
 export function ValueInput({
   label,
