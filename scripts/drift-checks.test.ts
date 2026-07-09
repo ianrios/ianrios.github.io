@@ -22,7 +22,10 @@ import {
 } from './drift-checks.ts';
 import {
   checkDemoMissing,
+  checkLayoutClassNames,
   checkSemanticHtml,
+  checkStyleProps,
+  discoverLayoutClassNames,
   reachableFrom,
 } from './component-checks.ts';
 
@@ -249,12 +252,16 @@ describe('[token-specimen]', () => {
 describe('[demo-missing]', () => {
   const reachable = reachableFrom([
     resolve('src', 'pages', 'admin', 'DSPreview.tsx'),
-    resolve('src', 'pages', 'admin', 'V2Preview.tsx'),
   ]);
 
   const componentFiles = ['atoms', 'molecules', 'organisms'].flatMap((tier) =>
     readdirSync(join('src', 'components', tier))
-      .filter((f) => f.endsWith('.tsx') && !f.includes('.test.'))
+      .filter(
+        (f) =>
+          f.endsWith('.tsx') &&
+          !f.includes('.test.') &&
+          !f.endsWith('.demo.tsx'),
+      )
       .map((f) => resolve('src', 'components', tier, f)),
   );
 
@@ -273,6 +280,90 @@ describe('[demo-missing]', () => {
       reachable,
     );
     expect(out.length).toBe(1);
+  });
+
+  it('fires when a component lacks a colocated .demo.tsx sibling', () => {
+    const button = resolve('src', 'components', 'atoms', 'Button.tsx');
+    const out = checkDemoMissing([button], reachable, new Set());
+    expect(out.some((m) => m.includes('.demo.tsx'))).toBe(true);
+  });
+
+  it('passes the sibling requirement when the demo file exists', () => {
+    const button = resolve('src', 'components', 'atoms', 'Button.tsx');
+    const demo = resolve('src', 'components', 'atoms', 'Button.demo.tsx');
+    expect(checkDemoMissing([button], reachable, new Set([demo]))).toEqual([]);
+  });
+});
+
+describe('[layout-classnames]', () => {
+  const scss =
+    '.home-layout {\n}\n.home-content__scroll {\n}\n' +
+    '.home-content--mobile {\n}\n.container-fluid {\n}\n.skeu-btn {\n}';
+
+  it('discovers block-level home classes, not __ element classes', () => {
+    const names = discoverLayoutClassNames(scss);
+    expect(names).toContain('home-layout');
+    expect(names).toContain('home-content--mobile');
+    expect(names).toContain('container-fluid');
+    expect(names).not.toContain('home-content__scroll');
+    expect(names).not.toContain('skeu-btn');
+  });
+
+  it('keeps the explicit cross-partial extras', () => {
+    expect(discoverLayoutClassNames('')).toContain('skeu-admin-main');
+  });
+
+  it('fires on a page using a discovered layout class', () => {
+    const out = checkLayoutClassNames(scss, [
+      {
+        path: join('src', 'pages', 'Bad.tsx'),
+        content: '<div className="home-layout" />',
+      },
+    ]);
+    expect(out.length).toBe(1);
+  });
+
+  it('skips admin preview files and the layout molecules', () => {
+    const files = [
+      {
+        path: join('src', 'pages', 'admin', 'preview', 'Demo.tsx'),
+        content: '<div className="home-layout" />',
+      },
+      {
+        path: join('src', 'components', 'molecules', 'ScrollArea.tsx'),
+        content: '<div className="home-layout" />',
+      },
+    ];
+    expect(checkLayoutClassNames(scss, files)).toEqual([]);
+  });
+});
+
+describe('[style-prop]', () => {
+  it('fires on HTMLAttributes props without a style block', () => {
+    const out = checkStyleProps([
+      {
+        path: 'src/components/atoms/Leaky.tsx',
+        content: 'type P = React.HTMLAttributes<HTMLDivElement>;',
+      },
+    ]);
+    expect(out.length).toBe(1);
+  });
+
+  it('passes DesignSystemProps and explicit style Omits', () => {
+    const out = checkStyleProps([
+      {
+        path: 'a.tsx',
+        content:
+          'type P = { x?: string } & DesignSystemProps<HTMLDivElement>;' +
+          ' HTMLAttributes<',
+      },
+      {
+        path: 'b.tsx',
+        content: "type P = Omit<React.HTMLAttributes<HTMLElement>, 'style'>;",
+      },
+      { path: 'c.tsx', content: 'no html attributes here' },
+    ]);
+    expect(out).toEqual([]);
   });
 });
 

@@ -31,11 +31,11 @@ verify with the repo gates, and never commit.
 ## Epics and sub-plans
 
 Sub-plans live in `.ai/plans/<epic-slug>-phase-<n>-<short-name>.md`.
-
 When a phase is done, replace the **entire** phase section in the epic
-with one line: `## Phase N — Name ✅ DONE — see .ai/plans/<file>.md`
-Mark the sub-plan complete with a one-line status header at the top.
-Do not delete sub-plan files — they are the permanent record.
+with one line: `## Phase N — Name ✅ DONE — see .ai/completed/<file>.md`
+Mark the sub-plan complete with a one-line status header, then `git mv`
+it to `.ai/completed/` — never delete: it stays the permanent record
+while freeing the 25-active-file [md-count] budget.
 
 ## Peer review (mandatory)
 

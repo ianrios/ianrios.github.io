@@ -19,36 +19,9 @@
   overflow-y: auto;
   min-width: 0;
 }
-/* Sticky neu header on the content side — content scrolls behind it, keeping
-   the PushPanel legible as its own region. Lives inside the scroll container
-   so `top: 0` pins it to the content column, never overlapping the panel tab. */
-.skeu-design-system-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: var(--space-md, #{$space-md});
-  padding: var(--space-sm, #{$space-sm}) var(--space-lg, #{$space-lg});
-  @include surface-elevation('med');
-  border-radius: 0;
-}
-.skeu-design-system-topbar__title {
-  font-size: var(--font-sm, #{$font-sm});
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
 .skeu-admin-content__body {
   padding: var(--space-lg, #{$space-lg}) var(--space-lg, #{$space-lg})
     var(--space-xl, #{$space-xl});
-}
-.skeu-admin-preview-wrap {
-  border: 1px solid var(--border-color, #{$border-color});
-  border-radius: var(--radius-lg, #{$radius-lg});
-  overflow: auto;
-  height: calc(100vh - 220px);
 }
 .skeu-admin-sidebar {
   width: 100%;
@@ -479,36 +452,5 @@
   color: var(--color-text, #{$color-text});
 }
 
-/* ─── MobileNavDrawer ────────────────────────────────────────────────────────── */
-.skeu-mobile-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-}
-.skeu-mobile-drawer__overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--overlay-bg, #{$overlay-bg});
-}
-.skeu-mobile-drawer__panel {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: var(--drawer-width, #{$drawer-width});
-  background: var(--color-surface, #{$color-surface});
-  padding: var(--space-md, #{$space-md});
-  overflow-y: auto;
-  z-index: 201;
-  /* Hard offset float off the right edge — drawer sits above the page. */
-  box-shadow: 3px 0 0 0 var(--bevel-dark-shadow);
-}
-.skeu-mobile-drawer__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-sm, #{$space-sm});
-}
-.skeu-mobile-drawer__heading {
-  margin: 0;
-}
+/* MobileNavDrawer styles moved to _organisms.scss (site chrome now:
+   the drawer is the mobile shell of SiteNav, not admin UI). */

@@ -12,12 +12,13 @@ const varNames = (category: Parameters<typeof controlList>[0]): string[] =>
 
 export function DepthSection({ vars, setVar }: SectionProps) {
   return (
-    <SidebarSection title="Depth" badge="global" defaultOpen={false}>
+    <SidebarSection title="Depth & bevel" badge="global" defaultOpen={false}>
       <div className="skeu-preview-note skeu-control-row">
         Parametric bevel geometry shared by every control.{' '}
         <strong>Blur 0</strong> = hard Win95 bevel; raise it for soft
         neumorphism. Contrast scales the tone lightness; intensity scales the
-        shadow alpha.
+        shadow alpha. The four bevel tone colors are derived automatically from
+        Background and Surface, so there are no separate bevel controls.
       </div>
       <TokenControlList
         varNames={varNames('depth')}

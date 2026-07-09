@@ -66,6 +66,9 @@ export function PushPanel({
   revealDelay = 0,
   tabVariant = 'stacked',
   onOpenChange,
+  open: controlledOpen,
+  revealed: controlledRevealed,
+  onRevealed,
 }: {
   children?: React.ReactNode;
   label?: string;
@@ -77,21 +80,29 @@ export function PushPanel({
   revealDelay?: number;
   tabVariant?: PushPanelTabVariant;
   onOpenChange?: (open: boolean) => void;
+  /** Controlled open state (shared across routes). Omit for internal state. */
+  open?: boolean;
+  /** Controlled reveal state, so a remount does not replay the delay. */
+  revealed?: boolean;
+  onRevealed?: () => void;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
-  const [tabShown, setTabShown] = useState(revealDelay === 0);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const open = controlledOpen ?? internalOpen;
+  const [internalTabShown, setInternalTabShown] = useState(revealDelay === 0);
+  const tabShown = (controlledRevealed ?? false) || internalTabShown;
   const tabW = TAB_W[tabVariant];
   const openWidth = typeof width === 'number' ? `${width}px` : width;
 
   useEffect(() => {
-    if (revealDelay === 0) return;
+    if (revealDelay === 0 || (controlledRevealed ?? false)) return;
     const t = setTimeout(() => {
-      setTabShown(true);
+      setInternalTabShown(true);
+      onRevealed?.();
     }, revealDelay);
     return () => {
       clearTimeout(t);
     };
-  }, [revealDelay]);
+  }, [revealDelay, controlledRevealed, onRevealed]);
 
   const variantClass =
     tabVariant !== 'stacked' ? `skeu-push-tab--${tabVariant}` : '';
@@ -103,7 +114,7 @@ export function PushPanel({
       <button
         onClick={() => {
           const next = !open;
-          setOpen(next);
+          if (controlledOpen === undefined) setInternalOpen(next);
           onOpenChange?.(next);
         }}
         className={[

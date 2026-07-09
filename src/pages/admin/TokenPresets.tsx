@@ -1,4 +1,5 @@
 import { TOKEN_REGISTRY } from '../../styles/token-registry';
+import { Select } from '../../components/atoms/Select';
 import type { CSSTokenMap, Preset } from '../../types/admin';
 
 // Every color-type control, in registry order — the same palette the Design
@@ -55,20 +56,16 @@ export function PresetSelect({
             </span>
           )}
         </span>
-        <select
-          className="skeu-preset-select"
+        <Select
           value={active ?? ''}
-          onChange={(e) => {
-            onSelect(e.target.value || null);
+          onValueChange={(v) => {
+            onSelect(v || null);
           }}
-        >
-          <option value="">choose a theme</option>
-          {presets.map((p) => (
-            <option key={p.name} value={p.name}>
-              {p.name}
-            </option>
-          ))}
-        </select>
+          options={[
+            { value: '', label: 'choose a theme' },
+            ...presets.map((p) => ({ value: p.name, label: p.name })),
+          ]}
+        />
       </div>
       <ColorSwatches vars={vars} />
     </div>

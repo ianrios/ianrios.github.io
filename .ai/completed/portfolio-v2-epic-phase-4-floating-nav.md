@@ -1,6 +1,24 @@
 # Phase 4 — Floating draggable nav
 
-Status: READY — Opus peer review done, findings folded in.
+Status: ✅ DONE — implemented, all checks green (92 tests). Ian steers
+visually from the dev server.
+
+## Outcome
+
+Implemented as planned, with one interruption: Bob's Phase 2.5 commit
+deleted the in-flight FloatingNav/SiteNav files; they were restored from
+git history and re-wired after 2.5/2.6 landed. Deltas from the plan:
+
+- Helper module renamed `floatingNav.ts` -> `floating-nav-position.ts`:
+  on the case-insensitive macOS filesystem, the `./FloatingNav` component
+  import resolved to the helper first (TS resolves `.ts` before `.tsx`)
+- Ian's in-code TODOs actioned alongside: `/admin` alias removed
+  entirely, `/three` renamed `/metaballs` (SiteNav + data.ts updated)
+- Home tabs and About back-button removal landed pre-interruption and
+  survived; Bob's 2.5 migrated the header/tab markup to Stack primitives
+- FloatingNav takes no `style` prop (2.6 purity policy); its dynamic
+  left/top position is internal state, same pattern as Stack's
+  height/overflow/flex
 
 ## Peer review findings folded in
 

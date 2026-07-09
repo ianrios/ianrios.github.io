@@ -164,7 +164,9 @@
     max-height var(--anim-speed, 0.12s) ease,
     opacity var(--anim-speed, 0.12s) ease;
   &.is-open {
-    max-height: 400px;
+    /* Generous cap so a fully populated career phase (roles + bullets)
+       never clips; the ease still reads on short FAQ-style content. */
+    max-height: 3000px;
     opacity: 1;
   }
 }
@@ -210,7 +212,7 @@
   cursor: pointer;
 }
 .skeu-expandable-card__title {
-  font-weight: 700;
+  font-weight: var(--font-weight-heading, #{$font-weight-heading});
   color: var(--color-text, #{$color-text});
   font-size: var(--font-base, #{$font-base});
 }
@@ -257,14 +259,22 @@
   flex-wrap: wrap;
   margin-bottom: var(--space-xs, #{$space-xs});
 }
-.skeu-expandable-card__bullet {
-  font-size: var(--font-xs, #{$font-xs});
-  color: var(--color-text, #{$color-text});
-  opacity: 0.8;
-  padding-left: var(--space-sm, #{$space-sm});
-  margin-bottom: var(--space-xxs, #{$space-xxs});
-  border-left: 2px solid var(--color-accent, #{$color-accent});
-}
 .skeu-expandable-card__company {
   margin-top: var(--space-xs, #{$space-xs});
+}
+
+/* ─── BulletList ─────────────────────────────────────────────────────────────── */
+/* Accent-barred achievement list (resume bullets). Extracted from
+   ExpandableCard so the treatment is a reusable, demoed primitive. */
+.skeu-bullet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.skeu-bullet-list__item {
+  color: var(--color-text, #{$color-text});
+  opacity: 0.85;
+  padding-left: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+  border-left: 2px solid var(--color-accent, #{$color-accent});
 }

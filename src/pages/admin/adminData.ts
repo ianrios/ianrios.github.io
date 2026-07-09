@@ -1,16 +1,10 @@
 import type {
   CSSTokenMap,
   Preset,
-  DropdownOption,
   CardGridItem,
-  AccordionItem,
   NavSection,
-  CardColorVariant,
-  TimelineEvent,
-  V2Project,
 } from '../../types/admin';
 import { REGISTRY_DEFAULTS } from '../../styles/token-registry';
-import type { ProjectData } from '../../types/data';
 
 // ── Complete theme presets ────────────────────────────────────────────────
 // One click sets EVERY editable category at once: colors, chrome, links,
@@ -72,6 +66,12 @@ interface ThemeSpec {
   // focus
   focusRing: string;
   focusWidth: string;
+  // effects (0 = off): custom cursor size, trailing ring size, grain
+  // overlay opacity, grain-follows-cursor intensity
+  cursorSize: string;
+  cursorTrail: string;
+  textureOpacity: string;
+  textureReactivity: string;
 }
 
 const theme = (s: ThemeSpec): Preset => ({
@@ -122,6 +122,10 @@ const theme = (s: ThemeSpec): Preset => ({
     '--depth-contrast': s.depthContrast,
     '--focus-ring-color': s.focusRing,
     '--focus-ring-width': s.focusWidth,
+    '--cursor-size': s.cursorSize,
+    '--cursor-trail': s.cursorTrail,
+    '--texture-opacity': s.textureOpacity,
+    '--texture-reactivity': s.textureReactivity,
   },
 });
 
@@ -167,6 +171,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1',
     focusRing: 'rgba(57,255,20,0.15)',
     focusWidth: '4px',
+    cursorSize: '10px',
+    cursorTrail: '16px',
+    textureOpacity: '0.1',
+    textureReactivity: '0.35',
   }),
   // Crisp Windows 95 — hard bevel (blur 0), squared corners, neutral silver.
   theme({
@@ -204,6 +212,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1',
     focusRing: 'rgba(0,0,0,0.45)',
     focusWidth: '2px',
+    cursorSize: '0px',
+    cursorTrail: '0px',
+    textureOpacity: '0',
+    textureReactivity: '0',
   }),
   // Soft neumorphism — high blur/distance, low-contrast monochrome, rounded.
   theme({
@@ -241,6 +253,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1.3',
     focusRing: 'rgba(91,124,186,0.3)',
     focusWidth: '4px',
+    cursorSize: '12px',
+    cursorTrail: '22px',
+    textureOpacity: '0',
+    textureReactivity: '0',
   }),
   // Brutalist — zero radii, chunky spacing, hard offset shadow, raw links.
   theme({
@@ -278,6 +294,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1.8',
     focusRing: '#ff5500',
     focusWidth: '4px',
+    cursorSize: '0px',
+    cursorTrail: '0px',
+    textureOpacity: '0.14',
+    textureReactivity: '0.4',
   }),
   // High Contrast — accessibility-leaning: black field, high-vis yellow CTA.
   theme({
@@ -315,6 +335,10 @@ export const THEMES: Preset[] = [
     depthContrast: '2',
     focusRing: '#ffff00',
     focusWidth: '4px',
+    cursorSize: '0px',
+    cursorTrail: '0px',
+    textureOpacity: '0',
+    textureReactivity: '0',
   }),
   // Paper — light, warm, refined: subtle radii, gentle low-intensity depth.
   theme({
@@ -352,6 +376,10 @@ export const THEMES: Preset[] = [
     depthContrast: '0.8',
     focusRing: 'rgba(150,100,40,0.3)',
     focusWidth: '3px',
+    cursorSize: '0px',
+    cursorTrail: '0px',
+    textureOpacity: '0.06',
+    textureReactivity: '0.2',
   }),
   // Glow — funky neon on near-black, distance 0 + big blur for a halo.
   theme({
@@ -389,6 +417,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1.5',
     focusRing: 'rgba(255,0,204,0.5)',
     focusWidth: '4px',
+    cursorSize: '14px',
+    cursorTrail: '24px',
+    textureOpacity: '0',
+    textureReactivity: '0.3',
   }),
   // Pillow — funky extreme soft-neu: pastel, max radii, the softest depth.
   theme({
@@ -426,6 +458,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1.2',
     focusRing: 'rgba(154,127,208,0.4)',
     focusWidth: '6px',
+    cursorSize: '12px',
+    cursorTrail: '18px',
+    textureOpacity: '0',
+    textureReactivity: '0',
   }),
   // Maximal — funky and loud: clashing color, ceiling spacing, dramatic depth.
   theme({
@@ -463,6 +499,10 @@ export const THEMES: Preset[] = [
     depthContrast: '1.6',
     focusRing: '#ff0099',
     focusWidth: '6px',
+    cursorSize: '16px',
+    cursorTrail: '28px',
+    textureOpacity: '0.12',
+    textureReactivity: '0.5',
   }),
 ];
 
@@ -472,43 +512,9 @@ export const DEFAULTS: CSSTokenMap = REGISTRY_DEFAULTS;
 
 // Persistence lives in ./designStorage.ts (this file stays data-only).
 
-// Sample portfolio item for the MasonryCard organism demo (sample data, not a
-// real project).
-export const MASONRY_DEMO_ITEM: ProjectData = {
-  title: 'Sample Project',
-  year: 2024,
-  activelyMaintained: true,
-  body: 'Masonry portfolio card with a tools disclosure and link actions.',
-  href: 'https://github.com/ianrios',
-  live: '/design-system',
-  info: 'https://en.wikipedia.org/wiki/Design_system',
-  tools: ['React', 'TypeScript'],
-};
-
-export const DROPDOWN_DEMO: {
-  title: string;
-  subtitle: string;
-  cta: string;
-  options: DropdownOption[];
-} = {
-  title: 'Report settings',
-  subtitle: 'Select report type',
-  cta: 'Generate',
-  options: [
-    { value: 'monthly', label: 'Monthly report' },
-    { value: 'weekly', label: 'Weekly summary' },
-    { value: 'annual', label: 'Annual overview' },
-  ],
-};
-
-export const BADGE_SAMPLES: string[] = [
-  'React',
-  'TypeScript',
-  'Three.js',
-  'Python',
-  'MySQL',
-  'WebGL',
-];
+// Single-component demo fixtures moved into the colocated *.demo.tsx files
+// (2.6 #3) - demos are self-contained. Only multi-component PATTERN data
+// consumed by the preview/combination pages remains here.
 
 export const CARD_GRID_DATA: CardGridItem[] = [
   {
@@ -525,24 +531,6 @@ export const CARD_GRID_DATA: CardGridItem[] = [
     title: 'Funnel',
     desc: 'Sales pipeline',
     tools: ['React', 'TypeScript', 'D3'],
-  },
-];
-
-export const ACCORDION_ITEMS: AccordionItem[] = [
-  {
-    id: 'exp',
-    title: 'Experience',
-    body: 'Detailed work history, key accomplishments, and technologies across roles.',
-  },
-  {
-    id: 'proj',
-    title: 'Projects',
-    body: 'Personal and professional projects with live demos and source links.',
-  },
-  {
-    id: 'edu',
-    title: 'Education',
-    body: 'Degrees, certifications, and self-directed learning.',
   },
 ];
 
@@ -571,32 +559,4 @@ export const VERTICAL_NAV_SECTIONS: NavSection[] = [
       { id: '3d', label: '3D / WebGL' },
     ],
   },
-];
-
-export const CARD_COLOR_VARIANTS: CardColorVariant[] = [
-  { label: 'default', variant: null, text: 'var(--color-text)' },
-  { label: 'accent', variant: 'accent', text: 'var(--color-text)' },
-  { label: 'muted', variant: 'muted', text: 'var(--color-text)' },
-];
-
-export const TIMELINE_EVENTS: TimelineEvent[] = [
-  { year: '2019', role: 'Junior Dev', company: 'Agency' },
-  { year: '2021', role: 'Frontend Eng', company: 'MidCo' },
-  { year: '2022', role: 'Sr. Frontend', company: 'Built' },
-  { year: '2025', role: 'Full Stack', company: 'Built' },
-];
-
-export const V2_PROJECTS: V2Project[] = [
-  {
-    title: 'SpecLab',
-    desc: '3D spectroscopy visualization',
-    tools: ['Three.js', 'React', 'WebGL'],
-    featured: true,
-  },
-  {
-    title: 'BAFConX',
-    desc: 'Big fan configurator',
-    tools: ['Flutter', 'Redux'],
-  },
-  { title: 'Funnel', desc: 'Sales pipeline viz', tools: ['D3', 'TypeScript'] },
 ];

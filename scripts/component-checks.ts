@@ -33,16 +33,95 @@ export function checkSemanticHtml(
   return out;
 }
 
-// [demo-missing] every component file must be reachable from the preview tree.
+// [demo-missing] every component file must be reachable from the preview
+// tree AND (2.6 #3, colocated demos) have a sibling <Name>.demo.tsx that
+// the tier's preview section renders — so demos live next to components
+// and the preview files stay thin as the library grows.
 export function checkDemoMissing(
   componentFiles: string[],
   reachable: Set<string>,
+  demoFiles?: Set<string>,
 ): string[] {
   const out: string[] = [];
   for (const file of componentFiles) {
     if (!reachable.has(file)) {
       out.push(`${file} has no demo in the admin preview tree`);
     }
+    if (demoFiles) {
+      const demo = file.replace(/\.tsx$/, '.demo.tsx');
+      if (!demoFiles.has(demo)) {
+        out.push(`${file} has no colocated ${demo.split('/').pop() ?? ''}`);
+      }
+    }
+  }
+  return out;
+}
+
+// [layout-classnames] 2.5/2.6 #1: structural layout classNames must be the
+// Stack/ScrollArea components, not raw divs. Block-level `.home-*` classes
+// and `.container-fluid` are DISCOVERED from the SCSS (zero maintenance for
+// the main family); element-level `__` classes stay allowed - they are
+// decorative companions on Stack. Cross-partial offenders that predate the
+// rule are listed explicitly.
+const LAYOUT_CLASSNAME_EXTRAS = [
+  'skeu-admin-content__body',
+  'skeu-admin-main',
+  'skeu-admin-tabs',
+];
+// ScrollArea intentionally owns the scroll-container class internally.
+const LAYOUT_EXEMPT_FILES = [join('src', 'components', 'molecules')];
+
+export function discoverLayoutClassNames(scss: string): string[] {
+  const found = new Set<string>(LAYOUT_CLASSNAME_EXTRAS);
+  for (const m of scss.matchAll(
+    /^\.(home-[a-z0-9-]+|container-fluid)\s*\{/gm,
+  )) {
+    const name = m[1];
+    if (name !== undefined && !name.includes('__')) found.add(name);
+  }
+  return [...found];
+}
+
+export function checkLayoutClassNames(
+  scss: string,
+  tsxFiles: { path: string; content: string }[],
+): string[] {
+  const banned = discoverLayoutClassNames(scss);
+  const out: string[] = [];
+  for (const file of tsxFiles) {
+    // Admin preview pages and the layout molecules demo raw usage.
+    if (file.path.includes(join('src', 'pages', 'admin', 'preview'))) continue;
+    if (LAYOUT_EXEMPT_FILES.some((p) => file.path.startsWith(p))) continue;
+
+    for (const className of banned) {
+      if (file.content.includes(`className="${className}"`)) {
+        out.push(
+          `${file.path} uses layout className="${className}" - ` +
+            `migrate to Stack/ScrollArea`,
+        );
+      }
+    }
+  }
+  return out;
+}
+
+// [style-prop] 2.6 #4B: any component props type built on HTMLAttributes
+// must route through DesignSystemProps (which Omits 'style') or an explicit
+// Omit<..., 'style'>, so no design-system component grows a style prop.
+export function checkStyleProps(
+  files: { path: string; content: string }[],
+): string[] {
+  const out: string[] = [];
+  for (const { path, content } of files) {
+    if (!content.includes('HTMLAttributes<')) continue;
+    if (content.includes('DesignSystemProps')) continue;
+    // Nested generics make a precise regex fragile; an Omit that names
+    // 'style' anywhere in the file is accepted as the blocking pattern.
+    if (content.includes('Omit<') && /['"]style['"]/.test(content)) continue;
+    out.push(
+      `${path} spreads HTMLAttributes without blocking 'style' - ` +
+        `use DesignSystemProps (src/types/design-system.ts)`,
+    );
   }
   return out;
 }

@@ -103,6 +103,12 @@
   --anim-speed: 0.1s;
   --anim-speed-fast: 0.05s;
   --anim-speed-slow: #{$anim-speed-slow};
+
+  // Effects (0 = off)
+  --cursor-size: #{$cursor-size};
+  --cursor-trail: #{$cursor-trail};
+  --texture-opacity: #{$texture-opacity};
+  --texture-reactivity: #{$texture-reactivity};
 }
 
 // ─── Browser reset / normalization ───────────────────────────────────────────
@@ -127,7 +133,7 @@ h5,
 h6 {
   margin-top: 0;
   margin-bottom: var(--space-xs);
-  font-weight: 600;
+  font-weight: var(--font-weight-heading, #{$font-weight-heading});
   line-height: 1.2;
   color: var(--color-text);
 }
@@ -331,9 +337,6 @@ code {
   overflow: hidden;
   min-width: 0;
 }
-.home-content--mobile {
-  padding-top: 60px;
-}
 .home-content__header {
   text-align: center;
   padding: var(--space-sm, #{$space-sm}) 0;
@@ -356,25 +359,41 @@ code {
   gap: var(--space-xs, #{$space-xs});
   flex-wrap: wrap;
 }
-.home-content__title {
-  cursor: default;
-  margin: 0;
-}
 .home-content__scroll {
   height: calc(100vh - 80px);
   overflow-y: auto;
 }
 
-// ─── Mobile hamburger button ──────────────────────────────────────────────────
-.skeu-hamburger {
-  position: fixed;
-  top: var(--space-xs, #{$space-xs});
-  left: var(--space-xs, #{$space-xs});
-  z-index: 50;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text, #{$color-text});
-  padding: var(--space-xxs, #{$space-xxs});
-  line-height: 1;
+// ─── Papers-on-a-table page transitions ───────────────────────────────────────
+// --nav-dx/--nav-dy are written to <html> by applyNavDirection() right
+// before a view transition starts (transient JS state, not registry
+// tokens). One parametric keyframe pair replaces eight directional ones;
+// RouteTransitions skips interception under reduced motion, the media
+// query here is belt and braces.
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-pan-out var(--anim-speed-slow, #{$anim-speed-slow}) ease both;
+  }
+  ::view-transition-new(root) {
+    animation: vt-pan-in var(--anim-speed-slow, #{$anim-speed-slow}) ease both;
+  }
 }
+@keyframes vt-pan-out {
+  to {
+    transform: translate(
+      calc(var(--nav-dx, 0) * -100vw),
+      calc(var(--nav-dy, 0) * -100vh)
+    );
+  }
+}
+@keyframes vt-pan-in {
+  from {
+    transform: translate(
+      calc(var(--nav-dx, 0) * 100vw),
+      calc(var(--nav-dy, 0) * 100vh)
+    );
+  }
+}
+
+// Mobile hamburger + drawer styles live in components/_organisms.scss
+// (SiteNav chrome).

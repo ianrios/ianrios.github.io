@@ -78,6 +78,13 @@ $line-height-base: 1.5;
 $line-height-loose: 1.6;
 $anim-speed-slow: 0.3s;
 
+// Effects (0 = off): custom cursor, trailing ring, grain overlay, and
+// grain that intensifies around the pointer.
+$cursor-size: 0px;
+$cursor-trail: 0px;
+$texture-opacity: 0;
+$texture-reactivity: 0;
+
 // ─── Parametric depth geometry (first-paint defaults; sidebar sliders override) ─
 // One knob set spans the whole range: hard Win95 bevel ↔ soft neumorphism.
 //   --depth-distance  bevel offset in px

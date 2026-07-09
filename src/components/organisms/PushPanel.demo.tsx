@@ -1,8 +1,4 @@
-import {
-  PushPanel,
-  type PushPanelTabVariant,
-} from '../../../components/organisms/PushPanel';
-import { SectionLabel } from '../AdminUI';
+import { PushPanel, type PushPanelTabVariant } from './PushPanel';
 
 const DEMO_CONTENT = (
   <div className="skeu-push-demo-content">
@@ -58,10 +54,9 @@ function HeaderDemo() {
   );
 }
 
-export function PushPanelVariants() {
+export function PushPanelDemo() {
   return (
     <>
-      <SectionLabel>PushPanel: tab variant comparison (pick one)</SectionLabel>
       <div className="skeu-push-grid">
         <VariantDemo variant="stacked" label="Original: stacked letters" />
         <VariantDemo variant="rotated" label="A: rotated text + chevron" />
@@ -69,7 +64,6 @@ export function PushPanelVariants() {
         <VariantDemo variant="pill" label="C: pill, chevron only" />
       </div>
 
-      <SectionLabel>PushPanel: header prop</SectionLabel>
       <div className="skeu-push-grid--header">
         <HeaderDemo />
         <div className="skeu-push-grid__desc">

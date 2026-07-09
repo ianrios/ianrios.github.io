@@ -8,38 +8,13 @@
 }
 .skeu-masonry-card__title {
   margin-bottom: var(--space-xs, #{$space-xs});
-  font-weight: 700;
+  font-weight: var(--font-weight-heading, #{$font-weight-heading});
 }
 .skeu-masonry-card__img {
   display: block;
   width: 100%;
   border-radius: var(--radius-sm, #{$radius-sm});
   margin-bottom: var(--space-xs, #{$space-xs});
-}
-.skeu-masonry-card__divider {
-  border-color: var(--border-color, #{$border-color});
-  border-style: solid;
-  border-width: 1px 0 0 0;
-  margin: var(--space-xs, #{$space-xs}) 0;
-}
-.skeu-masonry-card__tool-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: var(--space-xxs, #{$space-xxs});
-  color: var(--color-text, #{$color-text});
-  font-weight: 600;
-  font-size: var(--font-sm, #{$font-sm});
-  font-family: inherit;
-  padding: 0;
-}
-.skeu-masonry-card__tools {
-  display: flex;
-  gap: var(--space-xxs, #{$space-xxs});
-  flex-wrap: wrap;
-  margin-top: var(--space-xxs, #{$space-xxs});
 }
 .skeu-masonry-card__links {
   display: flex;
@@ -52,71 +27,12 @@
   margin-top: var(--space-xs, #{$space-xs});
 }
 
-/* ─── ContactModal ───────────────────────────────────────────────────────────── */
-.skeu-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.skeu-modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--overlay-bg, #{$overlay-bg});
-}
-.skeu-modal {
-  @include surface-elevation('high');
-  position: relative;
-  z-index: 1;
-  width: min(var(--modal-max-width, #{$modal-max-width}), 92vw);
-  max-height: 90vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm, #{$space-sm});
-  padding: var(--space-md, #{$space-md});
-  border-radius: var(--radius-md, #{$radius-md});
-}
-.skeu-modal__footer {
-  text-align: right;
-}
-.skeu-modal__iframe {
-  border: none;
-  display: block;
-  flex-shrink: 0;
-}
-
 /* ─── PageLayout ─────────────────────────────────────────────────────────────── */
 .skeu-page-layout {
   background: var(--color-bg, #{$color-bg});
   color: var(--color-text, #{$color-text});
   padding: var(--space-lg, #{$space-lg});
   border-radius: var(--radius-lg, #{$radius-lg});
-}
-
-/* ─── PortfolioSidebar ───────────────────────────────────────────────────────── */
-.skeu-sidebar__heading {
-  margin-bottom: var(--space-sm, #{$space-sm});
-}
-.skeu-sidebar-skills {
-  display: flex;
-  gap: var(--space-xxs, #{$space-xxs});
-  flex-wrap: wrap;
-  margin-bottom: var(--space-xs, #{$space-xs});
-}
-.skeu-sidebar-links {
-  display: none;
-  flex-direction: column;
-  gap: var(--space-xxs, #{$space-xxs});
-  font-size: var(--font-sm, #{$font-sm});
-  margin-bottom: var(--space-xs, #{$space-xs});
-  list-style: none;
-  padding: 0;
-  &.is-open {
-    display: flex;
-  }
 }
 
 /* ─── PushPanel ──────────────────────────────────────────────────────────────── */
@@ -182,6 +98,12 @@
   min-width: 11rem;
   @include surface-elevation('high');
 }
+/* Own snapshot so the remote holds still while pages pan beneath it.
+   Scoped away from --inline: the admin demo copy would otherwise duplicate
+   the name and void the transition on design-system pans. */
+.skeu-floating-nav:not(.skeu-floating-nav--inline) {
+  view-transition-name: site-nav;
+}
 .skeu-floating-nav--inline {
   position: static;
 }
@@ -218,6 +140,164 @@
   }
 }
 
+/* ─── SiteNav mobile shell: fixed hamburger + drawer ─────────────────────────── */
+/* z-order: cookie consent 900 < hamburger 950 < drawer 960/961 < modal
+   1000. Shares FloatingNav's view-transition-name (breakpoint-exclusive,
+   never both in one snapshot) so it holds still during page pans. */
+.skeu-hamburger {
+  position: fixed;
+  right: var(--space-sm, #{$space-sm});
+  bottom: var(--space-sm, #{$space-sm});
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text, #{$color-text});
+  view-transition-name: site-nav;
+  @include surface-elevation('high');
+}
+@media only screen and (min-width: 992px) {
+  .skeu-hamburger {
+    display: none;
+  }
+}
+.skeu-mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 960;
+}
+.skeu-mobile-drawer__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg, #{$overlay-bg});
+}
+.skeu-mobile-drawer__panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--drawer-width, #{$drawer-width});
+  background: var(--color-surface, #{$color-surface});
+  padding: var(--space-md, #{$space-md});
+  overflow-y: auto;
+  z-index: 961;
+  /* Hard offset float off the left edge - drawer sits above the page. */
+  box-shadow: -3px 0 0 0 var(--bevel-dark-shadow);
+}
+.skeu-mobile-drawer__brand {
+  margin: 0;
+}
+
+/* ─── Effects: cursor (dot + trail) and texture (static + reactive) ──────────── */
+/* Shared fractal-noise grain, reused by the static overlay and the blob. */
+$grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E";
+
+/* When a custom cursor is active, suppress the native cursor everywhere so
+   only one pointer shows. Class-over-element specificity beats button {}. */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none;
+}
+
+/* Custom cursor: tracks INSTANTLY (no transition). */
+.skeu-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-size, #{$cursor-size});
+  height: var(--cursor-size, #{$cursor-size});
+  margin: calc(var(--cursor-size, #{$cursor-size}) / -2) 0 0
+    calc(var(--cursor-size, #{$cursor-size}) / -2);
+  border-radius: 50%;
+  background: var(--link-hover, #{$link-hover});
+  pointer-events: none;
+  z-index: 2200;
+}
+.skeu-cursor-dot:not(.skeu-cursor-dot--inline) {
+  view-transition-name: cursor-dot;
+}
+.skeu-cursor-dot--inline {
+  position: static;
+  width: max(var(--cursor-size, #{$cursor-size}), 12px);
+  height: max(var(--cursor-size, #{$cursor-size}), 12px);
+  margin: 0;
+}
+
+/* Trailing ring: EASES toward the pointer (the lag). */
+.skeu-cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-trail, #{$cursor-trail});
+  height: var(--cursor-trail, #{$cursor-trail});
+  margin: calc(var(--cursor-trail, #{$cursor-trail}) / -2) 0 0
+    calc(var(--cursor-trail, #{$cursor-trail}) / -2);
+  border: 2px solid var(--link-hover, #{$link-hover});
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2100;
+  transition: transform var(--anim-speed-slow, #{$anim-speed-slow}) ease;
+}
+.skeu-cursor-trail:not(.skeu-cursor-trail--inline) {
+  view-transition-name: cursor-trail;
+}
+.skeu-cursor-trail--inline {
+  position: static;
+  transition: none;
+  width: max(var(--cursor-trail, #{$cursor-trail}), 24px);
+  height: max(var(--cursor-trail, #{$cursor-trail}), 24px);
+  margin: 0;
+}
+
+/* Static grain over the whole viewport (subtle fast parallax in JS). */
+.skeu-texture-overlay {
+  position: fixed;
+  inset: -24px;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: var(--texture-opacity, #{$texture-opacity});
+  background-image: url('#{$grain-svg}');
+  view-transition-name: texture-overlay;
+}
+.skeu-texture-overlay--inline {
+  position: relative;
+  inset: auto;
+  height: 96px;
+  opacity: max(var(--texture-opacity, #{$texture-opacity}), 0.2);
+}
+
+/* Reactive grain blob: EASES toward the pointer, radially masked so grain
+   concentrates near it and relaxes where the pointer has left. */
+.skeu-texture-blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  margin: -210px 0 0 -210px;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: var(--texture-reactivity, #{$texture-reactivity});
+  background-image: url('#{$grain-svg}');
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  transition: transform var(--anim-speed-slow, #{$anim-speed-slow}) ease;
+}
+.skeu-texture-blob:not(.skeu-texture-blob--inline) {
+  view-transition-name: texture-blob;
+}
+.skeu-texture-blob--inline {
+  position: relative;
+  width: 120px;
+  height: 96px;
+  margin: 0;
+  opacity: max(var(--texture-reactivity, #{$texture-reactivity}), 0.3);
+}
+
 /* ─── CookieConsent ──────────────────────────────────────────────────────────── */
 .skeu-cookie-consent {
   position: fixed;
@@ -225,6 +305,14 @@
   bottom: var(--space-md, #{$space-md});
   z-index: 900;
   max-width: calc(100vw - #{2 * $space-md});
+  /* Fixed chrome: hold still during page pans (see FloatingNav note). */
+  view-transition-name: cookie-consent;
+}
+@media only screen and (max-width: 991px) {
+  /* Leave the bottom-right corner free for the mobile hamburger. */
+  .skeu-cookie-consent {
+    max-width: calc(100vw - 88px);
+  }
 }
 .skeu-cookie-consent__text {
   margin: 0 0 var(--space-sm, #{$space-sm});

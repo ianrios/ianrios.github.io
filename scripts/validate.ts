@@ -21,11 +21,12 @@ import {
   checkTokenUnused,
   checkTokenExample,
   checkTokenSpecimen,
-  checkLayoutClassNames,
 } from './drift-checks.ts';
 import {
   checkDemoMissing,
+  checkLayoutClassNames,
   checkSemanticHtml,
+  checkStyleProps,
   reachableFrom,
 } from './component-checks.ts';
 
@@ -45,23 +46,16 @@ const IGNORE_DIRS = new Set([
 
 const CODE_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 
+// Drift-check names derive from the driftChecks registry object below
+// (2.6 #5): registering a check IS declaring its violation type, so the
+// two can never drift apart. Only the four structural lint names are
+// declared by hand.
 type ViolationType =
   | 'eslint-disable'
   | 'code-size'
   | 'doc-size'
   | 'md-count'
-  | 'token-sync'
-  | 'control-sync'
-  | 'defaults-sync'
-  | 'default-value-sync'
-  | 'preset-token'
-  | 'theme-control'
-  | 'token-unused'
-  | 'token-example'
-  | 'token-specimen'
-  | 'demo-missing'
-  | 'semantic-html'
-  | 'layout-classnames';
+  | keyof typeof driftChecks;
 
 interface Violation {
   type: ViolationType;
@@ -214,20 +208,21 @@ for (const entry of readdirSync(previewDir)) {
 // Components reachable from the admin preview import tree.
 const reachable = reachableFrom([
   resolve('src', 'pages', 'admin', 'DSPreview.tsx'),
-  resolve('src', 'pages', 'admin', 'V2Preview.tsx'),
 ]);
 // The components root is scanned too, so a stray component outside the
-// atomic tiers cannot dodge the demo requirement.
+// atomic tiers cannot dodge the demo requirement. Colocated *.demo.tsx
+// files are collected separately: they are demos, not components.
 const componentFiles: string[] = [];
+const demoFiles = new Set<string>();
 for (const tier of ['', 'atoms', 'molecules', 'organisms']) {
   const dir = join('src', 'components', tier);
   if (!existsSync(dir)) continue;
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (
-      entry.isFile() &&
-      entry.name.endsWith('.tsx') &&
-      !entry.name.includes('.test.')
-    ) {
+    if (!entry.isFile() || !entry.name.endsWith('.tsx')) continue;
+    if (entry.name.includes('.test.')) continue;
+    if (entry.name.endsWith('.demo.tsx')) {
+      demoFiles.add(resolve(dir, entry.name));
+    } else {
       componentFiles.push(resolve(dir, entry.name));
     }
   }
@@ -242,25 +237,36 @@ const srcTsxFiles = codeFiles
   .filter((f) => extname(f) === '.tsx' && f.startsWith(`src${sep}`))
   .map((f) => ({ path: f, content: readFileSync(f, 'utf-8') }));
 
-const driftChecks: [ViolationType, string[]][] = [
-  ['token-sync', checkTokenSync(scssTokens, rootVars)],
-  ['control-sync', checkControlSync(rootVars)],
-  ['defaults-sync', checkDefaultsSync(Object.keys(DEFAULTS), rootVars)],
-  [
-    'default-value-sync',
-    checkDefaultValueSync(THEMES, DEFAULT_THEME, tokensScssSrc, baseScssSrc),
-  ],
-  ['preset-token', checkPresetTokens(THEMES, rootVars)],
-  ['theme-control', checkThemeControls(THEMES)],
-  ['token-unused', checkTokenUnused(scssAll)],
-  ['token-example', checkTokenExample(specimenSrc, previewSrc)],
-  ['token-specimen', checkTokenSpecimen(specimenSrc)],
-  ['demo-missing', checkDemoMissing(componentFiles, reachable)],
-  ['semantic-html', checkSemanticHtml(srcTsxFiles)],
-  ['layout-classnames', checkLayoutClassNames(srcTsxFiles)],
-];
-for (const [type, messages] of driftChecks) {
-  for (const message of messages) flag(type, message);
+// Component sources for the markup-level checks ([style-prop]).
+const componentSources = [...componentFiles, ...demoFiles].map((f) => ({
+  path: f,
+  content: readFileSync(f, 'utf-8'),
+}));
+
+// The check registry: keys double as ViolationType members (2.6 #5), so
+// adding a check here is the whole registration.
+const driftChecks = {
+  'token-sync': checkTokenSync(scssTokens, rootVars),
+  'control-sync': checkControlSync(rootVars),
+  'defaults-sync': checkDefaultsSync(Object.keys(DEFAULTS), rootVars),
+  'default-value-sync': checkDefaultValueSync(
+    THEMES,
+    DEFAULT_THEME,
+    tokensScssSrc,
+    baseScssSrc,
+  ),
+  'preset-token': checkPresetTokens(THEMES, rootVars),
+  'theme-control': checkThemeControls(THEMES),
+  'token-unused': checkTokenUnused(scssAll),
+  'token-example': checkTokenExample(specimenSrc, previewSrc),
+  'token-specimen': checkTokenSpecimen(specimenSrc),
+  'demo-missing': checkDemoMissing(componentFiles, reachable, demoFiles),
+  'semantic-html': checkSemanticHtml(srcTsxFiles),
+  'layout-classnames': checkLayoutClassNames(scssAll, srcTsxFiles),
+  'style-prop': checkStyleProps(componentSources),
+};
+for (const [type, messages] of Object.entries(driftChecks)) {
+  for (const message of messages) flag(type as ViolationType, message);
 }
 
 // ─── Report ───────────────────────────────────────────────────────────────

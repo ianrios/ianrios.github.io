@@ -32,12 +32,12 @@ Always run `npm run check`, not individual scripts (Prettier must precede ESLint
 
 ## App structure
 
-Routes in `src/App.tsx` (three.js and Admin lazy-loaded in their own chunks; 404 catch-all, top-level error boundary, root-mounted `CookieConsent`); portfolio content in `src/data.ts` (no API — edit there):
+Routes in `src/App.tsx` (three.js and Admin lazy-loaded in their own chunks; 404 catch-all, top-level error boundary, root-mounted `CookieConsent` + `SiteNav` — desktop floating remote / mobile hamburger drawer, the SOLE page-to-page nav, hidden on the splash via `NavChromeProvider`); portfolio content in `src/data.ts` (no API — edit there):
 
-- `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → sidebar nav + masonry card grid
-- `/about` — **About** (`src/pages/About.tsx`) — copy from `aboutData` in `data.ts`; V2 layout pending epic Phase 3 (`.ai/plans/portfolio-v2-epic.md`)
-- `/design-system` — **Admin** (`src/pages/Admin.tsx`) — live playground + token editor. `/admin` permanently redirects here (old resume/GitHub links).
-- `/three` — **ThreeScene** (`src/three/ThreeScene.tsx`) — MarchingCubes metaballs, live route
+- `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → header tabs (experience/projects/hobbies) + per-page views under `src/pages/home/`
+- `/about` — **About** (`src/pages/About.tsx`) — copy from `aboutData` in `data.ts`
+- `/design-system` — **Admin** (`src/pages/Admin.tsx`) — live playground + token editor (`/admin` alias removed 2026-07-07)
+- `/metaballs` — **ThreeScene** (`src/three/ThreeScene.tsx`) — MarchingCubes metaballs (renamed from `/three`)
 - `/imagebox` — **ImageBox** — planned, not yet built (see `.ai/specs/imagebox-epic.md`)
 
 ## Design system
@@ -67,13 +67,13 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 
 Components in `src/components/` — audit for an existing atom before adding one:
 
-- `atoms/` — Badge, Button, ColorPicker, Heading, Icon (typed name union), Input, Section, Slider, Stack, Switch, Text, ValueInput
-- `molecules/` — Accordion (`autoClose`/`defaultOpen`), Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections
-- `organisms/` — ContactModal, CookieConsent, ExpandableCard, MasonryCard, PageLayout, PortfolioSidebar, PushPanel
+- `atoms/` — Badge, Button, ColorPicker, Heading, Icon (typed name union), Input, Section, Select, Slider, Stack, Switch, Text, ValueInput
+- `molecules/` — Accordion (`autoClose`/`defaultOpen`), Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections, ScrollArea
+- `organisms/` — ContactModal, CookieConsent, CursorFX, ExpandableCard, FloatingNav, MasonryCard, PageLayout, PortfolioSidebar, PushPanel, TextureOverlay
 
 Shared hooks in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `useDisclosureGroup`, `useActiveNav`.
 
-**Button** is polymorphic `<Button as="button" | "link">`: `variant` (solid/outline/surface/chisel/ghost), `color` (default/muted/accent/primary), `size`, `icon`, `underline`. Every component needs a demo under `src/pages/admin/preview/` — enforced by `demo-missing`.
+**Button** is polymorphic `<Button as="button" | "link">`: `variant` (solid/outline/surface/chisel/ghost), `color` (default/muted/accent/primary), `size`, `icon`, `underline`. Every component has a colocated `<Name>.demo.tsx` beside it (self-contained: no `src/pages/**` imports) rendered by its tier section under `src/pages/admin/preview/` — both halves enforced by `demo-missing`.
 
 ## Known gotchas
 

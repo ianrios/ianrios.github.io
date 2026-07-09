@@ -12,9 +12,9 @@ export interface ProjectData {
 }
 
 export type CareerPhase =
-  | 'Senior Engineer'
+  | 'Senior Software Engineer'
   | 'Software Engineer II'
-  | 'Early career'
+  | 'Early Career'
   | 'Research';
 
 export interface WorkExperience {
@@ -46,17 +46,10 @@ export interface HobbyData {
   kind?: 'volunteering';
 }
 
-/** Any card renderable in the portfolio masonry grid. */
-export type PortfolioItem = ProjectData | WorkExperience | HobbyData;
-
 export interface ExternalLink {
   label: string;
   href: string;
 }
 
-export type SkillTuple = [string, number];
-
-export type ToolsMap = Record<string, string>;
-
 export type View = 'welcome' | 'main';
-export type PageId = 'work' | 'projects' | 'hobbies';
+export type PageId = 'work' | 'projects';

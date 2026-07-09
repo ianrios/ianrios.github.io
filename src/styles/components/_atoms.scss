@@ -57,6 +57,30 @@
   }
 }
 
+/* Select - matches Input's sunken field look so pickers blend in. */
+.skeu-select {
+  padding: var(--space-xs, #{$space-xs}) var(--space-sm, #{$space-sm});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: none;
+  background: var(--color-surface, #{$color-surface});
+  color: var(--color-text, #{$color-text});
+  font-family: inherit;
+  font-size: var(--font-sm, #{$font-sm});
+  cursor: pointer;
+  @include bevel-groove;
+  transition: box-shadow var(--anim-speed, 0.12s) ease;
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+.skeu-select--sm {
+  font-size: var(--font-xs, #{$font-xs});
+  padding: var(--space-xxs, #{$space-xxs}) var(--space-xs, #{$space-xs});
+}
+.skeu-select--md {
+  width: 100%;
+}
+
 /* Full-width input */
 .skeu-input--full {
   display: block;

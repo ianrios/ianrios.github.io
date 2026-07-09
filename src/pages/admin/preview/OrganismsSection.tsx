@@ -5,35 +5,66 @@ import { Card } from '../../../components/molecules/Card';
 import { NavBar } from '../../../components/molecules/NavBar';
 import { NavVertical } from '../../../components/molecules/NavVertical';
 import { NavVerticalSections } from '../../../components/molecules/NavVerticalSections';
-import { PageLayout } from '../../../components/organisms/PageLayout';
-import { MasonryCard } from '../../../components/organisms/MasonryCard';
+import { CookieConsentDemo } from '../../../components/organisms/CookieConsent.demo';
+import { CursorFXDemo } from '../../../components/organisms/CursorFX.demo';
+import { ExpandableCardDemo } from '../../../components/organisms/ExpandableCard.demo';
+import { FloatingNavDemo } from '../../../components/organisms/FloatingNav.demo';
+import { MasonryCardDemo } from '../../../components/organisms/MasonryCard.demo';
+import { PageLayoutDemo } from '../../../components/organisms/PageLayout.demo';
+import { PushPanelDemo } from '../../../components/organisms/PushPanel.demo';
+import { TextureOverlayDemo } from '../../../components/organisms/TextureOverlay.demo';
 import { Heading } from '../../../components/atoms/Heading';
 import { Text } from '../../../components/atoms/Text';
 import { SectionLabel, TierLabel } from '../AdminUI';
-import {
-  CARD_GRID_DATA,
-  MASONRY_DEMO_ITEM,
-  VERTICAL_NAV_SECTIONS,
-} from '../adminData';
-import { PushPanelVariants } from './PushPanelVariants';
+import { CARD_GRID_DATA, VERTICAL_NAV_SECTIONS } from '../adminData';
+
 export function OrganismsSection() {
   return (
     <>
       <TierLabel>Organisms</TierLabel>
 
-      <PushPanelVariants />
+      <SectionLabel>PushPanel: tab variants + header prop</SectionLabel>
+      <PushPanelDemo />
+
+      <SectionLabel>Effects: cursor and texture (four tokens)</SectionLabel>
+      <div className="skeu-preview-note">
+        Four independent effects, each 0 = off in the Effects sidebar: a custom
+        cursor dot (instant, hides the native cursor), a trailing ring (eased),
+        a static grain overlay, and a grain blob that eases toward the pointer.
+        Static swatches below keep a visible floor at token 0.
+      </div>
+      <div className="skeu-preview-section">
+        <CursorFXDemo />
+        <TextureOverlayDemo />
+      </div>
+
+      <SectionLabel>Floating nav (draggable site remote)</SectionLabel>
+      <div className="skeu-preview-note">
+        Fixed bottom-right on live pages; the grip drags it anywhere (arrow keys
+        nudge it) and the position persists across routes and reloads. Shown
+        inline here.
+      </div>
+      <div className="skeu-preview-section">
+        <FloatingNavDemo />
+      </div>
 
       <SectionLabel>Masonry card (portfolio grid item)</SectionLabel>
       <div className="skeu-preview-section">
-        <MasonryCard item={MASONRY_DEMO_ITEM} index={0} />
+        <MasonryCardDemo />
       </div>
 
       <SectionLabel>Page / Layout</SectionLabel>
-      <PageLayout>
-        <div className="skeu-preview-note">
-          background = color-bg · padding = space-lg · border-radius = radius-lg
-        </div>
-      </PageLayout>
+      <PageLayoutDemo />
+
+      <SectionLabel>Expandable card (disclosure)</SectionLabel>
+      <div className="skeu-preview-section">
+        <ExpandableCardDemo />
+      </div>
+
+      <SectionLabel>Cookie consent (fixed banner, demo state)</SectionLabel>
+      <div className="skeu-preview-section">
+        <CookieConsentDemo />
+      </div>
 
       <SectionLabel>Page with nav and card</SectionLabel>
       <div className="skeu-preview-page-frame skeu-preview-section--lg">
@@ -94,7 +125,7 @@ export function OrganismsSection() {
         <div className="skeu-preview-flex">
           <NavVertical
             siteName="Ian Rios"
-            pages={['experience', 'projects', 'hobbies']}
+            pages={['portfolio', 'about', 'contact']}
             ctaLabel="Contact"
           />
           <div className="skeu-org-sidebar-content">

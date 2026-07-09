@@ -5,12 +5,6 @@
   position: fixed;
   inset: 0;
 }
-.skeu-scene-back {
-  position: fixed;
-  top: var(--space-sm, #{$space-sm});
-  left: var(--space-sm, #{$space-sm});
-  z-index: 10;
-}
 
 /* ─── Home per-page views (V2 Phase 3) ──────────────────────────────────────── */
 /* Readable-column max-widths are layout metrics, not design tokens. */
@@ -19,9 +13,13 @@
   margin: 0 auto;
   padding: 0 var(--space-md, #{$space-md}) var(--space-lg, #{$space-lg});
 }
-.skeu-experience__phase {
-  margin: var(--space-md, #{$space-md}) 0 var(--space-xs, #{$space-xs});
+.skeu-job__title {
+  margin: 0;
+  font-size: var(--font-base, #{$font-base});
+}
+.skeu-job__meta {
   color: var(--color-muted, #{$color-muted});
+  font-style: italic;
 }
 
 .skeu-hobbies {
@@ -46,16 +44,6 @@
   max-width: 44rem;
 }
 
-.skeu-projects-skills {
-  padding: 0 var(--space-md, #{$space-md}) var(--space-sm, #{$space-sm});
-}
-.skeu-projects-skills__cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xxs, #{$space-xxs});
-  margin-top: var(--space-xs, #{$space-xs});
-}
-
 /* ─── About page ────────────────────────────────────────────────────────────── */
 .skeu-about {
   min-height: 100vh;
@@ -76,4 +64,33 @@
 .skeu-about__closing {
   color: var(--color-muted, #{$color-muted});
   font-style: italic;
+}
+.skeu-about__section {
+  margin-top: var(--space-md, #{$space-md});
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-about__links {
+  flex-wrap: wrap;
+}
+
+/* ─── Contact page ──────────────────────────────────────────────────────────── */
+.skeu-contact {
+  min-height: 100vh;
+  background-color: var(--color-bg, #{$color-bg});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-contact__column {
+  /* Reuses the modal-width token now that the contact modal is a page. */
+  width: 100%;
+  max-width: var(--modal-max-width, #{$modal-max-width});
+  margin: 0 auto;
+}
+.skeu-contact__lead {
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-contact__form {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  border-radius: var(--radius-md, #{$radius-md});
 }

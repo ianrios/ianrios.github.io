@@ -6,10 +6,10 @@ If a section here could be summarized, replace it with the summary.
 
 ## Current phase
 
-Portfolio V2 epic — phase statuses in `.ai/plans/portfolio-v2-epic.md`,
-decisions in `.ai/plans/portfolio-v2-concepts.md`. Phases proceed
-autonomously (Ian, 2026-07-07): bring him genuine decision gaps, not
-approval check-ins; he steers via dev-server review.
+Portfolio V2 epic — ALL PHASES CODE-COMPLETE 2026-07-08 (statuses:
+`.ai/plans/portfolio-v2-epic.md`). Awaiting Ian's visual pass (desktop +
+mobile) and deploy. Epics proceed autonomously (Ian, 2026-07-07): bring
+him genuine decision gaps, not approval check-ins.
 
 ## Priorities (Ian's order)
 
@@ -31,7 +31,7 @@ approval check-ins; he steers via dev-server review.
 
 ## Open questions
 
-- Pan-direction map for papers-on-a-table transitions: Home center,
-  Design System right, ThreeScene left, Contact below; About unpicked
-  (concepts doc section 8).
-- Mobile drawer: reuse `PushPanel` or stay as-is?
+- Pan-direction map shipped with About = up (agent default,
+  `src/pages/navDirection.ts`) — Ian may re-map after feeling it out.
+- `PortfolioSidebar` has no live consumer since the mobile rebuild
+  (library organism with demo only) — keep in the library or retire?

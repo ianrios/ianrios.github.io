@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
+import { BulletList } from '../molecules/BulletList';
 
 export function ExpandableCard({
   title,
@@ -73,11 +74,7 @@ export function ExpandableCard({
               ))}
             </div>
           )}
-          {bullets.map((b, i) => (
-            <div key={i} className="skeu-expandable-card__bullet">
-              {b}
-            </div>
-          ))}
+          {bullets.length > 0 && <BulletList items={bullets} />}
           {companyUrl !== undefined && (
             <div className="skeu-expandable-card__company">
               <Button

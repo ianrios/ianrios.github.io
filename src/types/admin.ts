@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type CSSTokenMap = Record<string, string>;
 
 export interface Preset {
@@ -28,7 +30,8 @@ export interface CardGridItem {
 export interface AccordionItem {
   id: string;
   title: string;
-  body: string;
+  /** Rich content allowed so a section can hold cards, lists, etc. */
+  body: ReactNode;
 }
 
 interface NavSectionItem {
@@ -40,23 +43,4 @@ export interface NavSection {
   id: string;
   label: string;
   items: NavSectionItem[];
-}
-
-export interface CardColorVariant {
-  label: string;
-  variant: 'accent' | 'muted' | null;
-  text: string;
-}
-
-export interface TimelineEvent {
-  year: string;
-  role: string;
-  company: string;
-}
-
-export interface V2Project {
-  title: string;
-  desc: string;
-  tools: string[];
-  featured?: boolean;
 }

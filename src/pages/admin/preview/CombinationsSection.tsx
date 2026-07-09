@@ -1,7 +1,6 @@
 import { TierLabel } from '../AdminUI';
 import { BasicCombinations } from './BasicCombinations';
 import { LayoutCombinations } from './LayoutCombinations';
-import { OrgCombinations } from './OrgCombinations';
 export function CombinationsSection() {
   return (
     <>
@@ -16,9 +15,6 @@ export function CombinationsSection() {
         </div>
         <div>
           <LayoutCombinations />
-        </div>
-        <div>
-          <OrgCombinations />
         </div>
       </div>
     </>

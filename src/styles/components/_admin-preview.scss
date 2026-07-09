@@ -1,3 +1,5 @@
+@use '../tokens' as *;
+
 // Admin preview page styles
 .skeu-preview-section {
   display: flex;
@@ -43,8 +45,8 @@
 }
 
 .skeu-preview-note {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  font-size: var(--font-xs);
+  color: var(--color-muted);
   line-height: 1.5;
 }
 
@@ -88,8 +90,8 @@
 }
 
 .skeu-btn-size-sublabel {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  font-size: var(--font-xs);
+  color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -103,22 +105,22 @@
 }
 
 .skeu-card-variant-label {
-  font-size: var(--font-size-xxs);
+  font-size: var(--font-xxs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-muted);
+  color: var(--color-muted);
   margin-bottom: var(--space-xxs);
 }
 
 .skeu-card-variant-title {
-  font-size: var(--font-size-base);
+  font-size: var(--font-base);
   font-weight: var(--font-weight-heading);
   margin-bottom: var(--space-xxs);
 }
 
 .skeu-card-variant-desc {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+  color: var(--color-muted);
   margin-bottom: var(--space-sm);
 }
 
@@ -130,23 +132,6 @@
   max-width: 480px;
 }
 
-.skeu-form-field-demo {
-  max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.skeu-form-field-demo__label {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-heading);
-}
-
-.skeu-form-field-demo__hint {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
 .skeu-preview-page-frame {
   padding: var(--space-lg);
   background: var(--color-bg);
@@ -155,12 +140,395 @@
 }
 
 .skeu-preview-sidebar-desc {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+  color: var(--color-muted);
   max-width: 240px;
   line-height: 1.5;
 }
 
 .skeu-mt-md {
   margin-top: var(--space-md);
+}
+
+/* ─── Restored design-system panel styles (were culled in ffe106c) ───────────── */
+/* ─── TokensSection ──────────────────────────────────────────────────────────── */
+.skeu-token-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs, #{$space-xs});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-token-swatch-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.skeu-token-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: 1px solid var(--border-color, #{$border-color});
+  flex-shrink: 0;
+}
+.skeu-token-swatch-label {
+  font-size: 9px;
+  color: var(--color-muted, #{$color-muted});
+  text-align: center;
+  line-height: 1.3;
+  max-width: 64px;
+  word-break: break-all;
+}
+.skeu-token-type-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-token-type-label {
+  font-size: 10px;
+  color: var(--color-muted, #{$color-muted});
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.skeu-token-spacing-bar {
+  background: var(--color-accent, #{$color-accent});
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.skeu-token-radius-swatch {
+  width: 44px;
+  height: 44px;
+  background: var(--color-accent, #{$color-accent});
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+.skeu-token-lineheight-sample {
+  margin: 0;
+  max-width: 360px;
+  font-size: var(--font-sm, #{$font-sm});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-token-layout-specimens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-token-layout-bar {
+  height: 12px;
+  background: var(--color-accent, #{$color-accent});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.skeu-token-motion-demo {
+  width: 44px;
+  height: 44px;
+  background: var(--color-accent, #{$color-accent});
+  opacity: 0.6;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  animation: token-pulse var(--demo-speed, 0.5s) ease-in-out infinite alternate;
+}
+@keyframes token-pulse {
+  from {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* ─── TokenShowcase specimens ────────────────────────────────────────────────── */
+.skeu-token-modal-panel {
+  background: var(--color-surface, #{$color-surface});
+  border: 1px solid var(--border-color, #{$border-color});
+  border-radius: var(--radius-md, #{$radius-md});
+  padding: var(--space-sm, #{$space-sm});
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-xs, #{$font-xs});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-token-scrim-stage {
+  position: relative;
+  width: 260px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: 1px solid var(--border-color, #{$border-color});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-token-scrim-content {
+  padding: var(--space-sm, #{$space-sm});
+  color: var(--color-text, #{$color-text});
+  font-size: var(--font-sm, #{$font-sm});
+}
+.skeu-token-scrim-overlay {
+  position: absolute;
+  inset: 0;
+}
+.skeu-token-anim-track {
+  width: 184px;
+  height: 26px;
+  padding: 4px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: 1px solid var(--border-color, #{$border-color});
+  background: var(--color-surface, #{$color-surface});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+.skeu-token-anim-thumb {
+  width: 40px;
+  height: 18px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  background: var(--color-accent, #{$color-accent});
+  transition: transform var(--anim-speed-slow, 0.5s) ease;
+}
+.skeu-token-caption-sample {
+  display: block;
+  color: var(--color-muted, #{$color-muted});
+  margin-bottom: var(--space-sm, #{$space-sm});
+}
+
+/* ─── DSPreview section switcher ─────────────────────────────────────────────── */
+.skeu-ds-section-nav {
+  display: flex;
+  gap: var(--space-xs, #{$space-xs});
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md, #{$space-md});
+}
+
+/* ─── Patterns tier — space-xl section gap between compositions ──────────────── */
+.skeu-combo-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl, #{$space-xl});
+}
+
+.skeu-preview-strong {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+}
+
+/* ─── TokenControls ──────────────────────────────────────────────────────────── */
+.skeu-sidebar-section {
+  margin-bottom: 6px;
+  border-radius: var(--radius-sm, #{$radius-sm});
+  border: 1px solid rgba(128, 128, 128, 0.14);
+  overflow: hidden;
+}
+.skeu-sidebar-section__body {
+  padding: 10px 12px 14px;
+  border-top: 1px solid rgba(128, 128, 128, 0.1);
+}
+.skeu-sidebar-section__trigger-inner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.skeu-sidebar-section__badge {
+  flex-shrink: 0;
+}
+.skeu-sidebar-section__title {
+  font-weight: 600;
+}
+.skeu-control-label {
+  width: 120px;
+  flex-shrink: 0;
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-control-row--flex {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+}
+.skeu-control-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.skeu-shadow-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-shadow-hex {
+  font-size: 10px;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  color: var(--color-muted, #{$color-muted});
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── TokenPresets ───────────────────────────────────────────────────────────── */
+.skeu-preset-swatches {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.skeu-preset-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+.skeu-preset-row {
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-preset-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, #{$space-xs});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-preset-label {
+  width: 120px;
+  flex-shrink: 0;
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-text, #{$color-text});
+}
+.skeu-preset-dirty {
+  margin-left: 5px;
+  color: #e07b2a;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ─── PushPanelVariants ──────────────────────────────────────────────────────── */
+.skeu-push-demo-content {
+  padding: var(--space-sm, #{$space-sm});
+  font-size: 11px;
+  color: var(--color-text, #{$color-text});
+}
+.skeu-push-demo-content__title {
+  font-weight: 600;
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-push-demo-content__desc {
+  color: var(--color-muted, #{$color-muted});
+  line-height: 1.6;
+}
+.skeu-push-frame {
+  height: 160px;
+  overflow: hidden;
+  border: 1px dashed rgba(128, 128, 128, 0.2);
+  border-radius: var(--radius-md, #{$radius-md});
+  display: flex;
+}
+.skeu-push-frame__aside {
+  flex: 1;
+  padding: var(--space-sm, #{$space-sm});
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  display: flex;
+  align-items: center;
+}
+.skeu-push-frame__header-slot {
+  padding: 6px var(--space-sm, #{$space-sm});
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  font-style: italic;
+}
+.skeu-push-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-md, #{$space-md});
+}
+.skeu-push-grid--header {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--space-sm, #{$space-sm});
+  margin-bottom: var(--space-lg, #{$space-lg});
+}
+.skeu-push-grid__desc {
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  line-height: 1.7;
+  padding-top: 24px;
+}
+.skeu-code-inline {
+  background: var(--color-accent, #{$color-accent});
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* ─── MoleculesSection: card content helpers ─────────────────────────────────── */
+.skeu-form-field-demo {
+  max-width: 300px;
+  margin-bottom: var(--space-md, #{$space-md});
+}
+.skeu-form-field-demo__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text, #{$color-text});
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-form-field-demo__hint {
+  font-size: 11px;
+  color: var(--color-muted, #{$color-muted});
+  margin-top: var(--space-xxs, #{$space-xxs});
+}
+.skeu-card-variant-label {
+  font-size: 9px;
+  color: var(--color-muted, #{$color-muted});
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-xxs, #{$space-xxs});
+}
+.skeu-card-variant-title {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+}
+.skeu-card-variant-desc {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+  margin-top: var(--space-xxs, #{$space-xxs});
+  margin-bottom: var(--space-xs, #{$space-xs});
+}
+.skeu-card-variant-action {
+  margin-top: var(--space-xs, #{$space-xs});
+}
+.skeu-card-surface-link {
+  font-size: var(--font-xs, #{$font-xs});
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xxs, #{$space-xxs});
+}
+
+/* ─── OrganismsSection card content helpers ──────────────────────────────────── */
+.skeu-card-grid__desc {
+  margin: var(--space-xxs, #{$space-xxs}) 0 var(--space-xs, #{$space-xs});
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
+}
+.skeu-card-grid__tags {
+  display: flex;
+  gap: var(--space-xxs, #{$space-xxs});
+  flex-wrap: wrap;
+}
+.skeu-org-sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, #{$space-sm});
+}
+.skeu-org-sidebar-card__company {
+  font-weight: 700;
+  color: var(--color-text, #{$color-text});
+  margin-top: var(--space-xxs, #{$space-xxs});
+}
+.skeu-org-sidebar-card__role {
+  font-size: var(--font-xs, #{$font-xs});
+  color: var(--color-muted, #{$color-muted});
 }

@@ -69,15 +69,6 @@ export function TokenSidebar({
       <SidebarSection title="Focus" badge="atom" defaultOpen={false}>
         <TokenControlList varNames={vn('focus')} vars={vars} setVar={setVar} />
       </SidebarSection>
-      <SidebarSection title="Bevel" badge="global" defaultOpen={false}>
-        <div className="skeu-preview-note skeu-control-row">
-          Classic Windows 3D bevels. The four tone colors derive from{' '}
-          <strong>Background</strong> (page-level) and <strong>Surface</strong>{' '}
-          (in-card) by lightness, scaled by the Depth contrast slider, so every
-          control&#39;s edges blend into whatever it sits on. They re-derive
-          automatically whenever those values change.
-        </div>
-      </SidebarSection>
       <DepthSection vars={vars} setVar={setVar} />
       <SidebarSection title="Links" badge="atom">
         <div className="skeu-preview-note skeu-control-row">
@@ -87,6 +78,18 @@ export function TokenSidebar({
           <strong>Hover / Active</strong>: all interactive elements.
         </div>
         <TokenControlList varNames={vn('link')} vars={vars} setVar={setVar} />
+      </SidebarSection>
+      <SidebarSection title="Effects" badge="global" defaultOpen={false}>
+        <div className="skeu-preview-note skeu-control-row">
+          Custom cursor, trailing ring, static grain, and grain that follows the
+          pointer. 0 = off; all pause under reduced motion, and the cursor
+          effects need a real pointer.
+        </div>
+        <TokenControlList
+          varNames={vn('effects')}
+          vars={vars}
+          setVar={setVar}
+        />
       </SidebarSection>
     </aside>
   );
