@@ -21,10 +21,10 @@ export function CookieConsent({
           can accept or decline - declining means no analytics load.
         </Text>
         <div className="skeu-cookie-consent__actions">
-          <Button variant="outline" size="sm" onClick={onDecline}>
+          <Button variant="chisel" size="sm" onClick={onDecline}>
             Decline
           </Button>
-          <Button variant="chisel" size="sm" onClick={onAccept}>
+          <Button variant="outline" size="sm" onClick={onAccept}>
             Accept
           </Button>
         </div>

@@ -11,6 +11,11 @@ function HobbyRow({ hobby }: { hobby: HobbyData }) {
     : `${hobby.year}`;
   return (
     <Stack direction="col" gap="xxs">
+      {hobby.role !== undefined && (
+        <Heading level={4} className="skeu-hobby__title">
+          {hobby.role}
+        </Heading>
+      )}
       <Stack direction="row" gap="xs" align="center">
         <Heading level={4} className="skeu-hobby__title">
           {hobby.title}

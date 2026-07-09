@@ -49,7 +49,7 @@ export function MasonryCard({
             icon="github"
             href={item.href}
             aria-label="GitHub"
-            variant="ghost"
+            variant="chisel"
           />
         )}
         {item.info !== undefined && (
@@ -58,7 +58,7 @@ export function MasonryCard({
             icon="info"
             href={item.info}
             aria-label="Info"
-            variant="ghost"
+            variant="chisel"
           />
         )}
         {item.live !== '' && (
@@ -67,7 +67,7 @@ export function MasonryCard({
             href={item.live}
             external={!item.live.startsWith('/')}
             size="xs"
-            variant="surface"
+            variant="chisel"
           >
             Visit Live Demo
           </Button>

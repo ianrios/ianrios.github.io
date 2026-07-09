@@ -42,6 +42,8 @@ export interface HobbyData {
   body: string;
   url: string;
   instagram: string;
+  /** Job-title-like label distinct from `title` (the org/program name). */
+  role?: string;
   /** Volunteering/mentorship entries render in their own labeled sub-group. */
   kind?: 'volunteering';
 }

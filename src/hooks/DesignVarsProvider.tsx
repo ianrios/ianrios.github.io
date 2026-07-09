@@ -7,7 +7,6 @@ import { THEMES, DEFAULTS, DEFAULT_THEME } from '../pages/admin/adminData';
 import {
   loadStoredDesign,
   persistDesign,
-  clearStoredDesign,
   type DesignState,
 } from '../pages/admin/designStorage';
 import { computeBevelTones } from '../pages/admin/bevelTones';
@@ -43,9 +42,12 @@ interface HookState extends DesignState {
 function useDesignVarsState(): DesignVarsReturn {
   const [state, setState] = useState<HookState>(() => {
     const stored = loadStoredDesign(THEMES);
-    return stored
-      ? { ...stored, touched: true }
-      : { theme: DEFAULT_THEME, overrides: {}, touched: false };
+    if (stored) return { ...stored, touched: true };
+    // No stored design: a purely random pick is not a choice, so it never
+    // persists (touched stays false) — an untouched visitor re-rolls a new
+    // random theme on every visit, forever.
+    const picked = THEMES[Math.floor(Math.random() * THEMES.length)]?.name;
+    return { theme: picked ?? DEFAULT_THEME, overrides: {}, touched: false };
   });
 
   const vars = useMemo(() => resolveVars(state), [state]);
@@ -84,9 +86,17 @@ function useDesignVarsState(): DesignVarsReturn {
     setState({ theme: name, overrides: {}, touched: true });
   };
 
+  // Reset returns to the currently active preset's clean defaults, not the
+  // global DEFAULT_THEME — only a theme-less visitor (raw overrides, no
+  // preset ever chosen) has no "preset defaults" to fall back to. Setting
+  // `touched: true` lets the persist effect above write the clean state to
+  // storage, same as `applyTheme`, so it survives a reload.
   const resetAll = () => {
-    clearStoredDesign();
-    setState({ theme: DEFAULT_THEME, overrides: {}, touched: false });
+    setState((prev) => ({
+      theme: prev.theme ?? DEFAULT_THEME,
+      overrides: {},
+      touched: true,
+    }));
   };
 
   const exportText = `:root {\n${Object.entries(vars)

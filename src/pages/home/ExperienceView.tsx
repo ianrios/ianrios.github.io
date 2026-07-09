@@ -8,7 +8,7 @@ import { Heading } from '../../components/atoms/Heading';
 import { Stack } from '../../components/atoms/Stack';
 import { Text } from '../../components/atoms/Text';
 
-// Newest phase first; only Senior is expanded on arrival.
+// Newest phase first; every phase is expanded on arrival.
 const PHASE_ORDER: CareerPhase[] = [
   'Senior Software Engineer',
   'Software Engineer II',
@@ -71,11 +71,7 @@ export function ExperienceView() {
 
   return (
     <Stack direction="col" padding="md" className="skeu-experience">
-      <Accordion
-        items={items}
-        autoClose={false}
-        defaultOpen={['Senior Engineer']}
-      />
+      <Accordion items={items} autoClose={false} defaultOpen={PHASE_ORDER} />
     </Stack>
   );
 }

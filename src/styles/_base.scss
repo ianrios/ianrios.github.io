@@ -337,18 +337,10 @@ code {
   overflow: hidden;
   min-width: 0;
 }
+/* Header bar: brand left, page tabs right (sidebar dissolved in V2). Layout
+   (row/justify/align) comes from the Stack props on the element; this class
+   supplies the horizontal inset the Stack doesn't have an equivalent for. */
 .home-content__header {
-  text-align: center;
-  padding: var(--space-sm, #{$space-sm}) 0;
-}
-/* Desktop header bar: brand left, page tabs right (sidebar dissolved in V2). */
-.home-content__header--bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm, #{$space-sm});
-  flex-wrap: wrap;
-  text-align: left;
   padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md});
 }
 .home-content__brand {

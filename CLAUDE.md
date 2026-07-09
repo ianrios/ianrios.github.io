@@ -32,13 +32,13 @@ Always run `npm run check`, not individual scripts (Prettier must precede ESLint
 
 ## App structure
 
-Routes in `src/App.tsx` (three.js and Admin lazy-loaded in their own chunks; 404 catch-all, top-level error boundary, root-mounted `CookieConsent` + `SiteNav` — desktop floating remote / mobile hamburger drawer, the SOLE page-to-page nav, hidden on the splash via `NavChromeProvider`); portfolio content in `src/data.ts` (no API — edit there):
+Routes in `src/App.tsx` (three.js and Admin lazy-loaded; 404 catch-all, error boundary; root-mounted `CookieConsent`, `SiteNav` — desktop floating remote / mobile hamburger drawer, the SOLE page-to-page nav, hidden on the splash via `NavChromeProvider` — `RouteTransitions` (papers-on-a-table view transitions, `navDirection.ts` map), `CursorFX` + `TextureOverlay` (effects). `Main` is keyed by `location.key` so nav to `/` re-reads the splash-vs-main view from router state. Portfolio content in `src/data.ts` (no API — edit there):
 
-- `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → header tabs (experience/projects/hobbies) + per-page views under `src/pages/home/`
-- `/about` — **About** (`src/pages/About.tsx`) — copy from `aboutData` in `data.ts`
-- `/design-system` — **Admin** (`src/pages/Admin.tsx`) — live playground + token editor (`/admin` alias removed 2026-07-07)
-- `/metaballs` — **ThreeScene** (`src/three/ThreeScene.tsx`) — MarchingCubes metaballs (renamed from `/three`)
-- `/imagebox` — **ImageBox** — planned, not yet built (see `.ai/specs/imagebox-epic.md`)
+- `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → header tabs (experience/projects) + views under `src/pages/home/`; portfolio push-panel shows `FunPanel`
+- `/about` — **About** (`src/pages/About.tsx`) — bio + hobbies + external links, from `aboutData`/`hobbyData`/`externalLinks`
+- `/contact` — **Contact** (`src/pages/Contact.tsx`) — Google-form iframe page (below home on the table)
+- `/design-system` — **Admin** (`src/pages/Admin.tsx`) — full token editor + preview (`/admin` alias removed)
+- `/metaballs` — **ThreeScene** — MarchingCubes metaballs (nav item "title" instead returns to the splash). `/imagebox` planned, not built (`.ai/specs/imagebox-epic.md`)
 
 ## Design system
 
@@ -50,28 +50,28 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 
 **Style prop policy** — NO design system component accepts `style`. All use `DesignSystemProps<T>` from `src/types/design-system.ts` (blocks via `Omit<HTMLAttributes, 'style'>`). Consumers use named props (variant, size, color); dynamic styling uses CSS classes (`.skeu-icon--size-14`). TypeScript enforces; drift checks verify.
 
-**Integrity rule** — every editable token must have a control, a real CSS effect, AND a live preview example. `npm run check` runs **eleven** hard-error drift checks (`scripts/drift-checks.ts` + `scripts/component-checks.ts` + `scripts/value-sync-check.ts`):
+**Integrity rule** — every editable token must have a control, a real CSS effect, AND a live preview example. `npm run check` runs **thirteen** hard-error drift checks (`scripts/drift-checks.ts` + `scripts/component-checks.ts` + `scripts/value-sync-check.ts`), registered in `validate.ts`'s `driftChecks` object whose keys ARE the `ViolationType` members:
 
 - `token-sync` — every `$token` is exposed as a `:root` var
 - `control-sync` — `:root` vars and registry entries are the same set
 - `defaults-sync` — `DEFAULTS` keys == `:root` var set
 - `default-value-sync` — registry default VALUES == SCSS first-paint literals == `THEMES[DEFAULT_THEME]` (changing the default theme = edit the constant, the check lists every literal to follow)
-- `preset-token` — every var a THEME writes is a real `:root` var
-- `theme-control` — every token a THEME writes has an editable control
+- `preset-token` / `theme-control` — every var a THEME writes is a real `:root` var AND has an editable control
 - `token-specimen` — every displayed-category token renders in `TokensSection`
-- `demo-missing` — every component (incl. the components root) is reachable from the preview tree
+- `demo-missing` — every component is reachable from the preview tree AND has a colocated `<Name>.demo.tsx`
 - `token-unused` / `token-example` — every editable token has a real `var()` CSS consumer and a live preview example
 - `semantic-html` — no raw `<h1>`-`<h6>`/`<p>` in `src/**/*.tsx`; use the Heading/Text atoms (exempt: Heading, Text, AppErrorBoundary)
+- `layout-classnames` / `style-prop` — block-level layout classes (`home-*`) must be Stack/ScrollArea not raw divs; every component built on `HTMLAttributes` must route through `DesignSystemProps` (blocks `style`)
 
 **Design language: Classic Windows 3D bevel, parametric.** Hard-edged Win95/98 bevels (not soft neumorphism — that pass was rejected). Bevel tones derive from the backdrop (`--color-bg`/`--color-surface`) scaled by `--depth-contrast`; geometry tunes via `--depth-distance`/`--depth-blur`/`--depth-intensity` (blur 0 = hard). Flat at rest → raised on hover → sunken on press. Links are three-state (`--link-color`/`--link-hover`/`--link-active`); the Button `primary` color axis uses `--btn-primary-bg`. Presets are **complete themes** — one `THEMES` list; each sets every editable token except `--clickable-border-width`.
 
 Components in `src/components/` — audit for an existing atom before adding one:
 
 - `atoms/` — Badge, Button, ColorPicker, Heading, Icon (typed name union), Input, Section, Select, Slider, Stack, Switch, Text, ValueInput
-- `molecules/` — Accordion (`autoClose`/`defaultOpen`), Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections, ScrollArea
-- `organisms/` — ContactModal, CookieConsent, CursorFX, ExpandableCard, FloatingNav, MasonryCard, PageLayout, PortfolioSidebar, PushPanel, TextureOverlay
+- `molecules/` — Accordion (`autoClose`/`defaultOpen`), BulletList, Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections, ScrollArea
+- `organisms/` — CookieConsent, CursorFX, ExpandableCard, FloatingNav, MasonryCard, PageLayout, PushPanel, TextureOverlay
 
-Shared hooks in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `useDisclosureGroup`, `useActiveNav`.
+Shared hooks/contexts in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `NavChromeProvider` (hides site nav on the splash), `DesignPanelProvider` (ONE shared design-panel open/reveal state across routes — the FunPanel on portfolio, full `TokenSidebar` on `/design-system`), `useDisclosureGroup`, `useActiveNav`, `useMediaQuery`.
 
 **Button** is polymorphic `<Button as="button" | "link">`: `variant` (solid/outline/surface/chisel/ghost), `color` (default/muted/accent/primary), `size`, `icon`, `underline`. Every component has a colocated `<Name>.demo.tsx` beside it (self-contained: no `src/pages/**` imports) rendered by its tier section under `src/pages/admin/preview/` — both halves enforced by `demo-missing`.
 

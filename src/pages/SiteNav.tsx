@@ -20,8 +20,8 @@ const DESTINATIONS: {
   view?: View;
   match: string | null;
 }[] = [
-  { key: 'portfolio', label: 'portfolio', href: '/', view: 'main', match: '/' },
   { key: 'about', label: 'about', href: '/about', match: '/about' },
+  { key: 'portfolio', label: 'portfolio', href: '/', view: 'main', match: '/' },
   { key: 'contact', label: 'contact', href: '/contact', match: '/contact' },
   {
     key: 'design',

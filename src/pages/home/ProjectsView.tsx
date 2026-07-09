@@ -5,8 +5,8 @@ import { MasonryCard } from '../../components/organisms/MasonryCard';
 export function ProjectsView({ condensed }: { condensed: boolean }) {
   // One fewer column while the design push-panel is open.
   const breakpointCols = condensed
-    ? { default: 2, 992: 2, 991: 1 }
-    : { default: 3, 992: 3, 991: 1 };
+    ? { default: 3, 992: 3, 991: 1 }
+    : { default: 4, 992: 4, 991: 1 };
 
   return (
     <Masonry

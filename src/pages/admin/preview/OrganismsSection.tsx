@@ -125,7 +125,7 @@ export function OrganismsSection() {
         <div className="skeu-preview-flex">
           <NavVertical
             siteName="Ian Rios"
-            pages={['portfolio', 'about', 'contact']}
+            pages={['about', 'portfolio', 'contact']}
             ctaLabel="Contact"
           />
           <div className="skeu-org-sidebar-content">

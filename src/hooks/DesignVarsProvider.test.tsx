@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { DesignVarsProvider } from './DesignVarsProvider';
 import { useDesignVars } from './designVarsContext';
 import { STORAGE_KEY } from '../pages/admin/designStorage';
-import { DEFAULT_THEME } from '../pages/admin/adminData';
+import { DEFAULT_THEME, THEMES } from '../pages/admin/adminData';
 import type { StoredDesign } from '../types/admin';
 
 function Probe() {
@@ -51,20 +51,23 @@ beforeEach(() => {
 });
 
 describe('DesignVarsProvider', () => {
-  it('fresh visit: default theme active, nothing persisted', () => {
+  it('fresh visit: a random theme is active, nothing persisted', () => {
     renderProbe();
-    expect(screen.getByTestId('theme')).toHaveTextContent(DEFAULT_THEME);
+    const activeTheme = screen.getByTestId('theme').textContent;
+    expect(THEMES.some((t) => t.name === activeTheme)).toBe(true);
     expect(stored()).toBeNull();
+    const theme = THEMES.find((t) => t.name === activeTheme);
     expect(document.documentElement.style.getPropertyValue('--color-bg')).toBe(
-      '#000000',
+      theme?.vars['--color-bg'],
     );
   });
 
   it('editing a token persists theme + override diff only', async () => {
     renderProbe();
+    const activeTheme = screen.getByTestId('theme').textContent;
     await userEvent.click(screen.getByRole('button', { name: 'edit' }));
     const s = stored();
-    expect(s?.theme).toBe(DEFAULT_THEME);
+    expect(s?.theme).toBe(activeTheme);
     expect(s?.overrides).toEqual({ '--color-bg': '#123456' });
     expect(s?.snapshot['--color-bg']).toBe('#123456');
   });
@@ -95,12 +98,45 @@ describe('DesignVarsProvider', () => {
     expect(stored()?.overrides).toEqual({ '--color-bg': '#123456' });
   });
 
-  it('reset clears storage and returns to the default theme', async () => {
-    renderProbe();
+  it('reset clears overrides, keeps the active theme, and persists across reload', async () => {
+    const { unmount } = renderProbe();
+    await userEvent.click(screen.getByRole('button', { name: 'glow' }));
     await userEvent.click(screen.getByRole('button', { name: 'edit' }));
     await userEvent.click(screen.getByRole('button', { name: 'reset' }));
-    expect(stored()).toBeNull();
+
+    expect(screen.getByTestId('theme')).toHaveTextContent('Glow');
+    expect(screen.getByTestId('bg')).toHaveTextContent('#0a0014');
+    let s = stored();
+    expect(s?.theme).toBe('Glow');
+    expect(s?.overrides).toEqual({});
+
+    // Simulate a reload: unmount and remount, reading fresh from storage.
+    unmount();
+    renderProbe();
+    expect(screen.getByTestId('theme')).toHaveTextContent('Glow');
+    expect(screen.getByTestId('bg')).toHaveTextContent('#0a0014');
+    s = stored();
+    expect(s?.theme).toBe('Glow');
+    expect(s?.overrides).toEqual({});
+  });
+
+  it('reset falls back to the default theme when no preset was ever active', async () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        version: 1,
+        theme: null,
+        overrides: { '--color-bg': '#123456' },
+        snapshot: {},
+      } satisfies StoredDesign),
+    );
+    renderProbe();
+    expect(screen.getByTestId('theme')).toHaveTextContent('none');
+
+    await userEvent.click(screen.getByRole('button', { name: 'reset' }));
     expect(screen.getByTestId('theme')).toHaveTextContent(DEFAULT_THEME);
     expect(screen.getByTestId('bg')).toHaveTextContent('#000000');
+    expect(stored()?.theme).toBe(DEFAULT_THEME);
+    expect(stored()?.overrides).toEqual({});
   });
 });

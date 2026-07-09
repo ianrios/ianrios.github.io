@@ -8,32 +8,6 @@ import type {
 
 export const independentProjectsData: ProjectData[] = [
   {
-    title: 'Live Design System',
-    year: 2024,
-    activelyMaintained: true,
-    body: 'A parametric Classic Windows bevel design system you can edit live in the browser - adjust colors, shadows, spacing, motion, and radii and watch the whole component library update instantly.',
-    live: '/design-system',
-    href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/pages/admin',
-    tools: ['React', 'SCSS', 'CSS Custom Properties', 'JavaScript'],
-  },
-  {
-    title: 'Marching Cubes',
-    year: 2021,
-    activelyMaintained: false,
-    info: 'https://en.wikipedia.org/wiki/Marching_cubes',
-    img_src_arr: ['./img/metaspheres.png'],
-    body: 'A real-time metaball field rendered with the marching cubes algorithm. Built to show my passion for math, design, and interactive 3D on the web.',
-    href: 'https://github.com/ianrios/ianrios.github.io/tree/main/src/three',
-    live: '/metaballs',
-    tools: [
-      'Three.js',
-      'React',
-      'JavaScript',
-      'React-Three-Paper',
-      'React Three Fiber',
-    ],
-  },
-  {
     title: 'The Algorithm Knows Best',
     year: 2021,
     activelyMaintained: false,
@@ -103,14 +77,14 @@ export const independentProjectsData: ProjectData[] = [
 ];
 
 export const workProjectsData: WorkExperience[] = [
-  {
-    company: 'Atrix',
-    title: 'Senior Software Engineer',
-    phase: 'Senior Software Engineer',
-    startYear: 2026,
-    endYear: null,
-    bullets: [],
-  },
+  // {
+  //   company: 'Atrix',
+  //   title: 'Senior Software Engineer',
+  //   phase: 'Senior Software Engineer',
+  //   startYear: 2026,
+  //   endYear: null,
+  //   bullets: [],
+  // },
   {
     company: 'Built Technologies',
     title: 'Software Engineer II',
@@ -118,10 +92,13 @@ export const workProjectsData: WorkExperience[] = [
     startYear: 2024,
     endYear: 2026,
     bullets: [
-      'Built internal AI-assisted engineering workflows and best practices adopted across 60+ engineers, contributing to a measured 20 to 25% increase in engineering delivery velocity.',
-      'Architected and deployed an LLM-guided support triage agent processing about 10,000 alerts weekly, reducing alert noise from about 90% to 50% over 6 months and saving on-call engineers about 6 hours daily.',
-      'Consolidated fragmented UX surfaces into reusable component systems across 5 major initiatives, unblocking 10+ product features previously constrained by duplicated implementations.',
+      // 'Architected an LLM-guided support triage agent
+      // processing about 10,000 alerts weekly, reducing
+      // alert noise from about 90% to 50% over 6 months
+      // and saving on-call engineers about 6 hours daily.',
+      'Built internal AI-assisted engineering workflows and best practices for the AI Guild, an org wide initiative, adopted across 60+ engineers, contributing to a measured 20 to 25% increase in engineering delivery velocity.',
       'Led architectural decisions and standards-setting for the Frontend Guild, a 3-person team managing the React design system and shared component libraries used by 12+ engineering teams.',
+      'Consolidated fragmented UX surfaces into reusable component systems across 5 major initiatives, unblocking 10+ product features previously constrained by duplicated implementations.',
       'Expanded Playwright infrastructure from isolated end-to-end tests into persona-aware testing flows spanning 100+ feature flags, 6 personas, and 4 environments.',
     ],
     companyUrl: 'https://getbuilt.com/',
@@ -145,7 +122,7 @@ export const workProjectsData: WorkExperience[] = [
   },
   {
     company: 'Luxury Garage Sale',
-    title: 'Full Stack Web Developer (Contract)',
+    title: 'Full Stack Web Developer',
     phase: 'Early Career',
     startYear: 2020,
     endYear: 2020,
@@ -156,7 +133,7 @@ export const workProjectsData: WorkExperience[] = [
   },
   {
     company: 'Apax Software',
-    title: 'Full Stack Web Developer (Contract)',
+    title: 'Full Stack Web Developer',
     phase: 'Early Career',
     startYear: 2019,
     endYear: 2019,
@@ -164,19 +141,6 @@ export const workProjectsData: WorkExperience[] = [
       'Built and tested full stack applications using React and Next.js frontends with Django APIs across multiple client projects.',
     ],
     companyUrl: 'https://www.apaxsoftware.com/',
-  },
-  {
-    company: 'Awesome Inc',
-    title: 'Bootcamp Instructor',
-    phase: 'Early Career',
-    startYear: 2019,
-    endYear: 2021,
-    bullets: [
-      'Taught full stack web development and agile concepts to 60+ students with a 90% job placement rate within 6 months of graduation.',
-      'Developed 35 video tutorials covering React fundamentals through advanced full stack patterns.',
-      'Led simulated engineering team exercises focused on collaborative development workflows and agile practices.',
-    ],
-    companyUrl: 'https://awesomeinc.org/',
   },
   {
     company: 'Conversant Media',
@@ -255,6 +219,7 @@ export const hobbyData: HobbyData[] = [
     body: 'Led standups and managed project delivery for software interns participating in the KY FIRST Robotics summer program, mentoring students on agile and software engineering fundamentals, communication, and team collaboration practices.',
     url: 'https://www.kyfirstrobotics.org/',
     instagram: '',
+    role: 'Internship Project Manager',
     kind: 'volunteering',
   },
   {
@@ -265,6 +230,18 @@ export const hobbyData: HobbyData[] = [
     body: 'Organized weekly workshops covering open-source software and emerging technologies led by rotating technical guests, as lead facilitator.',
     url: '',
     instagram: '',
+    role: 'Lead Organizer (2019 to 2023)',
+    kind: 'volunteering',
+  },
+  {
+    title: 'Awesome Inc',
+    year: 2019,
+    activelyMaintained: false,
+    img_src_arr: [],
+    body: 'Taught full stack web development and agile concepts to 60+ students, achieving a 90% job placement rate within 6 months of graduation. Developed 35 video tutorials covering React fundamentals through advanced full stack patterns and led simulated engineering team exercises focused on collaborative development workflows and agile practices.',
+    url: 'https://awesomeinc.org/',
+    instagram: '',
+    role: 'Bootcamp Instructor',
     kind: 'volunteering',
   },
 ];

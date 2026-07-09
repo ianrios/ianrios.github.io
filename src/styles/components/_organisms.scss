@@ -83,12 +83,12 @@
 }
 
 /* ─── FloatingNav ────────────────────────────────────────────────────────────── */
-/* The draggable site "remote control". Default rest is bottom-right; a stored
+/* The draggable site "remote control". Default rest is bottom-left; a stored
    position overrides via inline left/top. z-index sits below CookieConsent
    (900) and modal backdrops (1000). Desktop-only: mobile keeps the drawer. */
 .skeu-floating-nav {
   position: fixed;
-  right: var(--space-md, #{$space-md});
+  left: var(--space-md, #{$space-md});
   bottom: var(--space-md, #{$space-md});
   z-index: 850;
   display: flex;
@@ -301,7 +301,7 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
 /* ─── CookieConsent ──────────────────────────────────────────────────────────── */
 .skeu-cookie-consent {
   position: fixed;
-  left: var(--space-md, #{$space-md});
+  right: var(--space-md, #{$space-md});
   bottom: var(--space-md, #{$space-md});
   z-index: 900;
   max-width: calc(100vw - #{2 * $space-md});
@@ -309,8 +309,12 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   view-transition-name: cookie-consent;
 }
 @media only screen and (max-width: 991px) {
-  /* Leave the bottom-right corner free for the mobile hamburger. */
+  /* The mobile hamburger lives bottom-right; switch to the left edge so
+     nothing overlaps it (FloatingNav is hidden on mobile, so its left slot
+     is free). */
   .skeu-cookie-consent {
+    right: auto;
+    left: var(--space-md, #{$space-md});
     max-width: calc(100vw - 88px);
   }
 }

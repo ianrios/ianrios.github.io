@@ -2,7 +2,7 @@ import { Button } from '../atoms/Button';
 import { useActiveNav, type NavProps } from '../../hooks/useActiveNav';
 
 export function NavVertical({
-  pages = ['home', 'work', 'about'],
+  pages = ['home', 'about', 'work'],
   ctaLabel = 'Sign In',
   siteName = 'MySite',
   variant = 'buttons',
