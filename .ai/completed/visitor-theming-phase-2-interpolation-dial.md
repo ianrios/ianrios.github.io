@@ -1,5 +1,19 @@
 # Phase 2 — Theme interpolation dial
 
+Status: ✅ DONE (2026-07-09) — **shipped materially different from this
+plan's original UI design.** The from/to `Select` + linear `Slider` UI this
+plan specified was built first, then Ian rejected it: he wanted a literal
+rotary knob ("like a dial, a knob") with all 9 presets arranged around its
+circumference, not two dropdowns. Rebuilt as a new reusable atom,
+`src/components/atoms/Dial.tsx` (pointer-drag rotation with wraparound-safe
+angle tracking, keyboard support, bevel styling, colocated demo registered
+in `AtomsSection.tsx`) — a first-class library component, not FunPanel-only
+plumbing. Themes are ordered around the dial by `--color-bg` HSL lightness,
+lightest to darkest, per Ian's request for a "smooth to scroll through"
+order. The blend math itself (`themeInterpolate.ts` — hex/rgba-aware color
+blend + numeric-with-unit blend) is unchanged from this plan and reused
+as-is; only the input control changed.
+
 Part of `.ai/plans/visitor-theming-epic.md`. One of the 3 W3 items already
 flagged as deferred in `.ai/completed/portfolio-v2-followups.md` /
 `.ai/WORK.md`.

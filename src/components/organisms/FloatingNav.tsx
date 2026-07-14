@@ -1,34 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { Icon } from '../atoms/Icon';
-import {
-  NAV_POSITION_KEY,
-  clampPosition,
-  parseStoredPosition,
-  type NavPosition,
-} from './floating-nav-position';
+import { clampPosition, type NavPosition } from './floating-nav-position';
 
 const NUDGE_PX = 16;
 
-function loadStored(): NavPosition | null {
-  try {
-    return parseStoredPosition(localStorage.getItem(NAV_POSITION_KEY));
-  } catch {
-    return null;
-  }
-}
-
-function persist(pos: NavPosition): void {
-  try {
-    localStorage.setItem(NAV_POSITION_KEY, JSON.stringify(pos));
-  } catch {
-    // localStorage unavailable (private mode) - position just won't stick
-  }
-}
-
-// Draggable "remote control" panel. One global position shared across all
-// routes (single {x,y}, per the concepts doc); null means the CSS default
-// (bottom-right inset). `inline` renders it unpositioned for the admin demo.
+// Draggable "remote control" panel. Position is session-only (in-memory,
+// never persisted): the panel's default corner has moved more than once as
+// the layout evolved, and a localStorage-remembered position calibrated
+// against a PREVIOUS default has twice silently drifted into a collision
+// with other fixed chrome. Starting fresh every load is simpler and more
+// predictable than versioning the storage key every time the default
+// changes. `inline` renders it unpositioned for the admin demo.
 export function FloatingNav({
   inline = false,
   children,
@@ -38,7 +21,7 @@ export function FloatingNav({
 }) {
   const panelRef = useRef<HTMLElement>(null);
   const grabOffset = useRef<{ dx: number; dy: number } | null>(null);
-  const [pos, setPos] = useState<NavPosition | null>(loadStored);
+  const [pos, setPos] = useState<NavPosition | null>(null);
 
   const clampToViewport = useCallback((next: NavPosition): NavPosition => {
     const rect = panelRef.current?.getBoundingClientRect();
@@ -79,12 +62,7 @@ export function FloatingNav({
   };
 
   const onPointerUp = () => {
-    if (!grabOffset.current) return;
     grabOffset.current = null;
-    setPos((p) => {
-      if (p !== null) persist(p);
-      return p;
-    });
   };
 
   const onGripKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -105,7 +83,6 @@ export function FloatingNav({
       y: rect.top + delta.y,
     });
     setPos(next);
-    persist(next);
   };
 
   return (
@@ -119,7 +96,20 @@ export function FloatingNav({
         .filter(Boolean)
         .join(' ')}
       {...(pos !== null && !inline
-        ? { style: { left: pos.x, top: pos.y, right: 'auto', bottom: 'auto' } }
+        ? {
+            // transform: 'none' clears the docked position's own
+            // translateY(-50%) centering - without it, a drag would
+            // repeat the exact PresetDial bug (rendered position offset
+            // from wherever left/top actually say, capping how far it
+            // can be dragged and misplacing the grab point).
+            style: {
+              left: pos.x,
+              top: pos.y,
+              right: 'auto',
+              bottom: 'auto',
+              transform: 'none',
+            },
+          }
         : {})}
     >
       <button

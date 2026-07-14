@@ -42,6 +42,29 @@
   height: 100%;
   align-self: stretch;
 }
+/* Same width as the closed rotated tab (TAB_W.rotated in PushPanel.tsx -
+   the one tabVariant PanelLayout ever uses). PanelLayout swaps this in for
+   the real PushPanel while `hidden` (the splash view), so the flex row
+   reserves the identical 28px from first paint onward whether the real
+   panel is mounted or not - mounting the real PushPanel on entering the
+   site is then a true no-op for layout, instead of suddenly adding 28px
+   and shoving the main content column right. */
+.skeu-push-panel-placeholder {
+  width: 28px;
+  flex-shrink: 0;
+  height: 100%;
+}
+/* Own snapshot so the ONE persistent instance (PanelLayout) holds still
+   during page pans instead of being swept into the generic whole-page
+   "root" snapshot that slides as a single flat image - the live DOM never
+   actually moves (PanelLayout doesn't unmount between routes), but without
+   a name here the view-transition mechanic doesn't know that and animates
+   it anyway. Deliberately NOT on the base .skeu-push-panel class: the
+   component demo renders five simultaneous instances, which would collide
+   on a shared view-transition-name. */
+.skeu-push-panel--main {
+  view-transition-name: push-panel;
+}
 .skeu-push-tab--width-28 {
   width: 28px;
 }
@@ -82,14 +105,28 @@
     opacity var(--anim-speed-slow, 0.5s) ease;
 }
 
+/* Kept in sync by hand with Home.tsx's PushPanel `width` prop - the one
+   other place that needs to know how wide the open design panel gets.
+   Not part of the editable token registry: a layout constant, not a
+   design-system value visitors ever tune. */
+:root {
+  --panel-open-width: clamp(320px, 22vw, 440px);
+}
+
 /* ─── FloatingNav ────────────────────────────────────────────────────────────── */
-/* The draggable site "remote control". Default rest is bottom-left; a stored
-   position overrides via inline left/top. z-index sits below CookieConsent
-   (900) and modal backdrops (1000). Desktop-only: mobile keeps the drawer. */
+/* The draggable site "remote control". Default rest is left-center,
+   session-only (never persisted - see FloatingNav.tsx), and never moves for
+   the design panel - it floats over it at the same fixed screen position,
+   same as always; only a manual drag/nudge repositions it. z-index sits
+   below CookieConsent (900) and modal backdrops (1000), but above the
+   PushPanel (unelevated, z-index: auto), so it visually floats over an open
+   panel rather than being covered by it. Desktop-only: mobile keeps the
+   drawer. */
 .skeu-floating-nav {
   position: fixed;
-  left: var(--space-md, #{$space-md});
-  bottom: var(--space-md, #{$space-md});
+  left: var(--space-lg, #{$space-lg});
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 850;
   display: flex;
   flex-direction: column;
@@ -136,6 +173,95 @@
 }
 @media only screen and (max-width: 991px) {
   .skeu-floating-nav {
+    display: none;
+  }
+}
+
+/* ─── PresetDial ─────────────────────────────────────────────────────────────── */
+/* A second, independent floating remote (same architecture as FloatingNav:
+   fixed position, grip-draggable, session-only). Default rest is docked
+   horizontally centered in the open design panel's width, close to its
+   top - looks like it lives there, but it's a structurally separate
+   overlay, which is the whole point: dragging it clear of the panel means
+   its screen position never has to depend on how the panel (or the rest of
+   the page) is laid out. No max-width here: the dial sizes itself to
+   whatever its labels truly need (see dial-geometry.ts) and the panel
+   accommodates that, rather than clipping/squeezing it to fit. */
+.skeu-preset-dial {
+  position: fixed;
+  left: calc(var(--panel-open-width) / 2);
+  /* A bit further down than the bare minimum, clearing the "design"
+     heading + Type scale slider that live at the top of the main push
+     panel content instead of visually overlapping them. */
+  top: calc(var(--space-xl, #{$space-xl}) + var(--space-md, #{$space-md}));
+  transform: translateX(-50%);
+  z-index: 820;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Same padding as FloatingNav's own edge-to-content distance
+     (.skeu-floating-nav below), not an independently-guessed value - the
+     two floating remotes should read as the same family of chrome. */
+  gap: var(--space-xxs, #{$space-xxs});
+  padding: var(--space-xs, #{$space-xs});
+  /* left/top are in this list (not just opacity/transform) so a drag-then-
+     close animates as ONE continuous move-back-and-shrink - without them,
+     the position snaps instantly (no interpolation for an inline style
+     going away) and only the shrink/fade animates after the fact. */
+  transition:
+    opacity var(--anim-speed-slow, #{$anim-speed-slow}) ease,
+    transform var(--anim-speed-slow, #{$anim-speed-slow}) ease,
+    left var(--anim-speed-slow, #{$anim-speed-slow}) ease,
+    top var(--anim-speed-slow, #{$anim-speed-slow}) ease;
+  @include surface-elevation('high');
+}
+/* Own snapshot so it holds still while pages pan beneath it, same reason
+   as FloatingNav. */
+.skeu-preset-dial:not(.skeu-preset-dial--inline) {
+  view-transition-name: preset-dial;
+}
+/* No easing while actively dragging - the transition above exists only for
+   the close/reopen animation. Without this, every drag update eases behind
+   the pointer instead of snapping to it, unlike FloatingNav (which has no
+   position transition at all). */
+.skeu-preset-dial.is-dragging {
+  transition: none;
+}
+/* Closed: retreats toward its docked position (if dragged elsewhere, the
+   component itself already reset `pos` to null - see PresetDial.tsx) and
+   slides a little further left as it fades, reading as "sliding back into
+   the panel" (which opens from the left) rather than shrinking in place. */
+.skeu-preset-dial--closed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(calc(-50% - 24px));
+}
+.skeu-preset-dial--inline {
+  position: static;
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+.skeu-preset-dial__title {
+  /* The heading reset's own margin-bottom would double up with the flex
+     gap already spacing it from the dial below. */
+  margin: 0;
+}
+.skeu-preset-dial__grip {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xxs, #{$space-xxs});
+  background: transparent;
+  border: none;
+  color: var(--color-muted, #{$color-muted});
+  cursor: grab;
+  touch-action: none;
+  &:active {
+    cursor: grabbing;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .skeu-preset-dial {
     display: none;
   }
 }
@@ -203,22 +329,49 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   cursor: none;
 }
 
-/* Custom cursor: tracks INSTANTLY (no transition). */
+/* Custom cursor: tracks INSTANTLY (no transition). Rest/hover/active reuse
+   the same three-state color axis Button already drives off --link-*. */
 .skeu-cursor-dot {
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--cursor-size, #{$cursor-size});
-  height: var(--cursor-size, #{$cursor-size});
-  margin: calc(var(--cursor-size, #{$cursor-size}) / -2) 0 0
-    calc(var(--cursor-size, #{$cursor-size}) / -2);
+  /* Never render under 4px, even at low token values. */
+  width: max(var(--cursor-size, #{$cursor-size}), 4px);
+  height: max(var(--cursor-size, #{$cursor-size}), 4px);
+  margin: calc(max(var(--cursor-size, #{$cursor-size}), 4px) / -2) 0 0
+    calc(max(var(--cursor-size, #{$cursor-size}), 4px) / -2);
   border-radius: 50%;
-  background: var(--link-hover, #{$link-hover});
+  background: var(--link-color, #{$link-color});
   pointer-events: none;
   z-index: 2200;
+  transition:
+    background-color var(--anim-speed, 0.12s) ease,
+    width var(--anim-speed, 0.12s) ease,
+    height var(--anim-speed, 0.12s) ease,
+    margin var(--anim-speed, 0.12s) ease;
 }
+/* view-transition-name is required here, not optional: ANY named element
+   (FloatingNav's `site-nav`, CookieConsent) gets lifted into the browser's
+   ::view-transition top layer during a pan, which paints ABOVE the entire
+   regular document regardless of z-index - an unnamed cursor is left
+   behind in the normal DOM, rendering under that top layer, then popping
+   back in front the instant the transition ends. Naming it puts the
+   cursor in the SAME top layer; the explicit z-index below (see
+   ::view-transition-group) ranks it above every other named group so nav
+   chrome can never occlude it mid-pan. */
 .skeu-cursor-dot:not(.skeu-cursor-dot--inline) {
   view-transition-name: cursor-dot;
+}
+.skeu-cursor-dot--hover {
+  background: var(--link-hover, #{$link-hover});
+}
+.skeu-cursor-dot--active {
+  background: var(--link-active, #{$link-active});
+  /* Dot shrinks on press; the trail holds its size as the "tension" cue. */
+  width: max(calc(var(--cursor-size, #{$cursor-size}) * 0.6), 4px);
+  height: max(calc(var(--cursor-size, #{$cursor-size}) * 0.6), 4px);
+  margin: calc(max(calc(var(--cursor-size, #{$cursor-size}) * 0.6), 4px) / -2) 0
+    0 calc(max(calc(var(--cursor-size, #{$cursor-size}) * 0.6), 4px) / -2);
 }
 .skeu-cursor-dot--inline {
   position: static;
@@ -227,23 +380,62 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   margin: 0;
 }
 
-/* Trailing ring: EASES toward the pointer (the lag). */
+/* Trailing ring: EASES toward the pointer (the lag). Never smaller than the
+   dot, so the ring can't visually collapse inside/under it. */
 .skeu-cursor-trail {
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--cursor-trail, #{$cursor-trail});
-  height: var(--cursor-trail, #{$cursor-trail});
-  margin: calc(var(--cursor-trail, #{$cursor-trail}) / -2) 0 0
-    calc(var(--cursor-trail, #{$cursor-trail}) / -2);
-  border: 2px solid var(--link-hover, #{$link-hover});
+  width: max(
+    var(--cursor-trail, #{$cursor-trail}),
+    var(--cursor-size, #{$cursor-size}),
+    4px
+  );
+  height: max(
+    var(--cursor-trail, #{$cursor-trail}),
+    var(--cursor-size, #{$cursor-size}),
+    4px
+  );
+  margin: calc(
+      max(
+          var(--cursor-trail, #{$cursor-trail}),
+          var(--cursor-size, #{$cursor-size}),
+          4px
+        ) /
+        -2
+    )
+    0 0
+    calc(
+      max(
+          var(--cursor-trail, #{$cursor-trail}),
+          var(--cursor-size, #{$cursor-size}),
+          4px
+        ) /
+        -2
+    );
+  border: 2px solid var(--link-color, #{$link-color});
   border-radius: 50%;
   pointer-events: none;
   z-index: 2100;
-  transition: transform var(--anim-speed-slow, #{$anim-speed-slow}) ease;
+  transition:
+    transform var(--anim-speed-slow, #{$anim-speed-slow}) ease,
+    border-color var(--anim-speed, 0.12s) ease;
 }
 .skeu-cursor-trail:not(.skeu-cursor-trail--inline) {
   view-transition-name: cursor-trail;
+}
+.skeu-cursor-trail--hover {
+  border-color: var(--link-hover, #{$link-hover});
+}
+.skeu-cursor-trail--active {
+  border-color: var(--link-active, #{$link-active});
+}
+/* Ranks the cursor's own top-layer groups above every other named group
+   (site-nav, cookie-consent, texture-*) so nav chrome can't occlude it
+   mid-pan - see the comment on .skeu-cursor-dot's view-transition-name. */
+::view-transition-group(cursor-dot),
+::view-transition-group(cursor-trail) {
+  z-index: 9999;
 }
 .skeu-cursor-trail--inline {
   position: static;
@@ -253,12 +445,18 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   margin: 0;
 }
 
-/* Static grain over the whole viewport (subtle fast parallax in JS). */
+/* Static grain over the whole viewport (subtle fast parallax in JS).
+   `overlay` blend mode instead of plain alpha compositing: plain opacity
+   averages the noise toward gray and reads as a darkening scrim at high
+   values, while overlay modulates against the backdrop's own luminance
+   (multiplies shadows, screens highlights) so it reads as grain sitting on
+   top of the page rather than a wash over it. */
 .skeu-texture-overlay {
   position: fixed;
   inset: -24px;
   z-index: 2000;
   pointer-events: none;
+  mix-blend-mode: overlay;
   opacity: var(--texture-opacity, #{$texture-opacity});
   background-image: url('#{$grain-svg}');
   view-transition-name: texture-overlay;
@@ -271,20 +469,35 @@ $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
 }
 
 /* Reactive grain blob: EASES toward the pointer, radially masked so grain
-   concentrates near it and relaxes where the pointer has left. */
+   concentrates near it and relaxes where the pointer has left. Same
+   overlay blend as the static layer, a smaller footprint, an opacity
+   ceiling below the token's raw max, and a softer mask falloff (an added
+   mid stop instead of a straight 0%-to-70% ramp) so it reads as a diffuse
+   grain concentration rather than a large dark blotch. */
 .skeu-texture-blob {
   position: fixed;
   top: 0;
   left: 0;
-  width: 420px;
-  height: 420px;
-  margin: -210px 0 0 -210px;
+  width: 280px;
+  height: 280px;
+  margin: -140px 0 0 -140px;
   z-index: 2000;
   pointer-events: none;
-  opacity: var(--texture-reactivity, #{$texture-reactivity});
+  mix-blend-mode: overlay;
+  opacity: min(var(--texture-reactivity, #{$texture-reactivity}), 0.4);
   background-image: url('#{$grain-svg}');
-  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
-  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(
+    circle,
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 30%,
+    transparent 65%
+  );
+  mask-image: radial-gradient(
+    circle,
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 30%,
+    transparent 65%
+  );
   transition: transform var(--anim-speed-slow, #{$anim-speed-slow}) ease;
 }
 .skeu-texture-blob:not(.skeu-texture-blob--inline) {

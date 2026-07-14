@@ -144,10 +144,13 @@ export const TOKEN_REGISTRY: TokenDef[] = [
   { cssVar: '--link-color', category: 'link', default: '#4da6ff', control: color('Default') },
   { cssVar: '--link-hover', category: 'link', default: '#ffff00', control: color('Hover') },
   { cssVar: '--link-active', category: 'link', default: '#ff6666', control: color('Active') },
-  // ── Effects (0 = off; demonstrated live by CursorFX/TextureOverlay) ──────
-  { cssVar: '--cursor-size', category: 'effects', default: '0px', control: range('Custom cursor (0 = off)', 0, 40, 2) },
-  { cssVar: '--cursor-trail', category: 'effects', default: '0px', control: range('Cursor trail (0 = off)', 0, 48, 2) },
-  { cssVar: '--texture-opacity', category: 'effects', default: '0', control: { type: 'raw', label: 'Texture grain (0 = off)', min: 0, max: 0.4, step: 0.02 } },
+  // ── Effects (demonstrated live by CursorFX/TextureOverlay). Every preset
+  // ships a custom cursor - never 0/off - so the trail must always render
+  // larger than the dot, by at least 4px; enforced at the theme-data level
+  // (themes.test.ts), not by these ranges alone. ─────────────────────────
+  { cssVar: '--cursor-size', category: 'effects', default: '10px', control: range('Custom cursor', 2, 40, 2) },
+  { cssVar: '--cursor-trail', category: 'effects', default: '16px', control: range('Cursor trail', 6, 48, 2) },
+  { cssVar: '--texture-opacity', category: 'effects', default: '0', control: { type: 'raw', label: 'Texture grain (0 = off)', min: 0, max: 0.3, step: 0.02 } },
   { cssVar: '--texture-reactivity', category: 'effects', default: '0', control: { type: 'raw', label: 'Texture follows cursor (0 = off)', min: 0, max: 0.6, step: 0.02 } },
 ];
 

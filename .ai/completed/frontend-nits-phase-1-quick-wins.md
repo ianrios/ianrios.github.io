@@ -1,5 +1,10 @@
 # Phase 1 — Home/nav/data quick wins
 
+Status: ✅ DONE (2026-07-09) — all checks green. Deviation from plan: the
+"swap corners" resolution shipped as written, then Ian asked for the
+floating nav to sit ~50% closer to the left edge on top of that
+(`left: calc(var(--space-md) / 2)`).
+
 Part of `.ai/plans/frontend-nits-epic.md`. Covers frontend-nits.md items
 #1, #11, #12, #13, #16.
 

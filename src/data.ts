@@ -241,15 +241,17 @@ export const hobbyData: HobbyData[] = [
     body: 'Taught full stack web development and agile concepts to 60+ students, achieving a 90% job placement rate within 6 months of graduation. Developed 35 video tutorials covering React fundamentals through advanced full stack patterns and led simulated engineering team exercises focused on collaborative development workflows and agile practices.',
     url: 'https://awesomeinc.org/',
     instagram: '',
-    role: 'Bootcamp Instructor',
+    role: 'Bootcamp Instructor (Jan 2019 to Dec 2021)',
     kind: 'volunteering',
   },
 ];
 
 export const aboutData: AboutData = {
   bio: "I'm a software engineer with 8 years of experience building web platforms, AI-assisted engineering workflows, and developer productivity systems. My work spans component architecture, full-stack SaaS infrastructure, frontend design systems, testing reliability, and operational AI systems. I like designing systems from the ground up, setting architectural standards that hold up years later, and building tooling that measurably improves how fast and how well a team can ship.",
-  personal:
-    "Outside of work I run WRC, an independently owned record label I built the artist portal and store for, and I produce and DJ electronic music under a rotating cast of aliases. I've also worked as a personal chef, cooking and delivering meals for coworkers as a small side business, because I like feeding people almost as much as I like building things for them. I studied Electronic Arts and Computer Music alongside computer science at RPI, and that mix of engineering and craft still shows up in how I approach this site. I mentor engineers when I can, whether that's leading standups for the KY FIRST Robotics summer program or running workshops through the Open Source Breakfast Club.",
+  hobbiesIntro:
+    "Outside of work I run WRC, an independently owned record label I built the artist portal and store for, and I produce and DJ electronic music under a rotating cast of aliases. I've also worked as a personal chef, cooking and delivering meals for coworkers as a small side business, because I like feeding people almost as much as I like building things for them. I studied Electronic Arts and Computer Music alongside computer science at RPI, and that mix of engineering and craft still shows up in how I approach this site.",
+  volunteeringIntro:
+    "I mentor engineers when I can, whether that's leading standups for the KY FIRST Robotics summer program or running workshops through the Open Source Breakfast Club.",
   closing:
     'This site is built the way I build everything now: by directing AI coding agents. The engineering is in the orchestration. Getting the most from an agent on the fewest tokens, keeping context sharp before it degrades, and building the tooling and workflows that make that repeatable is the actual work. Setting the direction and owning the system is the job.',
 };

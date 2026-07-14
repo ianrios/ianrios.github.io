@@ -59,6 +59,7 @@ function PillLabel({ open }: { open: boolean }) {
  */
 export function PushPanel({
   children,
+  className,
   label = 'panel',
   defaultOpen = false,
   width = 400,
@@ -71,6 +72,10 @@ export function PushPanel({
   onRevealed,
 }: {
   children?: React.ReactNode;
+  /** Extra class on the root element - e.g. the one persistent instance in
+   * PanelLayout uses this to opt into view-transition-name, which the
+   * component demo (five simultaneous instances) must never do. */
+  className?: string;
   label?: string;
   defaultOpen?: boolean;
   /** Pixel number or any CSS length e.g. '25vw', 'clamp(320px, 22vw, 440px)' */
@@ -109,7 +114,7 @@ export function PushPanel({
   const widthClass = `skeu-push-tab--width-${tabW}`;
 
   return (
-    <div className="skeu-push-panel">
+    <div className={['skeu-push-panel', className].filter(Boolean).join(' ')}>
       {/* Trigger tab */}
       <button
         onClick={() => {

@@ -1,8 +1,8 @@
-// Position persistence + clamping for FloatingNav, kept pure so the unit
-// tests can exercise them directly (jsdom has no pointer-capture APIs, so
-// drag itself is verified by hand).
-
-export const NAV_POSITION_KEY = 'nav:v1';
+// Clamping for FloatingNav's drag/nudge, kept pure so the unit tests can
+// exercise it directly (jsdom has no pointer-capture APIs, so drag itself
+// is verified by hand). Position is session-only now (never persisted -
+// see FloatingNav.tsx), so parseStoredPosition stays only as a pure,
+// tested parser other storage-shaped inputs could reuse.
 
 export interface NavPosition {
   x: number;

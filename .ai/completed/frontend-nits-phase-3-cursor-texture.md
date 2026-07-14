@@ -1,5 +1,11 @@
 # Phase 3 — Cursor + texture system
 
+Status: ✅ DONE (2026-07-09) — all checks green. Item #5's root cause
+confirmed as "effect off site-wide by default" (not a splash-specific
+bug); default theme's cursor visibility left unchanged, out of scope.
+Texture fix used `mix-blend-mode: overlay` plus a lowered `--texture-opacity`
+ceiling (0.4 → 0.3) and a softened reactive-blob falloff.
+
 Part of `.ai/plans/frontend-nits-epic.md`. Covers frontend-nits.md items
 #2, #3, #4, #5, #7, #8, #9, #10. Independent of every other phase.
 

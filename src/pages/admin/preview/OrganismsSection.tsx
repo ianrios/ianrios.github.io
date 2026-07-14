@@ -11,6 +11,7 @@ import { ExpandableCardDemo } from '../../../components/organisms/ExpandableCard
 import { FloatingNavDemo } from '../../../components/organisms/FloatingNav.demo';
 import { MasonryCardDemo } from '../../../components/organisms/MasonryCard.demo';
 import { PageLayoutDemo } from '../../../components/organisms/PageLayout.demo';
+import { PresetDialDemo } from '../../../components/organisms/PresetDial.demo';
 import { PushPanelDemo } from '../../../components/organisms/PushPanel.demo';
 import { TextureOverlayDemo } from '../../../components/organisms/TextureOverlay.demo';
 import { Heading } from '../../../components/atoms/Heading';
@@ -40,12 +41,24 @@ export function OrganismsSection() {
 
       <SectionLabel>Floating nav (draggable site remote)</SectionLabel>
       <div className="skeu-preview-note">
-        Fixed bottom-right on live pages; the grip drags it anywhere (arrow keys
-        nudge it) and the position persists across routes and reloads. Shown
-        inline here.
+        Fixed bottom-left on live pages; the grip drags it anywhere (arrow keys
+        nudge it). Position is session-only - it never persists, so every load
+        starts at the same spot. Shown inline here.
       </div>
       <div className="skeu-preview-section">
         <FloatingNavDemo />
+      </div>
+
+      <SectionLabel>Preset dial (floating theme remote)</SectionLabel>
+      <div className="skeu-preview-note">
+        A separate floating remote for theme presets, docked near the open
+        design panel by default but draggable anywhere - the same
+        fixed-position, grip-and-clamp architecture as the floating nav, kept
+        independent so its own screen position never moves when a theme change
+        resizes anything else. Shown inline here.
+      </div>
+      <div className="skeu-preview-section">
+        <PresetDialDemo />
       </div>
 
       <SectionLabel>Masonry card (portfolio grid item)</SectionLabel>

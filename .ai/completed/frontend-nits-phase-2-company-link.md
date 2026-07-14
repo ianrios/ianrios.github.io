@@ -1,5 +1,8 @@
 # Phase 2 — Company-link icon button
 
+Status: ✅ DONE (2026-07-09) — implemented exactly as planned, all checks
+green.
+
 Part of `.ai/plans/frontend-nits-epic.md`. Covers frontend-nits.md item #6.
 Independent of every other phase.
 

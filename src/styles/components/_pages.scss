@@ -45,7 +45,24 @@
 }
 
 /* ─── About page ────────────────────────────────────────────────────────────── */
+/* Sticky-stack headers: each pinned header's `top` is a multiple of
+   --about-header-h (itself token-derived, so it tracks live token edits
+   from the admin panel instead of drifting from a hardcoded pixel value).
+   Font tokens don't vary by breakpoint in this codebase (see _base.scss),
+   so a single height holds correct across the responsive breakpoint too. */
+/* Relative anchor for .skeu-about__links below: this Stack IS the flex-1
+   content column (sibling of the design push-panel in PanelLayout), so an
+   absolutely-positioned child of it is scoped to that column's actual
+   width/position - never the full viewport - regardless of whether the
+   panel is open, closed, or mid-drag. */
+.skeu-about-page {
+  position: relative;
+}
+
 .skeu-about {
+  --about-header-h: calc(
+    var(--font-lg, #{$font-lg}) + var(--space-md, #{$space-md})
+  );
   min-height: 100vh;
   background-color: var(--color-bg, #{$color-bg});
   color: var(--color-text, #{$color-text});
@@ -53,9 +70,45 @@
 .skeu-about__column {
   max-width: 40rem;
   margin: 0 auto;
+  /* Bottom-fixed links bar needs room so it never covers the closing text. */
+  padding-bottom: calc(var(--about-header-h) + var(--space-lg, #{$space-lg}));
+}
+/* "About" is a permanent tier-1 pin (top: 0), always visible while
+   scrolling. Hobbies and volunteering are siblings sharing ONE tier-2 slot
+   right below it (same level={2}, same height/font, same top offset) -
+   never a 3rd tier stacked below both. Volunteering, later in the
+   document, carries a higher z-index than hobbies; once its own scroll
+   position reaches that slot, it paints over (pushes out) hobbies rather
+   than the two stacking. States while scrolling: About alone -> About +
+   hobbies -> About + volunteering & mentorship. */
+.skeu-about__pin {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  height: var(--about-header-h);
+  margin: 0;
+  background-color: var(--color-bg, #{$color-bg});
+}
+.skeu-about__pin--about {
+  top: 0;
+  z-index: 1;
+}
+.skeu-about__pin--hobbies {
+  top: var(--about-header-h);
+  z-index: 2;
+}
+.skeu-about__pin--volunteering {
+  top: var(--about-header-h);
+  z-index: 3;
 }
 .skeu-about__photo {
-  max-width: 100%;
+  /* No max-width of its own: matches .skeu-about__column's 40rem exactly,
+     same as the text - a narrower cap here was the bug, not a feature. */
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
   border-radius: var(--radius-md, #{$radius-md});
 }
 .skeu-about__lead {
@@ -65,12 +118,36 @@
   color: var(--color-muted, #{$color-muted});
   font-style: italic;
 }
-.skeu-about__section {
-  margin-top: var(--space-md, #{$space-md});
-  color: var(--color-muted, #{$color-muted});
-}
+/* Same visual family as the sticky section headers above (.skeu-about__pin:
+   same background-color, same height, no card/elevation treatment) - just
+   anchored to the bottom instead of the top, and always visible instead of
+   scroll-triggered. `position: absolute` (not `fixed`) anchors this to
+   .skeu-about-page - the content column itself, not the viewport - so it
+   never overlaps the design panel and stays centered on the content instead
+   of the window. width: max-content sizes the bar to whatever its buttons
+   actually need in one row - any fixed cap (even a generous one) can end
+   up narrower than the content, forcing individual button labels to wrap
+   to two lines. left:0/right:0/margin:auto still centers a max-content box
+   between those edges (standard over-constrained-absolute-box centering),
+   so it's centered on the content column without being clamped to its
+   width. max-width is a pure small-viewport overflow safety, not a content
+   match. Chisel buttons stay inline (nowrap) rather than wrapping into a
+   stack. */
 .skeu-about__links {
-  flex-wrap: wrap;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 800;
+  width: max-content;
+  max-width: calc(100% - var(--space-lg, #{$space-lg}) * 2);
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: var(--about-header-h);
+  padding: 0 var(--space-lg, #{$space-lg});
+  background-color: var(--color-bg, #{$color-bg});
 }
 
 /* ─── Contact page ──────────────────────────────────────────────────────────── */

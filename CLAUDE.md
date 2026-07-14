@@ -32,13 +32,13 @@ Always run `npm run check`, not individual scripts (Prettier must precede ESLint
 
 ## App structure
 
-Routes in `src/App.tsx` (three.js and Admin lazy-loaded; 404 catch-all, error boundary; root-mounted `CookieConsent`, `SiteNav` — desktop floating remote / mobile hamburger drawer, the SOLE page-to-page nav, hidden on the splash via `NavChromeProvider` — `RouteTransitions` (papers-on-a-table view transitions, `navDirection.ts` map), `CursorFX` + `TextureOverlay` (effects). `Main` is keyed by `location.key` so nav to `/` re-reads the splash-vs-main view from router state. Portfolio content in `src/data.ts` (no API — edit there):
+Routes in `src/App.tsx` (three.js and Admin lazy-loaded; 404 catch-all, error boundary; root-mounted `CookieConsent`, `SiteNav` — desktop floating remote / mobile hamburger drawer, the SOLE page-to-page nav, hidden on the splash via `NavChromeProvider` — `RouteTransitions` (papers-on-a-table view transitions, `navDirection.ts` map), `CursorFX` + `TextureOverlay` (effects). `Main` is keyed by `location.key` so nav to `/` re-reads the splash-vs-main view from router state. `/`, `/about`, `/contact`, `/design-system` nest under `PanelLayout` (`src/pages/PanelLayout.tsx`) — ONE shared `PushPanel` instance (never one per page) whose content swaps between `FunPanel` (portfolio pages) and the lazy `TokenSidebar` (`/design-system`); while `NavChromeProvider`'s `hidden` flag is set (the splash), a same-width placeholder div stands in for the panel so its flex slot never changes size across the splash/main boundary. Portfolio content in `src/data.ts` (no API — edit there):
 
 - `/` — **Home** (`src/pages/Home.tsx`) — MetaBalls splash → header tabs (experience/projects) + views under `src/pages/home/`; portfolio push-panel shows `FunPanel`
 - `/about` — **About** (`src/pages/About.tsx`) — bio + hobbies + external links, from `aboutData`/`hobbyData`/`externalLinks`
 - `/contact` — **Contact** (`src/pages/Contact.tsx`) — Google-form iframe page (below home on the table)
 - `/design-system` — **Admin** (`src/pages/Admin.tsx`) — full token editor + preview (`/admin` alias removed)
-- `/metaballs` — **ThreeScene** — MarchingCubes metaballs (nav item "title" instead returns to the splash). `/imagebox` planned, not built (`.ai/specs/imagebox-epic.md`)
+- `/metaballs` — **ThreeScene** — MarchingCubes metaballs (nav item "title" instead returns to the splash), outside `PanelLayout` (no design panel). `/imagebox` planned, not built (`.ai/specs/imagebox-epic.md`)
 
 ## Design system
 
@@ -67,9 +67,9 @@ Tokens in `src/styles/_tokens.scss`, exposed as CSS custom properties in `_base.
 
 Components in `src/components/` — audit for an existing atom before adding one:
 
-- `atoms/` — Badge, Button, ColorPicker, Heading, Icon (typed name union), Input, Section, Select, Slider, Stack, Switch, Text, ValueInput
+- `atoms/` — Badge, Button, ColorPicker, Dial (rotary selector; drives FunPanel's theme-blend knob), Heading, Icon (typed name union), Input, Section, Select, Slider, Stack, Switch, Text, ValueInput
 - `molecules/` — Accordion (`autoClose`/`defaultOpen`), BulletList, Card, CardWithDropdown, FormField, NavBar, NavVertical, NavVerticalSections, ScrollArea
-- `organisms/` — CookieConsent, CursorFX, ExpandableCard, FloatingNav, MasonryCard, PageLayout, PushPanel, TextureOverlay
+- `organisms/` — CookieConsent, CursorFX, ExpandableCard, FloatingNav, MasonryCard, PageLayout, PresetDial (floating theme-preset remote, same drag/clamp architecture as FloatingNav), PushPanel, TextureOverlay
 
 Shared hooks/contexts in `src/hooks/`: `DesignVarsProvider` (ONE app-level design-vars state — never instantiate a second), `NavChromeProvider` (hides site nav on the splash), `DesignPanelProvider` (ONE shared design-panel open/reveal state across routes — the FunPanel on portfolio, full `TokenSidebar` on `/design-system`), `useDisclosureGroup`, `useActiveNav`, `useMediaQuery`.
 

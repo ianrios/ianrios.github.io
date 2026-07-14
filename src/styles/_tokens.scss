@@ -78,10 +78,11 @@ $line-height-base: 1.5;
 $line-height-loose: 1.6;
 $anim-speed-slow: 0.3s;
 
-// Effects (0 = off): custom cursor, trailing ring, grain overlay, and
-// grain that intensifies around the pointer.
-$cursor-size: 0px;
-$cursor-trail: 0px;
+// Effects: custom cursor + trailing ring (every preset ships both, never
+// 0/off), grain overlay and grain that intensifies around the pointer
+// (0 = off).
+$cursor-size: 10px;
+$cursor-trail: 16px;
 $texture-opacity: 0;
 $texture-reactivity: 0;
 

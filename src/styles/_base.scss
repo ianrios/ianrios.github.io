@@ -249,6 +249,10 @@ code {
 
 // ─── Splash screen layout ─────────────────────────────────────────────────────
 .view-1 {
+  /* Now nested inside PanelLayout's flex column (previously an
+     unconstrained direct route child) - needs an explicit height to fill
+     that column rather than collapsing to content height. */
+  height: 100%;
   overflow: hidden;
   font-size: calc(10px + 2vmin);
   color: #edf2f4;

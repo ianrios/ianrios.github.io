@@ -6,28 +6,31 @@ If a section here could be summarized, replace it with the summary.
 
 ## Current phase
 
-Portfolio V2 epic + Ian's review-follow-ups round both COMPLETE and
-reviewed-good 2026-07-08/09 (`.ai/completed/portfolio-v2-followups.md`
-lists every change and the 3 deferred items). Ian is now testing the live
-dev build and will fold new findings into a FRESH session. Epics proceed
-autonomously (Ian, 2026-07-07): bring genuine decision gaps, not approval
-check-ins.
+`frontend-nits` epic (16 items) and `visitor-theming` epic (random theme
+per visitor + a rotary theme-blend `Dial` atom) COMPLETE 2026-07-09 — see
+`.ai/completed/frontend-nits-epic.md` and
+`.ai/completed/visitor-theming-epic.md`. A live-testing bug-fixing pass on
+both (dial font-scale proportionality, the four-separate-PushPanel-
+instances bug → single shared instance under the new `PanelLayout` route
+layout, About page sticky headers/fixed links bar) closed out and deployed
+2026-07-14. `npm run check`, `npm test` (128 tests), `npm run build` all
+green. Epics proceed autonomously (Ian, 2026-07-07): bring genuine
+decision gaps, not approval check-ins.
 
 ## Priorities (Ian's order)
 
-1. **Deploy** — everything green (13 drift checks, 106 tests, build);
-   first paint is High Contrast. Ian reviews, then `npm run deploy`. Not
-   redeployed since the platform remediation.
-2. **Deferred V2 follow-ups** (Ian to confirm before building): FunPanel
-   on About; theme interpolation dial (`.ai/specs/theme-ideas.md`);
-   master-scale UI inside the FULL design-system panel. See the followups
-   file's DEFERRED note.
-3. **Pending Ian, not yet spec'd:** Atrix bullets/companyUrl, Petal +
+1. **Master-scale UI inside the FULL design-system panel** — the one item
+   from the old V2 follow-ups DEFERRED note not yet picked up (FunPanel on
+   About and the theme interpolation dial are both now done, the dial
+   shipped as a new `Dial` atom).
+2. **Pending Ian, not yet spec'd:** Atrix bullets/companyUrl, Petal +
    Cortex project write-ups (stubs live in `data.ts`).
-4. **ImageBox** — not started. `.ai/specs/imagebox-epic.md`.
-5. **Backlog specs** (unscheduled): theme-ideas, resume-page, font-picker,
-   design-library-extraction, metaballs-overhaul, webgl-effects — in
-   `.ai/specs/`.
+3. **ImageBox** — not started. `.ai/specs/imagebox-epic.md`.
+4. **Backlog specs** (unscheduled): `webgl-effects.md` (deliberately
+   parked, needs its own bundle-size design before scoping); theme-ideas.md
+   still has "change the default theme" and "scroll-driven theme swap"
+   unscheduled; resume-page, font-picker, design-library-extraction,
+   metaballs-overhaul — in `.ai/specs/`.
 
 ## Not in scope
 

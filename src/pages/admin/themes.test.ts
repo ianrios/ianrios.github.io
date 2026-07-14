@@ -62,4 +62,17 @@ describe('THEMES: complete theme presets', () => {
     expect(Math.min(...blurs)).toBe(0); // a hard bevel exists
     expect(Math.max(...blurs)).toBeGreaterThanOrEqual(20); // a soft neu exists
   });
+
+  it('every theme ships a custom cursor, sized within [2,40]px, with the trail at least 4px larger', () => {
+    for (const theme of THEMES) {
+      const size = parseFloat(theme.vars['--cursor-size'] ?? '0');
+      const trail = parseFloat(theme.vars['--cursor-trail'] ?? '0');
+      expect(size, `${theme.name} cursor-size`).toBeGreaterThanOrEqual(2);
+      expect(size, `${theme.name} cursor-size`).toBeLessThanOrEqual(40);
+      expect(
+        trail - size,
+        `${theme.name} cursor-trail - cursor-size`,
+      ).toBeGreaterThanOrEqual(4);
+    }
+  });
 });

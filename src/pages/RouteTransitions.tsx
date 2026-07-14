@@ -11,12 +11,14 @@ const ROUTE_PRELOADS: Record<string, () => Promise<unknown>> = {
   '/metaballs': () => import('../three/ThreeScene'),
 };
 
-function internalHrefOf(target: EventTarget | null): string | null {
+function internalAnchorOf(
+  target: EventTarget | null,
+): HTMLAnchorElement | null {
   if (!(target instanceof Element)) return null;
   const anchor = target.closest('a');
   if (!anchor || anchor.target === '_blank') return null;
   const href = anchor.getAttribute('href');
-  return href?.startsWith('/') ? href : null;
+  return href?.startsWith('/') ? anchor : null;
 }
 
 // Papers-on-a-table page transitions, intercepted at the router level so
@@ -34,14 +36,25 @@ export function RouteTransitions() {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       if (reducedMotion.matches) return;
       if (typeof document.startViewTransition !== 'function') return;
-      const to = internalHrefOf(e.target);
+      const anchor = internalAnchorOf(e.target);
+      const to = anchor?.getAttribute('href') ?? null;
       const from = window.location.pathname;
       if (to === null || to === from) return;
       e.preventDefault();
       applyNavDirection(from, to);
-      // Internal links to '/' always land on the main view - returning
+      // This intercept replaces <Link>'s own navigate() entirely (that's
+      // why RouterLink's state prop alone doesn't work), so the intended
+      // view has to be read back off the DOM via data-nav-view (set by
+      // Button for any link with a routerState). Internal links to '/'
+      // with no view of their own still default to 'main' - returning
       // "home" via the remote must never replay the splash.
-      const options = to === '/' ? { state: { view: 'main' } } : undefined;
+      const navView = anchor?.dataset.navView;
+      const options =
+        navView !== undefined
+          ? { state: { view: navView } }
+          : to === '/'
+            ? { state: { view: 'main' } }
+            : undefined;
       document.startViewTransition(() => {
         flushSync(() => {
           navigate(to, options);
@@ -50,7 +63,7 @@ export function RouteTransitions() {
     };
 
     const onPointerOver = (e: PointerEvent) => {
-      const to = internalHrefOf(e.target);
+      const to = internalAnchorOf(e.target)?.getAttribute('href') ?? null;
       if (to === null) return;
       void ROUTE_PRELOADS[to]?.();
     };

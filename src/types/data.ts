@@ -29,7 +29,8 @@ export interface WorkExperience {
 
 export interface AboutData {
   bio: string;
-  personal: string;
+  hobbiesIntro: string;
+  volunteeringIntro: string;
   closing: string;
   photo?: string;
 }

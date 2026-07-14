@@ -1,5 +1,8 @@
 # Phase 1 — Random theme per visitor
 
+Status: ✅ DONE (2026-07-09) — implemented exactly as planned (including
+the `resetAll` preset-preserving behavior), all checks green.
+
 Part of `.ai/plans/visitor-theming-epic.md`.
 
 ## Problem statement

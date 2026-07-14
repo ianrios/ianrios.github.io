@@ -157,6 +157,160 @@
   }
 }
 
+/* Dial — rotary selector atom: a bevel knob with labels arranged radially
+   and a pointer marking the current angle. --label-angle (per-label) and
+   --dial-angle (pointer) are set inline by the component (JS trig), the
+   same pattern as --slider-pct above. */
+.skeu-dial-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.skeu-dial-field--sm {
+  width: 140px;
+  height: 140px;
+  --dial-knob-size: 64px;
+  --dial-label-radius: 62px;
+}
+.skeu-dial-field--md {
+  width: 180px;
+  height: 180px;
+  --dial-knob-size: 84px;
+  --dial-label-radius: 80px;
+}
+.skeu-dial-field--lg {
+  width: 220px;
+  height: 220px;
+  --dial-knob-size: 104px;
+  --dial-label-radius: 98px;
+}
+
+.skeu-dial-labels {
+  position: absolute;
+  inset: 0;
+}
+
+/* rotate -> translate out -> rotate back keeps each label upright while
+   placing it at its angle around the circumference; the trailing
+   translate(-50%,-50%) centers the label's own box on that point (without
+   it, the rotation pivots around the label's top-left corner, offsetting
+   every label by half its own size in a rotation-dependent direction). */
+.skeu-dial-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--label-angle))
+    translate(0, calc(-1 * var(--dial-label-radius)))
+    rotate(calc(-1 * var(--label-angle))) translate(-50%, -50%);
+  /* Button reset: a real click target now (jumps straight to that
+     preset), not decorative text. Chisel treatment, same as .skeu-btn--
+     chisel: flat at rest, a thin inset bevel edge on hover, inverted +
+     sunk 1px on press - "carved into" the dial rather than a plain link.
+     Real spacing tokens (not a hardcoded minimal value) so it actually
+     reads as a chisel button, matching the rest of the app - this is
+     measured as part of the label's width, but that's what
+     maxFieldSize/fontScale (Dial.tsx, dial-geometry.ts) exist to absorb:
+     the button gets to look right, the font shrinks if the container is
+     tight, rather than the button being starved to save width. */
+  border: none;
+  background: none;
+  padding: var(--space-xxs, #{$space-xxs}) var(--space-xs, #{$space-xs});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  /* --font-sm spans 13.6px-21.6px across the Type Scale slider (16px *
+     0.85-1.35, FunPanel.tsx) - an 8px spread. Ian's ask: the size the dial
+     renders at today at Type Scale MAX (21.6px) should be the size at MIN,
+     then it should keep growing larger past that as the slider goes up.
+     Adding that same 8px spread on top of --font-sm shifts the whole curve
+     up by exactly one spread: MIN becomes 13.6+8=21.6px (today's old MAX),
+     MAX becomes 21.6+8=29.6px (bigger than today's old MAX) - same linear
+     shape, whole range raised. --dial-label-font-scale (Dial.tsx/
+     dial-geometry.ts) still applies on top, to guarantee the zero-overlap
+     fit within maxFieldSize. */
+  font-size: calc(
+    (var(--font-sm, #{$font-sm}) + 8px) * var(--dial-label-font-scale, 1)
+  );
+  color: var(--color-muted, #{$color-muted});
+  white-space: nowrap;
+}
+.skeu-dial-label:hover {
+  color: var(--color-text, #{$color-text});
+  box-shadow:
+    inset 1px 1px 0 0 var(--bevel-highlight, #{$bevel-highlight}),
+    inset -1px -1px 0 0 var(--bevel-dark-shadow, #{$bevel-dark-shadow});
+}
+.skeu-dial-label:active {
+  color: var(--color-text, #{$color-text});
+  transform: rotate(var(--label-angle))
+    translate(0, calc(-1 * var(--dial-label-radius)))
+    rotate(calc(-1 * var(--label-angle))) translate(-50%, calc(-50% + 1px));
+  box-shadow:
+    inset 1px 1px 0 0 var(--bevel-dark-shadow, #{$bevel-dark-shadow}),
+    inset -1px -1px 0 0 var(--bevel-highlight, #{$bevel-highlight});
+}
+.skeu-dial-label:focus-visible {
+  color: var(--color-text, #{$color-text});
+  @include focus-ring;
+}
+.skeu-dial-label.is-active {
+  color: var(--color-text, #{$color-text});
+  font-weight: var(--font-weight-heading, #{$font-weight-heading});
+}
+
+/* The knob — a focusable, draggable bevel circle. Corner rounding follows
+   --radius-lg like every other control (Switch thumb/track do the same),
+   so it flattens toward square under square-leaning themes rather than
+   hardcoding a 50% circle. */
+.skeu-dial {
+  position: relative;
+  width: var(--dial-knob-size);
+  height: var(--dial-knob-size);
+  border-radius: var(--radius-lg, #{$radius-lg});
+  background: var(--color-surface, #{$color-surface});
+  @include bevel-raised;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  &:active {
+    cursor: grabbing;
+    @include bevel-sunken;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/* Anchored by its BOTTOM edge (not top) so the bar extends upward from the
+   knob's center at rest - matching the label layout's 0deg = 12 o'clock
+   convention. Anchoring by top instead (as originally written) makes the
+   bar hang downward at rotate(0deg), pointing at 6 o'clock: a constant
+   180deg mismatch against every label's actual position. */
+.skeu-dial__pointer {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 2px;
+  height: calc(var(--dial-knob-size) / 2 - 8px);
+  background: var(--color-accent, #{$color-accent});
+  border-radius: var(--radius-sm, #{$radius-sm});
+  transform-origin: bottom center;
+  transform: translate(-50%, 0) rotate(var(--dial-angle));
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .skeu-dial__pointer {
+    transition: transform var(--anim-speed, 0.12s) ease;
+  }
+  /* No transition while actively dragging - it would lag a fast pointer. */
+  .skeu-dial.is-dragging .skeu-dial__pointer {
+    transition: none;
+  }
+}
+
 /* ValueInput — compact labeled text/number input for token editing (hex, rgba, elevation) */
 .skeu-value-input-wrap {
   display: flex;

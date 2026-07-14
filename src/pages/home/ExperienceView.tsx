@@ -29,21 +29,23 @@ function JobEntry({ job }: { job: WorkExperience }) {
       <Heading level={4} className="skeu-job__title">
         {job.title}
       </Heading>
-      <Text as="span" size="xs" className="skeu-job__meta">
-        {job.company} · {period(job)}
-      </Text>
+      <Stack direction="row" justify="between" align="center">
+        <Text as="span" size="xs" className="skeu-job__meta">
+          {job.company} · {period(job)}
+        </Text>
+        {job.companyUrl !== undefined && (
+          <Button
+            as="link"
+            href={job.companyUrl}
+            external
+            size="xs"
+            variant="chisel"
+            icon="external"
+            aria-label={`${job.company} website`}
+          />
+        )}
+      </Stack>
       {job.bullets.length > 0 && <BulletList items={job.bullets} />}
-      {job.companyUrl !== undefined && (
-        <Button
-          as="link"
-          href={job.companyUrl}
-          external
-          size="xs"
-          variant="surface"
-        >
-          company site
-        </Button>
-      )}
     </Stack>
   );
 }

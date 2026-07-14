@@ -1,5 +1,11 @@
 # Phase 4 — About page overhaul
 
+Status: ✅ DONE (2026-07-09) — all checks green. `scripts/optimize-images.ts`
+(new, reusable) shipped with `sharp`; the 3 source JPGs (~39MB total)
+produced `public/img/ian-{1,2,3}.webp` at 139KB/45KB/66KB. Photos are
+hardcoded paths in `About.tsx`, not routed through `AboutData` (left as the
+plan's own open call, not revisited).
+
 Part of `.ai/plans/frontend-nits-epic.md`. Covers frontend-nits.md items
 #14, #15. Depends on Phase 1 (item #16's `HobbyData.role` field and the
 Bootcamp Instructor migration land first, since this phase reworks the same

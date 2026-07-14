@@ -164,11 +164,22 @@ export function Button(props: ButtonProps) {
     }
     if (!external && href.startsWith('/')) {
       const state = routerState !== undefined ? { state: routerState } : {};
+      // RouteTransitions intercepts every internal click at the capture
+      // phase and navigates itself (for the view-transition pan), which
+      // means <Link>'s own `state` prop never actually reaches `navigate` -
+      // it needs a DOM-visible copy of the intended view to read instead.
+      const navView =
+        typeof routerState === 'object' &&
+        routerState !== null &&
+        'view' in routerState
+          ? (routerState as { view?: string }).view
+          : undefined;
       return (
         <RouterLink
           to={href}
           className={className}
           onClick={onClick}
+          data-nav-view={navView}
           {...state}
           {...aria}
         >

@@ -11,6 +11,7 @@ import { BadgeDemo } from '../../../components/atoms/Badge.demo';
 import { InputDemo } from '../../../components/atoms/Input.demo';
 import { ValueInputDemo } from '../../../components/atoms/ValueInput.demo';
 import { SliderDemo } from '../../../components/atoms/Slider.demo';
+import { DialDemo } from '../../../components/atoms/Dial.demo';
 import { SwitchDemo } from '../../../components/atoms/Switch.demo';
 import { ColorPickerDemo } from '../../../components/atoms/ColorPicker.demo';
 import { SelectDemo } from '../../../components/atoms/Select.demo';
@@ -73,6 +74,11 @@ export function AtomsSection() {
       <SectionLabel>Slider: custom range input atom</SectionLabel>
       <div className="skeu-preview-col-group">
         <SliderDemo />
+      </div>
+
+      <SectionLabel>Dial: rotary selector atom</SectionLabel>
+      <div className="skeu-preview-flex skeu-preview-section">
+        <DialDemo />
       </div>
 
       <SectionLabel>Switch: neumorphic toggle atom</SectionLabel>
