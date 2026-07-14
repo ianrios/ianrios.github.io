@@ -76,7 +76,11 @@
 .skeu-about__column {
   max-width: 40rem;
   margin: 0 auto;
-  /* Bottom-fixed links bar needs room so it never covers the closing text. */
+  /* Bottom-fixed links bar needs room so it never covers the closing text -
+     desktop only, where the bar floats over the content (see
+     .skeu-about__links below). On mobile the links render inline, in
+     normal flow, right after the closing text (About.tsx) - not a floating
+     bar at all, so no reserved clearance is needed there. */
   padding-bottom: calc(var(--about-header-h) + var(--space-lg, #{$space-lg}));
 }
 /* "About" is a permanent tier-1 pin (top: 0), always visible while
@@ -138,7 +142,12 @@
    so it's centered on the content column without being clamped to its
    width. max-width is a pure small-viewport overflow safety, not a content
    match. Chisel buttons stay inline (nowrap) rather than wrapping into a
-   stack. */
+   stack. Desktop only (About.tsx renders .skeu-about__links--stacked
+   instead on mobile) - the fixed hamburger sits in the same bottom-right
+   corner on mobile and collided with this bar's floating position
+   regardless of panel state, and 5 links' worth of nowrap labels never fit
+   one row on a narrow phone at all (rendered past the actual device edge,
+   genuinely inaccessible). Simplest fix: don't float it on mobile. */
 .skeu-about__links {
   position: absolute;
   left: 0;
@@ -154,6 +163,14 @@
   height: var(--about-header-h);
   padding: 0 var(--space-lg, #{$space-lg});
   background-color: var(--color-bg, #{$color-bg});
+}
+/* Mobile variant: plain in-flow row at the end of the scrollable content
+   (About.tsx), not a floating bar - wraps freely, no position/z-index/
+   hamburger-clearance logic needed at all. */
+.skeu-about__links--stacked {
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: var(--space-md, #{$space-md}) 0 0;
 }
 
 /* ─── Contact page ──────────────────────────────────────────────────────────── */

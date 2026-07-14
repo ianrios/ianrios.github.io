@@ -44,7 +44,7 @@ export function DepthSection({ vars, setVar }: SectionProps) {
 
 export function MotionSection({ vars, setVar }: SectionProps) {
   return (
-    <SidebarSection title="Motion" badge="global">
+    <SidebarSection title="Motion" badge="global" defaultOpen={false}>
       <TokenControlList
         varNames={varNames('motion')}
         vars={vars}

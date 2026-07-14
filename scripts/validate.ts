@@ -33,6 +33,11 @@ import {
 const MAX_MD_FILES = 25;
 const MAX_MD_LINES = 80;
 const MAX_CODE_LINES = 250;
+// TODO: the way we are checking scss files seems hacky, like
+// as if we arent actually using the existing architecture
+// we also should be checking for "style" and "classname"
+// usage on anything outside of the design library
+// as well as usage of magic values instead of design tokens
 const MAX_SCSS_LINES = 600;
 const MAX_MD_STORY_LINES = 280;
 

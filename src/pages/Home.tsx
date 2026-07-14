@@ -73,7 +73,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
             <Heading level={1} className="home-content__brand">
               Ian Rios
             </Heading>
-            <Stack direction="row" gap="xs">
+            <Stack direction="row" gap="xs" className="home-content__tabs">
               {(Object.keys(PAGE_TITLES) as PageId[]).map((id) => (
                 <Button
                   key={id}

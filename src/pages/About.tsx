@@ -3,8 +3,28 @@ import { Heading } from '../components/atoms/Heading';
 import { Stack } from '../components/atoms/Stack';
 import { Text } from '../components/atoms/Text';
 import { ScrollArea } from '../components/molecules/ScrollArea';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import { aboutData, hobbyData, externalLinks } from '../data';
 import type { HobbyData } from '../types/data';
+
+function ExternalLinks({ className }: { className: string }) {
+  return (
+    <Stack direction="row" gap="sm" className={className}>
+      {externalLinks.map((link) => (
+        <Button
+          key={link.href}
+          as="link"
+          href={link.href}
+          external
+          variant="chisel"
+          size="sm"
+        >
+          {link.label}
+        </Button>
+      ))}
+    </Stack>
+  );
+}
 
 function HobbyRow({ hobby }: { hobby: HobbyData }) {
   const meta = hobby.activelyMaintained
@@ -55,6 +75,7 @@ function HobbyRow({ hobby }: { hobby: HobbyData }) {
 export function About() {
   const personal = hobbyData.filter((h) => h.kind !== 'volunteering');
   const volunteering = hobbyData.filter((h) => h.kind === 'volunteering');
+  const onMobile = useMediaQuery('(max-width: 991px)');
 
   return (
     <Stack direction="col" height="100%" className="skeu-about-page">
@@ -130,23 +151,11 @@ export function About() {
           />
 
           <Text className="skeu-about__closing">{aboutData.closing}</Text>
+          {onMobile && <ExternalLinks className="skeu-about__links--stacked" />}
         </Stack>
       </ScrollArea>
 
-      <Stack direction="row" gap="sm" className="skeu-about__links">
-        {externalLinks.map((link) => (
-          <Button
-            key={link.href}
-            as="link"
-            href={link.href}
-            external
-            variant="chisel"
-            size="sm"
-          >
-            {link.label}
-          </Button>
-        ))}
-      </Stack>
+      {!onMobile && <ExternalLinks className="skeu-about__links" />}
     </Stack>
   );
 }

@@ -45,7 +45,7 @@ export function TokenSidebar({
           </Button>
         </div>
       </SidebarSection>
-      <SidebarSection title="Colors" badge="global">
+      <SidebarSection title="Colors" badge="global" defaultOpen={false}>
         <TokenControlList varNames={vn('color')} vars={vars} setVar={setVar} />
         <div className="skeu-control-sublabel">Chrome</div>
         <TokenControlList varNames={vn('chrome')} vars={vars} setVar={setVar} />
@@ -63,14 +63,14 @@ export function TokenSidebar({
       <MotionSection vars={vars} setVar={setVar} />
       <TypographySection vars={vars} setVar={setVar} />
       <LayoutSection vars={vars} setVar={setVar} />
-      <SidebarSection title="Button" badge="atom">
+      <SidebarSection title="Button" badge="atom" defaultOpen={false}>
         <ButtonSidebarSection vars={vars} setVar={setVar} />
       </SidebarSection>
       <SidebarSection title="Focus" badge="atom" defaultOpen={false}>
         <TokenControlList varNames={vn('focus')} vars={vars} setVar={setVar} />
       </SidebarSection>
       <DepthSection vars={vars} setVar={setVar} />
-      <SidebarSection title="Links" badge="atom">
+      <SidebarSection title="Links" badge="atom" defaultOpen={false}>
         <div className="skeu-preview-note skeu-control-row">
           <strong>Default</strong>: anchor text and the default button color
           axis.

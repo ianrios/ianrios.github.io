@@ -361,6 +361,8 @@ code {
    supplies the horizontal inset the Stack doesn't have an equivalent for. */
 .home-content__header {
   padding: var(--space-sm, #{$space-sm}) var(--space-md, #{$space-md});
+  flex-wrap: wrap;
+  row-gap: var(--space-xs, #{$space-xs});
 }
 .home-content__brand {
   margin: 0;
