@@ -476,6 +476,31 @@
 .skeu-text--lg {
   font-size: var(--font-lg, #{$font-lg});
 }
+/* Mobile font ceiling: only base/lg/xl ever exceed these across all 9
+   presets (xxs/xs/sm stay under on every preset already, so clamping them
+   would be a no-op - omitted). Caps the largest presets (Maximal renders
+   --font-lg at 36px, ~10-11 chars/line in a mobile column, wrapping
+   exactly as reported) without touching normal-scale presets. Clamped at
+   font-size (point of consumption) rather than the --font-* custom
+   properties themselves: those are inline-styled by DesignVarsProvider, and
+   a custom property can't be clamped in terms of itself from a stylesheet
+   rule without a circular reference (confirmed empirically - it silently
+   went invalid instead of clamping). */
+@media only screen and (max-width: 991px) {
+  .skeu-heading--h1 {
+    font-size: min(var(--font-xl), 32px);
+  }
+  .skeu-heading--h2 {
+    font-size: min(var(--font-lg), 26px);
+  }
+  .skeu-heading--h3,
+  .skeu-text--base {
+    font-size: min(var(--font-base), 22px);
+  }
+  .skeu-text--lg {
+    font-size: min(var(--font-lg), 26px);
+  }
+}
 
 /* Stack — flex layout primitive, direction + token-driven gap */
 .skeu-stack {
