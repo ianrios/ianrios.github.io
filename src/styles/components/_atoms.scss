@@ -125,6 +125,7 @@
   outline: none;
   cursor: pointer;
   border: none;
+  touch-action: none;
   /* Sunken groove (parametric) is the bar's outline. */
   @include bevel-groove;
   background: linear-gradient(
@@ -222,7 +223,8 @@
   cursor: pointer;
   text-align: center;
   /* --font-sm spans 13.6px-21.6px across the Type Scale slider (16px *
-     0.85-1.35, FunPanel.tsx) - an 8px spread. Ian's ask: the size the dial
+     0.85-1.35, TokenSidebarExtra.tsx's TypographySection) - an 8px spread.
+     Ian's ask: the size the dial
      renders at today at Type Scale MAX (21.6px) should be the size at MIN,
      then it should keep growing larger past that as the slider goes up.
      Adding that same 8px spread on top of --font-sm shifts the whole curve

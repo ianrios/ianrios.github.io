@@ -7,11 +7,17 @@
 }
 
 /* ─── Home per-page views (V2 Phase 3) ──────────────────────────────────────── */
-/* Readable-column max-widths are layout metrics, not design tokens. */
+/* Readable-column max-widths are layout metrics, not design tokens.
+   Horizontal inset comes from the shared .home-content__views ancestor
+   (_base.scss), not from here - this must stay a full `padding` shorthand
+   (not a lone `padding-bottom`) to fully override the element's own
+   Stack `padding="md"` prop (.skeu-stack--padding-md sets all four sides);
+   a longhand-only override here would leave that class's left/right
+   space-md in effect, doubling up with the ambient parent padding. */
 .skeu-experience {
   max-width: 54rem;
   margin: 0 auto;
-  padding: 0 var(--space-md, #{$space-md}) var(--space-lg, #{$space-lg});
+  padding: 0 0 var(--space-lg, #{$space-lg});
 }
 .skeu-job__title {
   margin: 0;

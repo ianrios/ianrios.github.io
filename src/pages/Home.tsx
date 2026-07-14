@@ -92,6 +92,7 @@ export function Main({ initialView = 'welcome' }: { initialView?: View }) {
             id="home-scroll"
             hideScrollbars
             height="calc(100vh - 80px)"
+            className="home-content__views"
           >
             {page === 'work' && <ExperienceView />}
             {page === 'projects' && <ProjectsView condensed={open} />}

@@ -42,17 +42,45 @@
   height: 100%;
   align-self: stretch;
 }
+/* PanelLayout's outer row (panel + content column). Stack defaults to
+   gap="sm" - confirmed by direct measurement (Playwright, one-time
+   exception) to be the actual root cause of "less padding on the right
+   than the left, identical on every page, unaffected by panel state": a
+   flex `gap` only inserts space BETWEEN items, so it became an invisible
+   extra buffer between the panel and the content column with no
+   counterpart on the content's own right edge (nothing follows it) - the
+   content's effective left inset was gap + its own space-md padding, its
+   right inset was space-md alone. Zero gap here; every visual gap between
+   the panel and content is owned entirely by the content's own padding. */
+.skeu-panel-row {
+  gap: 0;
+}
+/* PanelLayout's content column, the push-panel's flex-row sibling. Flex
+   items default to min-width: auto, not 0 - without this override, the
+   column refuses to shrink below its content's intrinsic width (e.g. the
+   masonry grid's natural width) when the panel opens, so instead of
+   reflowing to make room, it just overflows and gets clipped by the row's
+   own overflow: hidden - reading as "content didn't shift" and losing its
+   own right-side padding to the clip instead of respecting it. */
+.skeu-panel-content {
+  min-width: 0;
+}
 /* Same width as the closed rotated tab (TAB_W.rotated in PushPanel.tsx -
    the one tabVariant PanelLayout ever uses). PanelLayout swaps this in for
    the real PushPanel while `hidden` (the splash view), so the flex row
-   reserves the identical 28px from first paint onward whether the real
+   reserves the identical width from first paint onward whether the real
    panel is mounted or not - mounting the real PushPanel on entering the
-   site is then a true no-op for layout, instead of suddenly adding 28px
-   and shoving the main content column right. */
+   site is then a true no-op for layout, instead of suddenly jumping the
+   main content column over. Two variants because the real tab's own
+   reserved width now depends on `revealed` (0 pre-reveal, 28px after -
+   see .skeu-push-tab.is-hidden) instead of always being 28px. */
 .skeu-push-panel-placeholder {
   width: 28px;
   flex-shrink: 0;
   height: 100%;
+}
+.skeu-push-panel-placeholder--collapsed {
+  width: 0;
 }
 /* Own snapshot so the ONE persistent instance (PanelLayout) holds still
    during page pans instead of being swept into the generic whole-page
@@ -96,11 +124,21 @@
   overflow-x: hidden;
   padding: var(--space-xs, #{$space-xs});
 }
+/* Before reveal, the tab must claim ZERO real layout width, not just fade
+   out visually - the base .skeu-push-tab--width-* classes (28px) still
+   apply otherwise (higher-specificity two-class selector wins here), which
+   previously reserved that space even while invisible: content sat with a
+   phantom 28px + the row's own space-md gap on its left with nothing
+   visibly there yet, and nothing actually "pushed" at the moment of
+   reveal - the exact bug Ian described (content should scale/shift IN SYNC
+   with the reveal, not have already reserved the space beforehand). */
 .skeu-push-tab.is-hidden {
+  width: 0;
   transform: translateX(-100%);
   opacity: 0;
   pointer-events: none;
   transition:
+    width var(--anim-speed-slow, 0.5s) ease,
     transform var(--anim-speed-slow, 0.5s) ease,
     opacity var(--anim-speed-slow, 0.5s) ease;
 }
@@ -323,10 +361,18 @@
 $grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E";
 
 /* When a custom cursor is active, suppress the native cursor everywhere so
-   only one pointer shows. Class-over-element specificity beats button {}. */
+   only one pointer shows. `!important` is deliberate here, not a shortcut:
+   Dial/FloatingNav's/PresetDial's own grip `:active { cursor: grabbing }`
+   rules are TWO class-level selectors (0,0,2,0) - genuinely higher
+   specificity than this plain `.has-custom-cursor *` (0,0,1,0), so the
+   native grab-hand cursor was winning during any drag (the exact moment
+   `:active` applies) regardless of file order. This is a global UI-mode
+   override that must always win over any component's own cursor styling,
+   present or future - the same class of case reduced-motion/print
+   overrides use `!important` for. */
 .has-custom-cursor,
 .has-custom-cursor * {
-  cursor: none;
+  cursor: none !important;
 }
 
 /* Custom cursor: tracks INSTANTLY (no transition). Rest/hover/active reuse

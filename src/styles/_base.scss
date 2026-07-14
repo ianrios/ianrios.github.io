@@ -112,10 +112,21 @@
 }
 
 // ─── Browser reset / normalization ───────────────────────────────────────────
+// overflow: hidden here is load-bearing, not decorative: every view in this
+// app manages its own internal scrolling via a dedicated ScrollArea (Home's
+// #home-scroll, Contact's #contact-scroll, etc.) - the outer page is never
+// meant to scroll. Without this, #root's content growing even 1px taller
+// than 100vh (routine with 100vh across browsers/devices) puts a real
+// scrollbar on the browser window itself. On macOS with "always show
+// scrollbars," that reserves a persistent gutter on the right side of the
+// ENTIRE window - identical on every route (it's outside all of them), and
+// invisible to a hard refresh (it's a genuine layout fact, not a cache
+// artifact) - exactly the "same asymmetry on every page" bug this was.
 html,
 body {
   height: 100%;
   margin: 0;
+  overflow: hidden;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family-base, #{$font-family-base});
@@ -234,8 +245,12 @@ a:active {
 }
 
 // ─── Root / font helpers ──────────────────────────────────────────────────────
+// height, not min-height: this must never grow past the viewport (see the
+// html/body overflow: hidden comment above - min-height let it grow taller
+// than 100vh and trigger a real window-level scrollbar).
 #root {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .montserrat {
@@ -358,6 +373,18 @@ code {
 .home-content__scroll {
   height: calc(100vh - 80px);
   overflow-y: auto;
+}
+/* Shared horizontal inset for both Home tabs (Experience/Projects), so
+   neither view has to declare its own left/right padding. Experience keeps
+   only its own max-width + margin: auto for centering; Projects' masonry
+   grid (.my-masonry-grid's own negative left margin + column left padding,
+   _atoms-button.scss) resolves symmetrically against this ambient padding
+   with no changes of its own - the grid's left counter-margin cancels this
+   padding to bleed to the true edge, then the column's own left padding
+   reinstates it, landing the first column exactly at this inset; the grid's
+   untouched right edge simply inherits this padding directly. */
+.home-content__views {
+  padding-inline: var(--space-md, #{$space-md});
 }
 
 // ─── Papers-on-a-table page transitions ───────────────────────────────────────

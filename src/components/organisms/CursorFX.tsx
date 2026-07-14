@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDesignVars } from '../../hooks/designVarsContext';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 // Elements the cursor treats as "interactive" for hover/active state.
 // Scoped to a fixed selector list (not a computed `cursor: pointer` check,
@@ -20,11 +21,13 @@ export function CursorFX({ inline = false }: { inline?: boolean }) {
   const dotRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
   const active = size > 0 || trail > 0;
+  // Real hover-capable pointer only — excludes touch/mobile devices even if
+  // they also carry a coarse pointer that occasionally matches `hover: hover`.
+  const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
 
   useEffect(() => {
-    if (inline || !active) return;
+    if (inline || !active || !canHover) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(hover: hover)').matches) return;
     const onMove = (e: PointerEvent) => {
       const t = `translate(${e.clientX}px, ${e.clientY}px)`;
       dotRef.current?.style.setProperty('transform', t);
@@ -34,15 +37,14 @@ export function CursorFX({ inline = false }: { inline?: boolean }) {
     return () => {
       window.removeEventListener('pointermove', onMove);
     };
-  }, [inline, active]);
+  }, [inline, active, canHover]);
 
   // Hover state: delegated at window, filtered to interactive targets only.
   // Click/active state: any pointerdown, regardless of target (matches the
   // native cursor's press feedback, which doesn't care what's under it).
   useEffect(() => {
-    if (inline || !active) return;
+    if (inline || !active || !canHover) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(hover: hover)').matches) return;
     const setHover = (on: boolean) => {
       dotRef.current?.classList.toggle('skeu-cursor-dot--hover', on);
       trailRef.current?.classList.toggle('skeu-cursor-trail--hover', on);
@@ -83,23 +85,23 @@ export function CursorFX({ inline = false }: { inline?: boolean }) {
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
     };
-  }, [inline, active]);
+  }, [inline, active, canHover]);
 
   // Hide the native cursor only while the custom dot is shown.
   useEffect(() => {
     if (inline) return;
     const on =
       size > 0 &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-      window.matchMedia('(hover: hover)').matches;
+      canHover &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const root = document.documentElement;
     root.classList.toggle('has-custom-cursor', on);
     return () => {
       root.classList.remove('has-custom-cursor');
     };
-  }, [inline, size]);
+  }, [inline, size, canHover]);
 
-  if (!inline && !active) return null;
+  if (!inline && (!active || !canHover)) return null;
 
   return (
     <>

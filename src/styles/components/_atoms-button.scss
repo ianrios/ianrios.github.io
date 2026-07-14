@@ -369,15 +369,16 @@
   cursor: pointer;
   color: var(--color-text, #{$color-text});
   padding: var(--space-md, #{$space-md}) 0 var(--space-sm, #{$space-sm});
-  /* transform/opacity live here too, not just on .is-hidden below: a CSS
-     transition only animates a property change if the RESULTING (target)
-     rule requests it. Removing .is-hidden falls back to just this base
-     rule, so without transform/opacity here, the reveal snapped instantly
-     to visible instead of sliding/fading in - only the reverse direction
-     (adding .is-hidden) was ever animating. */
+  /* width/transform/opacity live here too, not just on .is-hidden below: a
+     CSS transition only animates a property change if the RESULTING
+     (target) rule requests it. Removing .is-hidden falls back to just this
+     base rule, so without them here, the reveal snapped instantly to
+     visible instead of sliding/fading/growing in - only the reverse
+     direction (adding .is-hidden) was ever animating. */
   transition:
     background var(--anim-speed, 0.12s) ease,
     color var(--anim-speed, 0.12s) ease,
+    width var(--anim-speed-slow, 0.5s) ease,
     transform var(--anim-speed-slow, 0.5s) ease,
     opacity var(--anim-speed-slow, 0.5s) ease;
   &:hover {

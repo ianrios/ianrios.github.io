@@ -69,8 +69,7 @@ type DialProps = {
 
 // Generic rotary selector: a bevel knob with labels arranged radially
 // around it and a pointer marking the current angle. Not theme-specific -
-// FunPanel happens to use it to blend design-system presets, the same way
-// it uses the generic Slider atom for its other master dials.
+// PresetDial happens to use it to blend design-system presets.
 export function Dial({
   labels,
   value,

@@ -104,7 +104,7 @@ export const TOKEN_REGISTRY: TokenDef[] = [
   { cssVar: '--line-height-loose', category: 'line-height', default: '1.6', control: { type: 'pct', label: 'Line height (loose)', min: 120, max: 200, step: 5, unit: '%' } },
   // ── Motion ──────────────────────────────────────────────────────────────
   { cssVar: '--anim-speed', category: 'motion', default: '0.1s', control: { type: 'ms', label: 'Anim speed', min: 0, max: 800, step: 20, unit: 'ms' } },
-  { cssVar: '--anim-speed-slow', category: 'motion', default: '0.3s', control: { type: 'ms', label: 'Anim speed (slow)', min: 0, max: 1500, step: 50, unit: 'ms' } },
+  { cssVar: '--anim-speed-slow', category: 'motion', default: '0.15s', control: { type: 'ms', label: 'Anim speed (slow)', min: 100, max: 300, step: 10, unit: 'ms' } },
   { cssVar: '--anim-speed-fast', category: 'motion', default: '0.05s' }, // derived: --anim-speed * 0.5 in useDesignVars
   // ── Layout ──────────────────────────────────────────────────────────────
   { cssVar: '--sidebar-width', category: 'layout', default: '220px', control: range('Sidebar width', 160, 400, 8) },

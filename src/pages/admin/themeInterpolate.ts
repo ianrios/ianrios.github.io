@@ -1,4 +1,4 @@
-// Pure blend helpers for FunPanel's theme-blend dial: given two token values
+// Pure blend helpers for PresetDial's theme-blend dial: given two token values
 // from two different theme presets and a 0-1 position, produce the value at
 // that position. No React/DesignVars coupling here so both functions are
 // trivially unit-testable in isolation.

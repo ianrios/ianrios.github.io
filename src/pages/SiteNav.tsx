@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '../components/atoms/Button';
 import { Icon } from '../components/atoms/Icon';
@@ -69,6 +69,9 @@ export function SiteNav() {
   const { hidden } = useNavChrome();
   const onMobile = useMediaQuery('(max-width: 991px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const closeDrawer = useCallback(() => {
+    setDrawerOpen(false);
+  }, []);
 
   if (hidden) return null;
 
@@ -85,17 +88,8 @@ export function SiteNav() {
         >
           <Icon name="menu" size={24} />
         </button>
-        <SiteNavDrawer
-          open={drawerOpen}
-          onClose={() => {
-            setDrawerOpen(false);
-          }}
-        >
-          <NavContent
-            onNavigate={() => {
-              setDrawerOpen(false);
-            }}
-          />
+        <SiteNavDrawer open={drawerOpen} onClose={closeDrawer}>
+          <NavContent onNavigate={closeDrawer} />
         </SiteNavDrawer>
       </>
     );

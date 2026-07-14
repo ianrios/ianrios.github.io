@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { flushSync } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { applyNavDirection } from './navDirection';
+import { useDesignPanel } from '../hooks/designPanelContext';
 
 // Route chunk preloaders: hovering an internal link warms the lazy chunk
 // so the view-transition snapshot pans to the page, not the Suspense
@@ -27,6 +28,7 @@ function internalAnchorOf(
 // (it checks defaultPrevented), leaving this navigate as the only one.
 export function RouteTransitions() {
   const navigate = useNavigate();
+  const { open: panelOpen, setOpen: setPanelOpen } = useDesignPanel();
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -34,32 +36,79 @@ export function RouteTransitions() {
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0) return;
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (reducedMotion.matches) return;
-      if (typeof document.startViewTransition !== 'function') return;
       const anchor = internalAnchorOf(e.target);
       const to = anchor?.getAttribute('href') ?? null;
-      const from = window.location.pathname;
-      if (to === null || to === from) return;
-      e.preventDefault();
-      applyNavDirection(from, to);
+      if (to === null) return;
+      const navView = anchor?.dataset.navView;
+
       // This intercept replaces <Link>'s own navigate() entirely (that's
       // why RouterLink's state prop alone doesn't work), so the intended
       // view has to be read back off the DOM via data-nav-view (set by
       // Button for any link with a routerState). Internal links to '/'
       // with no view of their own still default to 'main' - returning
       // "home" via the remote must never replay the splash.
-      const navView = anchor?.dataset.navView;
       const options =
         navView !== undefined
           ? { state: { view: navView } }
           : to === '/'
             ? { state: { view: 'main' } }
             : undefined;
-      document.startViewTransition(() => {
-        flushSync(() => {
+
+      // Cross-page navigate: the papers-on-a-table pan under motion, a
+      // plain instant navigate under reduced motion or if unsupported.
+      const navigateAcrossPages = () => {
+        if (
+          reducedMotion.matches ||
+          typeof document.startViewTransition !== 'function'
+        ) {
           navigate(to, options);
+          return;
+        }
+        applyNavDirection(window.location.pathname, to);
+        document.startViewTransition(() => {
+          flushSync(() => {
+            navigate(to, options);
+          });
         });
-      });
+      };
+
+      // "title" normally returns to the MetaBalls splash. While the design
+      // panel is open, close it first and let its own close transition
+      // finish before panning away - firing both at once was the exact
+      // collision Ian's original ask ("close the design system tab first
+      // ... before closing the site") was trying to avoid. Still ONE
+      // click, not two: closing the panel doesn't stop the navigation, it
+      // just staggers it a beat behind the panel's own close animation.
+      if (navView === 'welcome' && panelOpen) {
+        e.preventDefault();
+        setPanelOpen(false);
+        const goNow = () => {
+          // Same-path (title clicked from '/' itself): no page to pan
+          // between, just a view swap via router state - matches how this
+          // always worked before the gating above existed.
+          if (to === window.location.pathname) navigate(to, options);
+          else navigateAcrossPages();
+        };
+        if (reducedMotion.matches) {
+          goNow();
+        } else {
+          const closeMs =
+            parseFloat(
+              getComputedStyle(document.documentElement).getPropertyValue(
+                '--anim-speed',
+              ),
+            ) * 1000 || 120;
+          window.setTimeout(goNow, closeMs);
+        }
+        return;
+      }
+
+      // Default path: only intercept an actual page change. A same-path
+      // click (to === from) is left to RouterLink's own bubble-phase
+      // handler, unprevented.
+      if (to === window.location.pathname) return;
+      e.preventDefault();
+      navigateAcrossPages();
     };
 
     const onPointerOver = (e: PointerEvent) => {
@@ -74,7 +123,7 @@ export function RouteTransitions() {
       document.removeEventListener('click', onClick, true);
       document.removeEventListener('pointerover', onPointerOver);
     };
-  }, [navigate]);
+  }, [navigate, panelOpen, setPanelOpen]);
 
   return null;
 }

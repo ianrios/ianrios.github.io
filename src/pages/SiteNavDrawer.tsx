@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '../components/atoms/Button';
@@ -18,12 +18,17 @@ export function SiteNavDrawer({
   children?: React.ReactNode;
 }) {
   const { pathname } = useLocation();
+  const prevPathnameRef = useRef(pathname);
 
   useEffect(() => {
-    onClose();
-    // Close only when the route actually changes, not on parent renders.
-    // eslint reads onClose as a dep; the identity is stable enough here
-    // and re-running on a new callback is a harmless extra close().
+    // Close only when the route has actually changed, not merely because
+    // this effect re-ran (e.g. onClose getting a new identity on parent
+    // render). Comparing against a ref decouples the close-decision from
+    // onClose's identity entirely.
+    if (prevPathnameRef.current !== pathname) {
+      prevPathnameRef.current = pathname;
+      onClose();
+    }
   }, [pathname, onClose]);
 
   useEffect(() => {
