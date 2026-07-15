@@ -10,24 +10,31 @@ If a section here could be summarized, replace it with the summary.
 visitor + a rotary theme-blend `Dial` atom), and `mobile-polish` epic (nav
 drawer persistence bug, slider/cursor touch fixes, title-click panel
 gating, content centering/scaling/padding architecture, FunPanel removal,
-cursor trail speed retune) all COMPLETE and DEPLOYED (2026-07-14) — see
+cursor trail speed retune) all COMPLETE and DEPLOYED — see
 `.ai/completed/frontend-nits-epic.md`,
 `.ai/completed/visitor-theming-epic.md`,
-`.ai/completed/mobile-polish-epic.md`. A live-testing pass on
-`mobile-polish` immediately after the initial merge found five real layout
-bugs automated checks couldn't catch, all in the shared panel/content
-layout: missing `min-width: 0` on the content column (flex default blocked
-it from shrinking when the panel opened), a default Stack `gap` on
-`PanelLayout.tsx`'s outer row creating an asymmetric buffer between panel
-and content, the reveal tab reserving real layout width before it was ever
-visible (nothing actually "pushed" at the reveal moment), a title-click
-gate that wrongly required two clicks instead of one, and a cursor-CSS
-specificity bug (`:active` grab cursor beating the global `cursor: none`
-override). The last two layout bugs needed a one-time, explicitly
-Ian-approved Playwright inspection (scratchpad-only, never added to this
+`.ai/completed/mobile-polish-epic.md`. Two live-testing passes after the
+initial `mobile-polish` merge (2026-07-14) found bugs automated checks
+couldn't catch, all fixed and deployed same day: missing `min-width: 0` on
+the content column, a default Stack `gap` creating an asymmetric
+panel/content buffer, the reveal tab reserving layout width before it was
+visible, a title-click gate wrongly requiring two clicks, a cursor
+`:active` specificity bug beating the global `cursor: none` override, a
+dead `flex-wrap: wrap` rule never applied to the Home tabs (large-scale
+theme presets clipped the "projects" button off mobile screens), the
+About page's floating links bar colliding with the mobile hamburger and
+overflowing the device edge entirely (fixed by rendering the links inline
+in normal scroll flow on mobile instead of floating them), and oversized
+presets (Maximal, Brutalist) wrapping body text to 1-3 words per line on
+mobile (fixed with a font-size ceiling at the Heading/Text atoms — clamping
+the `--font-*` custom properties directly doesn't work, confirmed
+empirically: circular self-reference through DesignVarsProvider's inline
+styles). The deeper layout/theme bugs needed brief, explicitly
+Ian-approved Playwright inspections (scratchpad-only, never added to this
 project) after repeated static-analysis misses — see personal memory, not
-duplicated here. `npm run check`, `npm test` (128 tests), `npm run build`
-all green; deployed to ianrios.me. Epics proceed autonomously
+duplicated here. Ian confirmed real-device mobile testing looks good.
+`npm run check`, `npm test` (128 tests), `npm run build` all green
+throughout; deployed to ianrios.me. Epics proceed autonomously
 (Ian, 2026-07-07): bring genuine decision gaps, not approval check-ins.
 
 ## Priorities (Ian's order)
@@ -52,9 +59,14 @@ all green; deployed to ianrios.me. Epics proceed autonomously
 
 ## Open questions
 
-- `mobile-polish` is deployed; Ian is testing on a real mobile device next
-  (touch drag, cursor hiding, panel layout at actual mobile widths) — the
-  dev-server pass only covers desktop viewport emulation.
+- Ian raised, not yet scoped: "rethink how to retool the themes on smaller
+  devices" — the font-ceiling fix above is a reactive patch for the worst
+  offenders (Maximal/Brutalist body text), not the broader redesign Ian
+  invited ("propose a different combination of components for mobile" —
+  e.g. About's links already went inline-on-mobile instead of mirroring
+  desktop; Home/Experience/Projects haven't been reconsidered the same way).
+  Needs a real proposal + his approval before any further mobile-specific
+  component work, per the epic/direction-change gate.
 - Pan-direction map: About = up, Contact = down (below home). Ian may
   re-map after feeling it out (`src/pages/navDirection.ts`).
 - "title" nav item returns to the MetaBalls splash (agent proposal) —
