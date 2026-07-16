@@ -2,8 +2,7 @@
 /// <reference types="node" />
 
 import { existsSync, readdirSync, readFileSync } from 'fs';
-import { extname, join, relative, resolve, sep } from 'path';
-import { fileURLToPath } from 'url';
+import { extname, join, resolve, sep } from 'path';
 import {
   DEFAULTS,
   THEMES,
@@ -30,16 +29,9 @@ import {
   reachableFrom,
 } from './component-checks.ts';
 
-const MAX_MD_FILES = 25;
-const MAX_MD_LINES = 80;
-const MAX_CODE_LINES = 250;
-// TODO: the way we are checking scss files seems hacky, like
-// as if we arent actually using the existing architecture
-// we also should be checking for "style" and "classname"
-// usage on anything outside of the design library
-// as well as usage of magic values instead of design tokens
-const MAX_SCSS_LINES = 600;
-const MAX_MD_STORY_LINES = 280;
+// Structural budgets (md-count, doc-size, code-size, and the disable-pragma
+// ban) moved to @ianrios/brickwall — see brickwall.config.json. This script
+// owns only the design-token drift checks.
 
 const IGNORE_DIRS = new Set([
   'node_modules',
@@ -53,14 +45,8 @@ const CODE_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 
 // Drift-check names derive from the driftChecks registry object below
 // (2.6 #5): registering a check IS declaring its violation type, so the
-// two can never drift apart. Only the four structural lint names are
-// declared by hand.
-type ViolationType =
-  | 'eslint-disable'
-  | 'code-size'
-  | 'doc-size'
-  | 'md-count'
-  | keyof typeof driftChecks;
+// two can never drift apart.
+type ViolationType = keyof typeof driftChecks;
 
 interface Violation {
   type: ViolationType;
@@ -70,22 +56,6 @@ interface Violation {
 if (!existsSync('package.json')) {
   console.error('validate.ts must be run from the repo root');
   process.exit(1);
-}
-
-const selfPath = relative(process.cwd(), fileURLToPath(import.meta.url));
-
-function countLines(content: string): number {
-  return content.split('\n').length - (content.endsWith('\n') ? 1 : 0);
-}
-
-// Only the real data manifests are exempt from [code-size] — naming a file
-// *Data.ts does not buy an exemption.
-const DATA_FILES = new Set([
-  join('src', 'data.ts'),
-  join('src', 'pages', 'admin', 'adminData.ts'),
-]);
-function isDataFile(f: string): boolean {
-  return DATA_FILES.has(f);
 }
 
 function walkDir(dir: string): string[] {
@@ -106,77 +76,12 @@ function flag(type: ViolationType, message: string): void {
 }
 
 const allFiles = walkDir('.');
-const mdFiles = allFiles.filter((f) => f.endsWith('.md'));
-const completedPrefix = join('.ai', 'completed') + sep;
-const activeMdFiles = mdFiles.filter((f) => !f.startsWith(completedPrefix));
 const codeFiles = allFiles.filter(
   (f) =>
     CODE_EXTS.has(extname(f)) &&
     !f.includes('.test.') &&
-    !f.includes('.spec.') &&
-    f !== selfPath,
+    !f.includes('.spec.'),
 );
-
-// [md-count] - .ai/completed/ excluded from budget
-if (activeMdFiles.length > MAX_MD_FILES) {
-  flag(
-    'md-count',
-    `Too many .md files: ${activeMdFiles.length} (max ${MAX_MD_FILES})`,
-  );
-}
-
-// [doc-size]
-const storyPrefixes = [
-  join('.ai', 'plans') + sep,
-  join('.ai', 'specs') + sep,
-  join('.ai', 'completed') + sep,
-];
-
-for (const file of mdFiles) {
-  const content = readFileSync(file, 'utf-8');
-  const lines = countLines(content);
-  const max = storyPrefixes.some((p) => file.startsWith(p))
-    ? MAX_MD_STORY_LINES
-    : MAX_MD_LINES;
-  if (lines > max) {
-    flag('doc-size', `${file}: ${lines} lines (max ${max})`);
-  }
-}
-
-// [code-size]
-for (const file of codeFiles) {
-  if (isDataFile(file)) continue;
-  const content = readFileSync(file, 'utf-8');
-  const lines = countLines(content);
-  if (lines > MAX_CODE_LINES) {
-    flag('code-size', `${file}: ${lines} lines (max ${MAX_CODE_LINES})`);
-  }
-}
-
-const scssFiles = allFiles.filter((f) => extname(f) === '.scss');
-for (const file of scssFiles) {
-  const content = readFileSync(file, 'utf-8');
-  const lines = countLines(content);
-  if (lines > MAX_SCSS_LINES) {
-    flag('code-size', `${file}: ${lines} lines (max ${MAX_SCSS_LINES})`);
-  }
-}
-
-// [eslint-disable]
-const disableRe = /\/\/.*(eslint-disable)|(\/\*.*eslint-disable.*\*\/)/;
-
-for (const file of codeFiles) {
-  readFileSync(file, 'utf-8')
-    .split('\n')
-    .forEach((line, i) => {
-      if (disableRe.test(line)) {
-        flag(
-          'eslint-disable',
-          `${file}:${i + 1} - not allowed: ${line.trim()}`,
-        );
-      }
-    });
-}
 
 // ─── Design-token drift checks ────────────────────────────────────────────
 // One canonical registry (src/styles/token-registry.ts) drives DEFAULTS, the

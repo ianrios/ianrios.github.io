@@ -1,0 +1,9 @@
+{
+  "budgets": {
+    "codeLines": { ".ts": 250, ".tsx": 250, ".js": 250, ".jsx": 250, ".scss": 600 }
+  },
+  "codeExtensions": [".ts", ".tsx", ".js", ".jsx", ".scss"],
+  "storyDirs": [".ai/plans", ".ai/specs"],
+  "archiveDirs": [".ai/completed"],
+  "exemptFiles": ["src/data.ts", "src/pages/admin/adminData.ts"]
+}
