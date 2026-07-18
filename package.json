@@ -42,6 +42,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@ianrios/brickwall": "file:vendor/ianrios-brickwall-0.0.0.tgz",
+    "@ianrios/drift": "file:vendor/ianrios-drift-0.0.0.tgz",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",

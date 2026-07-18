@@ -29,9 +29,13 @@ import {
   reachableFrom,
 } from './component-checks.ts';
 
+import { formatChecks, runChecks } from '@ianrios/drift';
+
 // Structural budgets (md-count, doc-size, code-size, and the disable-pragma
 // ban) moved to @ianrios/brickwall — see brickwall.config.json. This script
-// owns only the design-token drift checks.
+// owns only the design-token drift checks; @ianrios/drift owns running,
+// error isolation, output, and exit codes (0 clean / 1 drift / 2 no valid
+// verdict).
 
 const IGNORE_DIRS = new Set([
   'node_modules',
@@ -42,16 +46,6 @@ const IGNORE_DIRS = new Set([
 ]);
 
 const CODE_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx']);
-
-// Drift-check names derive from the driftChecks registry object below
-// (2.6 #5): registering a check IS declaring its violation type, so the
-// two can never drift apart.
-type ViolationType = keyof typeof driftChecks;
-
-interface Violation {
-  type: ViolationType;
-  message: string;
-}
 
 if (!existsSync('package.json')) {
   console.error('validate.ts must be run from the repo root');
@@ -67,12 +61,6 @@ function walkDir(dir: string): string[] {
     else files.push(full);
   }
   return files;
-}
-
-const violations: Violation[] = [];
-
-function flag(type: ViolationType, message: string): void {
-  violations.push({ type, message });
 }
 
 const allFiles = walkDir('.');
@@ -92,7 +80,11 @@ const codeFiles = allFiles.filter(
 const read = (...parts: string[]): string =>
   readFileSync(join(...parts), 'utf-8');
 
-const rootVars = parseRootVars(read('src', 'styles', '_base.scss'));
+// The parse phase sits OUTSIDE the harness's per-check error isolation, so
+// it gets the same treatment by hand: any failure here is exit 2 (no valid
+// verdict), never a stack trace masquerading as "drift found".
+function loadInputs() {
+  const rootVars = parseRootVars(read('src', 'styles', '_base.scss'));
 const scssTokens = parseScssTokens(read('src', 'styles', '_tokens.scss'));
 // All SCSS sources concatenated — [token-unused] greps these for var() use.
 // Recursive so it still sees every consumer after the component-tier split.
@@ -153,41 +145,68 @@ const componentSources = [...componentFiles, ...demoFiles].map((f) => ({
   content: readFileSync(f, 'utf-8'),
 }));
 
-// The check registry: keys double as ViolationType members (2.6 #5), so
-// adding a check here is the whole registration.
-const driftChecks = {
-  'token-sync': checkTokenSync(scssTokens, rootVars),
-  'control-sync': checkControlSync(rootVars),
-  'defaults-sync': checkDefaultsSync(Object.keys(DEFAULTS), rootVars),
-  'default-value-sync': checkDefaultValueSync(
-    THEMES,
-    DEFAULT_THEME,
+  return {
+    rootVars,
+    scssTokens,
+    scssAll,
+    specimenSrc,
+    previewSrc,
     tokensScssSrc,
     baseScssSrc,
-  ),
-  'preset-token': checkPresetTokens(THEMES, rootVars),
-  'theme-control': checkThemeControls(THEMES),
-  'token-unused': checkTokenUnused(scssAll),
-  'token-example': checkTokenExample(specimenSrc, previewSrc),
-  'token-specimen': checkTokenSpecimen(specimenSrc),
-  'demo-missing': checkDemoMissing(componentFiles, reachable, demoFiles),
-  'semantic-html': checkSemanticHtml(srcTsxFiles),
-  'layout-classnames': checkLayoutClassNames(scssAll, srcTsxFiles),
-  'style-prop': checkStyleProps(componentSources),
-};
-for (const [type, messages] of Object.entries(driftChecks)) {
-  for (const message of messages) flag(type as ViolationType, message);
+    reachable,
+    componentFiles,
+    demoFiles,
+    srcTsxFiles,
+    componentSources,
+  };
 }
 
-// ─── Report ───────────────────────────────────────────────────────────────
-if (violations.length === 0) {
-  console.error('✅ Validation passed');
-  process.exit(0);
+let inputs: ReturnType<typeof loadInputs>;
+try {
+  inputs = loadInputs();
+} catch (err) {
+  console.error(
+    `validate: input parsing failed — no valid verdict: ${
+      err instanceof Error ? err.message : String(err)
+    }`,
+  );
+  process.exit(2);
 }
+const {
+  rootVars,
+  scssTokens,
+  scssAll,
+  specimenSrc,
+  previewSrc,
+  tokensScssSrc,
+  baseScssSrc,
+  reachable,
+  componentFiles,
+  demoFiles,
+  srcTsxFiles,
+  componentSources,
+} = inputs;
 
-console.error('\n❌ Validation failed:\n');
-for (const v of violations) {
-  console.error(`  [${v.type.padEnd(14)}] ${v.message}`);
-}
-console.error('');
-process.exit(1);
+// The check registry: keys ARE the violation-type union (do not annotate —
+// that widens the union away); adding a check here is the whole registration.
+const result = runChecks({
+  'token-sync': () => checkTokenSync(scssTokens, rootVars),
+  'control-sync': () => checkControlSync(rootVars),
+  'defaults-sync': () => checkDefaultsSync(Object.keys(DEFAULTS), rootVars),
+  'default-value-sync': () =>
+    checkDefaultValueSync(THEMES, DEFAULT_THEME, tokensScssSrc, baseScssSrc),
+  'preset-token': () => checkPresetTokens(THEMES, rootVars),
+  'theme-control': () => checkThemeControls(THEMES),
+  'token-unused': () => checkTokenUnused(scssAll),
+  'token-example': () => checkTokenExample(specimenSrc, previewSrc),
+  'token-specimen': () => checkTokenSpecimen(specimenSrc),
+  'demo-missing': () => checkDemoMissing(componentFiles, reachable, demoFiles),
+  'semantic-html': () => checkSemanticHtml(srcTsxFiles),
+  'layout-classnames': () => checkLayoutClassNames(scssAll, srcTsxFiles),
+  'style-prop': () => checkStyleProps(componentSources),
+});
+
+const out = formatChecks(result, { json: process.argv.includes('--json') });
+if (out.stdout) process.stdout.write(out.stdout);
+if (out.stderr) process.stderr.write(out.stderr);
+process.exit(out.exitCode);
