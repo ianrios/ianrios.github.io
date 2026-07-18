@@ -15,7 +15,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . && brickwall && tsx scripts/validate.ts && knip --no-config-hints",
+    "lint": "eslint . && brickwall --full && tsx scripts/validate.ts && knip --no-config-hints",
     "format": "prettier . --write",
     "check": "npm run format && npm run typecheck && npm run lint",
     "test": "vitest run",

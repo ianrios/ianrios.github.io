@@ -1,9 +1,14 @@
 {
-  "budgets": {
-    "codeLines": { ".ts": 250, ".tsx": 250, ".js": 250, ".jsx": 250, ".scss": 600 }
+  "docs": {
+    "tiers": [
+      { "dirs": [".ai/plans", ".ai/specs"], "maxLines": 280 }
+    ]
   },
-  "codeExtensions": [".ts", ".tsx", ".js", ".jsx", ".scss"],
-  "storyDirs": [".ai/plans", ".ai/specs"],
+  "code": {
+    "matches": [{ "patterns": [".ts", ".tsx", ".js", ".jsx", ".scss"] }],
+    "maxLines": 250,
+    "tiers": [{ "patterns": [".scss"], "maxLines": 600 }]
+  },
   "archiveDirs": [".ai/completed"],
   "exemptFiles": ["src/data.ts", "src/pages/admin/adminData.ts"]
 }
